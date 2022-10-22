@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MOROPO.FBCB.SGI.Persistence</RootNamespace>
+    <AssemblyName>MOROPO.FBCB.SGI.Persistence</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SAPRESSC.Middleware.Identity.Persistence" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Enumerations\" />
+  </ItemGroup>
+
+</Project>

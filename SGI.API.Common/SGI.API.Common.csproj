@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MOROPO.FCBC.SGI.API.Common</RootNamespace>
+    <AssemblyName>MOROPO.FCBC.SGI.API.Common</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SGI.Persistence\SGI.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Filter\" />
+  </ItemGroup>
+
+</Project>
