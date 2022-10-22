@@ -4,6 +4,8 @@
     {
         public string DefaultPersistenceSchema => null;
 
-        public System.Collections.Generic.ICollection<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.IEntityTypeConfigurator> EntityTypeConfigurators => null;
+        public System.Collections.Generic.ICollection<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.IEntityTypeConfigurator> EntityTypeConfigurators => new System.Collections.Generic.List<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.IEntityTypeConfigurator>
+        {
+        };
     }
 }
