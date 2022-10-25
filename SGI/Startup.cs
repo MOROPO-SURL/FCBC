@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Options;
 using Serilog;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Extensions;
@@ -155,6 +156,10 @@ namespace MOROPO.FCBC.SGI
 
                     Log.Logger.Information(string.Format(">>>>>> Protected Password : \"{0}\" => \"{1}\"", defaultUserId, protectedPassword));
                 }
+
+                var section = configuration.GetSection($"Region:Municipalities");
+                var municipalitiesNames = section.Get<string[]>();
+                (dbContext as Persistence.EF.ApplicationDbContext).createRegions(municipalitiesNames);
             }
             else
             {
