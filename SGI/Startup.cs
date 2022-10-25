@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Options;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using Serilog;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
@@ -14,6 +16,7 @@ using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Web.Common.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Extensions;
+using System;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI
@@ -53,6 +56,8 @@ namespace MOROPO.FCBC.SGI
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade, Persistence.EF.Providers.ApplicationDbSchemaConfigurationProvider>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper, Helpers.ApplicationDataInitializationHelper>();
+           
+            services.AddScoped<IEntityRepository<ArtisticManifestation, Guid>, ArtisticManifestationRepository>();
 
             services.AddAuthentication(config =>
             {

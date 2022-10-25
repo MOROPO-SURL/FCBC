@@ -19,6 +19,22 @@ namespace MOROPO.FCBC.SGI.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_artisticmanifestations");
+
+                    b.ToTable("artisticmanifestations");
+                });
+
             modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace", b =>
                 {
                     b.Property<long>("Id")

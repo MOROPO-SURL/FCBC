@@ -57,5 +57,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<OrganizationIdentity> OrganizationIdentities { get; set; }
         public DbSet<OrganizationSocialContactItemBridge> OrganizationSocialContactItemBridges { get; set; }
         public DbSet<OrganizationWebSiteContactItemBridge> OrganizationWebSiteContactItemBridges { get; set; }
+        public DbSet<MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation> ArtisticManifestations { get; set; }
     }
 }
