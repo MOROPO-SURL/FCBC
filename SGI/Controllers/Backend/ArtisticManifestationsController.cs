@@ -18,11 +18,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     //[Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/artisticmanifestations")]
     [Area("complements")]
     public class ArtisticManifestationsController : AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>
-    {
-        //public readonly ArtisticManifestation _artistic;
-        public ArtisticManifestationsController(IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer localizer, ILogger<SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers.AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>> logger) : base(repository, localizer, logger)
-        {
-            //_artistic = logger;
+    {        
+
+        public ArtisticManifestationsController(IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer<ArtisticManifestationsController> localizer, ILogger<SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers.AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>> logger) : base(repository, localizer, logger)
+        {           
         }
 
         [RequiresRoleBasePermission(Roles.ArtisticManifestationViewer)]
