@@ -22,7 +22,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         public IActionResult Index()
         {
-            return View(new Models.View.ManagementDashboardViewModel { Sections = managementDashboardSectionProviders.ToManagementDashboardSectionGroups() });
+            return View(new Models.View.ManagementDashboardViewModel { Sections = managementDashboardSectionProviders.ToManagementDashboardSectionGroups()});
         }
     }
 }

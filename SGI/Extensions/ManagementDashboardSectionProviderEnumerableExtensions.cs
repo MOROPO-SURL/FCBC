@@ -14,7 +14,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                 if (provider is SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Providers.LocalSecurityWebManagementDashboardSectionProvider)
                 {
                     securitySections.AddRange(provider.GetManagementDashboardSections());
-                }
+                }                
             }
 
             securitySections.Add(new ManagementDashboardSectionViewModel
@@ -24,6 +24,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Action = "index",
                 Area = "business",
                 Role = Security.Authorization.Roles.TraceViewer
+            });
+
+            securitySections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Manifestación Artística",
+                Controller = "artisticmanifestations",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.ArtisticManifestationViewer
             });
 
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>
