@@ -135,10 +135,8 @@
             <thead>
                 <tr>
                     <th width="36px;"><span class="mdi mdi-shield-lock integrity-icon" title="Integridad"></span></th>
-                    <th>Nombre de Usuario</th>
-                    <th style="width: 1px; word-wrap: unset;">Habilitado?</th>
-                    <th style="width: 130px; text-align: center;">Acceso Total?</th>
-                    <th>Creado</th>
+                    <th>Manifestación Artística</th>
+                    
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>
@@ -146,11 +144,11 @@
                 @foreach (var item in Model.List)
                 {
                     <tr>
-                        
+                        <td></td>
                         <td style="vertical-align: middle;" title="Manifestacin Artistica ">@item.Name</td>   
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                                <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>&nbsp;|&nbsp;
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
                         </td>
