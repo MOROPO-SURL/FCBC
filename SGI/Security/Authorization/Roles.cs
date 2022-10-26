@@ -10,5 +10,12 @@
         public const string ArtisticManifestationEditor = "artistic-manifestation-editor";
         public const string ArtisticManifestationRemover = "artistic-manifestation-remover";
         #endregion
+
+        #region
+        public const string AwardViewer = "award-viewer";
+        public const string AwardCreator = "award-creator";
+        public const string AwardEditor = "award-editor";
+        public const string AwardRemover = "award-remover";
+        #endregion
     }
 }

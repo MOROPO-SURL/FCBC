@@ -30,6 +30,22 @@ namespace MOROPO.FCBC.SGI.Helpers
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationRemover.ToRoleEntity());
             }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AwardViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AwardCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AwardEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AwardRemover.ToRoleEntity());
+            }
 
             if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {
