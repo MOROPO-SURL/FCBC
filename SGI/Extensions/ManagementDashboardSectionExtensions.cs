@@ -12,6 +12,8 @@
 
             if (target.Controller == "artisticmanifestations") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-palette\"></span>");
 
+            if (target.Controller == "awards") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-trophy-award\"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }
