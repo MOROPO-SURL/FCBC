@@ -14,8 +14,8 @@ using System;
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]    
-    //[Route("artisticmanifestations")]
-    //[Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/artisticmanifestations")]
+    [Route("artisticmanifestations")]
+    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/artisticmanifestations")]
     [Area("complements")]
     public class ArtisticManifestationsController : AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>
     {        

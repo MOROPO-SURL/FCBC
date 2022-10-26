@@ -18,6 +18,7 @@ namespace MOROPO.FCBC.SGI.Helpers
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationViewer.ToRoleEntity());
             }
+            #region ArtisticManifestation
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationCreator)).Result)
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationCreator.ToRoleEntity());
@@ -30,6 +31,26 @@ namespace MOROPO.FCBC.SGI.Helpers
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationRemover.ToRoleEntity());
             }
+            #endregion
+
+            #region Distinction
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DistinctionViewer.ToRoleEntity());
+            }
+            if(!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DistinctionCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DistinctionEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DistinctionRemover.ToRoleEntity());
+            }
+            #endregion
 
             if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {
