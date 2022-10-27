@@ -68,6 +68,25 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region Recognition
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.RecognitionViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.RecognitionCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.RecognitionEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.RecognitionRemover.ToRoleEntity());
+            }
+            #endregion
+
             if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {
                 (dbContext as SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext).SaveChanges("system");

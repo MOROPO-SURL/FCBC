@@ -55,6 +55,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.DistinctionViewer
             });
 
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Reconocimientos",
+                Controller = "recognitions",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.RecognitionViewer
+            });
+
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>
             {
                 { "Seguridad", securitySections },

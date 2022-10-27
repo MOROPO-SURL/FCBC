@@ -24,5 +24,13 @@
         public const string DistinctionViewer = "distinction-viewer";
         public const string DistinctionRemover = "distinction-remover";
         #endregion
+
+        #region Recognition
+        public const string RecognitionCreator = "recognition-creator";
+        public const string RecognitionEditor = "recognition-editor";
+        public const string RecognitionViewer = "recognition-viewer";
+        public const string RecognitionRemover = "recognition-remover";
+        #endregion
     }
 }
+

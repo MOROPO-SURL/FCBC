@@ -60,5 +60,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation> ArtisticManifestations { get; set; }
         public DbSet<MOROPO.FBCB.SGI.Persistence.Entities.Award> Awards { get; set; }
         public DbSet<MOROPO.FBCB.SGI.Persistence.Entities.Distinction> Distinctions { get; set; }
+        public DbSet<MOROPO.FBCB.SGI.Persistence.Entities.Recognition> Recognitions { get; set; }
     }
 }

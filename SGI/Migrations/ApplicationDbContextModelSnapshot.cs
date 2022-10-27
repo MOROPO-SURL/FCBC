@@ -72,6 +72,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("distinctions");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Recognition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_recognitions");
+
+                    b.ToTable("recognitions");
+                });
+
             modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace", b =>
                 {
                     b.Property<long>("Id")
