@@ -61,6 +61,8 @@ namespace MOROPO.FCBC.SGI
 
             services.AddScoped<IEntityRepository<Award, Guid>, AwardRepository>();
 
+            services.AddScoped<IEntityRepository<Distinction, Guid>, DistinctionRepository>();
+
             services.AddAuthentication(config =>
             {
                 config.DefaultScheme = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme;
