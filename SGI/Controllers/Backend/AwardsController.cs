@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
@@ -7,7 +8,9 @@ using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -17,8 +20,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Area("complements")]
     public class AwardsController : AbstractEntityManagementController<Award, Guid, AwardInputViewModel, AwardDisplayViewModel>
     {
-        public AwardsController(IEntityRepository<Award, Guid> repository, IStringLocalizer<AwardsController> localizer, Microsoft.Extensions.Logging.ILogger<SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers.AbstractEntityManagementController<Award, Guid, AwardInputViewModel, AwardDisplayViewModel>> logger) : base(repository, localizer, logger)
+        IEntityRepository<Country, Guid> _repositoryCountry;
+        public AwardsController(IEntityRepository<Award, Guid> repository, IStringLocalizer<AwardsController> localizer, Microsoft.Extensions.Logging.ILogger<SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers.AbstractEntityManagementController<Award, Guid, AwardInputViewModel, AwardDisplayViewModel>> logger, IEntityRepository<Country, Guid> repositoryCountry) : base(repository, localizer, logger)
         {
+            _repositoryCountry = repositoryCountry;
         }
 
         [RequiresRoleBasePermission(Roles.AwardViewer)]
@@ -30,6 +35,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.AwardCreator)]
         public override IActionResult Create()
         {
+            ViewBag.Countries = _repositoryCountry.GetAll();
             return base.Create();
         }
 
@@ -41,7 +47,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [RequiresRoleBasePermission(Roles.AwardEditor)]
         public override IActionResult Edit(Guid key)
-        {
+        {                       
             return base.Edit(key);
         }
 
