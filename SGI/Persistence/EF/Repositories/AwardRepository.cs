@@ -15,5 +15,10 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
         {
             return entity => entity.Name;
         }
+
+        protected override System.Linq.IQueryable<Award> GetQueryableDbSet()
+        {
+            return base.GetQueryableDbSet().Include(e => e.Country);
+        }
     }
 }

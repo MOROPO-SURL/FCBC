@@ -45,8 +45,8 @@
             
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.Countries, new { @class = "control-label" })
-                    @Html.DropDownList("CountryId", new SelectList(ViewBag.Countries, "Id","Name"))
+                    @Html.LabelFor(model => model.Countries, new { @class = "control-label" })                    
+                    @Html.DropDownList("CountryId", new SelectList(Model.Countries, "Value", "Text"))
                     @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                 </div>
             </div>
