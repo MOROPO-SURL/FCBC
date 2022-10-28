@@ -30,9 +30,8 @@
     </style>
 }
 
-    <div class="row" style="margin-bottom: 20px;">
-        <div><a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a></div>
-    </div>
+    <a class="btn btn-primary align-self-end" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+    <div class="clearfix" style="margin-bottom: 20px;"></div>
 
 @if (Model.MaxPageCount > 0)
 {
@@ -134,8 +133,7 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th width="36px;"><span class="mdi mdi-shield-lock integrity-icon" title="Integridad"></span></th>
-                    <th>Distinción</th>
+                    <th>Nombre de Distinción</th>
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>
@@ -256,8 +254,7 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th width="36px;"><span class="fas fa-lock integrity-icon"></span></th>
-                    <th>Distinción</th>
+                    <th>Nombre de  Distinción</th>
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>
