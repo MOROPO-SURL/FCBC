@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 /SGI/dpkeys
 /SGI/appsettings.Development.json
+/SGI/appsettings.Staging.json
