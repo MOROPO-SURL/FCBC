@@ -1,6 +1,6 @@
 ﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
 
-@model MOROPO.FCBC.SGI.Models.View.ArtisticManifestationInputViewModel
+@model MOROPO.FCBC.SGI.Models.View.AwardInputViewModel
 
 @{
     ViewData["Title"] = "Modificar Premios";
@@ -35,19 +35,22 @@
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header"><h4>@ViewData["Title"]</h4></div>
 
-        <div class="card-body">            
+        <div class="card-body">
 
             <div class="row">
-                <div class="col-sm-4 style=" margin-bottom: 20px;"">
-                    <div>
-                        <label>
-                            @Html.EditorFor(model => model.Name)
-                        </label>
-                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger", style = "display: inline-block;" })
-                    </div>
-                </div>               
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+                </div>
+            </div>
 
-                
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Countries, new { @class = "control-label" })
+                    @Html.DropDownList("CountryId", new SelectList(Model.Countries, "Value", "Text"),new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+                </div>
             </div>
            
         </div>
