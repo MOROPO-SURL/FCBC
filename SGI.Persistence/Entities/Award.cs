@@ -1,8 +1,6 @@
 ﻿using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
@@ -15,6 +13,7 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
 
         [Key]
         public Guid Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -22,6 +21,6 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         public Country Country { get; set; }
 
         [Required]
-        public System.Guid CountryId { get; set; }
+        public Guid CountryId { get; set; }
     }
 }

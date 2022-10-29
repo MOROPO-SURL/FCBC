@@ -1,12 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Extensions;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Helpers
 {
     public sealed class ApplicationDataInitializationHelper : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper
     {
-        public void InitialiseData(DbContext dbContext)
+        private const string CUBA_COUNTRY_NAME = "Cuba";
+        private const string CMG_STATE_NAME = "Camagüey";
+
+        public void InitialiseData(DbContext dbContext, Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             var roleDbSet = dbContext.Set<Role>();
 
@@ -54,7 +59,7 @@ namespace MOROPO.FCBC.SGI.Helpers
             {
                 roleDbSet.Add(Security.Authorization.Roles.DistinctionViewer.ToRoleEntity());
             }
-            if(!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionCreator)).Result)
+            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionCreator)).Result)
             {
                 roleDbSet.Add(Security.Authorization.Roles.DistinctionCreator.ToRoleEntity());
             }
@@ -86,6 +91,38 @@ namespace MOROPO.FCBC.SGI.Helpers
                 roleDbSet.Add(Security.Authorization.Roles.RecognitionRemover.ToRoleEntity());
             }
             #endregion
+
+
+            var countryDbSet = dbContext.Set<Country>();
+            var stateDbSet = dbContext.Set<State>();
+            var municipalitiesDbSet = dbContext.Set<Municipality>();
+
+            var country = countryDbSet.FirstOrDefault(e => e.Name.Equals(CUBA_COUNTRY_NAME));
+
+            if (country == null)
+            {
+                country = new Country { Name = CUBA_COUNTRY_NAME, IsoCode = "cu" };
+
+                countryDbSet.Add(country);
+            }
+
+            var state = stateDbSet.FirstOrDefault(e => e.Name.Equals(CMG_STATE_NAME));
+
+            if (state == null)
+            {
+                state = new State { Name = "Camagüey", CountryId = country.Id };
+
+                stateDbSet.Add(state);
+            }
+
+            var cmgMunicipalitiesNames = new string[] { "Camagüey", "Florida", "Guáimaro", "Vertientes", "Santa Cruz del Sur", "Nuevitas", "Minas", "Sibanicú", "Esmeralda", "Carlos M. de Cespedes", "Jimaguayú", "Sierra de Cubitas", "Najasa" };
+
+            foreach (string municipalityName in cmgMunicipalitiesNames)
+            {
+                if (municipalitiesDbSet.Any(e => e.Name.Equals(municipalityName))) continue;
+
+                municipalitiesDbSet.Add(new Municipality { Name = municipalityName, State = state, StateId = state.Id });
+            }
 
             if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {

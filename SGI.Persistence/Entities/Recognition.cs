@@ -1,7 +1,5 @@
 ﻿using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
