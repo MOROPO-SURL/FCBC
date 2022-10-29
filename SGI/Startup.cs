@@ -167,12 +167,6 @@ namespace MOROPO.FCBC.SGI
 
                     Log.Logger.Information(string.Format(">>>>>> Protected Password : \"{0}\" => \"{1}\"", defaultUserId, protectedPassword));
                 }
-                if (!(dbContext as Persistence.EF.ApplicationDbContext).Countries.Any())
-                {
-                    var section = configuration.GetSection($"Region:Municipalities");
-                    var municipalitiesNames = section.Get<string[]>();
-                    (dbContext as Persistence.EF.ApplicationDbContext).createRegions(municipalitiesNames);
-                }
             }
             else
             {
