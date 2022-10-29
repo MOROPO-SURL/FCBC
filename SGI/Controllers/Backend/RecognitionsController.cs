@@ -13,12 +13,10 @@ using System;
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
-    [Route("recognitions")]
-    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/recognitions")]
     [Area("complements")]
     public class RecognitionsController : AbstractEntityManagementController<Recognition, Guid, RecognitionInputViewModel, RecognitionDisplayViewModel>
     {
-        public RecognitionsController(IEntityRepository<Recognition, Guid> repository, IStringLocalizer<Recognition> localizer, ILogger<SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers.AbstractEntityManagementController<Recognition, Guid, RecognitionInputViewModel, RecognitionDisplayViewModel>> logger) : base(repository, localizer, logger)
+        public RecognitionsController(IEntityRepository<Recognition, Guid> repository, IStringLocalizer<RecognitionsController> localizer, ILogger<RecognitionsController> logger) : base(repository, localizer, logger)
         {
         }
         [RequiresRoleBasePermission(Roles.RecognitionViewer)]

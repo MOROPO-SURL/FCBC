@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="dpkeys\**" />
+    <Compile Remove="logs\**" />
+    <Content Remove="dpkeys\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="dpkeys\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="dpkeys\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\Frontend\Api\" />
     <Folder Include="Persistence\EF\Configurators\" />
   </ItemGroup>

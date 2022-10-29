@@ -13,12 +13,10 @@ using System;
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
-    [Route("distinctions")]
-    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/distinctions")]
     [Area("complements")]
     public class DistinctionsController : AbstractEntityManagementController<Distinction, Guid, DistinctionInputViewModel, DistinctionDisplayViewModel>
     {
-        public DistinctionsController(IEntityRepository<Distinction, Guid> repository, IStringLocalizer<Distinction> localizer, ILogger<SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers.AbstractEntityManagementController<Distinction, Guid, DistinctionInputViewModel, DistinctionDisplayViewModel>> logger) : base(repository, localizer, logger)
+        public DistinctionsController(IEntityRepository<Distinction, Guid> repository, IStringLocalizer<DistinctionsController> localizer, ILogger<DistinctionsController> logger) : base(repository, localizer, logger)
         {
         }
 

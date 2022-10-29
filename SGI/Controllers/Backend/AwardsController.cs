@@ -17,16 +17,14 @@ using System.Linq;
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
-    [Route("awards")]
-    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/awards")]
     [Area("complements")]
     public class AwardsController : AbstractEntityManagementController<Award, Guid, AwardInputViewModel, AwardDisplayViewModel>
     {
-        private IEntityRepository<Country, Guid> _countryRepository;
+        private readonly IEntityRepository<Country, Guid> countryRepository;
         
-        public AwardsController(IEntityRepository<Award, Guid> repository, IStringLocalizer<AwardsController> localizer, Microsoft.Extensions.Logging.ILogger<SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers.AbstractEntityManagementController<Award, Guid, AwardInputViewModel, AwardDisplayViewModel>> logger, IEntityRepository<Country, Guid> countryRepository) : base(repository, localizer, logger)
+        public AwardsController(IEntityRepository<Award, Guid> repository, IStringLocalizer<AwardsController> localizer, Microsoft.Extensions.Logging.ILogger<AwardsController> logger, IEntityRepository<Country, Guid> countryRepository) : base(repository, localizer, logger)
         {
-            _countryRepository = countryRepository;
+            this.countryRepository = countryRepository;
             
         }
 
@@ -74,7 +72,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateWithCountries(AwardInputViewModel modelInput)
         {
-            modelInput.Countries = _countryRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+            modelInput.Countries = countryRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
         }
 
         protected override void ConfigureCreate(AwardInputViewModel modelInput)
@@ -101,7 +99,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreCreate(entity, modelInput);
 
-            entity.Country = _countryRepository.Get(modelInput.CountryId);
+            entity.CountryId = modelInput.CountryId.Value;
         }
 
         protected override void PreEdit(Award entity, AwardInputViewModel modelInput)
@@ -110,7 +108,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity.Country.Id != modelInput.CountryId)
             {
-                entity.Country = _countryRepository.Get(modelInput.CountryId);
+                entity.CountryId = modelInput.CountryId.Value;
             }
         }
 
@@ -118,7 +116,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.ValidateCreate(modelInput);
 
-            if (modelInput.CountryId == System.Guid.Empty)
+            if (modelInput.CountryId == null)
             {
                 ModelState.AddModelError("CountryId", "CountrySelectionRequired");
             }
@@ -128,7 +126,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.ValidateEdit(modelInput);
 
-            if (modelInput.CountryId == System.Guid.Empty)
+            if (modelInput.CountryId == null)
             {
                 ModelState.AddModelError("CountryId", "CountrySelectionRequired");
             }
