@@ -64,6 +64,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnName("name");
 
                     b.HasKey("Id")
@@ -79,6 +80,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnName("name");
 
                     b.HasKey("Id")

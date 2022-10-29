@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MOROPO.FCBC.SGI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221026183032_Awards")]
-    partial class Awards
+    [Migration("20221029200546_InitialSchemaMigration")]
+    partial class InitialSchemaMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,38 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_awards_countryid");
 
                     b.ToTable("awards");
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Distinction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_distinctions");
+
+                    b.ToTable("distinctions");
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Recognition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_recognitions");
+
+                    b.ToTable("recognitions");
                 });
 
             modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace", b =>

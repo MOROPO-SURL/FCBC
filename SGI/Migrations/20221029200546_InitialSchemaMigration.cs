@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MOROPO.FCBC.SGI.Migrations
 {
-    public partial class InitialSchema : Migration
+    public partial class InitialSchemaMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,42 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             migrationBuilder.EnsureSchema(
                 name: "fcbc-sgi_sapressc_middleware_region");
+
+            migrationBuilder.CreateTable(
+                name: "artisticmanifestations",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_artisticmanifestations", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "distinctions",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_distinctions", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "recognitions",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_recognitions", x => x.id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "traces",
@@ -285,6 +321,26 @@ namespace MOROPO.FCBC.SGI.Migrations
                         principalTable: "thumbnails",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "awards",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    name = table.Column<string>(nullable: false),
+                    countryid = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_awards", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_awards_countries_countryid",
+                        column: x => x.countryid,
+                        principalSchema: "fcbc-sgi_sapressc_middleware_region",
+                        principalTable: "countries",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -775,6 +831,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "ix_awards_countryid",
+                table: "awards",
+                column: "countryid");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_grouprolebridges_roleid",
                 schema: "fcbc-sgi_sapressc_core_securitylocal",
                 table: "grouprolebridges",
@@ -961,6 +1022,18 @@ namespace MOROPO.FCBC.SGI.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "artisticmanifestations");
+
+            migrationBuilder.DropTable(
+                name: "awards");
+
+            migrationBuilder.DropTable(
+                name: "distinctions");
+
+            migrationBuilder.DropTable(
+                name: "recognitions");
+
             migrationBuilder.DropTable(
                 name: "traces");
 

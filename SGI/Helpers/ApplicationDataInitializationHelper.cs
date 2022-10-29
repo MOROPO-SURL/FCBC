@@ -11,7 +11,7 @@ namespace MOROPO.FCBC.SGI.Helpers
         private const string CUBA_COUNTRY_NAME = "Cuba";
         private const string CMG_STATE_NAME = "Camagüey";
 
-        public void InitialiseData(DbContext dbContext, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        public void InitialiseData(DbContext dbContext)
         {
             var roleDbSet = dbContext.Set<Role>();
 
