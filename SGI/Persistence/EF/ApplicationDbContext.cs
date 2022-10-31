@@ -62,5 +62,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<FBCB.SGI.Persistence.Entities.Award> Awards { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Distinction> Distinctions { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Recognition> Recognitions { get; set; }
+        public DbSet<FBCB.SGI.Persistence.Entities.Service> Services { get; set; }
     }
 }
