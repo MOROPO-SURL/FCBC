@@ -38,23 +38,18 @@
         <div class="card-body">
 
             <div class="row">
-                <div class="col-sm-4 style=" margin-bottom: 20px;"">
-                    <div>
-                        <label>
-                            @Html.EditorFor(model => model.Name)
-                        </label>
-                        @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger", style = "display: inline-block;" })
-                    </div>
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-sm-12 style=" margin-bottom: 20px;"">
-                    <div>
-                        <label>
-                            @Html.EditorFor(model => model.Description)
-                        </label>
-                        @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger", style = "display: inline-block;" })
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
                 </div>
-
             </div>
 
         </div>
