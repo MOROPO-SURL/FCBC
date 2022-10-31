@@ -36,6 +36,9 @@ namespace MOROPO.FCBC.SGI.Helpers
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationRemover.ToRoleEntity());
             }
+            #endregion
+
+            #region Award
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardViewer)).Result)
             {
                 roleDbSet.Add(Security.Authorization.Roles.AwardViewer.ToRoleEntity());
@@ -89,6 +92,25 @@ namespace MOROPO.FCBC.SGI.Helpers
             if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionRemover)).Result)
             {
                 roleDbSet.Add(Security.Authorization.Roles.RecognitionRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region Service
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceRemover.ToRoleEntity());
             }
             #endregion
 

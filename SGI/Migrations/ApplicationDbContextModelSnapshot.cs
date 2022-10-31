@@ -89,6 +89,26 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("recognitions");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Service", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_services");
+
+                    b.ToTable("services");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Thematic", b =>
                 {
                     b.Property<Guid>("Id")

@@ -57,6 +57,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Delete(key);
         }
 
+        [RequiresRoleBasePermission(Roles.ArtisticManifestationRemover)]
         public override IActionResult Delete(ArtisticManifestationDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);

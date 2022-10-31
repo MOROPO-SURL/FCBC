@@ -11,7 +11,7 @@
         public const string ArtisticManifestationRemover = "artistic-manifestation-remover";
         #endregion
 
-        #region
+        #region Award
         public const string AwardViewer = "award-viewer";
         public const string AwardCreator = "award-creator";
         public const string AwardEditor = "award-editor";
@@ -30,6 +30,13 @@
         public const string RecognitionEditor = "recognition-editor";
         public const string RecognitionViewer = "recognition-viewer";
         public const string RecognitionRemover = "recognition-remover";
+        #endregion
+
+        #region Service
+        public const string ServiceViewer = "service-viewer";
+        public const string ServiceCreator = "service-creator";
+        public const string ServiceEditor = "service-editor";
+        public const string ServiceRemover = "service-remover";
         #endregion
 
         #region Thematic

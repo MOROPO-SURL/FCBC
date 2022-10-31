@@ -64,6 +64,18 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.RecognitionViewer
             });
 
+            var institutionSections = new List<ManagementDashboardSectionViewModel>();
+
+            institutionSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Servicios",
+                Controller = "services",
+                Action = "index",
+                Area = "institution",
+                Role = Security.Authorization.Roles.ServiceViewer
+            });
+
+
             complementsSections.Add(new ManagementDashboardSectionViewModel
             {
                 Title = "Temáticas",
@@ -76,7 +88,8 @@ namespace MOROPO.FCBC.SGI.Extensions
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>
             {
                 { "Seguridad", securitySections },
-                { "Complementos", complementsSections }
+                { "Complementos", complementsSections },
+                { "Institución", institutionSections }
             };
         }
     }
