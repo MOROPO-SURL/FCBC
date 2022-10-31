@@ -18,6 +18,8 @@
 
             if (target.Controller == "recognitions") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-handshake\"></span>");
 
+            if (target.Controller == "thematics") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-folder-table\"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }

@@ -92,6 +92,25 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region Thematic
+            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ThematicViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ThematicCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ThematicEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ThematicRemover.ToRoleEntity());
+            }
+            #endregion
+
 
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();

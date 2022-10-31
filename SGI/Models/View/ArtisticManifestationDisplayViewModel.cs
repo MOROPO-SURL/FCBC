@@ -1,11 +1,10 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using System;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtisticManifestationDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<ArtisticManifestation, Guid>
+    public class ArtisticManifestationDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<ArtisticManifestation, System.Guid>
     {
-        public Guid Id { get; set; }
+        public System.Guid Id { get; set; }
 
         public string Name { get; set; }
 

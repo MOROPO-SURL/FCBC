@@ -31,6 +31,13 @@
         public const string RecognitionViewer = "recognition-viewer";
         public const string RecognitionRemover = "recognition-remover";
         #endregion
+
+        #region Thematic
+        public const string ThematicCreator = "thematic-creator";
+        public const string ThematicEditor = "thematic-editor";
+        public const string ThematicViewer = "thematic-viewer";
+        public const string ThematicRemover = "thematic-remover";
+        #endregion
     }
 }
 
