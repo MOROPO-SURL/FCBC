@@ -64,6 +64,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.RecognitionViewer
             });
 
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Técnicas",
+                Controller = "techniques",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.TechniqueViewer
+            });
+
             var institutionSections = new List<ManagementDashboardSectionViewModel>();
 
             institutionSections.Add(new ManagementDashboardSectionViewModel

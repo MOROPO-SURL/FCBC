@@ -53,6 +53,7 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<Distinction, Guid>, DistinctionRepository>();
             services.AddScoped<IEntityRepository<Recognition, Guid>, RecognitionRepository>();
             services.AddScoped<IEntityRepository<Service, Guid>, ServiceRepository>();
+            services.AddScoped<IEntityRepository<Technique, Guid>, TechniqueRepository>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
