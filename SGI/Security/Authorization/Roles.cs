@@ -45,6 +45,13 @@
         public const string ThematicViewer = "thematic-viewer";
         public const string ThematicRemover = "thematic-remover";
         #endregion
+
+        #region Technique
+        public const string TechniqueViewer = "technique-viewer";
+        public const string TechniqueCreator = "technique-creator";
+        public const string TechniqueEditor = "technique-editor";
+        public const string TechniqueRemover = "technique-remover";
+        #endregion
     }
 }
 

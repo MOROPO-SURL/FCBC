@@ -133,6 +133,24 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region Technique
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.TechniqueViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.TechniqueCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.TechniqueEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.TechniqueRemover.ToRoleEntity());
+            }
+            #endregion
 
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();
