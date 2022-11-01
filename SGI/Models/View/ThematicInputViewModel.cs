@@ -23,7 +23,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         }
 
         public void Import(Thematic entity)
-        {            
+        {
+            Id = entity.Id;
             Name = entity.Name;
             Description = entity.Description;
         }

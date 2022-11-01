@@ -22,7 +22,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Title = "Registros",
                 Controller = "traces",
                 Action = "index",
-                Area = "business",
+                Area = "Security",
                 Role = Security.Authorization.Roles.TraceViewer
             });
 
