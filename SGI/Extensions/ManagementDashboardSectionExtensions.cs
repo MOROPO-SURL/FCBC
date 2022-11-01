@@ -20,6 +20,8 @@
 
             if (target.Controller == "services") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-face-agent\"></span>");
 
+            if (target.Controller == "thematics") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-folder-table\"></span>");
+
             if (target.Controller == "techniques") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-drama-masks\"></span>");
 
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");

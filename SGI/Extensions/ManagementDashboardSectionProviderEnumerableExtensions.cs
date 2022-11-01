@@ -85,6 +85,15 @@ namespace MOROPO.FCBC.SGI.Extensions
             });
 
 
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Temáticas",
+                Controller = "thematics",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.ThematicViewer
+            });
+
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>
             {
                 { "Seguridad", securitySections },

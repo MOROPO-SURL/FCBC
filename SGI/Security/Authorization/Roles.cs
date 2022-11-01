@@ -39,6 +39,13 @@
         public const string ServiceRemover = "service-remover";
         #endregion
 
+        #region Thematic
+        public const string ThematicCreator = "thematic-creator";
+        public const string ThematicEditor = "thematic-editor";
+        public const string ThematicViewer = "thematic-viewer";
+        public const string ThematicRemover = "thematic-remover";
+        #endregion
+
         #region Technique
         public const string TechniqueViewer = "technique-viewer";
         public const string TechniqueCreator = "technique-creator";
