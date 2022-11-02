@@ -10,7 +10,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
+        [System.ComponentModel.DataAnnotations.Display(Name = "Description")]
         public string Description { get; set; }
 
         public Thematic Export()

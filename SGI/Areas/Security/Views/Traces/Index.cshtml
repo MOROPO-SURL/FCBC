@@ -27,6 +27,9 @@
             margin-left: 8px;
             margin-right: 8px;
         }
+        dd {
+            word-wrap: break-word;
+        }        
     </style>
 }
 
@@ -136,9 +139,9 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Registered</th>
-                    <th>Type</th>
+                    <th>Autor</th>
+                    <th>Registro</th>
+                    <th>Tipo</th>
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>
@@ -151,9 +154,9 @@
                         <td style="vertical-align: middle;">@item.Type.ToString()</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                @{
-                                    Html.RenderPartial("DetailPartialView", @item);
-                                }
+                                
+                                    @Html.PartialAsync("DetailPartialView", @item);
+                                
                             </div>
                         </td>
                     </tr>
