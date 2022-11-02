@@ -1,7 +1,7 @@
 ﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long, MOROPO.FCBC.SGI.Models.View.TraceDisplayViewModel>
 
 @{
-    ViewData["Title"] = "Administración de Temáticas";
+    ViewData["Title"] = "Administración de Trazas";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -155,7 +155,7 @@
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 
-                                    @Html.PartialAsync("DetailPartialView", @item);
+                                    @{Html.RenderPartialAsync("DetailPartialView", @item);}
                                 
                             </div>
                         </td>
@@ -264,9 +264,9 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Registered</th>
-                    <th>Type</th>
+                    <th>Autor</th>
+                    <th>Registro</th>
+                    <th>Tipo</th>
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>
