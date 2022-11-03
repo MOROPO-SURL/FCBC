@@ -43,9 +43,7 @@
                     @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.Countries, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.CountryId, Model.Countries, new { @class = "form-control"})
