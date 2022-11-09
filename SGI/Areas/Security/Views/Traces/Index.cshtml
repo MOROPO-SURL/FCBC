@@ -37,9 +37,6 @@
         <div class="col-sm-4">
             @await Html.PartialAsync("TracesFilterPartial", Model.Filter)
         </div>
-        <div class="col-sm-8 d-flex flex-column">
-            <a class="btn btn-primary align-self-end" href="@Url.Action("charts")"></span>Estadísticas</a>
-        </div>
     </div>
 
 @if (Model.MaxPageCount > 0)
