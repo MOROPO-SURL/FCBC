@@ -16,6 +16,12 @@
     Layout = "_BackendLayout";
 }
 
+<div id="js-var-scope-layout"
+     data-traces-by-day-labels=" @(Newtonsoft.Json.JsonConvert.SerializeObject(Model.UsersList))"
+     data-week-statistics-labels="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekStatisticsColumns))"
+     data-traces-by-users="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.TracesbyUsers))"
+     data-Week-traces-statistics-values="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekTracesStatisticsValues))"></div>
+
 @section styles {
     <style type="text/css">
         .card .mdi {
@@ -28,73 +34,8 @@
     </style>
 }
 
-@section scripts {
-    <script type="text/javascript" src="~/lib/chartjs/chart.min.js"></script>
-    <script type="text/javascript">
-        const tracesByDayLabels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.UsersList));
-        const weekStatisticsLabels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekStatisticsColumns));
-
-        const tracesByData = {
-            labels: tracesByDayLabels,
-            datasets: [{
-                label: 'Cantida de registros por usuario',
-                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.TracesbyUsers)),
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)'
-                ],
-                borderColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(255, 159, 64)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
-                    'rgb(153, 102, 255)',
-                    'rgb(201, 203, 207)'
-                ],
-                borderWidth: 1
-            }]
-        };
-
-        const tracesByConfig = {
-            type: 'bar',
-            data: tracesByData,
-            options: {}
-        };
-
-        const tracesByUsersChart = new Chart(
-            document.getElementById('tracesByUsersChart'),
-            tracesByConfig
-        );
-
-        const weekStatisticsData = {
-            labels: weekStatisticsLabels,
-            datasets: [{
-                label: 'Cantidad de registros por dias',
-                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekTracesStatisticsValues)),
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                tension: 0.1
-            }]
-        };
-
-        const weekStatisticsConfig = {
-            type: 'line',
-            data: weekStatisticsData,
-            options: {}
-        };
-
-        const weekStatisticsChart = new Chart(
-            document.getElementById('weekStatisticsChart'),
-            weekStatisticsConfig
-        );
-    </script>
+@section scripts {        
+    <script src="~/js/Dashboard/Index.cshtml.js"></script>
 }
 
     <div class="row" style="margin-bottom: 16px;">
