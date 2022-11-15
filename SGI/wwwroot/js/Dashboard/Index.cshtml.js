@@ -1,5 +1,4 @@
 ﻿var varScope = $('#js-var-scope-layout');
-debugger;
 const tracesByDayLabels = JSON.parse(varScope.attr('data-traces-by-day-labels'));
 const weekStatisticsLabels = JSON.parse( varScope.attr('data-week-statistics-labels'));
 const TracesbyUsers = JSON.parse(varScope.attr('data-traces-by-users'));
