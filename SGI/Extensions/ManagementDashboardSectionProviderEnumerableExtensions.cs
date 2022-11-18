@@ -94,6 +94,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.ThematicViewer
             });
 
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Monedas",
+                Controller = "currencies",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.CurrencyViewer
+            });
+
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>
             {
                 { "Seguridad", securitySections },

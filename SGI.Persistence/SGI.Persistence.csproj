@@ -10,8 +10,4 @@
     <PackageReference Include="SAPRESSC.Middleware.Identity.Persistence" Version="2.8.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Enumerations\" />
-  </ItemGroup>
-
 </Project>

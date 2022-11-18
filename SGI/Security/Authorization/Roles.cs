@@ -52,6 +52,13 @@
         public const string TechniqueEditor = "technique-editor";
         public const string TechniqueRemover = "technique-remover";
         #endregion
+
+        #region Currency
+        public const string CurrencyViewer = "currency-viewer";
+        public const string CurrencyCreator = "currency-creator";
+        public const string CurrencyEditor = "currency-editor";
+        public const string CurrencyRemover = "currency-remover";
+        #endregion
     }
 }
 

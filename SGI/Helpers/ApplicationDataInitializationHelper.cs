@@ -152,6 +152,25 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region Currency
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CurrencyViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CurrencyCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CurrencyEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CurrencyRemover.ToRoleEntity());
+            }
+            #endregion
+
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();
             var municipalitiesDbSet = dbContext.Set<Municipality>();

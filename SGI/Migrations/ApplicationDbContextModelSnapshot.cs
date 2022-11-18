@@ -57,6 +57,31 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("awards");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<bool>("IsSpacedSymbol")
+                        .HasColumnName("isspacedsymbol");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<int>("Position")
+                        .HasColumnName("position");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnName("symbol");
+
+                    b.HasKey("Id")
+                        .HasName("pk_currencies");
+
+                    b.ToTable("currencies");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Distinction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -109,25 +134,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("services");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Thematic", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_thematics");
-
-                    b.ToTable("thematics");
-                });
-
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Technique", b =>
                 {
                     b.Property<Guid>("Id")
@@ -146,6 +152,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_technique");
 
                     b.ToTable("technique");
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Thematic", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_thematics");
+
+                    b.ToTable("thematics");
                 });
 
             modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace", b =>
