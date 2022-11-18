@@ -144,7 +144,7 @@
                     <tr>
                         <td style="vertical-align: middle;" title="Manifestacin Temática">@item.Name</td>
                         <td style="vertical-align: middle;">
-                                @{Html.RenderPartialAsync("ShowPartialView", @item);}                                
+                            @{ await Html.RenderPartialAsync("ShowPartialView", @item);}                                
                         </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">

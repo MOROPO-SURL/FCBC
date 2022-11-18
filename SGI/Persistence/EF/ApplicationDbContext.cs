@@ -65,6 +65,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<FBCB.SGI.Persistence.Entities.Service> Services { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Thematic> Thematics { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Technique> Technique { get; set; }
+        public DbSet<FBCB.SGI.Persistence.Entities.ContractorKind> ContractorKinds { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Currency> Currencies { get; set; }
     }
 }

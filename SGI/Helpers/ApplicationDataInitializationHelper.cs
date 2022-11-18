@@ -152,6 +152,25 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region ContractorKind
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ContractorKindViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ContractorKindCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ContractorKindEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ContractorKindRemover.ToRoleEntity());
+            }
+            #endregion
+
             #region Currency
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyViewer)).Result)
             {

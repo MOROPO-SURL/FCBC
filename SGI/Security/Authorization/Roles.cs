@@ -53,6 +53,13 @@
         public const string TechniqueRemover = "technique-remover";
         #endregion
 
+        #region ContractorKind
+        public const string ContractorKindViewer = "contractor-kind-viewer";
+        public const string ContractorKindCreator = "contractor-kind-creator";
+        public const string ContractorKindEditor = "contractor-kind-editor";
+        public const string ContractorKindRemover = "contractor-kind-remover";
+        #endregion
+
         #region Currency
         public const string CurrencyViewer = "currency-viewer";
         public const string CurrencyCreator = "currency-creator";

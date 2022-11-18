@@ -135,7 +135,42 @@
         </div>
     }
 
-    <div style="border: 1px solid #DDD; border-radius: 4px;">
+     <div>
+        @foreach (var item in Model.List)
+        {
+            <div class="card border-primary mb-2 d-block d-sm-none">
+                <div class="card-body text-justify">
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Autor:
+                        </span>
+                        @item.Author
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Registro:
+                        </span>
+                        @item.Registered
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Tipo:
+                        </span>
+                        @item.Type
+                    </div>
+                    <div>
+                        <div class="btn-group btn-group-sm float-right">
+                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            await Html.RenderPartialAsync("DetailPartialView", @item);
+        }
+    </div>
+
+    <div class="d-none d-sm-block" style="border: 1px solid #DDD; border-radius: 4px;">
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
@@ -154,9 +189,7 @@
                         <td style="vertical-align: middle;">@item.Type.ToString()</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                
-                                    @{Html.RenderPartialAsync("DetailPartialView", @item);}
-                                
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
                             </div>
                         </td>
                     </tr>
