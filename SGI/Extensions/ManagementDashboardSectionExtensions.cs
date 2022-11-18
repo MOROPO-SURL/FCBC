@@ -24,6 +24,8 @@
 
             if (target.Controller == "techniques") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-drama-masks\"></span>");
 
+            if (target.Controller == "contractorkinds") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-tag-text\"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }

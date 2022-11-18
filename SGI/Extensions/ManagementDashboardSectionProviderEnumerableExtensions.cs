@@ -73,6 +73,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.TechniqueViewer
             });
 
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Tipo de Contratista",
+                Controller = "contractorkinds",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.ContractorKindViewer
+            });
+
             var institutionSections = new List<ManagementDashboardSectionViewModel>();
 
             institutionSections.Add(new ManagementDashboardSectionViewModel
