@@ -66,6 +66,13 @@
         public const string CurrencyEditor = "currency-editor";
         public const string CurrencyRemover = "currency-remover";
         #endregion
+
+        #region Contractor
+        public const string ContractorViewer = "contractor-viewer";
+        public const string ContractorCreator = "contractor-creator";
+        public const string ContractorEditor = "contractor-editor";
+        public const string ContractorRemover = "contractor-remover";
+        #endregion
     }
 }
 
