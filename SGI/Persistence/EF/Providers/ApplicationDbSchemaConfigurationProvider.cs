@@ -1,11 +1,20 @@
-﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
+﻿using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators;
+
+namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
 {
     public sealed class ApplicationDbSchemaConfigurationProvider : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade
     {
         public string DefaultPersistenceSchema => null;
 
-        public System.Collections.Generic.ICollection<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.IEntityTypeConfigurator> EntityTypeConfigurators => new System.Collections.Generic.List<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.IEntityTypeConfigurator>
+        public System.Collections.Generic.ICollection<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.IEntityTypeConfigurator> EntityTypeConfigurators
         {
-        };
+            get
+            {
+                return new System.Collections.Generic.List<IEntityTypeConfigurator>
+                {
+                    new Configurators.CriticEntityTypeConfigurator(),
+                };
+            }
+        }
     }
 }
