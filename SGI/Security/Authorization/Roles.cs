@@ -59,6 +59,13 @@
         public const string ContractorKindEditor = "contractor-kind-editor";
         public const string ContractorKindRemover = "contractor-kind-remover";
         #endregion
+
+        #region Critic
+        public const string CriticViewer = "critic-viewer";
+        public const string CriticCreator = "critic-creator";
+        public const string CriticEditor = "critic-editor";
+        public const string CriticRemover = "critic-remover";
+        #endregion
     }
 }
 

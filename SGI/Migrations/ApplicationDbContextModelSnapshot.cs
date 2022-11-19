@@ -77,6 +77,24 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("contractorkinds");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Critic", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("PersonIdentityId")
+                        .HasColumnName("personidentityid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_critics");
+
+                    b.HasIndex("PersonIdentityId")
+                        .HasName("ix_critics_personidentityid");
+
+                    b.ToTable("critics");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Distinction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -997,6 +1015,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("CountryId")
                         .HasConstraintName("fk_awards_countries_countryid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Critic", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "PersonIdentity")
+                        .WithMany()
+                        .HasForeignKey("PersonIdentityId")
+                        .HasConstraintName("fk_critics_personidentities_personidentityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
