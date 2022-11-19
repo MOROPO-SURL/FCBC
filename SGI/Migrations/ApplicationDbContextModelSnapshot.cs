@@ -77,6 +77,31 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("contractorkinds");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<bool>("IsSpacedSymbol")
+                        .HasColumnName("isspacedsymbol");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<int>("Position")
+                        .HasColumnName("position");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnName("symbol");
+
+                    b.HasKey("Id")
+                        .HasName("pk_currencies");
+
+                    b.ToTable("currencies");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Critic", b =>
                 {
                     b.Property<Guid>("Id")

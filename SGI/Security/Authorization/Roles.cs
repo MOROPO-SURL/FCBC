@@ -60,6 +60,13 @@
         public const string ContractorKindRemover = "contractor-kind-remover";
         #endregion
 
+        #region Currency
+        public const string CurrencyViewer = "currency-viewer";
+        public const string CurrencyCreator = "currency-creator";
+        public const string CurrencyEditor = "currency-editor";
+        public const string CurrencyRemover = "currency-remover";
+        #endregion
+
         #region Critic
         public const string CriticViewer = "critic-viewer";
         public const string CriticCreator = "critic-creator";
