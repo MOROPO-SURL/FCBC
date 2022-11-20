@@ -1,5 +1,7 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -8,13 +10,24 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public System.Guid Id { get; set; }
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "Identity")]
-        public System.Guid IdentityId { get; set; }
+        [FormFileContentTypes(ContentTypes = new string[] { "image/png", "image/jpeg" }, ErrorMessage = "PNG_JPEG_FileAllowedOnlyMessage")]
+        [FormFileMaxLength(Length = 3145728, ErrorMessage = "FileLimitSizeExcededMessage")]
+        [Display(Name = "ImageFile")]
+        public Microsoft.AspNetCore.Http.IFormFile ImageFile { get; set; }
+
+        public System.Guid? ImageId { get; set; }   
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Contract Name")]
-        public string ContractName { get; set; }
+        public string ContractName { get; set; }        
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Organization")]
+        public string OrganizationIdentityName { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "OrganizationIdentityId")]
+        public Guid OrganizationIdentityId { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Contract Type")]
@@ -39,14 +52,19 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(Contractor entity)
         {
             Id = entity.Id;
-            IdentityId = entity.IdentityId;
+            OrganizationIdentityId = entity.OrganizationIdentityId;
+            OrganizationIdentityName = entity.OrganizationIdentity.Name;
             ContractKindId = entity.ContractorKindId;
+            ContractKindName = entity.ContractorKind.Name;
+            ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty; ;            
         }
 
         public void Mergue(Contractor entity)
         {
-            entity.Identity.Name = ContractName;
-            entity.ContractorKind.Name = ContractKindName;
+            entity.OrganizationIdentityId = OrganizationIdentityId;
+            entity.OrganizationIdentity.Name = OrganizationIdentityName;
+            entity.ContractorKindId = ContractKindId;
+            entity.ContractorKind.Name = ContractKindName;            
         }
     }
 }

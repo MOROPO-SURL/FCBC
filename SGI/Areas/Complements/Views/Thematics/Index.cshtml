@@ -133,8 +133,7 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Nombre de la Temática</th>
-                    <th>Descripción</th>
+                    <th>Nombre de la Temática</th>                    
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>
@@ -142,12 +141,10 @@
                 @foreach (var item in Model.List)
                 {
                     <tr>
-                        <td style="vertical-align: middle;" title="Manifestacin Temática">@item.Name</td>
-                        <td style="vertical-align: middle;">
-                            @{ await Html.RenderPartialAsync("ShowPartialView", @item);}                                
-                        </td>
+                        <td style="vertical-align: middle;" title="Manifestacin Temática">@item.Name</td>                        
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                @{ await Html.RenderPartialAsync("ShowPartialView", @item);}       
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
@@ -257,8 +254,7 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Nombre de la Temática</th>
-                    <th>Descripción</th>
+                    <th>Nombre de la Temática</th>                    
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>

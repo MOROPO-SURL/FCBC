@@ -1,5 +1,6 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -7,15 +8,24 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public System.Guid Id { get; set; }
 
-        public OrganizationIdentity Identity { get; set; }
-        
-        public ContractorKind ContractKind { get; set; }
+        public System.Guid? ImageId { get; set; }
+
+        public string ContractKindName { get; set; }
+
+        public string OrganizationIdentityName { get; set; }
+
+        public ICollection<OrganizationEmailContactItemBridge> OrganizationEmailContactItemBridges { get; set; }
+
+        public ICollection<OrganizationPhoneContactItemBridge> OrganizationPhoneContactItemBridges { get; set; }
 
         public void Import(Contractor entity)
         {
             Id = entity.Id;
-            Identity = entity.Identity;
-            ContractKind = ContractKind;
+            ImageId = entity.OrganizationIdentity.ImageId ?? System.Guid.Empty; ;
+            ContractKindName = entity.ContractorKind.Name;
+            OrganizationIdentityName = entity.OrganizationIdentity.Name;
+            OrganizationEmailContactItemBridges = entity.OrganizationIdentity.OrganizationEmailContactItemBridges;
+            OrganizationPhoneContactItemBridges = entity.OrganizationIdentity.OrganizationPhoneContactItemBridges;
         }
     }
 }

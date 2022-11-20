@@ -5,11 +5,11 @@
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("IdentityId")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity Identity { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("OrganizationIdentityId")]
+        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity OrganizationIdentity { get; set; }
 
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Guid IdentityId { get; set; }
+        public System.Guid OrganizationIdentityId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ContractorKindId")]
         public ContractorKind ContractorKind { get; set; }
