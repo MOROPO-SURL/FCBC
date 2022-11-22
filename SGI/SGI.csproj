@@ -41,4 +41,11 @@
     <ProjectReference Include="..\SGI.API.Common\SGI.API.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Areas\Complements\Views\Critics\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
