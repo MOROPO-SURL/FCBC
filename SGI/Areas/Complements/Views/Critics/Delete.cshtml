@@ -1,0 +1,48 @@
+﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
+
+@model MOROPO.FCBC.SGI.Models.View.CriticDisplayViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Críticos";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Críticos",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<h3>Esta seguro que desea eliminar el crítico detallado a continuación?</h3>
+<dl>
+    
+    <dt>@Html.DisplayNameFor(model => model.Name)</dt>    
+    <dd>@Html.DisplayFor(model => model.Name)</dd>
+    <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
+    <dd>@Html.DisplayFor(model => model.LastName)</dd>
+    <dt>@Html.DisplayNameFor(model => model.Sex)</dt>
+    <dd>@Html.DisplayFor(model => model.Sex)</dd>
+    <dt>@Html.DisplayNameFor(model => model.CivilStatus)</dt>
+    <dd>@Html.DisplayFor(model => model.CivilStatus)</dd>
+</dl>
+@using (Html.BeginForm("delete", "critics", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
+{
+    @Html.HiddenFor(model => model.Id)
+    <div>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+    </div>
+}
