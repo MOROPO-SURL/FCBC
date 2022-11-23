@@ -93,6 +93,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.ServiceViewer
             });
 
+            institutionSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Contratista",
+                Controller = "contractors",
+                Action = "index",
+                Area = "institution",
+                Role = Security.Authorization.Roles.ContractorViewer
+            });
+
 
             complementsSections.Add(new ManagementDashboardSectionViewModel
             {

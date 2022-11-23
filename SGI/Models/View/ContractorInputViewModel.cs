@@ -18,8 +18,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         public System.Guid? ImageId { get; set; }   
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "Contract Name")]
-        public string ContractName { get; set; }        
+        [Display(Name = "Contractor Name")]
+        public string ContractorName { get; set; }        
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Organization")]
@@ -27,7 +27,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "OrganizationIdentityId")]
-        public Guid OrganizationIdentityId { get; set; }
+        public Guid? OrganizationIdentityId { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Contract Type")]
@@ -35,7 +35,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "ContractKind")]
-        public int ContractKindId { get; set; }
+        public int? ContractKindId { get; set; }
 
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> OrgaizacionIdentities { get; set; }
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ContractKinds { get; set; }
@@ -60,10 +60,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         }
 
         public void Mergue(Contractor entity)
-        {
-            entity.OrganizationIdentityId = OrganizationIdentityId;
-            entity.OrganizationIdentity.Name = OrganizationIdentityName;
-            entity.ContractorKindId = ContractKindId;
+        {            
+            entity.OrganizationIdentity.Name = OrganizationIdentityName;            
             entity.ContractorKind.Name = ContractKindName;            
         }
     }

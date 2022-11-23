@@ -41,7 +41,7 @@
         var paginationEnd = paginationStart - 1 + Model.List.Count;
 
         <div class="text-center">
-            <ul class="pagination" style="margin: 0;">
+            <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
@@ -192,7 +192,7 @@
             <div class="text-info" style="margin-bottom: 10px; margin-top: 20px;">
                 <span style="font-weight: 600;">Página @Model.Page</span>: del @paginationStart al @paginationEnd, <span style="font-weight: 600;">Total de páginas</span>: @Model.MaxPageCount
             </div>
-            <ul class="pagination" style="margin: 0;">
+            <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>

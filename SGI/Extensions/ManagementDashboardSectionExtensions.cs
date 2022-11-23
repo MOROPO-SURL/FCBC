@@ -28,6 +28,8 @@
 
             if (target.Controller == "currencies") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-currency-usd \"></span>");
 
+            if (target.Controller == "contractors") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-file-table \"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }
