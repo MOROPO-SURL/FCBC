@@ -15,7 +15,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         protected override System.Linq.IQueryable<FBCB.SGI.Persistence.Entities.Critic> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(e => e.PersonIdentity);
+            return base.GetQueryableDbSet().Include(e => e.PersonIdentity).ThenInclude(p => p.Image);
         }
     }
 }

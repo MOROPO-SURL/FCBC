@@ -30,6 +30,8 @@
 
             if (target.Controller == "contractors") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-file-table \"></span>");
 
+            if (target.Controller == "critics") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-book-search \"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }

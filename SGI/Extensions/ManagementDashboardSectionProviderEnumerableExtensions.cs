@@ -82,6 +82,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.ContractorKindViewer
             });
 
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Critico",
+                Controller = "critics",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.CriticViewer
+            });
+
             var institutionSections = new List<ManagementDashboardSectionViewModel>();
 
             institutionSections.Add(new ManagementDashboardSectionViewModel
