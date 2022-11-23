@@ -32,12 +32,12 @@
         }        
     </style>
 }
-@{/*
+@{
     <div class="row" style="margin-bottom: 20px;">
         <div class="col-sm-4">
-            @await Html.PartialAsync("TracesFilterPartial", Model.Filter)
+            @await Html.PartialAsync("CriticsFilterPartial", Model.Filter)
         </div>
-    </div>*/
+    </div>
     }
     <a class="btn btn-primary align-self-end" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
     <div class="clearfix" style="margin-bottom: 20px;"></div>
@@ -141,7 +141,7 @@
         @foreach (var item in Model.List)
         {
             <div class="card border-primary mb-2">
-                <div class="card-body text-justify">
+                <div class="card-body">
                     <div class="mb-2">
                         <span class="font-weight-bold">
                             Nombre:
@@ -153,6 +153,18 @@
                             Apellidos:
                         </span>
                         @item.LastName
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Sexo:
+                        </span>
+                        @item.Sex
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Estado civil:
+                        </span>
+                        @item.CivilStatus
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
@@ -172,7 +184,9 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Apellidos</th>
-                    <th style="width: 184px;">Opciones</th>
+                    <th>Sexo</th>
+                    <th>Estado civil</th>
+                    <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -181,6 +195,8 @@
                     <tr>
                         <td style="vertical-align: middle;">@item.Name</td>
                         <td style="vertical-align: middle;">@item.LastName</td>
+                        <td style="vertical-align: middle;">@item.Sex</td>
+                        <td style="vertical-align: middle;">@item.CivilStatus</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
@@ -294,7 +310,9 @@ else
                 <tr>
                     <th>Nombre</th>
                     <th>Apellidos</th>
-                    <th style="width: 184px;">Opciones</th>
+                    <th>Sexo</th>
+                    <th>Estado civil</th>
+                    <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>

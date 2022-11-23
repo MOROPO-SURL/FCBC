@@ -11,7 +11,7 @@ namespace MOROPO.FCBC.SGI.Models.Filter
         {
             if (Id == null || Id == string.Empty) return null;
 
-            return critic => critic.PersonIdentity.Name.Contains(Id);
+            return critic => critic.PersonIdentity.Name.ToLower().Contains(Id.ToLower());
         }
     }
 }
