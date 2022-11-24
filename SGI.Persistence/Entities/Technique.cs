@@ -9,7 +9,6 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
         public string Description { get; set; }
 
         public Technique()
