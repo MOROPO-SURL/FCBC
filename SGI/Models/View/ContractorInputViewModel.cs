@@ -56,8 +56,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Contractor entity)
         {            
-            entity.OrganizationIdentity.Name = OrganizationIdentityName;            
-            //entity.ContractorKind.Name = ContractKindName;            
+            entity.OrganizationIdentity.Name = OrganizationIdentityName;
         }
     }
 }

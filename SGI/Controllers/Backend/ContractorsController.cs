@@ -120,7 +120,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void PreCreate(Contractor entity, ContractorInputViewModel modelInput)
         {
             base.PreCreate(entity, modelInput);
-            
+
+            if (modelInput.ImageFile == null) return;
+
+            using (var memoryStream = new System.IO.MemoryStream())
+            {
+                modelInput.ImageFile.CopyTo(memoryStream);
+
+                var image = new Image { ContentType = modelInput.ImageFile.ContentType, Length = modelInput.ImageFile.Length, About = "Contractor " + entity.Id };
+
+                imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), modelInput.ImageFile.ContentType);
+
+                entity.OrganizationIdentity.Image = image;
+            }
+
             entity.ContractorKindId = modelInput.ContractKindId.Value;
         }
 

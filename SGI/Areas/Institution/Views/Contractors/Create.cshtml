@@ -45,7 +45,7 @@
 
                 if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
 
-                if (/^/image/.test(files[0].type)) {
+                if (/^image/.test(files[0].type)) {
                     var reader = new FileReader();
 
                     reader.readAsDataURL(files[0]);
