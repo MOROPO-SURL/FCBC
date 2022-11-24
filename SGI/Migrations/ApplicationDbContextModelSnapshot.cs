@@ -90,7 +90,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
@@ -185,7 +184,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
@@ -205,7 +203,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
