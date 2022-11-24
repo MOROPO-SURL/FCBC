@@ -2,6 +2,12 @@
 {
     public class Contractor : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
+        public Contractor()
+        {
+            Id = System.Guid.NewGuid();
+            OrganizationIdentity = new SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity();
+        }
+
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
 

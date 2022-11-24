@@ -41,14 +41,14 @@
         var paginationEnd = paginationStart - 1 + Model.List.Count;
 
         <div class="text-center">
-            <ul class="pagination" style="margin: 0;">
+            <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
 
                 @if (Model.MaxPageCount > 5)
@@ -61,11 +61,11 @@
                             {
                                 if (i == Model.Page)
                                 {
-                                    <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                    <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -75,11 +75,11 @@
                             {
                                 if (i == Model.Page)
                                 {
-                                    <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                    <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -90,11 +90,11 @@
                         {
                             if (i == Model.Page)
                             {
-                                <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                             }
                             else
                             {
-                                <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                             }
                         }
                     }
@@ -105,22 +105,22 @@
                     {
                         if (i == Model.Page)
                         {
-                            <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                            <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                         }
                         else
                         {
-                            <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                         }
                     }
                 }
 
                 @if (Model.HasNext)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
                 }
             </ul>
             <div class="text-info" style="margin-top: 10px; margin-bottom: 20px;">
@@ -192,14 +192,14 @@
             <div class="text-info" style="margin-bottom: 10px; margin-top: 20px;">
                 <span style="font-weight: 600;">Página @Model.Page</span>: del @paginationStart al @paginationEnd, <span style="font-weight: 600;">Total de páginas</span>: @Model.MaxPageCount
             </div>
-            <ul class="pagination" style="margin: 0;">
+            <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
 
                 @if (Model.MaxPageCount > 5)
@@ -216,7 +216,7 @@
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -230,7 +230,7 @@
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -241,11 +241,11 @@
                         {
                             if (i == Model.Page)
                             {
-                                <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                             }
                             else
                             {
-                                <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                             }
                         }
                     }
@@ -256,22 +256,22 @@
                     {
                         if (i == Model.Page)
                         {
-                            <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                            <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                         }
                         else
                         {
-                            <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                         }
                     }
                 }
 
                 @if (Model.HasNext)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
                 }
             </ul>
         </div>
