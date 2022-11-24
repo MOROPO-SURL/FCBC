@@ -2,6 +2,8 @@
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Web.Backend.Models.View;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -16,6 +18,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Name { get; set; }
 
+        [Display(Name = "Country")]
         public CountryDisplayViewModel Country { get; set; }
 
         public void Import(Award entity)
