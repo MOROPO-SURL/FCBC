@@ -1,4 +1,5 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System;
@@ -15,29 +16,24 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "ImageFile")]
         public Microsoft.AspNetCore.Http.IFormFile ImageFile { get; set; }
 
-        public System.Guid? ImageId { get; set; }   
+        public System.Guid? ImageId { get; set; }
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "Contractor Name")]
-        public string ContractorName { get; set; }        
+        public string ImageExtension { get; set; }
+
+        public bool ResetImage { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Organization")]
-        public string OrganizationIdentityName { get; set; }
+        public string OrganizationIdentityName { get; set; }      
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "OrganizationIdentityId")]
-        public Guid? OrganizationIdentityId { get; set; }
-
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        
         [Display(Name = "Contract Type")]
         public string ContractKindName { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "ContractKind")]
+        [Display(Name = "ContractKindId")]
         public int? ContractKindId { get; set; }
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> OrgaizacionIdentities { get; set; }
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ContractKinds { get; set; }
 
         public Contractor Export()
@@ -49,20 +45,19 @@ namespace MOROPO.FCBC.SGI.Models.View
             return entity;
         }
 
-        public void Import(Contractor entity)
+        public void Import(FBCB.SGI.Persistence.Entities.Contractor entity)
         {
             Id = entity.Id;
-            OrganizationIdentityId = entity.OrganizationIdentityId;
+            ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty;
+            ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension()??null;
             OrganizationIdentityName = entity.OrganizationIdentity.Name;
-            ContractKindId = entity.ContractorKindId;
-            ContractKindName = entity.ContractorKind.Name;
-            ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty; ;            
+            ContractKindId = entity.ContractorKindId;                               
         }
 
-        public void Mergue(Contractor entity)
+        public void Mergue(FBCB.SGI.Persistence.Entities.Contractor entity)
         {            
             entity.OrganizationIdentity.Name = OrganizationIdentityName;            
-            entity.ContractorKind.Name = ContractKindName;            
+            //entity.ContractorKind.Name = ContractKindName;            
         }
     }
 }
