@@ -69,5 +69,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<FBCB.SGI.Persistence.Entities.Currency> Currencies { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Critic> Critics { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Contractor> Contractors { get; set; }
+        public DbSet<FBCB.SGI.Persistence.Entities.Artist> Artists { get; set; }
     }
 }

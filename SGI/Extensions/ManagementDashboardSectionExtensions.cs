@@ -32,6 +32,8 @@
 
             if (target.Controller == "critics") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-book-search \"></span>");
 
+            if (target.Controller == "artists") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-music-note    \"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }

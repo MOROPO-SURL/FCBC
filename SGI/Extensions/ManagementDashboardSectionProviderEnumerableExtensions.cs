@@ -130,6 +130,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.CurrencyViewer
             });
 
+            institutionSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "artista",
+                Controller = "artists",
+                Action = "index",
+                Area = "institution",
+                Role = Security.Authorization.Roles.ArtistViewer
+            });
+
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>
             {
                 { "Seguridad", securitySections },

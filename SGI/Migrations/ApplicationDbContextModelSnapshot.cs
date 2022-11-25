@@ -19,6 +19,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Artist", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("PersonIdentityId")
+                        .HasColumnName("personidentityid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_artists");
+
+                    b.HasIndex("PersonIdentityId")
+                        .IsUnique()
+                        .HasName("ix_artists_personidentityid");
+
+                    b.ToTable("artists");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1055,6 +1074,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("regions","fcbc-sgi_sapressc_middleware_region");
 
                     b.HasDiscriminator().HasValue("StateRegion");
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Artist", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "PersonIdentity")
+                        .WithOne()
+                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Artist", "PersonIdentityId")
+                        .HasConstraintName("fk_artists_personidentities_personidentityid")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Award", b =>

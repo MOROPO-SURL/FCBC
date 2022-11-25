@@ -13,7 +13,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                 return new System.Collections.Generic.List<IEntityTypeConfigurator>
                 {
                     new Configurators.CriticEntityTypeConfigurator(),
-                    new Configurators.ContractorEntityTypeConfigurator()
+                    new Configurators.ContractorEntityTypeConfigurator(),
+                    new Configurators.ArtistEntityTypeConfigurator()
                 };
             }
         }

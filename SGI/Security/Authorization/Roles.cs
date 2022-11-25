@@ -80,6 +80,13 @@
         public const string ContractorEditor = "contractor-editor";
         public const string ContractorRemover = "contractor-remover";
         #endregion
+
+        #region Artist
+        public const string ArtistViewer = "artist-viewer";
+        public const string ArtistCreator = "artist-creator";
+        public const string ArtistEditor = "artist-editor";
+        public const string ArtistRemover = "artist-remover";
+        #endregion
     }
 }
 
