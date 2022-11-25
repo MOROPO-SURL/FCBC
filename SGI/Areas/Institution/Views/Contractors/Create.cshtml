@@ -90,7 +90,7 @@
                         @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
                     </div>
 
-                    <div class="col-md-6 col-sm-8" style="margin-bottom: 20px;">
+                    <div style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.ContractKindName, new { @class = "control-label" })
                         @Html.DropDownListFor(model => model.ContractKindId, Model.ContractKinds, new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.ContractKindId, null, new { @class = "text-danger" })

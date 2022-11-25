@@ -2,6 +2,8 @@
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -13,8 +15,10 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string ImageExtension { get; set; }
 
+        [Display(Name = "Contract Type")]
         public string ContractKindName { get; set; }
 
+        [Display(Name = "Organization")]
         public string OrganizationIdentityName { get; set; }        
 
         public void Import(Contractor entity)
