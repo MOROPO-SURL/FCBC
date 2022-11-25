@@ -129,7 +129,47 @@
         </div>
     }
 
-    <div style="border: 1px solid #DDD; border-radius: 4px;">
+    <div class="d-block d-sm-none">
+        @foreach (var item in Model.List)
+        {
+            <div class="card border-primary mb-2">
+                <div class="card-body text-justify">
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Nombre:
+                        </span>
+                        @item.Name
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Símbolo:
+                        </span>
+                        @item.Symbol
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Tiene Espacio:
+                        </span>
+                        @item.IsSpacedSymbol
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Posición:
+                        </span>
+                        @item.Position
+                    </div>
+                    <div>
+                        <div class="btn-group btn-group-sm float-right">
+                            <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                            <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="d-none d-sm-block" style="border: 1px solid #DDD; border-radius: 4px;">
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
@@ -137,7 +177,7 @@
                     <th>Símbolo</th>
                     <th>Tiene Espacio</th>
                     <th>Posición</th>
-                    <th style="width: 184px;">Opciones</th>
+                    <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -150,7 +190,7 @@
                         <td style="vertical-align: middle;" title="Premios ">@item.Position</td>   
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>&nbsp;|&nbsp;
+                                <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
                         </td>
@@ -263,7 +303,7 @@ else
                     <th>Símbolo</th>
                     <th>Tiene Espacio</th>
                     <th>Posición</th>
-                    <th style="width: 184px;">Opciones</th>
+                    <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
