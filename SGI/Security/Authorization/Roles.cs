@@ -87,6 +87,13 @@
         public const string ArtistEditor = "artist-editor";
         public const string ArtistRemover = "artist-remover";
         #endregion
+
+        #region AdministrativeRoles
+        public const string AdministrativeRolesViewer = "administrative-roles-viewer";
+        public const string AdministrativeRolesCreator = "administrative-roles-creator";
+        public const string AdministrativeRolesEditor = "administrative-roles-editor";
+        public const string AdministrativeRolesRemover = "administrative-roles-remover";
+        #endregion
     }
 }
 

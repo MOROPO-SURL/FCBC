@@ -130,6 +130,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.CurrencyViewer
             });
 
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Rol Administartivos",
+                Controller = "AdministrativeRoles",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.AdministrativeRolesViewer
+            });
+
             institutionSections.Add(new ManagementDashboardSectionViewModel
             {
                 Title = "artista",

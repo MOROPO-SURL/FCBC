@@ -19,6 +19,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.AdministrativeRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_administrativeroles");
+
+                    b.ToTable("administrativeroles");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Artist", b =>
                 {
                     b.Property<Guid>("Id")
