@@ -121,6 +121,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("contractorkinds");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("OrganizationIdentityId")
+                        .HasColumnName("organizationidentityid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_creationgroups");
+
+                    b.HasIndex("OrganizationIdentityId")
+                        .IsUnique()
+                        .HasName("ix_creationgroups_organizationidentityid");
+
+                    b.ToTable("creationgroups");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Critic", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1106,6 +1125,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithOne()
                         .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Contractor", "OrganizationIdentityId")
                         .HasConstraintName("fk_contractors_organizationidentities_organizationidentityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "OrganizationIdentity")
+                        .WithOne()
+                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", "OrganizationIdentityId")
+                        .HasConstraintName("fk_creationgroups_organizationidentities_organizationidentityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

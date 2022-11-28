@@ -139,6 +139,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Roles.ArtistViewer
             });
 
+            institutionSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Grupos de Creación",
+                Controller = "CreationGroups",
+                Action = "index",
+                Area = "institution",
+                Role = Security.Authorization.Roles.CreationGroupViewer
+            });
+
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>
             {
                 { "Seguridad", securitySections },

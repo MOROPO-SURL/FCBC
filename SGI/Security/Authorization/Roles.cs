@@ -87,6 +87,13 @@
         public const string ArtistEditor = "artist-editor";
         public const string ArtistRemover = "artist-remover";
         #endregion
+
+        #region CreationGroup
+        public const string CreationGroupViewer = "creation-group-viewer";
+        public const string CreationGroupCreator = "creation-group-creator";
+        public const string CreationGroupEditor = "creation-group-editor";
+        public const string CreationGroupRemover = "creation-group-remover";
+        #endregion
     }
 }
 
