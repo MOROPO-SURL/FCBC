@@ -94,6 +94,13 @@
         public const string CreationGroupEditor = "creation-group-editor";
         public const string CreationGroupRemover = "creation-group-remover";
         #endregion
+
+        #region Association
+        public const string AssociationViewer = "association-viewer";
+        public const string AssociationCreator = "association-creator";
+        public const string AssociationEditor = "association-editor";
+        public const string AssociationRemover = "association-remover";
+        #endregion
     }
 }
 

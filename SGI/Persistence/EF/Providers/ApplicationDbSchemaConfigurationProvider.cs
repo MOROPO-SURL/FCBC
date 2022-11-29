@@ -15,7 +15,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                     new Configurators.CriticEntityTypeConfigurator(),
                     new Configurators.ContractorEntityTypeConfigurator(),
                     new Configurators.ArtistEntityTypeConfigurator(),
-                    new Configurators.CreationGroupEntityTypeConfigurator()
+                    new Configurators.CreationGroupEntityTypeConfigurator(),
+                    new Configurators.AssociationEntityTypeConfigurator()
                 };
             }
         }
