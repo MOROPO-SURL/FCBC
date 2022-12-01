@@ -34,6 +34,10 @@
 
             if (target.Controller == "artists") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-music-note    \"></span>");
 
+            if (target.Controller == "creationgroups") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-movie-open\"></span>");
+
+            if (target.Controller == "associations") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-city\"></span>");
+
             if (target.Controller == "administrativeroles") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-gamepad-circle  \"></span>");
 
             if (target.Controller == "employees") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-briefcase-account    \"></span>");

@@ -150,6 +150,24 @@ namespace MOROPO.FCBC.SGI.Extensions
 
             institutionSections.Add(new ManagementDashboardSectionViewModel
             {
+                Title = "Grupos de Creación",
+                Controller = "creationgroups",
+                Action = "index",
+                Area = "institution",
+                Role = Security.Authorization.Roles.CreationGroupViewer
+            });
+
+            institutionSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Asociaciones",
+                Controller = "associations",
+                Action = "index",
+                Area = "institution",
+                Role = Security.Authorization.Roles.AssociationViewer
+            });
+
+            institutionSections.Add(new ManagementDashboardSectionViewModel
+            {
                 Title = "Trabajadores",
                 Controller = "employees",
                 Action = "index",

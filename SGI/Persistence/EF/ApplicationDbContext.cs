@@ -70,6 +70,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<FBCB.SGI.Persistence.Entities.Critic> Critics { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Contractor> Contractors { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Artist> Artists { get; set; }
+        public DbSet<FBCB.SGI.Persistence.Entities.CreationGroup> CreationGroups { get; set; }
+        public DbSet<FBCB.SGI.Persistence.Entities.Association> Associations { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.AdministrativeRole> AdministrativeRoles { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Employee>Employees { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge> AdministrativeRoleBridges { get; set; }

@@ -60,6 +60,8 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<Critic, Guid>, CriticRepository>();
             services.AddScoped<IEntityRepository<Contractor, Guid>, ContractorRepository>();
             services.AddScoped<IEntityRepository<Artist, Guid>, ArtistRepository>();
+            services.AddScoped<IEntityRepository<CreationGroup, Guid>, CreationGroupRepository>();
+            services.AddScoped<IEntityRepository<Association, Guid>, AssociationRepository>();
             services.AddScoped<IEntityRepository<AdministrativeRole, Guid>, AdministrativeRoleRepository>();
             services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
 

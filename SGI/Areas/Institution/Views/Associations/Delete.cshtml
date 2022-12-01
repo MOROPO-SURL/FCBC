@@ -1,0 +1,41 @@
+﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
+
+@model MOROPO.FCBC.SGI.Models.View.AssociationDisplayViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Asociaciones";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Asociaciones",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<h3>Esta seguro que desea eliminar la asociación detallada a continuación?</h3>
+<dl>
+    <dt>@Html.DisplayNameFor(model => model.OrganizationIdentityName)</dt>
+    <dd>@Html.DisplayFor(model => model.OrganizationIdentityName)</dd> 
+</dl>
+@using (Html.BeginForm("delete", "associations", new { Area = "institution", key = string.Empty }, FormMethod.Post, true, null))
+{
+    @Html.HiddenFor(model => model.Id)
+    <div>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+    </div>
+}

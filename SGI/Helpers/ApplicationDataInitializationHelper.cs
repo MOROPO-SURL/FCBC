@@ -247,6 +247,44 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region CreationGroup
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CreationGroupViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CreationGroupCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CreationGroupEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CreationGroupRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region Association
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AssociationViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AssociationCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AssociationEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.AssociationRemover.ToRoleEntity());
+            }
+            #endregion
+
             #region AdministrativeRole
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AdministrativeRolesViewer)).Result)
             {

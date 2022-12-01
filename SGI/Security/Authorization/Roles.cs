@@ -88,6 +88,20 @@
         public const string ArtistRemover = "artist-remover";
         #endregion
 
+        #region CreationGroup
+        public const string CreationGroupViewer = "creation-group-viewer";
+        public const string CreationGroupCreator = "creation-group-creator";
+        public const string CreationGroupEditor = "creation-group-editor";
+        public const string CreationGroupRemover = "creation-group-remover";
+        #endregion
+
+        #region Association
+        public const string AssociationViewer = "association-viewer";
+        public const string AssociationCreator = "association-creator";
+        public const string AssociationEditor = "association-editor";
+        public const string AssociationRemover = "association-remover";
+        #endregion
+
         #region AdministrativeRoles
         public const string AdministrativeRolesViewer = "administrative-roles-viewer";
         public const string AdministrativeRolesCreator = "administrative-roles-creator";
