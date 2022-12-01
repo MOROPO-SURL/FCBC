@@ -133,7 +133,7 @@ namespace MOROPO.FCBC.SGI.Extensions
             complementsSections.Add(new ManagementDashboardSectionViewModel
             {
                 Title = "Rol Administartivos",
-                Controller = "AdministrativeRoles",
+                Controller = "administrativeroles",
                 Action = "index",
                 Area = "complements",
                 Role = Security.Authorization.Roles.AdministrativeRolesViewer
@@ -141,11 +141,20 @@ namespace MOROPO.FCBC.SGI.Extensions
 
             institutionSections.Add(new ManagementDashboardSectionViewModel
             {
-                Title = "artista",
+                Title = "Artista",
                 Controller = "artists",
                 Action = "index",
                 Area = "institution",
                 Role = Security.Authorization.Roles.ArtistViewer
+            });
+
+            institutionSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Trabajadores",
+                Controller = "employees",
+                Action = "index",
+                Area = "institution",
+                Role = Security.Authorization.Roles.EmployeeViewer
             });
 
             return new Dictionary<string, ICollection<ManagementDashboardSectionViewModel>>

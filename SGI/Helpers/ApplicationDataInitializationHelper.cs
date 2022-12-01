@@ -266,6 +266,44 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region Employee
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region EmployeeAdministrativeRoleBridge
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.EmployeeAdministrativeRoleBridgeRemover.ToRoleEntity());
+            }
+            #endregion
+
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();
             var municipalitiesDbSet = dbContext.Set<Municipality>();

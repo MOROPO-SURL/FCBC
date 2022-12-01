@@ -1,0 +1,16 @@
+﻿@model MOROPO.FCBC.SGI.Models.Filter.EmployeeFilterModel
+
+@using (Html.BeginForm("filter", "employees", new { Area = "institution" }, FormMethod.Post, true, null))
+{
+    <fieldset>
+        <legend>Filtro de Trabajadores</legend>
+        <div style="margin-bottom: 20px;">
+            @Html.Label("Id", "Nombre", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Id, new { @class = "form-control" })
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+        </div>
+    </fieldset>
+}

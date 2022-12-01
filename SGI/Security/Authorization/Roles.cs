@@ -94,6 +94,20 @@
         public const string AdministrativeRolesEditor = "administrative-roles-editor";
         public const string AdministrativeRolesRemover = "administrative-roles-remover";
         #endregion
+
+        #region Employee
+        public const string EmployeeViewer = "employee-viewer";
+        public const string EmployeeCreator = "employee-creator";
+        public const string EmployeeEditor = "employee-editor";
+        public const string EmployeeRemover = "employee-remover";
+        #endregion
+
+        #region EmployeeAdministrativeRoleBridge
+        public const string EmployeeAdministrativeRoleBridgeViewer = "employee-administrative-role-bridge-viewer";
+        public const string EmployeeAdministrativeRoleBridgeCreator = "employee-administrative-role-bridge-creator";
+        public const string EmployeeAdministrativeRoleBridgeEditor = "employee-administrative-role-bridge-editor";
+        public const string EmployeeAdministrativeRoleBridgeRemover = "employee-administrative-role-bridge-remover";
+        #endregion
     }
 }
 

@@ -199,6 +199,45 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("distinctions");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("PersonIdentityId")
+                        .HasColumnName("personidentityid");
+
+                    b.Property<Guid[]>("SelectedValues")
+                        .HasColumnName("selectedvalues");
+
+                    b.HasKey("Id")
+                        .HasName("pk_employees");
+
+                    b.HasIndex("PersonIdentityId")
+                        .IsUnique()
+                        .HasName("ix_employees_personidentityid");
+
+                    b.ToTable("employees");
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge", b =>
+                {
+                    b.Property<Guid>("AdministrativeRoleId")
+                        .HasColumnName("administrativeroleid");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnName("employeeid");
+
+                    b.HasKey("AdministrativeRoleId", "EmployeeId")
+                        .HasName("pk_administrativerolebridges");
+
+                    b.HasIndex("EmployeeId")
+                        .HasName("ix_administrativerolebridges_employeeid");
+
+                    b.ToTable("administrativerolebridges");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Recognition", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1134,6 +1173,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("PersonIdentityId")
                         .HasConstraintName("fk_critics_personidentities_personidentityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Employee", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "PersonIdentity")
+                        .WithOne()
+                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Employee", "PersonIdentityId")
+                        .HasConstraintName("fk_employees_personidentities_personidentityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge", b =>
+                {
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.AdministrativeRole", "AdministrativeRole")
+                        .WithMany("EmployeeAdministrativeRoleBridges")
+                        .HasForeignKey("AdministrativeRoleId")
+                        .HasConstraintName("fk_administrativerolebridges_administrativeroles_administrativ~")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.Employee", "Employee")
+                        .WithMany("EmployeeAdministrativeRoleBridges")
+                        .HasForeignKey("EmployeeId")
+                        .HasConstraintName("fk_administrativerolebridges_employees_employeeid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

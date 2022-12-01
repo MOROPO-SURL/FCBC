@@ -1,0 +1,21 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
+{
+    public class EmployeeRepository: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<MOROPO.FBCB.SGI.Persistence.Entities.Employee, System.Guid>
+    {
+        public EmployeeRepository(DbContext dbContext) : base(dbContext)
+        {
+        }
+
+        public override System.Func<FBCB.SGI.Persistence.Entities.Employee, object> GetPagingOrderSelector()
+        {
+            return entity => entity.PersonIdentity.Name;
+        }
+
+        protected override System.Linq.IQueryable<FBCB.SGI.Persistence.Entities.Employee> GetQueryableDbSet()
+        {
+            return base.GetQueryableDbSet().Include(r=>r.EmployeeAdministrativeRoleBridges).ThenInclude(r =>r.AdministrativeRole).Include(e => e.PersonIdentity).ThenInclude(p => p.Image);
+        }
+    }
+}
