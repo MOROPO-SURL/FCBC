@@ -137,10 +137,10 @@
             </div>
         </div>
     }
-    <div class="d-block d-sm-none">
+    <div>
         @foreach (var item in Model.List)
         {
-            <div class="card border-primary mb-2">
+            <div class="card border-primary mb-2 d-block d-sm-none">
                 <div class="card-body">
                     <div class="mb-2">
                         <span class="font-weight-bold">
@@ -168,12 +168,15 @@
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
+                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
+            await Html.RenderPartialAsync("ShowPartialView", @item);
         }
     </div>
 
@@ -199,6 +202,7 @@
                         <td style="vertical-align: middle;">@item.CivilStatus</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>

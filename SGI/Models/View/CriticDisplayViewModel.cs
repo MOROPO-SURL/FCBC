@@ -28,11 +28,6 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string About { get; set; }
 
-        public ICollection<EmailContactItem> EmailContactItems { get; set; }
-
-        public ICollection<PhoneContactItem> PhoneContactItems { get; set; }
-
-
         public void Import(FBCB.SGI.Persistence.Entities.Critic entity)
         {
             Id = entity.Id;
@@ -45,8 +40,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             CivilStatus = entity.PersonIdentity.CivilStatus;
             Alias = entity.PersonIdentity.Alias;
             About = entity.PersonIdentity.About;
-            EmailContactItems = entity.PersonIdentity.PersonEmailContactItemBridges.Select(b => b.ContactItem).ToArray();
-            PhoneContactItems = entity.PersonIdentity.PersonPhoneContactItemBridges.Select(b => b.ContactItem).ToArray();
         }
     }
 }

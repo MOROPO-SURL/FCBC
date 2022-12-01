@@ -25,6 +25,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "LastName")]
         public string LastName { get; set; }
 
