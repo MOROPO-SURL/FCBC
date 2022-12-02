@@ -27,20 +27,21 @@
             margin-left: 8px;
             margin-right: 8px;
         }
+
         dd {
             word-wrap: break-word;
-        }        
+        }
     </style>
 }
-@{
+    @{
     <div class="row" style="margin-bottom: 20px;">
         <div class="col-sm-4">
             @await Html.PartialAsync("ArtistsFilterPartial", Model.Filter)
         </div>
     </div>
 }
-    <a class="btn btn-primary align-self-end" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
-    <div class="clearfix" style="margin-bottom: 20px;"></div>
+<a class="btn btn-primary align-self-end" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+<div class="clearfix" style="margin-bottom: 20px;"></div>
 
 @if (Model.MaxPageCount > 0)
 {
@@ -137,10 +138,10 @@
             </div>
         </div>
     }
-    <div class="d-block d-sm-none">
+    <div>
         @foreach (var item in Model.List)
         {
-            <div class="card border-primary mb-2">
+            <div class="card border-primary mb-2 d-block d-sm-none">
                 <div class="card-body">
                     <div class="mb-2">
                         <span class="font-weight-bold">
@@ -168,12 +169,15 @@
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
+                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
+            await Html.RenderPartialAsync("DetailPartial", @item);
         }
     </div>
 
@@ -199,6 +203,7 @@
                         <td style="vertical-align: middle;">@item.CivilStatus</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
@@ -220,7 +225,7 @@
             <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
-                    <li class="page-item"><a class="page-link"cla href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" cla href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
