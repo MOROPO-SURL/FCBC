@@ -95,9 +95,18 @@
                         @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
                     </div>
+                    <div style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.Countries, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.CountryId, Model.Countries, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.CountryId, null, new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>            
-
+            </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.AddressPostal, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Modificar</button>

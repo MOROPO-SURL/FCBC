@@ -70,7 +70,7 @@
 
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-4" style="margin-bottom: 20px;">
+                <div class="col-lg-3 col-md-5 col-sm-4" style="margin-bottom: 20px;">
                     <div class="card">
                         <img src="~/media/images/default-person.png" class="card-img-top" id="ImageFilePreview" />
                         <label class="btn btn-light" style="border-top-left-radius: 0; border-top-right-radius: 0; margin-bottom: 0;">
@@ -80,15 +80,25 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
                 </div>
-                <div class=" col-md-6 col-sm-8" style="margin-bottom: 20px;">
+                <div class="col-lg-9 col-md-8 col-sm-8" style="margin-bottom: 20px;">
                     <div style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
                     </div>
+                    <div style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.Countries, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.CountryId, Model.Countries, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.CountryId, null, new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-            
+
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.AddressPostal, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Crear</button>

@@ -1,6 +1,4 @@
 ﻿
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-
 namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
     public class Critic : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>

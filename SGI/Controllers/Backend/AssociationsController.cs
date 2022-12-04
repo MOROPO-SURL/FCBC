@@ -8,10 +8,14 @@ using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.EF.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -22,11 +26,17 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IImageFileManagerFacade imageFileManagerFacade;
         private readonly IEntityRepository<Image, Guid> imageRepository;
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
-        public AssociationsController(IEntityRepository<Association, Guid> repository, IStringLocalizer<AssociationsController> localizer, ILogger<AssociationsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<PostalContactItem, Guid> postalContactItemRepository;
+        private readonly IEntityRepository<Country, Guid> countryRepository;
+        private readonly IEntityRepository<CountryRegion, Guid> countryRegionRepository;
+        public AssociationsController(IEntityRepository<Association, Guid> repository, IStringLocalizer<AssociationsController> localizer, ILogger<AssociationsController> logger, IEntityRepository<CountryRegion, Guid> countryRegionRepository, IEntityRepository<Country, Guid> countryRepository, IEntityRepository<PostalContactItem, Guid> postalContactItemRepository, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
+            this.postalContactItemRepository = postalContactItemRepository;
+            this.countryRepository = countryRepository;
+            this.countryRegionRepository = countryRegionRepository;
         }
 
         [RequiresRoleBasePermission(Roles.AssociationViewer)]
@@ -86,9 +96,53 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Delete(displayModel);
         }
 
+        private void PopulateWithCountries(AssociationInputViewModel modelInput)
+        {
+            modelInput.Countries = countryRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+        }
+
+        protected override void ConfigureCreate(AssociationInputViewModel modelInput)
+        {
+            PopulateWithCountries(modelInput);
+        }
+
+        protected override void ConfigurePostFailCreateValidation(AssociationInputViewModel modelInput)
+        {
+            PopulateWithCountries(modelInput);
+        }
+
+        protected override void ConfigureEdit(Association entity, AssociationInputViewModel modelInput)
+        {
+            PopulateWithCountries(modelInput);
+        }
+
+        protected override void ConfigurePostFailEditValidation(AssociationInputViewModel modelInput)
+        {
+            PopulateWithCountries(modelInput);
+        }
+
         protected override void PreCreate(Association entity, AssociationInputViewModel modelInput)
         {
             base.PreCreate(entity, modelInput);
+
+            var region = countryRegionRepository.FindOneBy(r => r.CountryId == modelInput.CountryId);
+            PostalContactItem postalContact = new PostalContactItem
+            {
+                Address = modelInput.AddressPostal,
+                RegionId = modelInput.CountryId,
+                Region = region
+            };
+
+            postalContactItemRepository.Add(postalContact, User.Identity.Name);
+
+            OrganizationPostalContactItemBridge organizationPostalContactItemBridge = new OrganizationPostalContactItemBridge
+            {
+                OrganizationId = modelInput.Export().OrganizationIdentity.Id,
+                Organization = modelInput.Export().OrganizationIdentity,
+                ContactItemId = postalContact.Id,
+                ContactItem = postalContact
+            };
+            entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Add(organizationPostalContactItemBridge);
 
             if (modelInput.ImageFile == null) return;
 
