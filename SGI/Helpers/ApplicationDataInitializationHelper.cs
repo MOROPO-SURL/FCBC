@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MOROPO.FCBC.SGI.RegionConst;
 using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
@@ -10,6 +11,7 @@ namespace MOROPO.FCBC.SGI.Helpers
     {
         private const string CUBA_COUNTRY_NAME = "Cuba";
         private const string CMG_STATE_NAME = "Camagüey";
+        private const string SS_STATE_NAME = "Sancti Spíritus";
 
         public void InitialiseData(DbContext dbContext)
         {
@@ -322,7 +324,7 @@ namespace MOROPO.FCBC.SGI.Helpers
                 roleDbSet.Add(Security.Authorization.Roles.EmployeeRemover.ToRoleEntity());
             }
             #endregion
-                     
+                        
 
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();
@@ -332,21 +334,30 @@ namespace MOROPO.FCBC.SGI.Helpers
 
             if (country == null)
             {
-                country = new Country { Name = CUBA_COUNTRY_NAME, IsoCode = "cu" };
+                country = new Country { Name = CUBA_COUNTRY_NAME, IsoCode = "cu", Id = RegionInitConstant.MY_COUNTRY };
 
                 countryDbSet.Add(country);
             }
 
             var state = stateDbSet.FirstOrDefault(e => e.Name.Equals(CMG_STATE_NAME));
+            var stateSS = stateDbSet.FirstOrDefault(e => e.Name.Equals(SS_STATE_NAME));
 
             if (state == null)
             {
-                state = new State { Name = "Camagüey", CountryId = country.Id };
+                state = new State { Name = "Camagüey", CountryId = RegionInitConstant.MY_COUNTRY, Id = RegionInitConstant.MY_OWN_SATE };
 
                 stateDbSet.Add(state);
             }
 
+            if (stateSS == null)
+            {
+                stateSS = new State { Name = "Sancti Spíritus", CountryId = RegionInitConstant.MY_COUNTRY, Id = RegionInitConstant.TEST_SATE };
+
+                stateDbSet.Add(stateSS);
+            }
+
             var cmgMunicipalitiesNames = new string[] { "Camagüey", "Florida", "Guáimaro", "Vertientes", "Santa Cruz del Sur", "Nuevitas", "Minas", "Sibanicú", "Esmeralda", "Carlos M. de Cespedes", "Jimaguayú", "Sierra de Cubitas", "Najasa" };
+            var ssMunicipalitiesNames = new string[] { "Sancti Spíritus" };
 
             foreach (string municipalityName in cmgMunicipalitiesNames)
             {
@@ -355,14 +366,26 @@ namespace MOROPO.FCBC.SGI.Helpers
                 municipalitiesDbSet.Add(new Municipality { Name = municipalityName, State = state, StateId = state.Id });
             }
 
-            var countryRegionDbSet = dbContext.Set<CountryRegion>();
-            var countryRegion = countryRegionDbSet.FirstOrDefault(r => r.CountryId == country.Id);
-            
-            if(countryRegion == null)
+            foreach (string municipalityName in ssMunicipalitiesNames)
             {
-                countryRegion = new CountryRegion { CountryId = country.Id, Country = country };
-                countryRegionDbSet.Add(countryRegion);
+                if (municipalitiesDbSet.Any(e => e.Name.Equals(municipalityName))) continue;
+
+                municipalitiesDbSet.Add(new Municipality { Name = municipalityName, State = state, StateId = stateSS.Id });
             }
+
+            var municipalityRegionDbSet = dbContext.Set<MunicipalityRegion>();
+            foreach (var currentMunicipality in municipalitiesDbSet)
+            {
+                var municipalityRegion = municipalityRegionDbSet.FirstOrDefault(r => r.MunicipalityId == currentMunicipality.Id);
+                if(municipalityRegion == null)
+                {
+                    municipalityRegion = new MunicipalityRegion { MunicipalityId = currentMunicipality.Id, Municipality = currentMunicipality };
+                    municipalityRegionDbSet.Add(municipalityRegion);
+                }
+                
+            }         
+            
+            
 
             if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {
