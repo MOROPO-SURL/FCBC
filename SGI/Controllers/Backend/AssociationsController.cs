@@ -8,7 +8,6 @@ using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.EF.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
@@ -132,8 +131,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 RegionId = modelInput.CountryId,
                 Region = region
             };
-
-            postalContactItemRepository.Add(postalContact, User.Identity.Name);
 
             OrganizationPostalContactItemBridge organizationPostalContactItemBridge = new OrganizationPostalContactItemBridge
             {
