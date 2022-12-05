@@ -38,10 +38,11 @@
         <div class="col-sm-4">
             @await Html.PartialAsync("ArtistsFilterPartial", Model.Filter)
         </div>
+        <div class="col-sm-8">
+            <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+        </div>
     </div>
 }
-<a class="btn btn-primary align-self-end" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
-<div class="clearfix" style="margin-bottom: 20px;"></div>
 
 @if (Model.MaxPageCount > 0)
 {
