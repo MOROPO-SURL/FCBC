@@ -27,7 +27,7 @@
 }
 
 @section styles {
-
+    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         #ImageFile {
             width: 0;
@@ -38,7 +38,16 @@
 }
 
     @section scripts {
+    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
     <script type="text/javascript">
+        $('#BornDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.BornDate.ToShortDateString()'
+        });
 
         $(function () {
             $(document).on("change", "#ImageFile", function () {
@@ -95,18 +104,29 @@
                         @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
                     </div>
-                    <div style="margin-bottom: 20px;">
-                        @Html.LabelFor(model => model.Countries, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.CountryId, Model.Countries, new { @class = "form-control"})
-                        @Html.ValidationMessageFor(model => model.CountryId, null, new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.BornDate, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.BornDate, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.BornDate, null, new { @class = "text-danger" })
+                        </div>
+
                     </div>
                 </div>
             </div>
-            <div style="margin-bottom: 20px;">
-                @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
-                @Html.TextAreaFor(model => model.AddressPostal, 4, 0, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
-            </div>
+            <fieldset>
+                <legend>Address Postal</legend>
+                <div style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Countries, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.CountryId, Model.Countries, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.CountryId, null, new { @class = "text-danger" })
+                </div>
+                <div style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.AddressPostal, 3, 0, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
+                </div>
+            </fieldset>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Modificar</button>
