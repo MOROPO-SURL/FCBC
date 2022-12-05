@@ -26,13 +26,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Organization")]
         public string OrganizationIdentityName { get; set; }
 
-        [Display(Name = "BornDate")]
+        [Display(Name = "Founding date")]
         public System.DateTime BornDate { get; set; }
 
         [Display(Name = "About")]
         public string About { get; set; }
 
-        [Display(Name = "Address Postal")]
+        [Display(Name = "Address")]
         public string AddressPostal { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
@@ -71,7 +71,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.OrganizationIdentity.Name = OrganizationIdentityName;
             entity.OrganizationIdentity.BornDate = BornDate;
             entity.OrganizationIdentity.About = About;
-            //entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Add();
         }
     }
 }

@@ -16,13 +16,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Organization")]
         public string OrganizationIdentityName { get; set; }
 
-        [Display(Name = "Born Date")]
+        [Display(Name = "Founding date")]
         public DateTime BornDate { get; set; }
 
         [Display(Name = "About")]
         public string About { get; set; }
 
-        [Display(Name = "Address Postal")]
+        [Display(Name = "Address")]
         public string AddressPostal { get; set; } 
 
         public void Import(FBCB.SGI.Persistence.Entities.Association entity)
