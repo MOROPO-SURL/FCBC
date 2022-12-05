@@ -373,14 +373,19 @@ namespace MOROPO.FCBC.SGI.Helpers
                 municipalitiesDbSet.Add(new Municipality { Name = municipalityName, State = state, StateId = stateSS.Id });
             }
 
-            var countryRegionDbSet = dbContext.Set<CountryRegion>();
-            var countryRegion = countryRegionDbSet.FirstOrDefault(r => r.CountryId == country.Id);
-            
-            if(countryRegion == null)
+            var municipalityRegionDbSet = dbContext.Set<MunicipalityRegion>();
+            foreach (var currentMunicipality in municipalitiesDbSet)
             {
-                countryRegion = new CountryRegion { CountryId = country.Id, Country = country };
-                countryRegionDbSet.Add(countryRegion);
-            }
+                var municipalityRegion = municipalityRegionDbSet.FirstOrDefault(r => r.MunicipalityId == currentMunicipality.Id);
+                if(municipalityRegion == null)
+                {
+                    municipalityRegion = new MunicipalityRegion { MunicipalityId = currentMunicipality.Id, Municipality = currentMunicipality };
+                    municipalityRegionDbSet.Add(municipalityRegion);
+                }
+                
+            }         
+            
+            
 
             if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {
