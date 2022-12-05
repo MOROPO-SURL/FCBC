@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MOROPO.FBCB.SGI.Persistence.Entities;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
@@ -15,7 +18,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         protected override System.Linq.IQueryable<FBCB.SGI.Persistence.Entities.Association> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(e => e.OrganizationIdentity).ThenInclude(e => e.Image);
+            return base.GetQueryableDbSet().Include(e => e.OrganizationIdentity).ThenInclude(e => e.Image).Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationPostalContactItemBridges).ThenInclude(p => p.ContactItem);
         }
     }
 }
