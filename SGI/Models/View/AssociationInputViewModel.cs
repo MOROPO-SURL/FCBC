@@ -1,5 +1,6 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -19,8 +20,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string ImageExtension { get; set; }
 
         public bool ResetImage { get; set; }
-
-        public System.Guid OrganizationIdentityId { get; set; }
+        
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Organization")]
@@ -35,11 +35,18 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }
 
+        
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "Regions")]
-        public System.Guid CountryId { get; set; }
+        [Display(Name = "State")]
+        public System.Guid StateId { get; set; }
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Countries { get; set; }
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Municipality")]
+        public System.Guid MunicipalityId { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> States { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Municipalities { get; set; }
 
         public AssociationInputViewModel()
         {
@@ -59,18 +66,19 @@ namespace MOROPO.FCBC.SGI.Models.View
             Id = entity.Id;
             ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty;
             ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            OrganizationIdentityId = entity.OrganizationIdentity.Id;
             OrganizationIdentityName = entity.OrganizationIdentity.Name;
             BornDate = entity.OrganizationIdentity.BornDate;
             About = entity.OrganizationIdentity.About;
             AddressPostal = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            var region = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;             
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Association entity)
         {
             entity.OrganizationIdentity.Name = OrganizationIdentityName;
             entity.OrganizationIdentity.BornDate = BornDate;
-            entity.OrganizationIdentity.About = About;
+            entity.OrganizationIdentity.About = About;  
         }
     }
 }
