@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
@@ -14,6 +16,7 @@ using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -27,15 +30,19 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
         private readonly IEntityRepository<PostalContactItem, Guid> postalContactItemRepository;
         private readonly IEntityRepository<Country, Guid> countryRepository;
-        private readonly IEntityRepository<CountryRegion, Guid> countryRegionRepository;
-        public AssociationsController(IEntityRepository<Association, Guid> repository, IStringLocalizer<AssociationsController> localizer, ILogger<AssociationsController> logger, IEntityRepository<CountryRegion, Guid> countryRegionRepository, IEntityRepository<Country, Guid> countryRepository, IEntityRepository<PostalContactItem, Guid> postalContactItemRepository, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
+        private readonly IEntityRepository<State, Guid> stateRepository;
+        private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
+        public AssociationsController(IEntityRepository<Association, Guid> repository, IStringLocalizer<AssociationsController> localizer, ILogger<AssociationsController> logger, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<Country, Guid> countryRepository, IEntityRepository<PostalContactItem, Guid> postalContactItemRepository, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
             this.postalContactItemRepository = postalContactItemRepository;
             this.countryRepository = countryRepository;
-            this.countryRegionRepository = countryRegionRepository;
+            this.municipalityRegionRepository = municipalityRegionRepository;
+            this.stateRepository = stateRepository;
+            this.municipalityRepository = municipalityRepository;
         }
 
         [RequiresRoleBasePermission(Roles.AssociationViewer)]
@@ -95,9 +102,29 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Delete(displayModel);
         }
 
-        private void PopulateWithCountries(AssociationInputViewModel modelInput)
+        [HttpGet("PopulateStateToMunicipality/{stateId}")]        
+        public IActionResult PopulateStateToMunicipality(string stateId)
         {
-            modelInput.Countries = countryRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        private void PopulateWithCountries(AssociationInputViewModel modelInput)
+        { 
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Name == RegionInitConstant.CMG_STATE_NAME }).OrderByDescending(en => en.Selected).ToArray();
+            
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+        }
+
+        private void PopulateWithCountriesEdit(AssociationInputViewModel modelInput)
+        {            
+            modelInput.StateId = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId).StateId;
+            
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(s => s.StateId == modelInput.StateId).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.MunicipalityId }).ToArray();
+            
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();           
         }
 
         protected override void ConfigureCreate(AssociationInputViewModel modelInput)
@@ -112,7 +139,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void ConfigureEdit(Association entity, AssociationInputViewModel modelInput)
         {
-            PopulateWithCountries(modelInput);
+            PopulateWithCountriesEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(AssociationInputViewModel modelInput)
@@ -124,11 +151,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreCreate(entity, modelInput);
 
-            var region = countryRegionRepository.FindOneBy(r => r.CountryId == modelInput.CountryId);
+            var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == modelInput.MunicipalityId);
             PostalContactItem postalContact = new PostalContactItem
             {
                 Address = modelInput.AddressPostal,
-                RegionId = modelInput.CountryId,
+                RegionId = region.Id,
                 Region = region
             };
 
@@ -159,6 +186,17 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreEdit(entity, modelInput);
 
+            var contact = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem;
+            contact.Address = modelInput.AddressPostal;
+            var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == modelInput.MunicipalityId);
+            var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId);
+            modelInput.StateId = municipality.StateId;
+            if (region.Id != entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
+            {
+                entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
+                entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
+
+            }
             if (modelInput.ImageFile == null)
             {
                 if (modelInput.ResetImage && entity.OrganizationIdentity.Image != null)
