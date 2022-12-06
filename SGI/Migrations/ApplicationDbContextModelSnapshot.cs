@@ -130,7 +130,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_contractors");
 
                     b.HasIndex("ContractorKindId")
-                        .IsUnique()
                         .HasName("ix_contractors_contractorkindid");
 
                     b.HasIndex("OrganizationIdentityId")
@@ -1202,8 +1201,8 @@ namespace MOROPO.FCBC.SGI.Migrations
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Contractor", b =>
                 {
                     b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ContractorKind", "ContractorKind")
-                        .WithOne()
-                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Contractor", "ContractorKindId")
+                        .WithMany()
+                        .HasForeignKey("ContractorKindId")
                         .HasConstraintName("fk_contractors_contractorkinds_contractorkindid")
                         .OnDelete(DeleteBehavior.Cascade);
 

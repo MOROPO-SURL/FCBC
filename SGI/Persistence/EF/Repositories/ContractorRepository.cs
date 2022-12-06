@@ -15,7 +15,11 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         protected override System.Linq.IQueryable<FBCB.SGI.Persistence.Entities.Contractor> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(c => c.ContractorKind).Include(e => e.OrganizationIdentity).ThenInclude(e =>e.Image);
+            return base.GetQueryableDbSet().Include(c => c.ContractorKind)
+                .Include(e => e.OrganizationIdentity).ThenInclude(e =>e.Image)
+                .Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationPostalContactItemBridges).ThenInclude(e => e.ContactItem)
+                .Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationEmailContactItemBridges).ThenInclude(e => e.ContactItem)
+                .Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationPhoneContactItemBridges).ThenInclude(e => e.ContactItem);
         }
     }
 }

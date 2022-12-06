@@ -1,8 +1,10 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -19,7 +21,19 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string ContractKindName { get; set; }
 
         [Display(Name = "Organization")]
-        public string OrganizationIdentityName { get; set; }        
+        public string OrganizationIdentityName { get; set; }
+
+        [Display(Name = "Founding date")]
+        public DateTime BornDate { get; set; }
+
+        [Display(Name = "About")]
+        public string About { get; set; }
+
+        public PostalContactItem PostalContactItem { get; set; }
+
+        public ICollection<EmailContactItem> EmailContactItems { get; set; }
+
+        public ICollection<PhoneContactItem> PhoneContactItems { get; set; }
 
         public void Import(Contractor entity)
         {
@@ -27,7 +41,12 @@ namespace MOROPO.FCBC.SGI.Models.View
             ImageId = entity.OrganizationIdentity.ImageId ?? System.Guid.Empty;
             ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
             ContractKindName = entity.ContractorKind.Name;
-            OrganizationIdentityName = entity.OrganizationIdentity.Name;            
+            OrganizationIdentityName = entity.OrganizationIdentity.Name;
+            BornDate = entity.OrganizationIdentity.BornDate;
+            About = entity.OrganizationIdentity.About;
+            PostalContactItem = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem).FirstOrDefault();
+            EmailContactItems = entity.OrganizationIdentity.OrganizationEmailContactItemBridges.Select(e => e.ContactItem).ToArray();
+            PhoneContactItems = entity.OrganizationIdentity.OrganizationPhoneContactItemBridges.Select(p => p.ContactItem).ToArray();
         }
     }
 }

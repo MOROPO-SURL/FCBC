@@ -5,12 +5,11 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.EF.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
@@ -85,6 +84,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             return base.Delete(key);
         }
+
+        [Route("edit/{key}/contacts")]
+        [RequiresRoleBasePermission(Roles.ContractorEditor)]
+        public IActionResult Contacts()
+        {
+            return View();
+        }
         
         [RequiresRoleBasePermission(Roles.ContractorRemover)]
         public override IActionResult Delete(ContractorDisplayViewModel displayModel)
@@ -92,34 +98,36 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Delete(displayModel);
         }
 
-        private void PopulateWithContractkind(ContractorInputViewModel modelInput)
+        private void PopulateWithContractKind(ContractorInputViewModel modelInput)
         {
             modelInput.ContractKinds = contractKindRepository.GetAll().Select(e => new SelectListItem { Value = e.Id.ToString(), Text = e.Name }).ToArray();
         }
 
         protected override void ConfigureCreate(ContractorInputViewModel modelInput)
         {
-            PopulateWithContractkind(modelInput);
+            PopulateWithContractKind(modelInput);
         }
 
         protected override void ConfigurePostFailCreateValidation(ContractorInputViewModel modelInput)
         {
-            PopulateWithContractkind(modelInput);
+            PopulateWithContractKind(modelInput);
         }
 
         protected override void ConfigureEdit(Contractor entity, ContractorInputViewModel modelInput)
         {
-            PopulateWithContractkind(modelInput);
+            PopulateWithContractKind(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(ContractorInputViewModel modelInput)
         {
-            PopulateWithContractkind(modelInput);
+            PopulateWithContractKind(modelInput);
         }
 
         protected override void PreCreate(Contractor entity, ContractorInputViewModel modelInput)
         {
             base.PreCreate(entity, modelInput);
+
+            entity.ContractorKind = contractKindRepository.Get(modelInput.ContractKindId);
 
             if (modelInput.ImageFile == null) return;
 
@@ -133,13 +141,16 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 entity.OrganizationIdentity.Image = image;
             }
-
-            entity.ContractorKindId = modelInput.ContractKindId.Value;
         }
 
         protected override void PreEdit(Contractor entity, ContractorInputViewModel modelInput)
         {
             base.PreEdit(entity, modelInput);
+
+            if (entity.ContractorKind.Id != modelInput.ContractKindId)
+            {
+                entity.ContractorKind = contractKindRepository.Get(modelInput.ContractKindId);
+            }
 
             if (modelInput.ImageFile == null)
             {
@@ -170,11 +181,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 entity.OrganizationIdentity.Image = image;
             }
-
-            if (entity.ContractorKind.Id != modelInput.ContractKindId)
-            {
-                entity.ContractorKind.Id = modelInput.ContractKindId.Value;
-            }
         }
 
         protected override void PostDelete(Contractor entity)
@@ -190,24 +196,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
         }
 
-        protected override void ValidateCreate(ContractorInputViewModel modelInput)
-        {
-            base.ValidateCreate(modelInput);
-            
-            if (modelInput.ContractKindId == null)
-            {
-                ModelState.AddModelError("ContractKindId", "ContractKindSelectionRequired");
-            }
-        }
-
-        protected override void ValidateEdit(ContractorInputViewModel modelInput)
-        {
-            base.ValidateEdit(modelInput);
-           
-            if (modelInput.ContractKindId == null)
-            {
-                ModelState.AddModelError("ContractKindId", "ContractKindSelectionRequired");
-            }
-        }
+        
     }
 }

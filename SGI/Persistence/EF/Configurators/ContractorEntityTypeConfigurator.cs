@@ -9,7 +9,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
             base.ApplayRules(entityTypeBuilder);
 
             entityTypeBuilder.HasOne(o => o.OrganizationIdentity).WithOne().HasForeignKey<Contractor>(a => a.OrganizationIdentityId);
-            entityTypeBuilder.HasOne(c => c.ContractorKind).WithOne().HasForeignKey<Contractor>(a => a.ContractorKindId);
+            entityTypeBuilder.HasOne(c => c.ContractorKind).WithMany().HasForeignKey(a => a.ContractorKindId);
             
         }
     }

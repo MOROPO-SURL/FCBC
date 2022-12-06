@@ -1,9 +1,8 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -24,17 +23,27 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Organization")]
-        public string OrganizationIdentityName { get; set; }      
-
-        
-        [Display(Name = "Contract Type")]
-        public string ContractKindName { get; set; }
+        public string OrganizationIdentityName { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "ContractKindId")]
-        public int? ContractKindId { get; set; }
+        public int ContractKindId { get; set; }
 
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ContractKinds { get; set; }
+
+        [Display(Name = "Founding date")]
+        public System.DateTime BornDate { get; set; }
+
+        [Display(Name = "About")]
+        public string About { get; set; }
+
+        [Display(Name = "Address")]
+        public string AddressPostal { get; set; }
+
+        public ContractorInputViewModel()
+        {
+            BornDate = System.DateTime.Now.Date.AddYears(-16);
+        }
 
         public Contractor Export()
         {
@@ -51,12 +60,17 @@ namespace MOROPO.FCBC.SGI.Models.View
             ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty;
             ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension()??null;
             OrganizationIdentityName = entity.OrganizationIdentity.Name;
-            ContractKindId = entity.ContractorKindId;                               
+            ContractKindId = entity.ContractorKindId;
+            BornDate = entity.OrganizationIdentity.BornDate;
+            About = entity.OrganizationIdentity.About;
+            AddressPostal = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).FirstOrDefault();
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Contractor entity)
         {            
             entity.OrganizationIdentity.Name = OrganizationIdentityName;
+            entity.OrganizationIdentity.BornDate = BornDate;
+            entity.OrganizationIdentity.About = About;
         }
     }
 }
