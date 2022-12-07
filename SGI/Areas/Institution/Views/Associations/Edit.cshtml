@@ -73,7 +73,7 @@
                 var obj = { state: stateId };
                 debugger;
                 var location = window.location;
-                AjaxCall('PopulateStateToMunicipality/' + stateId, null, 'GET').done(function (response) {
+                AjaxCall('PopulateStateToMunicipalityEdit/' + stateId, null, 'GET').done(function (response) {
                     if (response.length > 0){
                         $('#MunicipalityId').html('');
                         var options = '';                       

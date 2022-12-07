@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
@@ -13,6 +14,8 @@ using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.Linq;
 
@@ -25,13 +28,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IImageFileManagerFacade imageFileManagerFacade;
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
-        private readonly IEntityRepository<ContractorKind, int> contractKindRepository;
-        public ContractorsController(IEntityRepository<Contractor, Guid> repository, IStringLocalizer<ContractorsController> localizer, ILogger<ContractorsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IEntityRepository<ContractorKind, int> contractKindRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<ContractorKind, int> contractKindRepository;        
+        private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
+        private readonly IEntityRepository<State, Guid> stateRepository;
+        private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
+        public ContractorsController(IEntityRepository<Contractor, Guid> repository, IStringLocalizer<ContractorsController> localizer, ILogger<ContractorsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IEntityRepository<ContractorKind, int> contractKindRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository,
+             IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.contractKindRepository = contractKindRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
-            this.imageRepository = imageRepository;
+            this.imageRepository = imageRepository;            
+            this.municipalityRegionRepository = municipalityRegionRepository;
+            this.stateRepository = stateRepository;
+            this.municipalityRepository = municipalityRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ContractorViewer)]
@@ -85,6 +95,24 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Delete(key);
         }
 
+        [HttpGet("PopulateStateToMunicipality/{stateId}")]
+        public IActionResult PopulateStateToMunicipality(string stateId)
+        {
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        [HttpGet("edit/PopulateStateToMunicipalityEdit/{stateId}")]
+        public IActionResult PopulateStateToMunicipalityEdit(string stateId)
+        {
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
         [Route("edit/{key}/contacts")]
         [RequiresRoleBasePermission(Roles.ContractorEditor)]
         public IActionResult Contacts()
@@ -101,6 +129,22 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private void PopulateWithContractKind(ContractorInputViewModel modelInput)
         {
             modelInput.ContractKinds = contractKindRepository.GetAll().Select(e => new SelectListItem { Value = e.Id.ToString(), Text = e.Name }).ToArray();
+
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Name == RegionInitConstant.CMG_STATE_NAME }).OrderByDescending(en => en.Selected).ToArray();
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+        }
+
+        private void PopulateWithContractKindEdit(ContractorInputViewModel modelInput)
+        {
+            modelInput.ContractKinds = contractKindRepository.GetAll().Select(e => new SelectListItem { Value = e.Id.ToString(), Text = e.Name }).ToArray();
+
+            modelInput.StateId = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId).StateId;
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(s => s.StateId == modelInput.StateId).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.MunicipalityId }).ToArray();
+
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();
+
         }
 
         protected override void ConfigureCreate(ContractorInputViewModel modelInput)
@@ -115,7 +159,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void ConfigureEdit(Contractor entity, ContractorInputViewModel modelInput)
         {
-            PopulateWithContractKind(modelInput);
+            PopulateWithContractKindEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(ContractorInputViewModel modelInput)
@@ -128,6 +172,24 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.PreCreate(entity, modelInput);
 
             entity.ContractorKind = contractKindRepository.Get(modelInput.ContractKindId);
+
+            var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == modelInput.MunicipalityId);
+            PostalContactItem postalContact = new PostalContactItem
+            {
+                Address = modelInput.AddressPostal,
+                RegionId = region.Id,
+                Region = region
+            };
+
+            OrganizationPostalContactItemBridge organizationPostalContactItemBridge = new OrganizationPostalContactItemBridge
+            {
+                OrganizationId = modelInput.Export().OrganizationIdentity.Id,
+                Organization = modelInput.Export().OrganizationIdentity,
+                ContactItemId = postalContact.Id,
+                ContactItem = postalContact
+            };
+            entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Add(organizationPostalContactItemBridge);
+
 
             if (modelInput.ImageFile == null) return;
 
@@ -146,6 +208,18 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void PreEdit(Contractor entity, ContractorInputViewModel modelInput)
         {
             base.PreEdit(entity, modelInput);
+
+            var contact = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem;
+            contact.Address = modelInput.AddressPostal;
+            var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == modelInput.MunicipalityId);
+            var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId);
+            modelInput.StateId = municipality.StateId;
+            if (region.Id != entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
+            {
+                entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
+                entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
+
+            }
 
             if (entity.ContractorKind.Id != modelInput.ContractKindId)
             {
