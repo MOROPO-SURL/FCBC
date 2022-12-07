@@ -395,10 +395,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             try
             {
-                //var bridge = entity.Identity.PersonEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
                 var bridge = entity.OrganizationIdentity.OrganizationEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
 
-                //entity.Identity.PersonEmailContactItemBridges.Remove(bridge);
                 entity.OrganizationIdentity.OrganizationEmailContactItemBridges.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
