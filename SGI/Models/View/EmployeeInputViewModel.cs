@@ -2,9 +2,11 @@
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -51,7 +53,23 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.Guid[] SelectedValues { get; set; }
 
+        [Display(Name = "Address")]
+        public string AddressPostal { get; set; }
+
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "State")]
+        public System.Guid StateId { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Municipality")]
+        public System.Guid MunicipalityId { get; set; }
+
         public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> States { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Municipalities { get; set; }
 
         public EmployeeInputViewModel()
         {
@@ -81,6 +99,9 @@ namespace MOROPO.FCBC.SGI.Models.View
             About = entity.PersonIdentity.About;
             EmployeeAdministrativeRoleBridges = entity.EmployeeAdministrativeRoleBridges;
             SelectedValues = entity.SelectedValues;
+            AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Employee entity)

@@ -7,6 +7,7 @@ using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
@@ -16,6 +17,8 @@ using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,13 +32,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IEntityRepository<PersonIdentity, System.Guid> identityRepository;
         private readonly IEntityRepository<AdministrativeRole, System.Guid> administrativeRoleRepository;
-       
-        public EmployeesController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Employee,System.Guid> repository, IEntityRepository<AdministrativeRole, System.Guid> administrativeRoleRepository, IStringLocalizer<EmployeesController> localizer, ILogger<EmployeesController> logger) : base(repository, localizer, logger)
+        private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
+        private readonly IEntityRepository<State, Guid> stateRepository;
+        private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
+
+        public EmployeesController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Employee,System.Guid> repository, IEntityRepository<AdministrativeRole, System.Guid> administrativeRoleRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository,
+        IStringLocalizer<EmployeesController> localizer, ILogger<EmployeesController> logger) : base(repository, localizer, logger)
         {
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
             this.identityRepository = identityRepository;
             this.administrativeRoleRepository = administrativeRoleRepository;
+            this.municipalityRegionRepository = municipalityRegionRepository;
+            this.stateRepository = stateRepository;
+            this.municipalityRepository = municipalityRepository;
         }
 
         [RequiresRoleBasePermission(Roles.EmployeeViewer)]
@@ -122,9 +132,60 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Delete(displayViewModel);
         }
 
+        [HttpGet("PopulateStateToMunicipality/{stateId}")]
+        public IActionResult PopulateStateToMunicipality(string stateId)
+        {
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        [HttpGet("edit/PopulateStateToMunicipalityEdit/{stateId}")]
+        public IActionResult PopulateStateToMunicipalityEdit(string stateId)
+        {
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        private void PopulateWithCountries(EmployeeInputViewModel modelInput)
+        {
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Name == RegionInitConstant.CMG_STATE_NAME }).OrderByDescending(en => en.Selected).ToArray();
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+        }
+
+        private void PopulateWithCountriesEdit(EmployeeInputViewModel modelInput)
+        {
+            modelInput.StateId = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId).StateId;
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(s => s.StateId == modelInput.StateId).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.MunicipalityId }).ToArray();
+
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();
+        }
+
         protected override void PreCreate(Employee entity, EmployeeInputViewModel inputViewModel)
         {
             base.PreCreate(entity, inputViewModel);
+
+            var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
+            PostalContactItem postalContact = new PostalContactItem
+            {
+                Address = inputViewModel.AddressPostal,
+                RegionId = region.Id,
+                Region = region
+            };
+
+            PersonPostalContactItemBridge personPostalContactItemBridge = new PersonPostalContactItemBridge
+            {
+                PersonId = inputViewModel.Export().PersonIdentity.Id,
+                Person = inputViewModel.Export().PersonIdentity,
+                ContactItemId = postalContact.Id,
+                ContactItem = postalContact
+            };
+            entity.PersonIdentity.PersonPostalContactItemBridges.Add(personPostalContactItemBridge);
 
             foreach (var admRolId in inputViewModel.SelectedValues)
             {
@@ -157,6 +218,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void PreEdit(Employee entity, EmployeeInputViewModel inputViewModel)
         {
             base.PreEdit(entity, inputViewModel);
+
+            PopulateWithCountriesEdit(inputViewModel);
+
+            var contact = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem;
+            contact.Address = inputViewModel.AddressPostal;
+            var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == inputViewModel.MunicipalityId);
+            var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == inputViewModel.MunicipalityId);
+            inputViewModel.StateId = municipality.StateId;
+            if (region.Id != entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
+            {
+                entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
+                entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
+
+            }
 
             entity.EmployeeAdministrativeRoleBridges.Clear();
 
@@ -235,6 +310,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void ConfigureCreate(EmployeeInputViewModel modelInput)
         {
             PopulateWithAdministrativeRole(modelInput);
+            PopulateWithCountries(modelInput);
         }
 
         protected override void ConfigurePostFailCreateValidation(EmployeeInputViewModel modelInput)
@@ -245,6 +321,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void ConfigureEdit(Employee entity, EmployeeInputViewModel modelInput)
         {
             PopulateWithAdministrativeRoleEdit(modelInput);
+            PopulateWithCountriesEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(EmployeeInputViewModel modelInput)

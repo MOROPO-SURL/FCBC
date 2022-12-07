@@ -59,7 +59,36 @@
                 }
 
             });
+
+            $('#StateId').on("change", function () {
+                var stateId = $('#StateId').val();
+                var state = $('#StateId option:selected').text();
+                var obj = { state: stateId };
+                debugger;
+                var location = window.location;
+                AjaxCall('PopulateStateToMunicipalityEdit/' + stateId, null, 'GET').done(function (response) {
+                    if (response.length > 0) {
+                        $('#MunicipalityId').html('');
+                        var options = '';
+                        for (var i = 0; i < response.length; i++) {
+                            console.log(response[i]);
+                            options += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
+                        }
+                        $('#MunicipalityId').append(options);
+                    }
+                });
+            });
         });
+
+        function AjaxCall(url, data, type) {
+            console.log(url);
+            return $.ajax({
+                url: url,
+                type: type ? type : 'GET',
+                data: data,
+                contentType: 'application/json'
+            });
+        }
     </script>
 
     <script type="text/javascript">
@@ -143,7 +172,28 @@
                     @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
                 </div>
             </div>
+            <fieldset>
+                <legend>Address Postal</legend>
+                <div class="row">
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.States, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.StateId, null, new { @class = "text-danger" })
+                    </div>
 
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.Municipalities, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.MunicipalityId, Model.Municipalities, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.MunicipalityId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.AddressPostal, 3, 0, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
+                </div>
+            </fieldset>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Modificar</button>
