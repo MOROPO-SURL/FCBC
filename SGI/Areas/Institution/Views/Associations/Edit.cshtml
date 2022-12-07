@@ -152,6 +152,11 @@
                     </div>
                 </div>
             </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.About, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.About, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+            </div>
             <fieldset>
                 <legend>Address Postal</legend>
                 <div class="row">
