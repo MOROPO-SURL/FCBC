@@ -1,6 +1,7 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -40,6 +41,19 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "State")]
+        public System.Guid StateId { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Municipality")]
+        public System.Guid MunicipalityId { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> States { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Municipalities { get; set; }
+
+
         public ContractorInputViewModel()
         {
             BornDate = System.DateTime.Now.Date.AddYears(-16);
@@ -64,6 +78,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             BornDate = entity.OrganizationIdentity.BornDate;
             About = entity.OrganizationIdentity.About;
             AddressPostal = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).FirstOrDefault();
+            var region = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Contractor entity)

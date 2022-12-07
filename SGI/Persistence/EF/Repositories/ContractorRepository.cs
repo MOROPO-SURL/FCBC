@@ -17,7 +17,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
         {
             return base.GetQueryableDbSet().Include(c => c.ContractorKind)
                 .Include(e => e.OrganizationIdentity).ThenInclude(e =>e.Image)
-                .Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationPostalContactItemBridges).ThenInclude(e => e.ContactItem)
+                .Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationPostalContactItemBridges).ThenInclude(e => e.ContactItem).ThenInclude(r => r.Region)
                 .Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationEmailContactItemBridges).ThenInclude(e => e.ContactItem)
                 .Include(e => e.OrganizationIdentity).ThenInclude(e => e.OrganizationPhoneContactItemBridges).ThenInclude(e => e.ContactItem);
         }

@@ -26,19 +26,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     {
         private readonly IImageFileManagerFacade imageFileManagerFacade;
         private readonly IEntityRepository<Image, Guid> imageRepository;
-        private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
-        private readonly IEntityRepository<PostalContactItem, Guid> postalContactItemRepository;
-        private readonly IEntityRepository<Country, Guid> countryRepository;
+        private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;        
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<State, Guid> stateRepository;
         private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
-        public AssociationsController(IEntityRepository<Association, Guid> repository, IStringLocalizer<AssociationsController> localizer, ILogger<AssociationsController> logger, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<Country, Guid> countryRepository, IEntityRepository<PostalContactItem, Guid> postalContactItemRepository, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository) : base(repository, localizer, logger)
+        public AssociationsController(IEntityRepository<Association, Guid> repository, IStringLocalizer<AssociationsController> localizer, ILogger<AssociationsController> logger, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
-            this.imageRepository = imageRepository;
-            this.postalContactItemRepository = postalContactItemRepository;
-            this.countryRepository = countryRepository;
+            this.imageRepository = imageRepository;            
             this.municipalityRegionRepository = municipalityRegionRepository;
             this.stateRepository = stateRepository;
             this.municipalityRepository = municipalityRepository;
@@ -103,6 +99,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet("PopulateStateToMunicipality/{stateId}")]        
         public IActionResult PopulateStateToMunicipality(string stateId)
+        {
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        [HttpGet("edit/PopulateStateToMunicipalityEdit/{stateId}")]
+        public IActionResult PopulateStateToMunicipalityEdit(string stateId)
         {
             var stateIdParse = System.Guid.Parse(stateId);
 
