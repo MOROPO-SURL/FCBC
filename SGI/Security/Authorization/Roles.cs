@@ -122,6 +122,13 @@
         public const string EmployeeAdministrativeRoleBridgeEditor = "employee-administrative-role-bridge-editor";
         public const string EmployeeAdministrativeRoleBridgeRemover = "employee-administrative-role-bridge-remover";
         #endregion
+
+        #region Resolution
+        public const string ResolutionViewer = "resolution-viewer";
+        public const string ResolutionCreator = "resolution-creator";
+        public const string ResolutionEditor = "resolution-editor";
+        public const string ResolutionRemover = "resolution-remover";
+        #endregion
     }
 }
 
