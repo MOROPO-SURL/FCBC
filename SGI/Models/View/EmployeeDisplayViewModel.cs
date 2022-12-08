@@ -1,8 +1,11 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -28,6 +31,14 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string About { get; set; }
 
+        public string AddressPostal { get; set; }
+
+        [Display(Name = "State")]
+        public State State { get; set; }
+
+        [Display(Name = "Municipality")]
+        public Municipality Municipality { get; set; }
+
         public ICollection<EmailContactItem> EmailContactItems { get; set; }
 
         public ICollection<PhoneContactItem> PhoneContactItems { get; set; }
@@ -47,6 +58,10 @@ namespace MOROPO.FCBC.SGI.Models.View
             Alias = entity.PersonIdentity.Alias;
             About = entity.PersonIdentity.About;            
             EmployeeAdministrativeRoleBridges = entity.EmployeeAdministrativeRoleBridges;
+            AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            Municipality = ((MunicipalityRegion)region).Municipality;
+            State = Municipality.State;
         }
     }
 }

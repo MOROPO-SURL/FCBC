@@ -159,7 +159,7 @@
                     <div class="col-md-6" style="margin-bottom: 20px;">
                    @Html.LabelFor(model => model.AdministrativeRoles, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.SelectedValues,Model.AdministrativeRoles , new { @class = "form-control custom-select listbox d-none ", multiple = "multiple" })
-                   @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.SelectedValues, null, new { @class = "text-danger" })
                 </div>
             </div>
 
