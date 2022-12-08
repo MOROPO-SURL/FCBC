@@ -1,6 +1,7 @@
-﻿namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿
+namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
-    public class Artist: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    public class Artist : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
         public Artist()
         {
@@ -16,5 +17,13 @@
 
         [System.ComponentModel.DataAnnotations.Required]
         public System.Guid PersonIdentityId { get; set; }
+
+        public string CitizenId { get; set; }
+
+        public Enumerations.WorkPlace Workplace { get; set; }
+
+        public Enumerations.SchoolLevel SchoolLevel { get; set; }
+
+        public string SpecificEducation { get; set; }
     }
 }
