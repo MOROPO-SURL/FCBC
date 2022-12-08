@@ -47,10 +47,11 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Display(Name = "About")]
         public string About { get; set; }
-
+        
         [Display(Name = "Select Rol")]
         public MultiSelectList AdministrativeRoles { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.Guid[] SelectedValues { get; set; }
 
         [Display(Name = "Address")]
@@ -65,11 +66,15 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Municipality")]
         public System.Guid MunicipalityId { get; set; }
 
+        public State State { get; set; }
+
+        public Municipality Municipality { get; set; }
+
         public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; }
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> States { get; set; }
+        public ICollection<SelectListItem> States { get; set; } = new List<SelectListItem>();
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Municipalities { get; set; }
+        public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
 
         public EmployeeInputViewModel()
         {
@@ -101,7 +106,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             SelectedValues = entity.SelectedValues;
             AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
             var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
-            MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
+            MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;            
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Employee entity)

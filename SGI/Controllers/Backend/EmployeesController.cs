@@ -168,7 +168,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void PreCreate(Employee entity, EmployeeInputViewModel inputViewModel)
         {
-            base.PreCreate(entity, inputViewModel);
+            base.PreCreate(entity, inputViewModel);    
 
             var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
             PostalContactItem postalContact = new PostalContactItem
@@ -186,6 +186,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 ContactItem = postalContact
             };
             entity.PersonIdentity.PersonPostalContactItemBridges.Add(personPostalContactItemBridge);
+
+            var getRegionRegister = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            inputViewModel.Municipality = ((MunicipalityRegion)getRegionRegister).Municipality;
+            inputViewModel.State = inputViewModel.Municipality.State;
 
             foreach (var admRolId in inputViewModel.SelectedValues)
             {

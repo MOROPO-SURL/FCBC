@@ -21,8 +21,24 @@
                         <p>@item.AdministrativeRole.Description</p>
                     }
                     <hr />
-                    <h5>About</h5>
+                    <h5>@Html.DisplayNameFor(model => model.About)</h5>
                     <p>@Model.About</p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.State)</h5>
+                            <p>@Html.DisplayName(Model.State.Name)</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.Municipality)</h5>
+                            <p>@Html.DisplayName(Model.Municipality.Name)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>                       
+                            <h5>@Html.DisplayNameFor(model => model.AddressPostal)</h5>
+                            <p>@Html.DisplayName(Model.AddressPostal)</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
