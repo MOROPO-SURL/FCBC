@@ -303,6 +303,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("recognitions");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Resolution", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("NumberResolution")
+                        .HasColumnName("numberresolution");
+
+                    b.Property<string>("Title")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("pk_resolutions");
+
+                    b.ToTable("resolutions");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Service", b =>
                 {
                     b.Property<Guid>("Id")

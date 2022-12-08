@@ -42,6 +42,8 @@
 
             if (target.Controller == "employees") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-briefcase-account    \"></span>");
 
+            if (target.Controller == "resolutions") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-briefcase-account    \"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }
