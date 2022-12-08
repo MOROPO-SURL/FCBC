@@ -9,4 +9,20 @@ namespace MOROPO.FBCB.SGI.Persistence.Enumerations
         Prefix,
         Sufix
     }
+
+    public enum SchoolLevel
+    {
+        Primary,
+        Medium,
+        UpperMiddle,
+        FourthLevelEducation
+    }
+
+    public enum WorkPlace
+    {
+        House,
+        Workshop,
+        Gallery,
+        HouseWorkshop
+    }
 }
