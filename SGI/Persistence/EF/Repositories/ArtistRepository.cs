@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
@@ -15,7 +16,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         protected override System.Linq.IQueryable<FBCB.SGI.Persistence.Entities.Artist> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(e => e.PersonIdentity).ThenInclude(p => p.Image);
+            return base.GetQueryableDbSet().Include(e => e.PersonIdentity).ThenInclude(p => p.Image)
+                .Include(p => p.PersonIdentity).ThenInclude(p => p.PersonPostalContactItemBridges).ThenInclude(p => p.ContactItem).ThenInclude(p => p.Region).ThenInclude(p => ((MunicipalityRegion)p).Municipality).ThenInclude(p => p.State); ;
         }
     }
 }

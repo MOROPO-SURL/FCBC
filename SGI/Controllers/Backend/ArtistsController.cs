@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
@@ -12,7 +13,9 @@ using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -23,11 +26,17 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IImageFileManagerFacade imageFileManagerFacade;
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IEntityRepository<PersonIdentity, System.Guid> identityRepository;
-        public ArtistsController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Artist, Guid> repository, IStringLocalizer<ArtistsController> localizer, ILogger<ArtistsController> logger) : base(repository, localizer, logger)
+        private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
+        private readonly IEntityRepository<State, Guid> stateRepository;
+        private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
+        public ArtistsController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<Artist, Guid> repository, IStringLocalizer<ArtistsController> localizer, ILogger<ArtistsController> logger) : base(repository, localizer, logger)
         {
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
             this.identityRepository = identityRepository;
+            this.municipalityRegionRepository = municipalityRegionRepository;
+            this.stateRepository = stateRepository;
+            this.municipalityRepository = municipalityRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtistViewer)]
@@ -114,9 +123,64 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Delete(displayViewModel);
         }
 
+        [HttpGet("PopulateStateToMunicipality/{stateId}")]
+        public IActionResult PopulateStateToMunicipality(string stateId)
+        {
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        [HttpGet("edit/PopulateStateToMunicipalityEdit/{stateId}")]
+        public IActionResult PopulateStateToMunicipalityEdit(string stateId)
+        {
+            var stateIdParse = System.Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        private void PopulateWithCountries(ArtistInputViewModel modelInput)
+        {
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Name == RegionInitConstant.CMG_STATE_NAME }).OrderByDescending(en => en.Selected).ToArray();
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+        }
+
+        private void PopulateWithCountriesEdit(ArtistInputViewModel modelInput)
+        {
+            modelInput.StateId = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId).StateId;
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(s => s.StateId == modelInput.StateId).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.MunicipalityId }).ToArray();
+
+            modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();
+        }
+
         protected override void PreCreate(Artist entity, ArtistInputViewModel inputViewModel)
         {
             base.PreCreate(entity, inputViewModel);
+
+            var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
+            PostalContactItem postalContact = new PostalContactItem
+            {
+                Address = inputViewModel.AddressPostal,
+                RegionId = region.Id,
+                Region = region
+            };
+
+            PersonPostalContactItemBridge personPostalContactItemBridge = new PersonPostalContactItemBridge
+            {
+                PersonId = inputViewModel.Export().PersonIdentity.Id,
+                Person = inputViewModel.Export().PersonIdentity,
+                ContactItemId = postalContact.Id,
+                ContactItem = postalContact
+            };
+            entity.PersonIdentity.PersonPostalContactItemBridges.Add(personPostalContactItemBridge);
+
+            var getRegionRegister = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            inputViewModel.Municipality = ((MunicipalityRegion)getRegionRegister).Municipality;
+            inputViewModel.State = inputViewModel.Municipality.State;
 
             if (inputViewModel.ImageFile == null) return;
 
@@ -135,6 +199,18 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void PreEdit(Artist entity, ArtistInputViewModel inputViewModel)
         {
             base.PreEdit(entity, inputViewModel);
+
+            var contact = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem;
+            contact.Address = inputViewModel.AddressPostal;
+            var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == inputViewModel.MunicipalityId);
+            var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == inputViewModel.MunicipalityId);
+            inputViewModel.StateId = municipality.StateId;
+            if (region.Id != entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
+            {
+                entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
+                entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
+
+            }
 
             if (inputViewModel.ImageFile == null)
             {
@@ -178,6 +254,26 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
 
             imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
+        }
+
+        protected override void ConfigureCreate(ArtistInputViewModel modelInput)
+        {
+            PopulateWithCountries(modelInput);
+        }
+
+        protected override void ConfigurePostFailCreateValidation(ArtistInputViewModel modelInput)
+        {
+            PopulateWithCountries(modelInput);
+        }
+
+        protected override void ConfigureEdit(Artist entity, ArtistInputViewModel modelInput)
+        {
+            PopulateWithCountriesEdit(modelInput);
+        }
+
+        protected override void ConfigurePostFailEditValidation(ArtistInputViewModel modelInput)
+        {
+            PopulateWithCountries(modelInput);
         }
     }
 }
