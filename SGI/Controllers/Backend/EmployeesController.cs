@@ -332,5 +332,234 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             PopulateWithAdministrativeRole(modelInput);
         }
+
+        [Route("edit/{key}/contacts")]
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        public IActionResult Contacts(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new EmployeeContactsManageViewModel
+                {
+                    Employee = new EmployeeDisplayViewModel(),
+                    PhoneContacts = entity.PersonIdentity.PersonPhoneContactItemBridges.Select(bridge => new EmployeePhoneContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Number = bridge.ContactItem.PhoneNumber,
+                        EmployeeId = entity.Id
+                    }).ToList(),
+                    EmailContacts = entity.PersonIdentity.PersonEmailContactItemBridges.Select(bridge => new EmployeeEmailContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Address = bridge.ContactItem.EmailAddress,
+                        EmployeeId = entity.Id
+                    }).ToList()
+                };
+
+                resultModel.Employee.Import(entity);
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("edit/contacts/phone/add")]
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddPhoneContact(EmployeePhoneContactInputViewModel modelInput)
+        {
+            Employee entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.EmployeeId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.PersonIdentity.PersonPhoneContactItemBridges.Add(new PersonPhoneContactItemBridge { PersonId = entity.PersonIdentityId, ContactItem = new PhoneContactItem { Label = modelInput.Label, PhoneNumber = modelInput.Number } });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/phone/delete")]
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePhoneContact(EmployeePhoneContactDisplayViewModel modelDisplay)
+        {
+            Employee entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelDisplay.EmployeeId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.PersonIdentity.PersonPhoneContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.PersonIdentity.PersonPhoneContactItemBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/email/add")]
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddEmailContact(EmployeeEmailContactInputViewModel modelInput)
+        {
+            Employee entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.EmployeeId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.PersonIdentity.PersonEmailContactItemBridges.Add(new PersonEmailContactItemBridge { PersonId = entity.PersonIdentityId, ContactItem = new EmailContactItem { Label = modelInput.Label, EmailAddress = modelInput.Address } });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/email/delete")]
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteEmailContact(EmployeeEmailContactDisplayViewModel modelDisplay)
+        {
+            Employee entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelDisplay.EmployeeId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.PersonIdentity.PersonEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.PersonIdentity.PersonEmailContactItemBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
     }
 }
