@@ -106,6 +106,14 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header"><h4>@ViewData["Title"]</h4></div>
+        <ul class="nav nav-tabs justify-content-center" style="margin-bottom: 20px;">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
+            </li>
+        </ul>
 
         <div class="card-body">
             <div class="row">
