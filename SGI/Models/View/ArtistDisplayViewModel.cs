@@ -26,8 +26,10 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
 
+        [Display(Name = "Stage name")]
         public string Alias { get; set; }
 
+        [Display(Name = "Observations")]
         public string About { get; set; }
 
         public string AddressPostal { get; set; }
@@ -42,6 +44,15 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<PhoneContactItem> PhoneContactItems { get; set; }
 
+        [Display(Name = "Identity Number")]
+        public string CitizenId { get; set; }
+
+        public FBCB.SGI.Persistence.Enumerations.WorkPlace Workplace { get; set; }
+
+        public FBCB.SGI.Persistence.Enumerations.SchoolLevel SchoolLevel { get; set; }
+
+        [Display(Name = "specify training")]
+        public string SpecificEducation { get; set; }
 
         public void Import(FBCB.SGI.Persistence.Entities.Artist entity)
         {
@@ -61,6 +72,10 @@ namespace MOROPO.FCBC.SGI.Models.View
             var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             Municipality = ((MunicipalityRegion)region).Municipality;
             State = Municipality.State;
+            CitizenId = entity.CitizenId;
+            Workplace = entity.Workplace;
+            SchoolLevel = entity.SchoolLevel;
+            SpecificEducation = entity.SpecificEducation;
         }
     }
 }

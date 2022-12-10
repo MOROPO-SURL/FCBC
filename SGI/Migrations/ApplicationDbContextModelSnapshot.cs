@@ -44,8 +44,20 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<string>("CitizenId")
+                        .HasColumnName("citizenid");
+
                     b.Property<Guid>("PersonIdentityId")
                         .HasColumnName("personidentityid");
+
+                    b.Property<int>("SchoolLevel")
+                        .HasColumnName("schoollevel");
+
+                    b.Property<string>("SpecificEducation")
+                        .HasColumnName("specificeducation");
+
+                    b.Property<int>("Workplace")
+                        .HasColumnName("workplace");
 
                     b.HasKey("Id")
                         .HasName("pk_artists");

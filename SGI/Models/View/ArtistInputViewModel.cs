@@ -1,14 +1,13 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 using System;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtistInputViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.Artist, System.Guid>
+    public class ArtistInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.Artist, System.Guid>
     {
         public Guid Id { get; set; }
 
@@ -39,10 +38,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "CivilStatus")]
         public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
 
-        [Display(Name = "Alias")]
+        [Display(Name = "Stage name")]
         public string Alias { get; set; }
 
-        [Display(Name = "About")]
+        [Display(Name = "Observations")]
         public string About { get; set; }
 
         [Display(Name = "Address")]
@@ -64,6 +63,15 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Municipalities { get; set; }
 
+        [Display(Name = "Citizen Id")]
+        public string CitizenId { get; set; }
+
+        public FBCB.SGI.Persistence.Enumerations.WorkPlace Workplace { get; set; }
+
+        public FBCB.SGI.Persistence.Enumerations.SchoolLevel SchoolLevel { get; set; }
+
+        [Display(Name = "specify training")]
+        public string SpecificEducation { get; set; }
 
         public ArtistInputViewModel()
         {
@@ -94,6 +102,10 @@ namespace MOROPO.FCBC.SGI.Models.View
             AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
             var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
+            CitizenId = entity.CitizenId;
+            Workplace = entity.Workplace;
+            SchoolLevel = entity.SchoolLevel;
+            SpecificEducation = entity.SpecificEducation;
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Artist entity)
@@ -105,6 +117,10 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.PersonIdentity.CivilStatus = CivilStatus;
             entity.PersonIdentity.Alias = Alias;
             entity.PersonIdentity.About = About;
+            entity.CitizenId = CitizenId;
+            entity.Workplace = Workplace;
+            entity.SpecificEducation = SpecificEducation;
+            entity.SchoolLevel = SchoolLevel;
         }
     }
 }

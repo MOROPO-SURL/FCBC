@@ -1,4 +1,5 @@
 ﻿@using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+@using MOROPO.FBCB.SGI.Persistence.Enumerations;
 
 @model MOROPO.FCBC.SGI.Models.View.ArtistInputViewModel
 
@@ -71,7 +72,6 @@
                 var stateId = $('#StateId').val();
                 var state = $('#StateId option:selected').text();
                 var obj = { state: stateId };
-                debugger;
                 var location = window.location;
                 AjaxCall('PopulateStateToMunicipalityEdit/' + stateId, null, 'GET').done(function (response) {
                     if (response.length > 0) {
@@ -162,6 +162,18 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.CitizenId, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.CitizenId, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CitizenId, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.Workplace, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Workplace, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("House", ViewLocalizer), WorkPlace.House.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Workshop", ViewLocalizer), WorkPlace.Workshop.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Gallery", ViewLocalizer), WorkPlace.Gallery.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("HouseWorkshop", ViewLocalizer), WorkPlace.HouseWorkshop.ToString()) }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Workplace, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
                             @Html.LabelFor(model => model.Sex, new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.Sex, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Male", ViewLocalizer), Sex.Male.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Famale", ViewLocalizer), Sex.Famale.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Unknown", ViewLocalizer), Sex.Unknown.ToString())  }, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Sex, null, new { @class = "text-danger" })
@@ -172,6 +184,18 @@
                             @Html.ValidationMessageFor(model => model.CivilStatus, null, new { @class = "text-danger" })
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.SchoolLevel, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.SchoolLevel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Primary", ViewLocalizer), SchoolLevel.Primary.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Medium", ViewLocalizer), CivilStatus.Married.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Medium", ViewLocalizer), SchoolLevel.Medium.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("UpperMiddle", ViewLocalizer), SchoolLevel.UpperMiddle.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Higher", ViewLocalizer), SchoolLevel.Higher.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("FourthLevelEducation", ViewLocalizer), SchoolLevel.FourthLevelEducation.ToString()) }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SchoolLevel, null, new { @class = "text-danger" })
+                </div>
+                <div id="SpecificEducationContianer" class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.SpecificEducation, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.SpecificEducation, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SpecificEducation, null, new { @class = "text-danger" })
                 </div>
             </div>
             <div style="margin-bottom: 20px;">

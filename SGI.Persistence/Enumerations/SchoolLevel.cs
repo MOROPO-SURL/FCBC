@@ -10,6 +10,7 @@ namespace MOROPO.FBCB.SGI.Persistence.Enumerations
             Primary,
             Medium,
             UpperMiddle,
+            Higher,
             FourthLevelEducation
         }
     
