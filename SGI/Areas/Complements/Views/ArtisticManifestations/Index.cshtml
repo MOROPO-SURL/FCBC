@@ -109,7 +109,7 @@
                         }
                         else
                         {
-                            <li class="page-item"><a class="page-link"clas href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                            <li class="page-item"><a class="page-link" clas href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                         }
                     }
                 }
@@ -140,6 +140,12 @@
                         </span>
                         @item.Name
                     </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Pertenece a:
+                        </span>
+                        @item.Parent.Name
+                    </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
@@ -147,7 +153,7 @@
                         </div>
                     </div>
                 </div>
-           </div>
+            </div>
         }
     </div>
 
@@ -156,6 +162,7 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>Pertenece a</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
@@ -163,7 +170,10 @@
                 @foreach (var item in Model.List)
                 {
                     <tr>
-                        <td style="vertical-align: middle;" title="Manifestacin Artistica ">@item.Name</td>   
+                        <td style="vertical-align: middle;" title="Manifestacin Artistica ">@item.Name</td>
+                        <td style="vertical-align: middle;" title="Pertenece a">
+                            @item.Parent.Name
+                        </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
@@ -275,7 +285,8 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Nombre</th>                    
+                    <th>Nombre</th>
+                    <th>Pertenece a</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>

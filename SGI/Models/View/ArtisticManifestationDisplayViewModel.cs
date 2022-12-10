@@ -8,10 +8,13 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Name { get; set; }
 
+        public ManifestationKind Parent { get; set; }
+
         public void Import(ArtisticManifestation entity)
         {
             Id = entity.Id;
             Name = entity.Name;
+            Parent = entity.Parent;
         }
     }
 }

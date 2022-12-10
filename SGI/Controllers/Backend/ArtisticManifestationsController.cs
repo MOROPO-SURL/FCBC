@@ -9,16 +9,19 @@ using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
     [Area("complements")]
     public class ArtisticManifestationsController : AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>
-    {        
-
-        public ArtisticManifestationsController(IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer<ArtisticManifestationsController> localizer, ILogger<ArtisticManifestationsController> logger) : base(repository, localizer, logger)
-        {           
+    {
+        private IEntityRepository<ManifestationKind, Guid> manifestationKindRepository;
+        public ArtisticManifestationsController(IEntityRepository<ManifestationKind, Guid> manifestationKindRepository, IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer<ArtisticManifestationsController> localizer, ILogger<ArtisticManifestationsController> logger) : base(repository, localizer, logger)
+        {
+            this.manifestationKindRepository = manifestationKindRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtisticManifestationViewer)]
@@ -61,6 +64,52 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         public override IActionResult Delete(ArtisticManifestationDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);
+        }
+
+        protected override void ConfigureCreate(ArtisticManifestationInputViewModel modelInput)
+        {
+            PopulateTree(modelInput);
+        }
+
+        protected override void ConfigurePostFailCreateValidation(ArtisticManifestationInputViewModel modelInput)
+        {
+            PopulateTree(modelInput);
+        }
+
+        protected override void ConfigureEdit(ArtisticManifestation entity, ArtisticManifestationInputViewModel modelInput)
+        {
+            PopulateTree(modelInput);
+        }
+
+        protected override void ConfigurePostFailEditValidation(ArtisticManifestationInputViewModel modelInput)
+        {
+            PopulateTree(modelInput);
+        }
+
+        private void PopulateTree(ArtisticManifestationInputViewModel modelInput)
+        {
+            var manifestationKinds = manifestationKindRepository.GetAll().ToList();
+            modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, null));
+        }
+
+        private List<object> GetTree(List<ManifestationKind> manifestationKinds, System.Guid? parentId)
+        {
+            var result = new List<object>();
+
+            manifestationKinds = manifestationKindRepository.GetAll().Where(m => m.ParentId == parentId).ToList();
+            if (!(manifestationKinds.Count() == 0))
+            {
+                foreach (var manifestationKind in manifestationKinds)
+                {
+                    result.Add(new
+                    {
+                        id = manifestationKind.Id,
+                        text = manifestationKind.Name,
+                        children = GetTree(manifestationKinds, manifestationKind.Id)
+                    });
+                }
+            }
+            return result;
         }
     }
 }

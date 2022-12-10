@@ -12,7 +12,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         public override System.Func<ManifestationKind, object> GetPagingOrderSelector()
         {
-            return entity => entity.Name ?? entity.Parent.Name;
+            return entity => entity.Name ?? entity.Parent?.Name;
         }
 
         protected override System.Linq.IQueryable<ManifestationKind> GetQueryableDbSet()

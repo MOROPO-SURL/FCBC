@@ -1,20 +1,23 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities;
-using System;
-using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
-    public class ArtisticManifestation : INamedEntity<Guid>
+    public class ArtisticManifestation : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
+        [System.ComponentModel.DataAnnotations.Key]
+        public System.Guid Id { get; set; }
 
-        [Required]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ParentId")]
+        public ManifestationKind Parent { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Guid ParentId { get; set; }
 
         public ArtisticManifestation()
         {
-            Id = Guid.NewGuid();
+            Id = System.Guid.NewGuid();
         }
         
     }

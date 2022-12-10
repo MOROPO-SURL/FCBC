@@ -11,6 +11,11 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.Guid ParentId { get; set; }
+
+        public string SerializedTree { get; set; }
+
         public ArtisticManifestation Export()
         {
             var entity = new ArtisticManifestation();
@@ -24,11 +29,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             Id = entity.Id;
             Name = entity.Name;
+            ParentId = entity.ParentId;
         }
 
         public void Mergue(ArtisticManifestation entity)
         {
             entity.Name = Name;
+            entity.ParentId = ParentId;
         }
     }
 }
