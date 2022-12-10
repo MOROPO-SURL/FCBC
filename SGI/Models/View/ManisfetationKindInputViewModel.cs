@@ -1,5 +1,6 @@
 ﻿using MOROPO.FBCB.SGI.Persistence.Entities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
@@ -11,12 +12,12 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Name { get; set; }
 
-        public ManifestationKind Parent { get; set; }
-
         [Display(Name = "Pertenece a:")]
         public System.Guid? ParentId { get; set; }
 
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ParentsManifestationKinds { get; set; }
+
+        public string SerializedTree { get; set; }
 
         public ManifestationKind Export()
         {
@@ -31,13 +32,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             Id = entity.Id;
             Name = entity.Name;
-            Parent = entity.Parent;
+            ParentId = entity.Parent?.Id;
         }
 
         public void Mergue(ManifestationKind entity)
         {
             entity.Name = Name;
-            entity.Parent = Parent;
+            entity.ParentId = ParentId;
         }
     }
 }
