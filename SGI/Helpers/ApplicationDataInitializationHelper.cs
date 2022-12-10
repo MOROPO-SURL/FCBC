@@ -344,6 +344,25 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region ManisfetationKind
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindRemover.ToRoleEntity());
+            }
+            #endregion
+
 
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();

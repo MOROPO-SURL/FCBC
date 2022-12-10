@@ -1,4 +1,5 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View;
+﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View;
 using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Extensions
@@ -99,6 +100,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Area = "complements",
                 Role = Security.Authorization.Roles.CriticViewer
             });
+
+            complementsSections.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Tipo de Manifestación",
+                Controller = "manifestationkinds",
+                Action = "index",
+                Area = "complements",
+                Role = Security.Authorization.Roles.ManifestationKindViewer
+            });            
 
             var institutionSections = new List<ManagementDashboardSectionViewModel>();
 

@@ -65,6 +65,7 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<AdministrativeRole, Guid>, AdministrativeRoleRepository>();
             services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
             services.AddScoped<IEntityRepository<Resolution, Guid>, ResolutionRepository>();
+            services.AddScoped<IEntityRepository<ManifestationKind, Guid>, ManifestationKindRepository>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();

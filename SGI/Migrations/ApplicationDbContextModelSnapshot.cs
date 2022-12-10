@@ -275,6 +275,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("administrativerolebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnName("parentid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_manifestationkinds");
+
+                    b.HasIndex("ParentId")
+                        .HasName("ix_manifestationkinds_parentid");
+
+                    b.ToTable("manifestationkinds");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Recognition", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1274,6 +1295,14 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("EmployeeId")
                         .HasConstraintName("fk_administrativerolebridges_employees_employeeid")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", b =>
+                {
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .HasConstraintName("fk_manifestationkinds_manifestationkinds_parentid");
                 });
 
             modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.GroupRoleBridge", b =>

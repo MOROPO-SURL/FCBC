@@ -129,6 +129,13 @@
         public const string ResolutionEditor = "resolution-editor";
         public const string ResolutionRemover = "resolution-remover";
         #endregion
+
+        #region ManifestationKind
+        public const string ManifestationKindViewer = "manifestation-kind-viewer";
+        public const string ManifestationKindCreator = "manifestation-kind-creator";
+        public const string ManifestationKindEditor = "manifestation-kind-editor";
+        public const string ManifestationKindRemover = "manifestation-kind-remover";
+        #endregion
     }
 }
 
