@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.EF;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
@@ -79,21 +81,25 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void ConfigureCreate(ManifestationKindInputViewModel modelInput)
         {
             PopulateWithParents(modelInput);
+            PopulateTree(modelInput);
         }
 
         protected override void ConfigurePostFailCreateValidation(ManifestationKindInputViewModel modelInput)
         {
             PopulateWithParents(modelInput);
+            PopulateTree(modelInput);
         }
 
         protected override void ConfigureEdit(ManifestationKind entity, ManifestationKindInputViewModel modelInput)
         {
             PopulateWithParents(modelInput);
+            PopulateTree(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(ManifestationKindInputViewModel modelInput)
         {
             PopulateWithParents(modelInput);
+            PopulateTree(modelInput);
         }
 
         protected override void PreCreate(ManifestationKind entity, ManifestationKindInputViewModel modelInput)
@@ -139,6 +145,32 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 
             }
 
+            return result;
+        }
+
+        private void PopulateTree(ManifestationKindInputViewModel modelInput)
+        {
+            var manifestationKinds = manifestationKindRepository.GetAll().ToList();
+            modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, null));
+        }
+
+        private List<object> GetTree(List<ManifestationKind> manifestationKinds, System.Guid? parentId)
+        {
+            var result = new List<object>();
+            
+            manifestationKinds = manifestationKindRepository.GetAll().Where(m => m.ParentId == parentId).ToList();
+            if (!(manifestationKinds.Count() == 0))
+            {
+                foreach (var manifestationKind in manifestationKinds)
+                {
+                    result.Add(new
+                    {
+                        id = manifestationKind.Id,
+                        text = manifestationKind.Name,
+                        children = GetTree(manifestationKinds, manifestationKind.Id)
+                    });
+                }
+            }
             return result;
         }
     }
