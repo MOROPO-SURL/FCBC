@@ -85,8 +85,14 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .IsRequired()
                         .HasColumnName("name");
 
+                    b.Property<Guid>("ParentId")
+                        .HasColumnName("parentid");
+
                     b.HasKey("Id")
                         .HasName("pk_artisticmanifestations");
+
+                    b.HasIndex("ParentId")
+                        .HasName("ix_artisticmanifestations_parentid");
 
                     b.ToTable("artisticmanifestations");
                 });
@@ -1237,6 +1243,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithOne()
                         .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Artist", "PersonIdentityId")
                         .HasConstraintName("fk_artists_personidentities_personidentityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation", b =>
+                {
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .HasConstraintName("fk_artisticmanifestations_manifestationkinds_parentid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
