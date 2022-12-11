@@ -70,6 +70,16 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.ArtistCreator)]
         public override IActionResult Create(ArtistInputViewModel inputViewModel)
         {
+            if (inputViewModel.AssociationId != null)
+            {
+                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
+            }
+
+            if (inputViewModel.ResolutionId != null)
+            {
+                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
+            }
+
             if (Request.Form.Files.Count > 0)
             {
                 var formFile = Request.Form.Files[0];
@@ -99,6 +109,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             ModelState.ClearValidationState("ImageFile");
             ModelState.MarkFieldValid("ImageFile");
+            if (inputViewModel.AssociationId != null)
+            {
+                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
+            }
+
+            if (inputViewModel.ResolutionId != null)
+            {
+                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
+            }
 
             if (Request.Form.Files.Count > 0)
             {
@@ -158,9 +177,30 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.Associations = associationRepository.GetAll().Select( entity => new SelectListItem { Value= entity.Id.ToString(), Text = entity.OrganizationIdentity.Name}).ToArray();
         }
 
+        private void PopulateWithAssociationEdit(ArtistInputViewModel modelInput)
+        {
+            bool contextHasElemet = false;
+            if (modelInput.Context != null && modelInput.Context.Contains("Association"))
+            {
+                contextHasElemet = true;
+            }
+            modelInput.Associations = associationRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.OrganizationIdentity.Name, Selected = contextHasElemet }).ToArray();
+        }
+
         private void PopulateWithResolution(ArtistInputViewModel modelInput)
         {
             modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text =entity.NumberResolution +" - "+entity.Title }).ToArray();
+        }
+
+        private void PopulateWithResolutionEdit(ArtistInputViewModel modelInput)
+        {
+            bool contextHasElemet = false;
+            if (modelInput.Context != null && modelInput.Context.Contains("Resolution"))
+            {
+                contextHasElemet = true;
+            }
+
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.NumberResolution + " - " + entity.Title, Selected = contextHasElemet }).ToArray();
         }
 
         private void PopulateWithCountriesEdit(ArtistInputViewModel modelInput)
@@ -175,17 +215,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void PreCreate(Artist entity, ArtistInputViewModel inputViewModel)
         {
-            base.PreCreate(entity, inputViewModel);
-
-            if (inputViewModel.AssociationId != null) 
-            {
-                inputViewModel.Context = "Association|"+inputViewModel.AssociationId.ToString();
-            }
-
-            if (inputViewModel.ResolutionId != null) 
-            {
-                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
-            }
+            base.PreCreate(entity, inputViewModel);            
 
             var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
             PostalContactItem postalContact = new PostalContactItem
@@ -307,6 +337,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void ConfigureEdit(Artist entity, ArtistInputViewModel modelInput)
         {
             PopulateWithCountriesEdit(modelInput);
+            PopulateWithAssociationEdit(modelInput);
+            PopulateWithResolutionEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(ArtistInputViewModel modelInput)
@@ -560,6 +592,25 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                          ModelState.AddModelError("ResolutionId", "RequiredValidationErrorMessage"); break;
             }
             
+        }
+
+        protected override void ValidateEdit(ArtistInputViewModel modelInput)
+        {
+            base.ValidateEdit(modelInput);
+
+            PopulateWithResolutionEdit(modelInput);
+            PopulateWithAssociationEdit(modelInput);
+
+            switch (modelInput.AdmitionModel)
+            {
+                case FBCB.SGI.Persistence.Enumerations.ModeEntry.Membership:
+                    if (modelInput.AssociationId == null)
+                        ModelState.AddModelError("AssociationId", "RequiredValidationErrorMessage"); break;
+                case FBCB.SGI.Persistence.Enumerations.ModeEntry.Resolution:
+                    if (modelInput.ResolutionId == null)
+                        ModelState.AddModelError("ResolutionId", "RequiredValidationErrorMessage"); break;
+            }
+
         }
     }
 }

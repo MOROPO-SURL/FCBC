@@ -121,7 +121,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Workplace = entity.Workplace;
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
-            Context = Context;
+            AdmitionModel = entity.AdmitionModel;
+            Context = entity.Context;
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Artist entity)
@@ -137,6 +138,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.Workplace = Workplace;
             entity.SpecificEducation = SpecificEducation;
             entity.SchoolLevel = SchoolLevel;
+            entity.AdmitionModel = AdmitionModel;
             entity.Context = Context;
         }
     }
