@@ -299,6 +299,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("administrativerolebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.InstitutionInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnName("value");
+
+                    b.HasKey("Id")
+                        .HasName("pk_institutioninformations");
+
+                    b.ToTable("institutioninformations");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", b =>
                 {
                     b.Property<Guid>("Id")

@@ -25,7 +25,23 @@ namespace MOROPO.FCBC.SGI.Helpers
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationViewer.ToRoleEntity());
             }
+
             #region ArtisticManifestation
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionInformationViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.InstitutionInformationViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionInformationEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.InstitutionInformationEditor.ToRoleEntity());
+            }
+            #endregion
+
+            #region ArtisticManifestation
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationViewer.ToRoleEntity());
+            }
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationCreator)).Result)
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationCreator.ToRoleEntity());
@@ -421,9 +437,45 @@ namespace MOROPO.FCBC.SGI.Helpers
                     municipalityRegionDbSet.Add(municipalityRegion);
                 }
                 
-            }         
-            
-            
+            }
+
+            var institutionInformationDbSet = dbContext.Set<FBCB.SGI.Persistence.Entities.InstitutionInformation>();
+
+            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.SocialObject))
+            {
+                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                {
+                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.SocialObject,
+                    Value = "Objeto social no especificado ..."
+                });
+            }
+
+            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Mission))
+            {
+                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                {
+                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Mission,
+                    Value = "Misión no especificada ..."
+                });
+            }
+
+            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Vision))
+            {
+                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                {
+                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Vision,
+                    Value = "Visión no especificada ..."
+                });
+            }
+
+            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.History))
+            {
+                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                {
+                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.History,
+                    Value = "Historia no especificada ..."
+                });
+            }
 
             if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {
