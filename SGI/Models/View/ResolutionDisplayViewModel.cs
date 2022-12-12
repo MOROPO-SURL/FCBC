@@ -13,12 +13,15 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Description { get; set; }
 
+        public System.DateTime ResolutionDate { get; set; }
+
         public void Import(Resolution entity)
         {
             Id = entity.Id;
             NumberResolution = entity.NumberResolution;
             Title = entity.Title;
             Description = entity.Description;
+            ResolutionDate = entity.ResolutionDate;
         }
     }
 }

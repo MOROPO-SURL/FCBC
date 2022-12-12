@@ -44,8 +44,14 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<int>("AdmitionModel")
+                        .HasColumnName("admitionmodel");
+
                     b.Property<string>("CitizenId")
                         .HasColumnName("citizenid");
+
+                    b.Property<string>("Context")
+                        .HasColumnName("context");
 
                     b.Property<Guid>("PersonIdentityId")
                         .HasColumnName("personidentityid");
@@ -79,8 +85,14 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .IsRequired()
                         .HasColumnName("name");
 
+                    b.Property<Guid>("ParentId")
+                        .HasColumnName("parentid");
+
                     b.HasKey("Id")
                         .HasName("pk_artisticmanifestations");
+
+                    b.HasIndex("ParentId")
+                        .HasName("ix_artisticmanifestations_parentid");
 
                     b.ToTable("artisticmanifestations");
                 });
@@ -302,6 +314,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("institutioninformations");
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnName("parentid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_manifestationkinds");
+
+                    b.HasIndex("ParentId")
+                        .HasName("ix_manifestationkinds_parentid");
+
+                    b.ToTable("manifestationkinds");
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Recognition", b =>
                 {
                     b.Property<Guid>("Id")
@@ -329,6 +362,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.Property<string>("NumberResolution")
                         .HasColumnName("numberresolution");
+
+                    b.Property<DateTime>("ResolutionDate")
+                        .HasColumnName("resolutiondate");
 
                     b.Property<string>("Title")
                         .HasColumnName("title");
@@ -1228,6 +1264,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation", b =>
+                {
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .HasConstraintName("fk_artisticmanifestations_manifestationkinds_parentid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Association", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "OrganizationIdentity")
@@ -1301,6 +1346,14 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("EmployeeId")
                         .HasConstraintName("fk_administrativerolebridges_employees_employeeid")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", b =>
+                {
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .HasConstraintName("fk_manifestationkinds_manifestationkinds_parentid");
                 });
 
             modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.GroupRoleBridge", b =>

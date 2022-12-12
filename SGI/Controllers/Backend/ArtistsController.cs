@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
@@ -29,7 +30,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<State, Guid> stateRepository;
         private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
-        public ArtistsController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<Artist, Guid> repository, IStringLocalizer<ArtistsController> localizer, ILogger<ArtistsController> logger) : base(repository, localizer, logger)
+        private readonly IEntityRepository<Association, Guid> associationRepository;
+        private readonly IEntityRepository<Resolution, Guid> resolutionRepository;
+        public ArtistsController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<Artist, Guid> repository, IEntityRepository<Association, Guid> associationRepository, IEntityRepository<Resolution, Guid> resolutionRepository, IStringLocalizer<ArtistsController> localizer, ILogger<ArtistsController> logger) : base(repository, localizer, logger)
         {
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
@@ -37,6 +40,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.municipalityRegionRepository = municipalityRegionRepository;
             this.stateRepository = stateRepository;
             this.municipalityRepository = municipalityRepository;
+            this.associationRepository = associationRepository;
+            this.resolutionRepository = resolutionRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtistViewer)]
@@ -65,6 +70,16 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.ArtistCreator)]
         public override IActionResult Create(ArtistInputViewModel inputViewModel)
         {
+            if (inputViewModel.AssociationId != null)
+            {
+                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
+            }
+
+            if (inputViewModel.ResolutionId != null)
+            {
+                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
+            }
+
             if (Request.Form.Files.Count > 0)
             {
                 var formFile = Request.Form.Files[0];
@@ -94,6 +109,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             ModelState.ClearValidationState("ImageFile");
             ModelState.MarkFieldValid("ImageFile");
+            if (inputViewModel.AssociationId != null)
+            {
+                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
+            }
+
+            if (inputViewModel.ResolutionId != null)
+            {
+                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
+            }
 
             if (Request.Form.Files.Count > 0)
             {
@@ -148,6 +172,37 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
         }
 
+        private void PopulateWithAssociation(ArtistInputViewModel modelInput)
+        {
+            modelInput.Associations = associationRepository.GetAll().Select( entity => new SelectListItem { Value= entity.Id.ToString(), Text = entity.OrganizationIdentity.Name}).ToArray();
+        }
+
+        private void PopulateWithAssociationEdit(ArtistInputViewModel modelInput)
+        {
+            bool contextHasElemet = false;
+            if (modelInput.Context != null && modelInput.Context.Contains("Association"))
+            {
+                contextHasElemet = true;
+            }
+            modelInput.Associations = associationRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.OrganizationIdentity.Name, Selected = contextHasElemet }).ToArray();
+        }
+
+        private void PopulateWithResolution(ArtistInputViewModel modelInput)
+        {
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text =entity.NumberResolution +" - "+entity.Title }).ToArray();
+        }
+
+        private void PopulateWithResolutionEdit(ArtistInputViewModel modelInput)
+        {
+            bool contextHasElemet = false;
+            if (modelInput.Context != null && modelInput.Context.Contains("Resolution"))
+            {
+                contextHasElemet = true;
+            }
+
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.NumberResolution + " - " + entity.Title, Selected = contextHasElemet }).ToArray();
+        }
+
         private void PopulateWithCountriesEdit(ArtistInputViewModel modelInput)
         {
             modelInput.StateId = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId).StateId;
@@ -156,10 +211,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             modelInput.States = stateRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();
         }
+        
 
         protected override void PreCreate(Artist entity, ArtistInputViewModel inputViewModel)
         {
-            base.PreCreate(entity, inputViewModel);
+            base.PreCreate(entity, inputViewModel);            
 
             var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
             PostalContactItem postalContact = new PostalContactItem
@@ -259,6 +315,18 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void ConfigureCreate(ArtistInputViewModel modelInput)
         {
             PopulateWithCountries(modelInput);
+            PopulateWithAssociation(modelInput);
+            PopulateWithResolution(modelInput);
+
+            if (modelInput.AssociationId != System.Guid.Empty)
+            {
+                modelInput.Context = "Association" + modelInput.AssociationId.ToString();
+            }
+
+            if (modelInput.AssociationId != System.Guid.Empty)
+            {
+                modelInput.Context = "Resolution" + modelInput.ResolutionId.ToString();
+            }
         }
 
         protected override void ConfigurePostFailCreateValidation(ArtistInputViewModel modelInput)
@@ -269,6 +337,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void ConfigureEdit(Artist entity, ArtistInputViewModel modelInput)
         {
             PopulateWithCountriesEdit(modelInput);
+            PopulateWithAssociationEdit(modelInput);
+            PopulateWithResolutionEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(ArtistInputViewModel modelInput)
@@ -503,6 +573,44 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        protected override void ValidateCreate(ArtistInputViewModel modelInput)
+        {
+            base.ValidateCreate(modelInput);
+
+            PopulateWithAssociation(modelInput);
+            PopulateWithResolution(modelInput);
+
+            switch (modelInput.AdmitionModel)
+            {
+                case FBCB.SGI.Persistence.Enumerations.ModeEntry.Membership: 
+                        if(modelInput.AssociationId == null)
+                         ModelState.AddModelError("AssociationId", "RequiredValidationErrorMessage");break;
+                case FBCB.SGI.Persistence.Enumerations.ModeEntry.Resolution:
+                        if (modelInput.ResolutionId == null)
+                         ModelState.AddModelError("ResolutionId", "RequiredValidationErrorMessage"); break;
+            }
+            
+        }
+
+        protected override void ValidateEdit(ArtistInputViewModel modelInput)
+        {
+            base.ValidateEdit(modelInput);
+
+            PopulateWithResolutionEdit(modelInput);
+            PopulateWithAssociationEdit(modelInput);
+
+            switch (modelInput.AdmitionModel)
+            {
+                case FBCB.SGI.Persistence.Enumerations.ModeEntry.Membership:
+                    if (modelInput.AssociationId == null)
+                        ModelState.AddModelError("AssociationId", "RequiredValidationErrorMessage"); break;
+                case FBCB.SGI.Persistence.Enumerations.ModeEntry.Resolution:
+                    if (modelInput.ResolutionId == null)
+                        ModelState.AddModelError("ResolutionId", "RequiredValidationErrorMessage"); break;
+            }
+
         }
     }
 }

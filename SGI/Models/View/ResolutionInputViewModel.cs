@@ -14,6 +14,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Description { get; set; }
 
+        public System.DateTime ResolutionDate { get; set; }
+
         public Resolution Export()
         {
             var entity = new Resolution();
@@ -29,6 +31,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             NumberResolution = entity.NumberResolution;
             Title = entity.Title;
             Description = entity.Description;
+            ResolutionDate = entity.ResolutionDate;
         }
 
         public void Mergue(Resolution entity)
@@ -36,6 +39,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.NumberResolution = NumberResolution;
             entity.Title = Title;
             entity.Description = Description;
+            entity.ResolutionDate = ResolutionDate;
         }
     }
 }

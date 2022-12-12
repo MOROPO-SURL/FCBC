@@ -1,4 +1,6 @@
 ﻿
+using MOROPO.FBCB.SGI.Persistence.Enumerations;
+
 namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
     public class Artist : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
@@ -25,5 +27,9 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         public Enumerations.SchoolLevel SchoolLevel { get; set; }
 
         public string SpecificEducation { get; set; }
+
+        public string Context { get; set; }
+
+        public ModeEntry AdmitionModel { get; set; }
     }
 }

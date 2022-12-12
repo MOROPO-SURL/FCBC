@@ -50,6 +50,20 @@
             value: '@Model.BornDate.ToShortDateString()'
         });
 
+        $(document).ready(function () {
+            var admitionModel = $('#AdmitionModel').val();
+            if (admitionModel == "Graduate") {
+                $("#show-hide-association").addClass("d-none");
+                $("#show-hide-resolution").addClass("d-none");
+            } else if (admitionModel == "Membership") {
+                $("#show-hide-association").removeClass("d-none");
+                $("#show-hide-resolution").addClass("d-none");
+            } else if (admitionModel == "Resolution") {
+                $("#show-hide-association").addClass("d-none");
+                $("#show-hide-resolution").removeClass("d-none");
+            }
+        });
+
         $(function () {
             $(document).on("change", "#ImageFile", function () {
                 var files = !!this.files ? this.files : [];
@@ -84,6 +98,26 @@
                         $('#MunicipalityId').append(options);
                     }
                 });
+            });
+
+            $('#AdmitionModel').on("change", function () {
+                debugger;
+                var admitionModel = $('#AdmitionModel').val();
+                if (admitionModel == "Graduate") {
+                    $("#show-hide-association").addClass("d-none");
+                    $("#show-hide-resolution").addClass("d-none");
+                    $("#AssociationId").val('');
+                    $("#ResolutionId").val('') ;
+                    
+                } else if (admitionModel == "Membership") {
+                    $("#show-hide-association").removeClass("d-none");
+                    $("#show-hide-resolution").addClass("d-none");
+                    $("#ResolutionId").val('');
+                } else if (admitionModel == "Resolution") {
+                    $("#show-hide-association").addClass("d-none");
+                    $("#show-hide-resolution").removeClass("d-none");
+                    $("#AssociationId").val('');
+                }
             });
         });
 
@@ -202,6 +236,23 @@
                 @Html.LabelFor(model => model.About, new { @class = "control-label" })
                 @Html.TextAreaFor(model => model.About, 4, 0, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                <div class="col-md-3" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.AdmitionModel, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Graduado", ViewLocalizer), ModeEntry.Graduate.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Miembro", ViewLocalizer), ModeEntry.Membership.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), ModeEntry.Resolution.ToString()) }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AdmitionModel, null, new { @class = "text-danger" })
+                </div>
+                <div id="show-hide-association" class="col-md-3" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.AssociationId, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.AssociationId, Model.Associations, "", new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.AssociationId, null, new { @class = "text-danger" })
+                </div>
+                <div id="show-hide-resolution" class="col-md-3" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })
+                </div>
             </div>
             <fieldset>
                 <legend>Address Postal</legend>

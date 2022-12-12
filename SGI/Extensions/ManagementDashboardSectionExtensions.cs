@@ -46,6 +46,8 @@
 
             if (target.Controller == "institutioninformation") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-information-variant \"></span>");
 
+            if (target.Controller == "manifestationkinds") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-briefcase-account    \"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }

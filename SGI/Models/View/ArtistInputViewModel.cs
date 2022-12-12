@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Linq;
+using MOROPO.FBCB.SGI.Persistence.Enumerations;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -47,6 +50,18 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }
 
+        public string Context { get; set; }
+
+        public ModeEntry AdmitionModel { get; set; }        
+        
+        public System.Guid? AssociationId { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Associations { get; set; } = new List<SelectListItem>();
+
+        public System.Guid? ResolutionId { get; set; }
+
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Resolutions { get; set; } = new List<SelectListItem>();
+        
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "State")]
         public System.Guid StateId { get; set; }
@@ -59,9 +74,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public Municipality Municipality { get; set; }
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> States { get; set; }
+        public ICollection<SelectListItem> States { get; set; } = new List<SelectListItem>();
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Municipalities { get; set; }
+        public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
 
         [Display(Name = "Citizen Id")]
         public string CitizenId { get; set; }
@@ -106,6 +121,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Workplace = entity.Workplace;
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
+            AdmitionModel = entity.AdmitionModel;
+            Context = entity.Context;
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Artist entity)
@@ -121,6 +138,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.Workplace = Workplace;
             entity.SpecificEducation = SpecificEducation;
             entity.SchoolLevel = SchoolLevel;
+            entity.AdmitionModel = AdmitionModel;
+            entity.Context = Context;
         }
     }
 }
