@@ -4,6 +4,11 @@
     {
         public const string TraceViewer = "security-trace-viewer";
 
+        #region InstitutionInformation
+        public const string InstitutionInformationViewer = "artistic-manifestation-viewer";
+        public const string InstitutionInformationEditor = "artistic-manifestation-editor";
+        #endregion
+
         #region ArtisticManifestation
         public const string ArtisticManifestationViewer = "artistic-manifestation-viewer";
         public const string ArtisticManifestationCreator = "artistic-manifestation-creator";

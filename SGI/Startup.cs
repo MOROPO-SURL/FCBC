@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MOROPO.FBCB.SGI.Persistence.Entities;
-using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Options;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using Serilog;
@@ -49,6 +48,7 @@ namespace MOROPO.FCBC.SGI
             services.PerformMiddlewareIdentityWebCommonServiceRegistration();
 
             services.AddScoped<IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long>, SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.TraceRepository>();
+            services.AddScoped<IEntityRepository<InstitutionInformation, FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind>, InstitutionInformationRepository>();
             services.AddScoped<IEntityRepository<Award, Guid>, AwardRepository>();
             services.AddScoped<IEntityRepository<Distinction, Guid>, DistinctionRepository>();
             services.AddScoped<IEntityRepository<Recognition, Guid>, RecognitionRepository>();
@@ -173,7 +173,7 @@ namespace MOROPO.FCBC.SGI
                 {
                     var defaultUserId = configuration["DefaultUser:Id"];
 
-                    var k3y = new System.Guid(0x79c44606, 0xa758, 0x4393, 0x87, 0x72, 0xad, 0xa6, 0x7e, 0xe1, 0xbb, 0x3e);
+                    var k3y = new Guid(0x79c44606, 0xa758, 0x4393, 0x87, 0x72, 0xad, 0xa6, 0x7e, 0xe1, 0xbb, 0x3e);
 
                     var protectedPassword = (dbContext as Persistence.EF.ApplicationDbContext).CreateSecureUser(k3y, defaultUserId, "system");
 
