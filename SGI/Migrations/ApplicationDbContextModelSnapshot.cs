@@ -348,6 +348,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("NumberResolution")
                         .HasColumnName("numberresolution");
 
+                    b.Property<DateTime>("ResolutionDate")
+                        .HasColumnName("resolutiondate");
+
                     b.Property<string>("Title")
                         .HasColumnName("title");
 

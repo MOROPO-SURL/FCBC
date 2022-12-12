@@ -26,6 +26,27 @@
     Layout = "_BackendLayout";
 }
 
+    @section styles {    
+        <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
+    }
+
+    @section scripts {
+        <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+
+            $('#ResolutionDate').datepicker({
+                uiLibrary: 'bootstrap4',
+                modal: true,
+                header: true,
+                footer: true,
+                format: 'dd/mm/yyyy',
+                value: '@Model.ResolutionDate.ToShortDateString()'
+            });
+        </script>
+    }    
+    
+
 @using (Html.BeginForm("create", "resolutions", new { Area = "complements" }, FormMethod.Post, true, null))
 {
     @Html.ValidationSummary(true)
@@ -50,6 +71,11 @@
                     @Html.LabelFor(model => model.Description, new { @class = "control-label" })
                     @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.ResolutionDate, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.ResolutionDate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ResolutionDate, null, new { @class = "text-danger" })
                 </div>
 
             </div>

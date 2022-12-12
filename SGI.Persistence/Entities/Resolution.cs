@@ -9,6 +9,7 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         public string NumberResolution { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public System.DateTime ResolutionDate { get; set; }
 
         public Resolution()
         {
