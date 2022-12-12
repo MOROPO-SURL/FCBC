@@ -47,6 +47,10 @@
             tree.on('select', function (e, node, id) {
                 $('#ParentId').val(id);
             });
+
+            tree.on('unselect', function (e, node, id){
+                $('#ParentId').val(null);
+            });
         });
     </script>
 }

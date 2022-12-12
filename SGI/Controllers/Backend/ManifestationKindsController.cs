@@ -91,10 +91,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private void PopulateTree(ManifestationKindInputViewModel modelInput)
         {
             var manifestationKinds = manifestationKindRepository.GetAll().ToList();
-            modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, null));
+            modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, modelInput.Id, null));
         }
 
-        private List<object> GetTree(List<ManifestationKind> manifestationKinds, System.Guid? parentId)
+        private List<object> GetTree(List<ManifestationKind> manifestationKinds, System.Guid? id, System.Guid? parentId)
         {
             var result = new List<object>();
             
@@ -103,12 +103,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 foreach (var manifestationKind in manifestationKinds)
                 {
-                    result.Add(new
-                    {
-                        id = manifestationKind.Id,
-                        text = manifestationKind.Name,
-                        children = GetTree(manifestationKinds, manifestationKind.Id)
-                    });
+                    if(id != manifestationKind.Id)
+                        result.Add(new
+                        {
+                            id = manifestationKind.Id,
+                            text = manifestationKind.Name,
+                            children = GetTree(manifestationKinds, id, manifestationKind.Id)
+                        });
                 }
             }
             return result;
