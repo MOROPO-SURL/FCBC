@@ -33,7 +33,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string LastName { get; set; }
 
         [Display(Name = "BornDate")]
-        public System.DateTime BornDate { get; set; }
+        public System.DateTime BornDate { get; set; } = System.DateTime.Now.Date.AddYears(-16);
 
         [Display(Name = "Sex")]
         public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
@@ -90,9 +90,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ArtistInputViewModel()
         {
-            BornDate = System.DateTime.Now.Date.AddYears(-16);
+            BornDate = DateTime.Now.AddYears(-16);
         }
-
+        
         public FBCB.SGI.Persistence.Entities.Artist Export()
         {
             var entity = new FBCB.SGI.Persistence.Entities.Artist();

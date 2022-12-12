@@ -16,6 +16,11 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.DateTime ResolutionDate { get; set; }
 
+        public ResolutionInputViewModel()
+        {
+            ResolutionDate = DateTime.Now;
+        }
+
         public Resolution Export()
         {
             var entity = new Resolution();

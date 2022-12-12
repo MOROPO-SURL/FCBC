@@ -72,12 +72,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             if (inputViewModel.AssociationId != null)
             {
-                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
+                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString()+"|"+associationRepository.Get((System.Guid)inputViewModel.AssociationId).OrganizationIdentity.Name;
             }
 
             if (inputViewModel.ResolutionId != null)
             {
-                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
+                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString()+"|"+resolutionRepository.Get((System.Guid)inputViewModel.ResolutionId).NumberResolution+" - "+ resolutionRepository.Get((System.Guid)inputViewModel.ResolutionId).Title;
             }
 
             if (Request.Form.Files.Count > 0)
@@ -111,12 +111,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             ModelState.MarkFieldValid("ImageFile");
             if (inputViewModel.AssociationId != null)
             {
-                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
+                inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString() + "|" + associationRepository.Get((System.Guid)inputViewModel.AssociationId).OrganizationIdentity.Name;
             }
 
             if (inputViewModel.ResolutionId != null)
             {
-                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
+                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString() + "|" + resolutionRepository.Get((System.Guid)inputViewModel.ResolutionId).NumberResolution + " - " + resolutionRepository.Get((System.Guid)inputViewModel.ResolutionId).Title;
             }
 
             if (Request.Form.Files.Count > 0)

@@ -1,4 +1,5 @@
-﻿using MOROPO.FCBC.SGI.Extensions;
+﻿using MOROPO.FBCB.SGI.Persistence.Enumerations;
+using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
@@ -54,6 +55,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
+        public string Context { get; set; }
+
+        public ModeEntry AdmitionModel { get; set; }
+
         public void Import(FBCB.SGI.Persistence.Entities.Artist entity)
         {
             Id = entity.Id;
@@ -76,6 +81,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Workplace = entity.Workplace;
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
+            AdmitionModel = entity.AdmitionModel;
+            Context = entity.Context;
         }
     }
 }
