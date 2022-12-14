@@ -35,7 +35,5 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         public ModeEntry AdmitionModel { get; set; }
 
         public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
-
-        public System.Guid[] SelectedValues { get; set; }
     }
 }

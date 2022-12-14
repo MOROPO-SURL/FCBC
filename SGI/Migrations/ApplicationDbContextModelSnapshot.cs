@@ -59,9 +59,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<int>("SchoolLevel")
                         .HasColumnName("schoollevel");
 
-                    b.Property<Guid[]>("SelectedValues")
-                        .HasColumnName("selectedvalues");
-
                     b.Property<string>("SpecificEducation")
                         .HasColumnName("specificeducation");
 

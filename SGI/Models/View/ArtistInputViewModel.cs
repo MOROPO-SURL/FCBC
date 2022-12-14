@@ -93,9 +93,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; } = new List<ArtistManifestationBridge>();
 
         [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; } 
-
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+        
         public System.Guid[] SelectedValues { get; set; }
 
         public ArtistInputViewModel()
@@ -133,8 +132,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             SpecificEducation = entity.SpecificEducation;
             AdmitionModel = entity.AdmitionModel;
             Context = entity.Context;
-            ArtistManifestationBridges = entity.ArtistManifestationBridges;
-            SelectedValues = entity.SelectedValues;
+            ArtistManifestationBridges = entity.ArtistManifestationBridges;            
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Artist entity)
@@ -152,8 +150,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.SchoolLevel = SchoolLevel;
             entity.AdmitionModel = AdmitionModel;
             entity.Context = Context;
-            entity.ArtistManifestationBridges = ArtistManifestationBridges;
-            entity.SelectedValues = SelectedValues;
+            entity.ArtistManifestationBridges = ArtistManifestationBridges;            
         }
     }
 }

@@ -233,21 +233,16 @@
                     @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Graduado", ViewLocalizer), ModeEntry.Graduate.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Miembro", ViewLocalizer), ModeEntry.Membership.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), ModeEntry.Resolution.ToString()) }, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AdmitionModel, null, new { @class = "text-danger" })
                 </div>
-                <div id="show-hide-association" class="col-md-3" style="margin-bottom: 20px;">
+                <div id="show-hide-association" class="col-md-6" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.AssociationId, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.AssociationId, Model.Associations, "", new { @class = "form-control"})
                     @Html.ValidationMessageFor(model => model.AssociationId, null, new { @class = "text-danger" })
                 </div>
-                <div id="show-hide-resolution" class="col-md-3" style="margin-bottom: 20px;">
+                <div id="show-hide-resolution" class="col-md-6" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
                     @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })
-                </div>
-                <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.ArtisticManifestations, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.SelectedValues, Model.ArtisticManifestations , new { @class = "form-control custom-select listbox d-none ", multiple = "multiple" })
-                    @Html.ValidationMessageFor(model => model.SelectedValues, null, new { @class = "text-danger" })
-                </div>
+                </div>                
             </div>
             <fieldset>
                 <legend>Address Postal</legend>
