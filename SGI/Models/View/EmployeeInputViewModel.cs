@@ -70,7 +70,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public Municipality Municipality { get; set; }
 
-        public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; }
+        public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; } = new List<EmployeeAdministrativeRoleBridge>();
 
         public ICollection<SelectListItem> States { get; set; } = new List<SelectListItem>();
 

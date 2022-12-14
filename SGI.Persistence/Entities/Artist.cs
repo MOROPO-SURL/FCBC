@@ -1,5 +1,6 @@
 ﻿
 using MOROPO.FBCB.SGI.Persistence.Enumerations;
+using System.Collections.Generic;
 
 namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
@@ -9,6 +10,7 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         {
             Id = System.Guid.NewGuid();
             PersonIdentity = new SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity();
+            ArtistManifestationBridges = new List<ArtistManifestationBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -31,5 +33,9 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         public string Context { get; set; }
 
         public ModeEntry AdmitionModel { get; set; }
+
+        public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
+
+        public System.Guid[] SelectedValues { get; set; }
     }
 }

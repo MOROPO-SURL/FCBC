@@ -17,7 +17,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         protected override System.Linq.IQueryable<ArtisticManifestation> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(p => p.Parent);
+            return base.GetQueryableDbSet().Include(p => p.Parent).Include(p => p.ArtistManifestationBridges);
         }
     }
 }

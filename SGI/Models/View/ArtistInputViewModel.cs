@@ -7,6 +7,7 @@ using System.Linq;
 using MOROPO.FBCB.SGI.Persistence.Enumerations;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MOROPO.FBCB.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -47,6 +48,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Observations")]
         public string About { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }
 
@@ -88,6 +90,14 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
+        public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; } = new List<ArtistManifestationBridge>();
+
+        [Display(Name = "Select Artistict Manifestation")]
+        public MultiSelectList ArtisticManifestations { get; set; } 
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.Guid[] SelectedValues { get; set; }
+
         public ArtistInputViewModel()
         {
             BornDate = DateTime.Now.AddYears(-16);
@@ -123,6 +133,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             SpecificEducation = entity.SpecificEducation;
             AdmitionModel = entity.AdmitionModel;
             Context = entity.Context;
+            ArtistManifestationBridges = entity.ArtistManifestationBridges;
+            SelectedValues = entity.SelectedValues;
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.Artist entity)
@@ -140,6 +152,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.SchoolLevel = SchoolLevel;
             entity.AdmitionModel = AdmitionModel;
             entity.Context = Context;
+            entity.ArtistManifestationBridges = ArtistManifestationBridges;
+            entity.SelectedValues = SelectedValues;
         }
     }
 }

@@ -26,8 +26,10 @@
 
     Layout = "_BackendLayout";
 }
-
+<div id="js-var-scope-layout"
+     data-select-option-artisc=" @(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ArtisticManifestations.ToArray()))"></div>
 @section styles {
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-multiselect.css.css" />
     <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         #ImageFile {
@@ -40,6 +42,7 @@
 
     @section scripts {
     <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+    <script src="~/js/Views/Artists/Edit.js"></script>
     <script type="text/javascript">
         $('#BornDate').datepicker({
             uiLibrary: 'bootstrap4',
@@ -131,7 +134,18 @@
             });
         }
     </script>
-   
+
+       <script type="text/javascript">
+            $(function () {
+                $('.listbox').multiselect({
+                    includeSelectAllOption: true,
+                    templates: {
+                        li: '<li><a href="javascript:void(0);"><label class="pl-2"></label></a></li>'
+                    }
+               
+                });   
+            });   
+        </script>
     }
 
 @using (Html.BeginForm("edit", "artists", new { Area = "institution", key = string.Empty }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
@@ -252,6 +266,11 @@
                     @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
                     @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.SelectedValues, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.SelectedValues,Model.ArtisticManifestations , new { @class = "form-control custom-select listbox d-none ", multiple = "multiple" })
+                    @Html.ValidationMessageFor(model => model.SelectedValues, null, new { @class = "text-danger" })
                 </div>
             </div>
             <fieldset>

@@ -1,6 +1,6 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.ArtistDisplayViewModel
 
-@{
+@*{
     var AssociationResolution ="";
     string[] resultSplit = null;
     if(Model.Context !=null){
@@ -14,7 +14,7 @@
             AssociationResolution = "Resolución : " + resultSplit[2];
         }
     }
-}
+}*@
 <!-- Modal -->
 <div class="modal fade" id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -67,7 +67,18 @@
                         </div>
                         <div class="col-md-8">
                             <h5>Asociación | Resolución</h5>
-                            <p>@AssociationResolution</p>
+                            @if (Model.Context!=null)
+                            {
+                                @if (Model.Context.Contains("Resolution|"))
+                                {
+                                    <p>@Model.Resolution.NumberResolution-@Model.Resolution.Title</p>
+                                }
+                                else if (Model.Context.Contains("Association|"))
+                                {
+                                    <p>@Model.Association.OrganizationIdentityName</p>
+                                }
+                            }
+                            
                         </div>
                     </div>
                     <div class="row">
