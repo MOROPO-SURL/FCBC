@@ -1,5 +1,7 @@
-﻿using MOROPO.FCBC.SGI.Extensions;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -23,6 +25,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Organization")]
         public string OrganizationIdentityName { get; set; }
 
+        public ICollection<FBCB.SGI.Persistence.Entities.Artist> Members { get; set; }
+
+        public ICollection<SelectListItem> NotMembers { get; set; } = new List<SelectListItem>();
+
         public FBCB.SGI.Persistence.Entities.CreationGroup Export()
         {
             var entity = new FBCB.SGI.Persistence.Entities.CreationGroup();
@@ -43,6 +49,11 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Mergue(FBCB.SGI.Persistence.Entities.CreationGroup entity)
         {
             entity.OrganizationIdentity.Name = OrganizationIdentityName;
+        }
+
+        public string GetExtension(FBCB.SGI.Persistence.Entities.Artist artist)
+        {
+            return artist.PersonIdentity.Image.ContentType.ContentTypeToExtension();
         }
     }
 }

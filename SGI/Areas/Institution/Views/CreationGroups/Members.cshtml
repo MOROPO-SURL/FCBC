@@ -1,0 +1,113 @@
+﻿@using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+
+@model MOROPO.FCBC.SGI.Models.View.CreationGroupInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Grupos de Creación";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Grupos de Creación",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        .member-img {
+            width: 85%;
+            max-height: 330px;
+        }
+    </style>
+}
+
+    @section scripts {
+    <script type="text/javascript">
+
+        $(function () {
+
+        });
+    </script>
+
+    }
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header"><h4>@ViewData["Title"]</h4></div>
+        <div style="margin-bottom: 20px;"></div>
+
+        <ul class="nav nav-tabs justify-content-center" style="margin-bottom: 20px;">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.Id)">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Miembros</a>
+            </li>
+        </ul>
+
+        <div class="card-body">
+            <div class="text-center" style="margin-bottom: 40px;">Artistas miembros del grupo de creación <span style="font-weight: 600;">@Model.OrganizationIdentityName</span></div>
+            @if(Model.Members.Count() != 0){
+            <div class="row">
+                @foreach (var artist in Model.Members)
+                {
+                    <div class="col-sm-4 d-sm-flex" style="margin-bottom: 20px;">
+                        <div class="card text-center" style="width:100%;">
+                            @if (artist.PersonIdentity.ImageId != null )
+                            {
+                                var extension = Model.GetExtension(artist);
+                                <img src="~/media/images/@artist.PersonIdentity.ImageId.@extension" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
+                            }
+                            else
+                            {
+                                <img src="~/media/images/default-person.png" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@artist.PersonIdentity.Name @artist.PersonIdentity.LastName</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@artist.PersonIdentity.Alias</h6>
+                                <p class="card-text">@artist.PersonIdentity.About</p>
+                            </div>
+                            <div class="card-footer">
+                                @if(@artist.PersonIdentity.PersonEmailContactItemBridges.Count() != 0){
+                                    @artist.PersonIdentity.PersonEmailContactItemBridges.FirstOrDefault().ContactItem.EmailAddress;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            }else{
+                <div>Este Grupo de Creación aun no tiene miembros, haga clic en el boton agregar para adicionar uno</div>
+            }
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-member">Agregar</button>
+            <a class="btn btn-default" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+        @await Html.PartialAsync("AddMemberPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupMembersInputViewModel
+                        {
+                            CreationGroupId = Model.Id,
+                            NotMembers = Model.NotMembers
+                        })
+    </div>

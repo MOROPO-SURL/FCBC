@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
@@ -13,6 +14,7 @@ using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -23,11 +25,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IImageFileManagerFacade imageFileManagerFacade;
         private readonly IEntityRepository<Image, Guid> imageRepository;
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
-        public CreationGroupsController(IEntityRepository<CreationGroup, Guid> repository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<Artist, Guid> artistRepository;
+        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
+            this.artistRepository = artistRepository;
         }
 
         [RequiresRoleBasePermission(Roles.CreationGroupViewer)]
@@ -151,6 +155,85 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
 
             imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+        }
+
+        [Route("edit/{key}/members")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public IActionResult Members(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+                var members = entity.CreationGroupArtistBridges.Select(b => b.Artist).ToList();
+                var notMemberArtist = artistRepository.GetAll().ToList();
+                if (members.Count() != 0)
+                {
+                    notMemberArtist = notMemberArtist.Except(members).ToList();
+                }
+                
+                var resultModel = new CreationGroupInputViewModel ();
+                resultModel.Import(entity);
+                resultModel.NotMembers = notMemberArtist.Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.PersonIdentity.Name+" "+n.PersonIdentity.LastName }).ToArray();
+                resultModel.Members = members;
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("edit/members/add")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddMember(CreationGroupMembersInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.CreationGroupArtistBridges.Add(new CreationGroupArtistBridge { CreationGroupId = entity.Id, ArtistId = modelInput.ArtistId });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("members", new { key = entity.Id });
         }
     }
 }
