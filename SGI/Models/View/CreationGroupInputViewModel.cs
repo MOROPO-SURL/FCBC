@@ -1,5 +1,8 @@
-﻿using MOROPO.FCBC.SGI.Extensions;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using MOROPO.FBCB.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -23,6 +26,14 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Organization")]
         public string OrganizationIdentityName { get; set; }
 
+        [Display(Name = "Select Artistict Manifestation")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+
+        public ICollection<CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBrigde>();
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.Guid[] SelectedValues { get; set; }
+
         public FBCB.SGI.Persistence.Entities.CreationGroup Export()
         {
             var entity = new FBCB.SGI.Persistence.Entities.CreationGroup();
@@ -38,11 +49,15 @@ namespace MOROPO.FCBC.SGI.Models.View
             ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty;
             ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
             OrganizationIdentityName = entity.OrganizationIdentity.Name;
+            CreationGroupArtisticManifestationBrigdes = entity.CreationGroupArtisticManifestationBrigdes;
+            SelectedValues = entity.SelectedValues;
         }
 
         public void Mergue(FBCB.SGI.Persistence.Entities.CreationGroup entity)
         {
             entity.OrganizationIdentity.Name = OrganizationIdentityName;
+            entity.CreationGroupArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
+            entity.SelectedValues = SelectedValues;
         }
     }
 }

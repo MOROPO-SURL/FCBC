@@ -1,4 +1,6 @@
-﻿using MOROPO.FCBC.SGI.Extensions;
+﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Extensions;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -14,12 +16,15 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Organization")]
         public string OrganizationIdentityName { get; set; }
 
+        public ICollection<CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBrigde>();
+
         public void Import(FBCB.SGI.Persistence.Entities.CreationGroup entity)
         {
             Id = entity.Id;
             ImageId = entity.OrganizationIdentity.ImageId ?? System.Guid.Empty;
             ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
             OrganizationIdentityName = entity.OrganizationIdentity.Name;
+            CreationGroupArtisticManifestationBrigdes = entity.CreationGroupArtisticManifestationBrigdes;
         }
     }
 }

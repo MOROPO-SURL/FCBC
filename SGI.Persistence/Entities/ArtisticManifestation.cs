@@ -20,6 +20,8 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
 
         public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
 
+        public ICollection<CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; }
+
         public ArtisticManifestation()
         {
             Id = System.Guid.NewGuid();

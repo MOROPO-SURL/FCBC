@@ -211,6 +211,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("OrganizationIdentityId")
                         .HasColumnName("organizationidentityid");
 
+                    b.Property<Guid[]>("SelectedValues")
+                        .HasColumnName("selectedvalues");
+
                     b.HasKey("Id")
                         .HasName("pk_creationgroups");
 
@@ -219,6 +222,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_creationgroups_organizationidentityid");
 
                     b.ToTable("creationgroups");
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroupArtisticManifestationBrigde", b =>
+                {
+                    b.Property<Guid>("CreationGroupId")
+                        .HasColumnName("creationgroupid");
+
+                    b.Property<Guid>("ArtisticManifestationId")
+                        .HasColumnName("artisticmanifestationid");
+
+                    b.HasKey("CreationGroupId", "ArtisticManifestationId")
+                        .HasName("pk_creationgroupartisticmanifestationbrigdes");
+
+                    b.HasIndex("ArtisticManifestationId")
+                        .HasName("ix_creationgroupartisticmanifestationbrigdes_artisticmanifesta~");
+
+                    b.ToTable("creationgroupartisticmanifestationbrigdes");
                 });
 
             modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Critic", b =>
@@ -1347,6 +1367,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithOne()
                         .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", "OrganizationIdentityId")
                         .HasConstraintName("fk_creationgroups_organizationidentities_organizationidentityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroupArtisticManifestationBrigde", b =>
+                {
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation", "ArtisticManifestation")
+                        .WithMany("CreationGroupArtisticManifestationBrigdes")
+                        .HasForeignKey("ArtisticManifestationId")
+                        .HasConstraintName("fk_creationgroupartisticmanifestationbrigdes_artisticmanifesta~")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", "CreationGroup")
+                        .WithMany("CreationGroupArtisticManifestationBrigdes")
+                        .HasForeignKey("CreationGroupId")
+                        .HasConstraintName("fk_creationgroupartisticmanifestationbrigdes_creationgroups_cr~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
