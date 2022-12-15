@@ -25,7 +25,7 @@
 }
 
 @section styles {
-
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-multiselect.css.css" />
     <style type="text/css">
         #ImageFile {
             width: 0;
@@ -59,6 +59,16 @@
         });
     </script>
 
+    <script type="text/javascript">
+        $(function () {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true,
+                templates: {
+                    li: '<li><a href="javascript:void(0);"><label class="pl-2"></label></a></li>'
+                }
+            });
+        });
+    </script>
     }
 
 @using (Html.BeginForm("create", "creationgroups", new { Area = "institution" }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
@@ -80,13 +90,21 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
                 </div>
-                <div class=" col-md-6 col-sm-8" style="margin-bottom: 20px;">
+                <div class="row">
+                <div class=" col-md-6 col-sm-4" style="margin-bottom: 20px;">
                     <div style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
                     </div>
                 </div>
+                <div class="col-md-6 col-sm-4" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.ArtisticManifestations, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.SelectedValues, Model.ArtisticManifestations , new { @class = "form-control custom-select listbox d-none ", multiple = "multiple" })
+                    @Html.ValidationMessageFor(model => model.SelectedValues, null, new { @class = "text-danger" })
+                </div>
+                </div>
+                
             </div>
             
         </div>

@@ -78,6 +78,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge> AdministrativeRoleBridges { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.Resolution> Resolutions { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.ManifestationKind> ManifestationKinds { get; set; }
+        public DbSet<FBCB.SGI.Persistence.Entities.ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
+        public DbSet<FBCB.SGI.Persistence.Entities.CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; }
         public DbSet<FBCB.SGI.Persistence.Entities.CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
 
     }

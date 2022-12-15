@@ -1,5 +1,4 @@
 ﻿
-
 namespace MOROPO.FBCB.SGI.Persistence.Entities
 {
     public class CreationGroup : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
@@ -12,6 +11,10 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
 
         [System.ComponentModel.DataAnnotations.Required]
         public System.Guid OrganizationIdentityId { get; set; }
+
+        public System.Collections.Generic.ICollection<CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; }
+
+        public System.Guid[] SelectedValues { get; set; }
 
         public System.Collections.Generic.ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
 

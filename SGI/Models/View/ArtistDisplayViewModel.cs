@@ -1,4 +1,5 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Enumerations;
+﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+using MOROPO.FBCB.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
@@ -52,12 +53,22 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public FBCB.SGI.Persistence.Enumerations.SchoolLevel SchoolLevel { get; set; }
 
+        public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
+
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
         public string Context { get; set; }
 
         public ModeEntry AdmitionModel { get; set; }
+
+        public System.Guid? AssociationId { get; set; }
+
+        public System.Guid? ResolutionId { get; set; }
+
+        public AssociationDisplayViewModel Association { get; set; }
+
+        public ResolutionDisplayViewModel Resolution { get; set; }
 
         public void Import(FBCB.SGI.Persistence.Entities.Artist entity)
         {
@@ -81,8 +92,9 @@ namespace MOROPO.FCBC.SGI.Models.View
             Workplace = entity.Workplace;
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
-            AdmitionModel = entity.AdmitionModel;
+            AdmitionModel = entity.AdmitionModel;            
             Context = entity.Context;
+            ArtistManifestationBridges = entity.ArtistManifestationBridges;
         }
     }
 }
