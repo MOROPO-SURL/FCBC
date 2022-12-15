@@ -749,7 +749,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("administrativerolebridges");
                 });
 
-            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionInformation", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalInformation", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnName("id");
@@ -759,9 +759,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("value");
 
                     b.HasKey("Id")
-                        .HasName("pk_institutioninformations");
+                        .HasName("pk_institutionalinformations");
 
-                    b.ToTable("institutioninformations");
+                    b.ToTable("institutionalinformations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalService", b =>

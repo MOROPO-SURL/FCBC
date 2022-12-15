@@ -113,11 +113,11 @@ namespace MOROPO.FCBC.SGI.Extensions
 
             institutionSections.Add(new ManagementDashboardSectionViewModel
             {
-                Title = "Información Insitutcional",
-                Controller = "institutioninformation",
+                Title = "Información",
+                Controller = "information",
                 Action = "index",
                 Area = "institution",
-                Role = Security.Authorization.Roles.InstitutionInformationViewer
+                Role = Security.Authorization.Roles.InstitutionalInformationViewer
             });
 
             institutionSections.Add(new ManagementDashboardSectionViewModel

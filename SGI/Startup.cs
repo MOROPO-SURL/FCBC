@@ -49,7 +49,7 @@ namespace MOROPO.FCBC.SGI
             services.PerformMiddlewareIdentityWebCommonServiceRegistration();
 
             services.AddScoped<IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long>, SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.TraceRepository>();
-            services.AddScoped<IEntityRepository<InstitutionInformation, InstitutionInformationKind>, InstitutionInformationRepository>();
+            services.AddScoped<IEntityRepository<InstitutionalInformation, InstitutionalInformationKind>, InstitutionalInformationRepository>();
             services.AddScoped<IEntityRepository<Award, Guid>, AwardRepository>();
             services.AddScoped<IEntityRepository<Distinction, Guid>, DistinctionRepository>();
             services.AddScoped<IEntityRepository<Recognition, Guid>, RecognitionRepository>();

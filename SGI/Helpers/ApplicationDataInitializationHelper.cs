@@ -29,13 +29,13 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
 
             #region ArtisticManifestation
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionInformationViewer)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionalInformationViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.InstitutionInformationViewer.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.InstitutionalInformationViewer.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionInformationEditor)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionalInformationEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.InstitutionInformationEditor.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.InstitutionalInformationEditor.ToRoleEntity());
             }
             #endregion
 
@@ -441,40 +441,40 @@ namespace MOROPO.FCBC.SGI.Helpers
                 
             }
 
-            var institutionInformationDbSet = dbContext.Set<InstitutionInformation>();
+            var institutionInformationDbSet = dbContext.Set<InstitutionalInformation>();
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.SocialObject))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionalInformationKind.SocialObject))
             {
-                institutionInformationDbSet.Add(new InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionalInformation
                 {
-                    Id = InstitutionInformationKind.SocialObject,
+                    Id = InstitutionalInformationKind.SocialObject,
                     Value = "Objeto social no especificado ..."
                 });
             }
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.Mission))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionalInformationKind.Mission))
             {
-                institutionInformationDbSet.Add(new InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionalInformation
                 {
-                    Id = InstitutionInformationKind.Mission,
+                    Id = InstitutionalInformationKind.Mission,
                     Value = "Misión no especificada ..."
                 });
             }
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.Vision))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionalInformationKind.Vision))
             {
-                institutionInformationDbSet.Add(new InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionalInformation
                 {
-                    Id = InstitutionInformationKind.Vision,
+                    Id = InstitutionalInformationKind.Vision,
                     Value = "Visión no especificada ..."
                 });
             }
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.History))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionalInformationKind.History))
             {
-                institutionInformationDbSet.Add(new InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionalInformation
                 {
-                    Id = InstitutionInformationKind.History,
+                    Id = InstitutionalInformationKind.History,
                     Value = "Historia no especificada ..."
                 });
             }

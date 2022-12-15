@@ -4,9 +4,9 @@
     {
         public const string TraceViewer = "security-trace-viewer";
 
-        #region InstitutionInformation
-        public const string InstitutionInformationViewer = "artistic-manifestation-viewer";
-        public const string InstitutionInformationEditor = "artistic-manifestation-editor";
+        #region InstitutionalInformation
+        public const string InstitutionalInformationViewer = "institutional-information-viewer";
+        public const string InstitutionalInformationEditor = "institutional-information-editor";
         #endregion
 
         #region ArtisticManifestation
