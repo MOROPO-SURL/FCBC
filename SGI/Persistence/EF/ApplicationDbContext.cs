@@ -59,7 +59,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<OrganizationSocialContactItemBridge> OrganizationSocialContactItemBridges { get; set; }
         public DbSet<OrganizationWebSiteContactItemBridge> OrganizationWebSiteContactItemBridges { get; set; }
         
-        public DbSet<InstitutionInformation> InstitutionInformations { get; set; }
+        public DbSet<InstitutionalInformation> InstitutionalInformations { get; set; }
         public DbSet<Award> Awards { get; set; }
         public DbSet<Distinction> Distinctions { get; set; }
         public DbSet<Recognition> Recognitions { get; set; }

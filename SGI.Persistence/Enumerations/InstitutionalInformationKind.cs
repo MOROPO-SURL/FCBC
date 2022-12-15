@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.Enumerations
 {
-    public enum InstitutionInformationKind
+    public enum InstitutionalInformationKind
     {
         SocialObject = 1,
         Mission = 2,

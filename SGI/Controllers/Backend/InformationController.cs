@@ -13,42 +13,42 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Route("management/[controller]")]
     [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/management/[controller]")]
     [Area("institution")]
-    public class InstitutionInformationController : SmartSolucionesCuba.SAPRESSC.Core.Web.Common.Controllers.BaseWebController
+    public class InformationController : SmartSolucionesCuba.SAPRESSC.Core.Web.Common.Controllers.BaseWebController
     {
-        private readonly IEntityRepository<InstitutionInformation, InstitutionInformationKind> institutionInformationRepository;
+        private readonly IEntityRepository<InstitutionalInformation, InstitutionalInformationKind> institutionalInformationRepository;
 
-        public InstitutionInformationController(IEntityRepository<InstitutionInformation, InstitutionInformationKind> institutionInformationRepository, Microsoft.Extensions.Localization.IStringLocalizer<InstitutionInformationController> localizer, ILogger<InstitutionInformationController> logger) : base(localizer, logger)
+        public InformationController(IEntityRepository<InstitutionalInformation, InstitutionalInformationKind> institutionalInformationRepository, Microsoft.Extensions.Localization.IStringLocalizer<InformationController> localizer, ILogger<InformationController> logger) : base(localizer, logger)
         {
-            this.institutionInformationRepository = institutionInformationRepository;
+            this.institutionalInformationRepository = institutionalInformationRepository;
         }
 
-        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionInformationViewer)]
+        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionalInformationViewer)]
         public IActionResult Index()
         {
-            var entities = institutionInformationRepository.GetAll().ToArray();
+            var entities = institutionalInformationRepository.GetAll().ToArray();
 
             var model = new Models.View.InstitutionInformationDisplayViewModel 
             {
-                SocialObject = entities.First(entity => entity.Id == InstitutionInformationKind.SocialObject).Value,
-                Mission = entities.First(entity => entity.Id == InstitutionInformationKind.Mission).Value,
-                Vision = entities.First(entity => entity.Id == InstitutionInformationKind.Vision).Value,
-                Histoy = entities.First(entity => entity.Id == InstitutionInformationKind.History).Value
+                SocialObject = entities.First(entity => entity.Id == InstitutionalInformationKind.SocialObject).Value,
+                Mission = entities.First(entity => entity.Id == InstitutionalInformationKind.Mission).Value,
+                Vision = entities.First(entity => entity.Id == InstitutionalInformationKind.Vision).Value,
+                Histoy = entities.First(entity => entity.Id == InstitutionalInformationKind.History).Value
             };
 
             return View(model);
         }
 
         [HttpGet]
-        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionInformationEditor)]
+        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionalInformationEditor)]
         [Route("[action]")]
         public virtual IActionResult Edit()
         {
             try
             {
-                var socialObjectEntity = institutionInformationRepository.Get(InstitutionInformationKind.SocialObject);
-                var missionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Mission);
-                var visionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Vision);
-                var historyEntity = institutionInformationRepository.Get(InstitutionInformationKind.History);
+                var socialObjectEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.SocialObject);
+                var missionEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.Mission);
+                var visionEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.Vision);
+                var historyEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.History);
 
                 var modelInput = new Models.View.InstitutionInformationInputViewModel();
 
@@ -70,7 +70,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [HttpPost]
-        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionInformationEditor)]
+        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionalInformationEditor)]
         [Route("[action]")]
         [ValidateAntiForgeryToken]
         public virtual IActionResult Edit(Models.View.InstitutionInformationInputViewModel modelInput)
@@ -79,20 +79,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 try
                 {
-                    var socialObjectEntity = institutionInformationRepository.Get(InstitutionInformationKind.SocialObject);
-                    var missionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Mission);
-                    var visionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Vision);
-                    var historyEntity = institutionInformationRepository.Get(InstitutionInformationKind.History);
+                    var socialObjectEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.SocialObject);
+                    var missionEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.Mission);
+                    var visionEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.Vision);
+                    var historyEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.History);
 
                     socialObjectEntity.Value = modelInput.SocialObject;
                     missionEntity.Value = modelInput.Mission;
                     visionEntity.Value = modelInput.Vision;
                     historyEntity.Value = modelInput.Histoy;
 
-                    institutionInformationRepository.Update(socialObjectEntity, User.Identity.Name, false);
-                    institutionInformationRepository.Update(missionEntity, User.Identity.Name, false);
-                    institutionInformationRepository.Update(visionEntity, User.Identity.Name, false);
-                    institutionInformationRepository.Update(historyEntity, User.Identity.Name, true);
+                    institutionalInformationRepository.Update(socialObjectEntity, User.Identity.Name, false);
+                    institutionalInformationRepository.Update(missionEntity, User.Identity.Name, false);
+                    institutionalInformationRepository.Update(visionEntity, User.Identity.Name, false);
+                    institutionalInformationRepository.Update(historyEntity, User.Identity.Name, true);
 
                     SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, null, "EditionSuccessMessage", null);
 
