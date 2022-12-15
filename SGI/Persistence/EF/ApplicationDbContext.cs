@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
@@ -58,29 +59,48 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<OrganizationSocialContactItemBridge> OrganizationSocialContactItemBridges { get; set; }
         public DbSet<OrganizationWebSiteContactItemBridge> OrganizationWebSiteContactItemBridges { get; set; }
         
-        public DbSet<FBCB.SGI.Persistence.Entities.InstitutionInformation> InstitutionInformations { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.ArtisticManifestation> ArtisticManifestations { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Award> Awards { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Distinction> Distinctions { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Recognition> Recognitions { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Service> Services { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Thematic> Thematics { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Technique> Technique { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.ContractorKind> ContractorKinds { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Currency> Currencies { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Critic> Critics { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Contractor> Contractors { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Artist> Artists { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.CreationGroup> CreationGroups { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Association> Associations { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.AdministrativeRole> AdministrativeRoles { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Employee>Employees { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge> AdministrativeRoleBridges { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.Resolution> Resolutions { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.ManifestationKind> ManifestationKinds { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; }
-        public DbSet<FBCB.SGI.Persistence.Entities.CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
-
+        public DbSet<InstitutionInformation> InstitutionInformations { get; set; }
+        public DbSet<Award> Awards { get; set; }
+        public DbSet<Distinction> Distinctions { get; set; }
+        public DbSet<Recognition> Recognitions { get; set; }
+        public DbSet<InstitutionalService> InstitutionalServices { get; set; }
+        public DbSet<Thematic> Thematics { get; set; }
+        public DbSet<Technique> Technique { get; set; }
+        public DbSet<ContractorKind> ContractorKinds { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Critic> Critics { get; set; }
+        public DbSet<Contractor> Contractors { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<CreationGroup> CreationGroups { get; set; }
+        public DbSet<Association> Associations { get; set; }
+        public DbSet<AdministrativeRole> AdministrativeRoles { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeAdministrativeRoleBridge> AdministrativeRoleBridges { get; set; }
+        public DbSet<Resolution> Resolutions { get; set; }
+        public DbSet<ArtisticManifestation> ArtisticManifestations { get; set; }
+        public DbSet<CraftManifestation> CraftManifestations { get; set; }
+        public DbSet<DesignManifestation> DesignManifestations { get; set; }
+        public DbSet<ServiceLine> ServiceLines { get; set; }
+        public DbSet<ArtisticManifestationGroup> ArtisticManifestationGroups { get; set; }
+        public DbSet<CraftManifestationGroup> CraftManifestationGroups { get; set; }
+        public DbSet<DesignManifestationGroup> DesignManifestationGroups { get; set; }
+        public DbSet<ServiceLineGroup> ServiceLineGroups { get; set; }
+        public DbSet<ArtistArtisticManifestationBridge> ArtistArtisticManifestationBridges { get; set; }
+        public DbSet<ArtistCraftManifestationBridge> ArtistCraftManifestationBridges { get; set; }
+        public DbSet<ArtistDesignManifestationBridge> ArtistDesignManifestationBridges { get; set; }
+        public DbSet<ArtistServiceLineBridge> ArtistServiceLineBridges { get; set; }
+        public DbSet<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBridges { get; set; }
+        public DbSet<CreationGroupCraftManifestationBridge> CreationGroupCraftManifestationBridges { get; set; }
+        public DbSet<CreationGroupDesignManifestationBridge> CreationGroupDesignManifestationBridges { get; set; }
+        public DbSet<CreationGroupServiceLineBridge> CreationGroupServiceLineBridges { get; set; }
+        public DbSet<ArtistAttachment> ArtistAttachments { get; set; }
+        public DbSet<CreationGroupAttachment> CreationGroupAttachments { get; set; }
+        public DbSet<ArtWork> ArtWorks { get; set; }
+        public DbSet<CraftWork> CraftWorks { get; set; }
+        public DbSet<DesignWork> DesignWorks { get; set; }
+        public DbSet<ServiceWork> ServiceWorks { get; set; }
+        public DbSet<ArtistAssociationLock> ArtistAssociationLocks { get; set; }
+        public DbSet<ArtistResolutionLock> ArtistResolutionLocks { get; set; }
+        public DbSet<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
     }
 }

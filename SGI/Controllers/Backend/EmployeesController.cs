@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities;
@@ -180,14 +180,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             PersonPostalContactItemBridge personPostalContactItemBridge = new PersonPostalContactItemBridge
             {
-                PersonId = inputViewModel.Export().PersonIdentity.Id,
-                Person = inputViewModel.Export().PersonIdentity,
+                PersonId = inputViewModel.Export().Identity.Id,
+                Person = inputViewModel.Export().Identity,
                 ContactItemId = postalContact.Id,
                 ContactItem = postalContact
             };
-            entity.PersonIdentity.PersonPostalContactItemBridges.Add(personPostalContactItemBridge);
+            entity.Identity.PersonPostalContactItemBridges.Add(personPostalContactItemBridge);
 
-            var getRegionRegister = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            var getRegionRegister = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             inputViewModel.Municipality = ((MunicipalityRegion)getRegionRegister).Municipality;
             inputViewModel.State = inputViewModel.Municipality.State;
 
@@ -200,8 +200,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Name = admRole.Name,
                     Description = admRole.Description
                 };
-                var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = inputViewModel.Id, AdministrativeRoleId = admRolId, AdministrativeRole = administrativeRoleInputViewModel.Export(), Employee = inputViewModel.Export() };
-                entity.EmployeeAdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
+                var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = inputViewModel.Id, RoleId = admRolId, Role = administrativeRoleInputViewModel.Export(), Employee = inputViewModel.Export() };
+                entity.AdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
                 
             }            
 
@@ -215,7 +215,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), inputViewModel.ImageFile.ContentType);
 
-                entity.PersonIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -225,19 +225,19 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             PopulateWithCountriesEdit(inputViewModel);
 
-            var contact = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem;
+            var contact = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem;
             contact.Address = inputViewModel.AddressPostal;
             var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == inputViewModel.MunicipalityId);
             var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == inputViewModel.MunicipalityId);
             inputViewModel.StateId = municipality.StateId;
-            if (region.Id != entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
+            if (region.Id != entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
             {
-                entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
-                entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
+                entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
+                entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
 
             }
 
-            entity.EmployeeAdministrativeRoleBridges.Clear();
+            entity.AdministrativeRoleBridges.Clear();
 
             foreach (var admRolId in inputViewModel.SelectedValues)
             {
@@ -248,28 +248,28 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Name = admRole.Name,
                     Description = admRole.Description
                 };
-                var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = inputViewModel.Id, AdministrativeRoleId = admRolId, AdministrativeRole = administrativeRoleInputViewModel.Export(), Employee = inputViewModel.Export() };
-                entity.EmployeeAdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
+                var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = inputViewModel.Id, RoleId = admRolId, Role = administrativeRoleInputViewModel.Export(), Employee = inputViewModel.Export() };
+                entity.AdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
 
             }
 
             if (inputViewModel.ImageFile == null)
             {
-                if (inputViewModel.ResetImage && entity.PersonIdentity.Image != null)
+                if (inputViewModel.ResetImage && entity.Identity.Image != null)
                 {
-                    imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
+                    imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                    imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
+                    imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
                 }
 
                 return;
             }
 
-            if (entity.PersonIdentity.Image != null)
+            if (entity.Identity.Image != null)
             {
-                imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
+                imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
+                imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
             }
 
             using (var memoryStream = new System.IO.MemoryStream())
@@ -280,7 +280,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), inputViewModel.ImageFile.ContentType);
 
-                entity.PersonIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -288,13 +288,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PostDelete(entity);
 
-            identityRepository.Delete(entity.PersonIdentity, User.Identity.Name);
+            identityRepository.Delete(entity.Identity, User.Identity.Name);
 
-            if (entity.PersonIdentity.Image == null) return;
+            if (entity.Identity.Image == null) return;
 
-            imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
+            imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
 
-            imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
+            imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
         }
 
         private void PopulateWithAdministrativeRole(EmployeeInputViewModel modelInput)
@@ -344,14 +344,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 var resultModel = new EmployeeContactsManageViewModel
                 {
                     Employee = new EmployeeDisplayViewModel(),
-                    PhoneContacts = entity.PersonIdentity.PersonPhoneContactItemBridges.Select(bridge => new EmployeePhoneContactDisplayViewModel
+                    PhoneContacts = entity.Identity.PersonPhoneContactItemBridges.Select(bridge => new EmployeePhoneContactDisplayViewModel
                     {
                         Id = bridge.ContactItemId,
                         Label = bridge.ContactItem.Label,
                         Number = bridge.ContactItem.PhoneNumber,
                         EmployeeId = entity.Id
                     }).ToList(),
-                    EmailContacts = entity.PersonIdentity.PersonEmailContactItemBridges.Select(bridge => new EmployeeEmailContactDisplayViewModel
+                    EmailContacts = entity.Identity.PersonEmailContactItemBridges.Select(bridge => new EmployeeEmailContactDisplayViewModel
                     {
                         Id = bridge.ContactItemId,
                         Label = bridge.ContactItem.Label,
@@ -397,7 +397,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.PersonIdentity.PersonPhoneContactItemBridges.Add(new PersonPhoneContactItemBridge { PersonId = entity.PersonIdentityId, ContactItem = new PhoneContactItem { Label = modelInput.Label, PhoneNumber = modelInput.Number } });
+                entity.Identity.PersonPhoneContactItemBridges.Add(new PersonPhoneContactItemBridge { PersonId = entity.IdentityId, ContactItem = new PhoneContactItem { Label = modelInput.Label, PhoneNumber = modelInput.Number } });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -446,9 +446,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             try
             {
-                var bridge = entity.PersonIdentity.PersonPhoneContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+                var bridge = entity.Identity.PersonPhoneContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
 
-                entity.PersonIdentity.PersonPhoneContactItemBridges.Remove(bridge);
+                entity.Identity.PersonPhoneContactItemBridges.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -491,7 +491,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.PersonIdentity.PersonEmailContactItemBridges.Add(new PersonEmailContactItemBridge { PersonId = entity.PersonIdentityId, ContactItem = new EmailContactItem { Label = modelInput.Label, EmailAddress = modelInput.Address } });
+                entity.Identity.PersonEmailContactItemBridges.Add(new PersonEmailContactItemBridge { PersonId = entity.IdentityId, ContactItem = new EmailContactItem { Label = modelInput.Label, EmailAddress = modelInput.Address } });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -540,9 +540,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             try
             {
-                var bridge = entity.PersonIdentity.PersonEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+                var bridge = entity.Identity.PersonEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
 
-                entity.PersonIdentity.PersonEmailContactItemBridges.Remove(bridge);
+                entity.Identity.PersonEmailContactItemBridges.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
 

@@ -1,4 +1,4 @@
-﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation, System.Guid, MOROPO.FCBC.SGI.Models.View.ArtisticManifestationDisplayViewModel>
+﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestation, System.Guid, MOROPO.FCBC.SGI.Models.View.ArtisticManifestationDisplayViewModel>
 
 @{
     ViewData["Title"] = "Administración de Manifestaciones Artíticas";
@@ -144,7 +144,7 @@
                         <span class="font-weight-bold">
                             Pertenece a:
                         </span>
-                        @item.Parent.Name
+                        @item.Group.Name
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
@@ -172,7 +172,7 @@
                     <tr>
                         <td style="vertical-align: middle;" title="Manifestacin Artistica ">@item.Name</td>
                         <td style="vertical-align: middle;" title="Pertenece a">
-                            @item.Parent.Name
+                            @item.Group.Name
                         </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">

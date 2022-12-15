@@ -1,12 +1,14 @@
-﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+
+namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 {
-    public class AssociationEntityTypeConfigurator : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<FBCB.SGI.Persistence.Entities.Association>
+    public class AssociationEntityTypeConfigurator : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Association>
     {
-        protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<FBCB.SGI.Persistence.Entities.Association> entityTypeBuilder)
+        protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Association> entityTypeBuilder)
         {
             base.ApplayRules(entityTypeBuilder);
 
-            entityTypeBuilder.HasOne(o => o.OrganizationIdentity).WithOne().HasForeignKey<FBCB.SGI.Persistence.Entities.Association>(a => a.OrganizationIdentityId);
+            entityTypeBuilder.HasOne(o => o.Identity).WithOne().HasForeignKey<Association>(a => a.IdentityId);
         }
     }
 }

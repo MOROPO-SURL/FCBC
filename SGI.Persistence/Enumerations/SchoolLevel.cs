@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MOROPO.FBCB.SGI.Persistence.Enumerations
+namespace MOROPO.FCBC.SGI.Persistence.Enumerations
 {
-    
-        public enum SchoolLevel
-        {
-            Primary,
-            Medium,
-            UpperMiddle,
-            Higher,
-            FourthLevelEducation
-        }
-    
+
+    public enum SchoolLevel
+    {
+        Primary,
+        Medium,
+        UpperMiddle,
+        Higher,
+        FourthLevelEducation
+    }
+
 }

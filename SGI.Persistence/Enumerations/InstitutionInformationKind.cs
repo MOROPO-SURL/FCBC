@@ -1,4 +1,4 @@
-﻿namespace MOROPO.FBCB.SGI.Persistence.Enumerations
+﻿namespace MOROPO.FCBC.SGI.Persistence.Enumerations
 {
     public enum InstitutionInformationKind
     {

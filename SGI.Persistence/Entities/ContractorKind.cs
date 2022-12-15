@@ -1,6 +1,4 @@
-﻿
-
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class ContractorKind : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<int>
     {

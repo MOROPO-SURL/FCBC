@@ -74,23 +74,23 @@
                 {
                     <div class="col-sm-4 d-sm-flex" style="margin-bottom: 20px;">
                         <div class="card text-center" style="width:100%;">
-                            @if (artist.PersonIdentity.ImageId != null )
+                            @if (artist.Identity.ImageId != null )
                             {
                                 var extension = Model.GetExtension(artist);
-                                <img src="~/media/images/@artist.PersonIdentity.ImageId.@extension" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
+                                <img src="~/media/images/@artist.Identity.ImageId.@extension" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
                             }
                             else
                             {
                                 <img src="~/media/images/default-person.png" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
                             }
                             <div class="card-body">
-                                <h5 class="card-title">@artist.PersonIdentity.Name @artist.PersonIdentity.LastName</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@artist.PersonIdentity.Alias</h6>
-                                <p class="card-text">@artist.PersonIdentity.About</p>
+                                <h5 class="card-title">@artist.Identity.Name @artist.Identity.LastName</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@artist.Identity.Alias</h6>
+                                <p class="card-text">@artist.Identity.About</p>
                             </div>
                             <div class="card-footer">
-                                @if(@artist.PersonIdentity.PersonEmailContactItemBridges.Count() != 0){
-                                    @artist.PersonIdentity.PersonEmailContactItemBridges.FirstOrDefault().ContactItem.EmailAddress;
+                                @if(@artist.Identity.PersonEmailContactItemBridges.Count() != 0){
+                                    @artist.Identity.PersonEmailContactItemBridges.FirstOrDefault().ContactItem.EmailAddress;
                                 }
                             </div>
                         </div>

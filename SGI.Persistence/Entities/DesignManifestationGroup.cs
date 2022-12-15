@@ -1,7 +1,6 @@
-﻿
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class ManifestationKind: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
+    public class DesignManifestationGroup : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
@@ -9,11 +8,12 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         public string Name { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ParentId")]
-        public ManifestationKind Parent { get; set; }
-
+        public DesignManifestationGroup Parent { get; set; }
         public System.Guid? ParentId { get; set; }
 
-        public ManifestationKind()
+        public string Description { get; set; }
+
+        public DesignManifestationGroup()
         {
             Id = System.Guid.NewGuid();
         }

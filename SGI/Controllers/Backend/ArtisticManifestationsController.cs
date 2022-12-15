@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
@@ -18,8 +18,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Area("complements")]
     public class ArtisticManifestationsController : AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>
     {
-        private IEntityRepository<ManifestationKind, Guid> manifestationKindRepository;
-        public ArtisticManifestationsController(IEntityRepository<ManifestationKind, Guid> manifestationKindRepository, IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer<ArtisticManifestationsController> localizer, ILogger<ArtisticManifestationsController> logger) : base(repository, localizer, logger)
+        private IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository;
+        public ArtisticManifestationsController(IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository, IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer<ArtisticManifestationsController> localizer, ILogger<ArtisticManifestationsController> logger) : base(repository, localizer, logger)
         {
             this.manifestationKindRepository = manifestationKindRepository;
         }
@@ -92,7 +92,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, null));
         }
 
-        private List<object> GetTree(List<ManifestationKind> manifestationKinds, System.Guid? parentId)
+        private List<object> GetTree(List<ArtisticManifestationGroup> manifestationKinds, System.Guid? parentId)
         {
             var result = new List<object>();
 

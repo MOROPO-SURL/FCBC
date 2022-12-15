@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
@@ -14,9 +14,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
     [Area("institution")]
-    public class ServicesController : AbstractEntityManagementController<Service, Guid, ServiceInputViewModel, ServiceDisplayViewModel>
+    public class ServicesController : AbstractEntityManagementController<InstitutionalService, Guid, ServiceInputViewModel, ServiceDisplayViewModel>
     {
-        public ServicesController(IEntityRepository<Service, Guid> repository, IStringLocalizer<ServicesController> localizer, ILogger<ServicesController> logger) : base(repository, localizer, logger)
+        public ServicesController(IEntityRepository<InstitutionalService, Guid> repository, IStringLocalizer<ServicesController> localizer, ILogger<ServicesController> logger) : base(repository, localizer, logger)
         {
         }
 

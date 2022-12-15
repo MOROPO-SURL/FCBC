@@ -21,7 +21,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.AdministrativeRole", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.AdministrativeRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("administrativeroles");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Artist", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Artist", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artists");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artisticmanifestations");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Association", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Association", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,7 +94,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("associations");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Award", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Award", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,7 +116,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("awards");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Contractor", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,7 +141,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("contractors");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ContractorKind", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ContractorKind", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("contractorkinds");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -179,7 +179,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("creationgroups");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Critic", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Critic", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,7 +197,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("critics");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Currency", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -222,7 +222,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("currencies");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Distinction", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Distinction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -238,7 +238,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("distinctions");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Employee", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Employee", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,7 +260,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("employees");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge", b =>
                 {
                     b.Property<Guid>("AdministrativeRoleId")
                         .HasColumnName("administrativeroleid");
@@ -277,7 +277,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("administrativerolebridges");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ManifestationKind", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -298,7 +298,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("manifestationkinds");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Recognition", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Recognition", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -314,7 +314,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("recognitions");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Resolution", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Resolution", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -335,7 +335,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("resolutions");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Service", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Service", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -354,7 +354,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("services");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Technique", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Technique", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -373,7 +373,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("technique");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Thematic", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1215,25 +1215,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasDiscriminator().HasValue("StateRegion");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Artist", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Artist", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "PersonIdentity")
                         .WithOne()
-                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Artist", "PersonIdentityId")
+                        .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Artist", "PersonIdentityId")
                         .HasConstraintName("fk_artists_personidentities_personidentityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Association", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Association", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "OrganizationIdentity")
                         .WithOne()
-                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Association", "OrganizationIdentityId")
+                        .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Association", "OrganizationIdentityId")
                         .HasConstraintName("fk_associations_organizationidentities_organizationidentityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Award", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Award", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
                         .WithMany()
@@ -1242,9 +1242,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Contractor", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", b =>
                 {
-                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ContractorKind", "ContractorKind")
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ContractorKind", "ContractorKind")
                         .WithMany()
                         .HasForeignKey("ContractorKindId")
                         .HasConstraintName("fk_contractors_contractorkinds_contractorkindid")
@@ -1252,21 +1252,21 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "OrganizationIdentity")
                         .WithOne()
-                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Contractor", "OrganizationIdentityId")
+                        .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", "OrganizationIdentityId")
                         .HasConstraintName("fk_contractors_organizationidentities_organizationidentityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "OrganizationIdentity")
                         .WithOne()
-                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.CreationGroup", "OrganizationIdentityId")
+                        .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "OrganizationIdentityId")
                         .HasConstraintName("fk_creationgroups_organizationidentities_organizationidentityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Critic", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Critic", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "PersonIdentity")
                         .WithMany()
@@ -1275,33 +1275,33 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Employee", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Employee", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "PersonIdentity")
                         .WithOne()
-                        .HasForeignKey("MOROPO.FBCB.SGI.Persistence.Entities.Employee", "PersonIdentityId")
+                        .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Employee", "PersonIdentityId")
                         .HasConstraintName("fk_employees_personidentities_personidentityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge", b =>
                 {
-                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.AdministrativeRole", "AdministrativeRole")
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.AdministrativeRole", "AdministrativeRole")
                         .WithMany("EmployeeAdministrativeRoleBridges")
                         .HasForeignKey("AdministrativeRoleId")
                         .HasConstraintName("fk_administrativerolebridges_administrativeroles_administrativ~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.Employee", "Employee")
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Employee", "Employee")
                         .WithMany("EmployeeAdministrativeRoleBridges")
                         .HasForeignKey("EmployeeId")
                         .HasConstraintName("fk_administrativerolebridges_employees_employeeid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ManifestationKind", b =>
                 {
-                    b.HasOne("MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind", "Parent")
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ManifestationKind", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId")
                         .HasConstraintName("fk_manifestationkinds_manifestationkinds_parentid");

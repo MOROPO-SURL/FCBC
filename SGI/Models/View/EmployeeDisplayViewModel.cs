@@ -1,5 +1,5 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using MOROPO.FCBC.SGI.Extensions;
+﻿using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class EmployeeDisplayViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<FBCB.SGI.Persistence.Entities.Employee, System.Guid>
+    public class EmployeeDisplayViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Employee, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -45,21 +45,21 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; }
 
-        public void Import(FBCB.SGI.Persistence.Entities.Employee entity)
+        public void Import(Employee entity)
         {
             Id = entity.Id;
-            ImageId = entity.PersonIdentity.ImageId ?? System.Guid.Empty;
-            ImageExtension = entity.PersonIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            Name = entity.PersonIdentity.Name;
-            LastName = entity.PersonIdentity.LastName;
-            BornDate = entity.PersonIdentity.BornDate;
-            Sex = entity.PersonIdentity.Sex;
-            CivilStatus = entity.PersonIdentity.CivilStatus;
-            Alias = entity.PersonIdentity.Alias;
-            About = entity.PersonIdentity.About;            
-            EmployeeAdministrativeRoleBridges = entity.EmployeeAdministrativeRoleBridges;
-            AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
-            var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            Name = entity.Identity.Name;
+            LastName = entity.Identity.LastName;
+            BornDate = entity.Identity.BornDate;
+            Sex = entity.Identity.Sex;
+            CivilStatus = entity.Identity.CivilStatus;
+            Alias = entity.Identity.Alias;
+            About = entity.Identity.About;            
+            EmployeeAdministrativeRoleBridges = entity.AdministrativeRoleBridges;
+            AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             Municipality = ((MunicipalityRegion)region).Municipality;
             State = Municipality.State;
         }

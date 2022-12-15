@@ -72,10 +72,10 @@
                     </div>
                 </div>
                 <div class="col-md-6" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
-                    @Html.HiddenFor(model => model.ParentId)
+                    @Html.LabelFor(model => model.GroupId, new { @class = "control-label" })
+                    @Html.HiddenFor(model => model.GroupId)
                     <div id="tree"></div>
-                    @Html.ValidationMessageFor(model => model.ParentId, null, new { @class = "text-danger", style = "display: inline-block;" })
+                    @Html.ValidationMessageFor(model => model.GroupId, null, new { @class = "text-danger", style = "display: inline-block;" })
                 </div>
             </div>
 

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
@@ -17,11 +17,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
     [Area("complements")]
-    public class ManifestationKindsController : AbstractEntityManagementController<ManifestationKind, Guid, ManifestationKindInputViewModel, ManifestationKindDisplayViewModel>
+    public class ManifestationKindsController : AbstractEntityManagementController<ArtisticManifestationGroup, Guid, ManifestationKindInputViewModel, ArtisticManifestationGroupDisplayViewModel>
     {
-        private IEntityRepository<ManifestationKind, Guid> manifestationKindRepository;
+        private IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository;
 
-        public ManifestationKindsController(IEntityRepository<ManifestationKind, Guid> manifestationKindRepository, IEntityRepository<ManifestationKind, Guid> repository, IStringLocalizer<ManifestationKindsController> localizer, ILogger<ManifestationKindsController> logger) : base(repository, localizer, logger)
+        public ManifestationKindsController(IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository, IEntityRepository<ArtisticManifestationGroup, Guid> repository, IStringLocalizer<ManifestationKindsController> localizer, ILogger<ManifestationKindsController> logger) : base(repository, localizer, logger)
         {
             this.manifestationKindRepository = manifestationKindRepository;
         }
@@ -63,7 +63,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [RequiresRoleBasePermission(Roles.ManifestationKindRemover)]
-        public override IActionResult Delete(ManifestationKindDisplayViewModel displayModel)
+        public override IActionResult Delete(ArtisticManifestationGroupDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);
         }
@@ -78,7 +78,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateTree(modelInput);
         }
 
-        protected override void ConfigureEdit(ManifestationKind entity, ManifestationKindInputViewModel modelInput)
+        protected override void ConfigureEdit(ArtisticManifestationGroup entity, ManifestationKindInputViewModel modelInput)
         {
             PopulateTree(modelInput);
         }
@@ -94,7 +94,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, modelInput.Id, null));
         }
 
-        private List<object> GetTree(List<ManifestationKind> manifestationKinds, System.Guid? id, System.Guid? parentId)
+        private List<object> GetTree(List<ArtisticManifestationGroup> manifestationKinds, System.Guid? id, System.Guid? parentId)
         {
             var result = new List<object>();
             

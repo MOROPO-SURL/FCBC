@@ -1,11 +1,12 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class AssociationDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<FBCB.SGI.Persistence.Entities.Association, System.Guid>
+    public class AssociationDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Association, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -25,15 +26,15 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Address")]
         public string AddressPostal { get; set; } 
 
-        public void Import(FBCB.SGI.Persistence.Entities.Association entity)
+        public void Import(Association entity)
         {
             Id = entity.Id;
-            ImageId = entity.OrganizationIdentity.ImageId ?? System.Guid.Empty;
-            ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            OrganizationIdentityName = entity.OrganizationIdentity.Name;
-            BornDate = entity.OrganizationIdentity.BornDate;
-            About = entity.OrganizationIdentity.About;
-            AddressPostal = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            OrganizationIdentityName = entity.Identity.Name;
+            BornDate = entity.Identity.BornDate;
+            About = entity.Identity.About;
+            AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
         }
     }
 }

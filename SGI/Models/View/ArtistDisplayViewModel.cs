@@ -1,6 +1,6 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using MOROPO.FBCB.SGI.Persistence.Enumerations;
-using MOROPO.FCBC.SGI.Extensions;
+﻿using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtistDisplayViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<FBCB.SGI.Persistence.Entities.Artist, System.Guid>
+    public class ArtistDisplayViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Artist, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -49,18 +49,18 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Identity Number")]
         public string CitizenId { get; set; }
 
-        public FBCB.SGI.Persistence.Enumerations.WorkPlace Workplace { get; set; }
+        public WorkPlace Workplace { get; set; }
 
-        public FBCB.SGI.Persistence.Enumerations.SchoolLevel SchoolLevel { get; set; }
+        public SchoolLevel SchoolLevel { get; set; }
 
-        public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
+        public ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; }
 
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
-        public string Context { get; set; }
+        public string AdmitionModeContext { get; set; }
 
-        public ModeEntry AdmitionModel { get; set; }
+        public AdmitionMode AdmitionMode { get; set; }
 
         public System.Guid? AssociationId { get; set; }
 
@@ -70,31 +70,31 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ResolutionDisplayViewModel Resolution { get; set; }
 
-        public void Import(FBCB.SGI.Persistence.Entities.Artist entity)
+        public void Import(Artist entity)
         {
             Id = entity.Id;
-            ImageId = entity.PersonIdentity.ImageId ?? System.Guid.Empty;
-            ImageExtension = entity.PersonIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            Name = entity.PersonIdentity.Name;
-            LastName = entity.PersonIdentity.LastName;
-            BornDate = entity.PersonIdentity.BornDate;
-            Sex = entity.PersonIdentity.Sex;
-            CivilStatus = entity.PersonIdentity.CivilStatus;
-            Alias = entity.PersonIdentity.Alias;
-            About = entity.PersonIdentity.About;
-            EmailContactItems = entity.PersonIdentity.PersonEmailContactItemBridges.Select(b => b.ContactItem).ToArray();
-            PhoneContactItems = entity.PersonIdentity.PersonPhoneContactItemBridges.Select(b => b.ContactItem).ToArray();
-            AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
-            var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            Name = entity.Identity.Name;
+            LastName = entity.Identity.LastName;
+            BornDate = entity.Identity.BornDate;
+            Sex = entity.Identity.Sex;
+            CivilStatus = entity.Identity.CivilStatus;
+            Alias = entity.Identity.Alias;
+            About = entity.Identity.About;
+            EmailContactItems = entity.Identity.PersonEmailContactItemBridges.Select(b => b.ContactItem).ToArray();
+            PhoneContactItems = entity.Identity.PersonPhoneContactItemBridges.Select(b => b.ContactItem).ToArray();
+            AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             Municipality = ((MunicipalityRegion)region).Municipality;
             State = Municipality.State;
             CitizenId = entity.CitizenId;
             Workplace = entity.Workplace;
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
-            AdmitionModel = entity.AdmitionModel;            
-            Context = entity.Context;
-            ArtistManifestationBridges = entity.ArtistManifestationBridges;
+            AdmitionMode = entity.AdmitionMode;
+            AdmitionModeContext = entity.AdmitionModeContext;
+            ArtistManifestationBridges = entity.ArtisticManifestationBridges;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.FBCB.SGI.Persistence.Entities.ManifestationKind, System.Guid, MOROPO.FCBC.SGI.Models.View.ManifestationKindDisplayViewModel>
+﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestationGroup, System.Guid, MOROPO.FCBC.SGI.Models.View.ArtisticManifestationGroupDisplayViewModel>
 
 @{
     ViewData["Title"] = "Administración de Tipo de Manifestaciones";
@@ -144,10 +144,14 @@
                                 <span class="font-weight-bold">
                                     Pertenece a:
                                 </span>
-                        @if (@item.Parent != null)
-                        {
-                            @item.Parent.Name
-                        }                        
+                                @if (@item.ParentName != null)
+                                {
+                                    @item.ParentName
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
                             </div>
                             <div>
                                 <div class="btn-group btn-group-sm float-right">
@@ -176,8 +180,8 @@
                             <tr>
                                 <td style="vertical-align: middle;" title="Nombre ">@item.Name</td>   
                                 <td style="vertical-align: middle;" title="Pertenece a">
-                                @if(item.Parent != null){
-                                    @item.Parent.Name
+                                @if(item.ParentName != null){
+                                    @item.ParentName
                                 }
                                 </td>   
                                 <td style="vertical-align: middle;">

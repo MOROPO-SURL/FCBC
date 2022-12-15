@@ -1,9 +1,11 @@
-﻿namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿using MOROPO.FCBC.SGI.Persistence.Enumerations;
+
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class InstitutionInformation : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<Enumerations.InstitutionInformationKind>
+    public class InstitutionInformation : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<InstitutionInformationKind>
     {
         [System.ComponentModel.DataAnnotations.Key]
-        public Enumerations.InstitutionInformationKind Id { get; set; }
+        public InstitutionInformationKind Id { get; set; }
 
         [System.ComponentModel.DataAnnotations.Required]
         public string Value { get; set; }

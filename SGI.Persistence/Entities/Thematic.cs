@@ -1,4 +1,4 @@
-﻿namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class Thematic : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
@@ -14,6 +14,6 @@
         public string Name { get; set; }
 
         public string Description { get; set; }
-        
+
     }
 }

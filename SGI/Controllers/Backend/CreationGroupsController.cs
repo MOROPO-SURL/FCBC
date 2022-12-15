@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
@@ -28,7 +28,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
         private readonly IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository;
         private readonly IEntityRepository<Artist, Guid> artistRepository;
-        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository,, IEntityRepository<CreationGroup, Guid> repository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
+        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CreationGroup, Guid> repository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
@@ -129,8 +129,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Name = artisticMani.Name,
 
                 };
-                var CreationGroupArtisticManifestationBrigde = new CreationGroupArtisticManifestationBrigde { CreationGroupId = modelInput.Id, ArtisticManifestationId = artisticManifestationId, ArtisticManifestation = artisticManifestationInputViewModel.Export(), CreationGroup = modelInput.Export() };
-                entity.CreationGroupArtisticManifestationBrigdes.Add(CreationGroupArtisticManifestationBrigde);
+                var CreationGroupArtisticManifestationBrigde = new CreationGroupArtisticManifestationBridge { GroupId = modelInput.Id, ManifestationId = artisticManifestationId, Manifestation = artisticManifestationInputViewModel.Export(), Group = modelInput.Export() };
+                entity.ArtisticManifestationBrigdes.Add(CreationGroupArtisticManifestationBrigde);
 
             }
 
@@ -144,7 +144,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), modelInput.ImageFile.ContentType);
 
-                entity.OrganizationIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -165,28 +165,28 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Name = artisticMani.Name,
 
                 };
-                var CreationGroupArtisticManifestationBrigde = new CreationGroupArtisticManifestationBrigde { CreationGroupId = modelInput.Id, ArtisticManifestationId = artisticManifestationId, ArtisticManifestation = artisticManifestationInputViewModel.Export(), CreationGroup = modelInput.Export() };
-                entity.CreationGroupArtisticManifestationBrigdes.Add(CreationGroupArtisticManifestationBrigde);
+                var CreationGroupArtisticManifestationBrigde = new CreationGroupArtisticManifestationBridge { GroupId = modelInput.Id, ManifestationId = artisticManifestationId, Manifestation = artisticManifestationInputViewModel.Export(), Group = modelInput.Export() };
+                entity.ArtisticManifestationBrigdes.Add(CreationGroupArtisticManifestationBrigde);
 
             }
 
             if (modelInput.ImageFile == null)
             {
-                if (modelInput.ResetImage && entity.OrganizationIdentity.Image != null)
+                if (modelInput.ResetImage && entity.Identity.Image != null)
                 {
-                    imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+                    imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                    imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
+                    imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
                 }
 
                 return;
             }
 
-            if (entity.OrganizationIdentity.Image != null)
+            if (entity.Identity.Image != null)
             {
-                imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+                imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
+                imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
             }
 
             using (var memoryStream = new System.IO.MemoryStream())
@@ -197,7 +197,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), modelInput.ImageFile.ContentType);
 
-                entity.OrganizationIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -219,13 +219,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PostDelete(entity);
 
-            organizationIdentityRepository.Delete(entity.OrganizationIdentity, User.Identity.Name);
+            organizationIdentityRepository.Delete(entity.Identity, User.Identity.Name);
 
-            if (entity.OrganizationIdentity.Image == null) return;
+            if (entity.Identity.Image == null) return;
 
-            imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
+            imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
 
-            imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+            imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
         }
 
         [Route("edit/{key}/members")]
@@ -244,7 +244,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 
                 var resultModel = new CreationGroupInputViewModel ();
                 resultModel.Import(entity);
-                resultModel.NotMembers = notMemberArtist.Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.PersonIdentity.Name+" "+n.PersonIdentity.LastName }).ToArray();
+                resultModel.NotMembers = notMemberArtist.Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.Identity.Name+" "+n.Identity.LastName }).ToArray();
                 resultModel.Members = members;
                 return View(resultModel);
             }

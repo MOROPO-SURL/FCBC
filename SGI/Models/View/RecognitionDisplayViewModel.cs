@@ -1,4 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
 
 namespace MOROPO.FCBC.SGI.Models.View

@@ -21,7 +21,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.ArtisticManifestation", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artisticmanifestations");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Award", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Award", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("awards");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Currency", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +84,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("currencies");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Distinction", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Distinction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,7 +100,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("distinctions");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Recognition", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Recognition", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,7 +116,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("recognitions");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Service", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Service", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +136,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("services");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Technique", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Technique", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,7 +156,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("technique");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Thematic", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -998,7 +998,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasDiscriminator().HasValue("StateRegion");
                 });
 
-            modelBuilder.Entity("MOROPO.FBCB.SGI.Persistence.Entities.Award", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Award", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
                         .WithMany()

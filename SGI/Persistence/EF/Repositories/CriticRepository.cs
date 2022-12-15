@@ -1,21 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class CriticRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<MOROPO.FBCB.SGI.Persistence.Entities.Critic, System.Guid>
+    public class CriticRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Critic, System.Guid>
     {
         public CriticRepository(DbContext dbContext) : base(dbContext)
         {
         }
 
-        public override System.Func<FBCB.SGI.Persistence.Entities.Critic, object> GetPagingOrderSelector()
+        public override System.Func<Critic, object> GetPagingOrderSelector()
         {
-            return entity => entity.PersonIdentity.Name;
+            return entity => entity.Identity.Name;
         }
 
-        protected override System.Linq.IQueryable<FBCB.SGI.Persistence.Entities.Critic> GetQueryableDbSet()
+        protected override System.Linq.IQueryable<Critic> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(e => e.PersonIdentity).ThenInclude(p => p.Image);
+            return base.GetQueryableDbSet().Include(e => e.Identity).ThenInclude(p => p.Image);
         }
     }
 }

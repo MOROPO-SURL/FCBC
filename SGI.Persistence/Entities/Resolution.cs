@@ -1,15 +1,18 @@
-﻿
-
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Resolution: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    public class Resolution : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
-        public string NumberResolution { get; set; }
+
+        public int Number { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Required]
         public string Title { get; set; }
+
         public string Description { get; set; }
-        public System.DateTime ResolutionDate { get; set; }
+
+        public System.DateTime ReleaseAt { get; set; }
 
         public Resolution()
         {

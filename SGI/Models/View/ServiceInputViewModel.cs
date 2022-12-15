@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ServiceInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.Service, System.Guid>
+    public class ServiceInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<InstitutionalService, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -13,23 +14,23 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Description")]
         public string Description { get; set; }
 
-        public FBCB.SGI.Persistence.Entities.Service Export()
+        public InstitutionalService Export()
         {
-            var entity = new FBCB.SGI.Persistence.Entities.Service();
+            var entity = new InstitutionalService();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(FBCB.SGI.Persistence.Entities.Service entity)
+        public void Import(InstitutionalService entity)
         {
             Id = entity.Id;
             Name = entity.Name;
             Description = entity.Description;
         }
 
-        public void Mergue(FBCB.SGI.Persistence.Entities.Service entity)
+        public void Mergue(InstitutionalService entity)
         {
             entity.Name = Name;
             entity.Description = Description;
