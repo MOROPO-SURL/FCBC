@@ -1,18 +1,19 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
+using System;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Linq;
+using MOROPO.FBCB.SGI.Persistence.Enumerations;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MOROPO.FCBC.SGI.Persistence.Enumerations;
-using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FBCB.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtistInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Artist, System.Guid>
+    public class ArtistInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.Artist, System.Guid>
     {
-        public System.Guid Id { get; set; }
+        public Guid Id { get; set; }
 
         [FormFileContentTypes(ContentTypes = new string[] { "image/png", "image/jpeg" }, ErrorMessage = "PNG_JPEG_FileAllowedOnlyMessage")]
         [FormFileMaxLength(Length = 3145728, ErrorMessage = "FileLimitSizeExcededMessage")]
@@ -53,15 +54,15 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Context { get; set; }
 
-        public AdmitionMode AdmitionModel { get; set; }        
+        public ModeEntry AdmitionModel { get; set; }        
         
         public System.Guid? AssociationId { get; set; }
 
-        public ICollection<SelectListItem> Associations { get; set; } = new List<SelectListItem>();
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Associations { get; set; } = new List<SelectListItem>();
 
         public System.Guid? ResolutionId { get; set; }
 
-        public ICollection<SelectListItem> Resolutions { get; set; } = new List<SelectListItem>();
+        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Resolutions { get; set; } = new List<SelectListItem>();
         
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "State")]
@@ -82,75 +83,74 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Citizen Id")]
         public string CitizenId { get; set; }
 
-        public WorkPlace Workplace { get; set; }
+        public FBCB.SGI.Persistence.Enumerations.WorkPlace Workplace { get; set; }
 
-        public SchoolLevel SchoolLevel { get; set; }
+        public FBCB.SGI.Persistence.Enumerations.SchoolLevel SchoolLevel { get; set; }
 
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
-        public ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; } = new List<ArtistArtisticManifestationBridge>();
+        public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; } = new List<ArtistManifestationBridge>();
 
         [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; } 
-
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+        
         public System.Guid[] SelectedValues { get; set; }
 
         public ArtistInputViewModel()
         {
-            BornDate = System.DateTime.Now.AddYears(-16);
+            BornDate = DateTime.Now.AddYears(-16);
         }
         
-        public Artist Export()
+        public FBCB.SGI.Persistence.Entities.Artist Export()
         {
-            var entity = new Artist();
+            var entity = new FBCB.SGI.Persistence.Entities.Artist();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(Artist entity)
+        public void Import(FBCB.SGI.Persistence.Entities.Artist entity)
         {
             Id = entity.Id;
-            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
-            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            Name = entity.Identity.Name;
-            LastName = entity.Identity.LastName;
-            BornDate = entity.Identity.BornDate;
-            Sex = entity.Identity.Sex;
-            CivilStatus = entity.Identity.CivilStatus;
-            Alias = entity.Identity.Alias;
-            About = entity.Identity.About;
-            AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
-            var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            ImageId = entity.PersonIdentity.Image?.Id ?? System.Guid.Empty;
+            ImageExtension = entity.PersonIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            Name = entity.PersonIdentity.Name;
+            LastName = entity.PersonIdentity.LastName;
+            BornDate = entity.PersonIdentity.BornDate;
+            Sex = entity.PersonIdentity.Sex;
+            CivilStatus = entity.PersonIdentity.CivilStatus;
+            Alias = entity.PersonIdentity.Alias;
+            About = entity.PersonIdentity.About;
+            AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
             CitizenId = entity.CitizenId;
             Workplace = entity.Workplace;
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
-            AdmitionModel = entity.AdmitionMode;
-            Context = entity.AdmitionModeContext;
-            ArtistManifestationBridges = entity.ArtisticManifestationBridge;
+            AdmitionModel = entity.AdmitionModel;
+            Context = entity.Context;
+            ArtistManifestationBridges = entity.ArtistManifestationBridges;            
         }
 
-        public void Mergue(Artist entity)
+        public void Mergue(FBCB.SGI.Persistence.Entities.Artist entity)
         {
-            entity.Identity.Name = Name;
-            entity.Identity.LastName = LastName;
-            entity.Identity.BornDate = BornDate;
-            entity.Identity.Sex = Sex;
-            entity.Identity.CivilStatus = CivilStatus;
-            entity.Identity.Alias = Alias;
-            entity.Identity.About = About;
+            entity.PersonIdentity.Name = Name;
+            entity.PersonIdentity.LastName = LastName;
+            entity.PersonIdentity.BornDate = BornDate;
+            entity.PersonIdentity.Sex = Sex;
+            entity.PersonIdentity.CivilStatus = CivilStatus;
+            entity.PersonIdentity.Alias = Alias;
+            entity.PersonIdentity.About = About;
             entity.CitizenId = CitizenId;
             entity.Workplace = Workplace;
             entity.SpecificEducation = SpecificEducation;
             entity.SchoolLevel = SchoolLevel;
-            entity.AdmitionMode = AdmitionModel;
-            entity.AdmitionModeContext = Context;
-            entity.ArtisticManifestationBridge = ArtistManifestationBridges;
+            entity.AdmitionModel = AdmitionModel;
+            entity.Context = Context;
+            entity.ArtistManifestationBridges = ArtistManifestationBridges;            
         }
     }
 }
