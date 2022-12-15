@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
@@ -27,12 +28,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Image, Guid> imageRepository;
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
         private readonly IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository;
-        public CreationGroupsController(IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<ManifestationKind, Guid> manifestationKindRepository;
+        public CreationGroupsController(IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ManifestationKind, Guid> manifestationKindRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
             this.artisticManifestationRepository = artisticManifestationRepository;
+            this.manifestationKindRepository = manifestationKindRepository;
         }
 
         [RequiresRoleBasePermission(Roles.CreationGroupViewer)]
@@ -224,6 +227,115 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
 
             imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+        }
+
+        private void PopulateSelectableManifestationGroups(ManifestationKind manifestationKind, List<ArtisticManifestation> selectedArtisticManifestations, Dictionary<ManifestationKind, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]> groups)
+        {
+            var artisticManifestations = artisticManifestationRepository.FindBy(item => item.ParentId == manifestationKind.Id).ToArray();
+
+            if (artisticManifestations.Length > 0)
+            {
+                groups.Add(manifestationKind, artisticManifestations.Select(item => new SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = selectedArtisticManifestations.Any(entity => entity.Id == item.Id),
+                    Description = null
+                }).ToArray());
+            }
+
+            var children = manifestationKindRepository.FindBy(item => item.ParentId == manifestationKind.Id);
+
+            foreach (var child in children)
+            {
+                PopulateSelectableManifestationGroups(child, selectedArtisticManifestations, groups);
+            }
+
+        }
+
+        [Route("edit/{key}/manifestations")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult Manifestations(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var rootManisfestationKinds = manifestationKindRepository.FindBy(e => e.Parent == null).ToArray();
+
+            var groups = new Dictionary<ManifestationKind, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>[]>();
+
+            foreach (var manifestationKind in rootManisfestationKinds)
+            {
+                PopulateSelectableManifestationGroups(manifestationKind, entity.CreationGroupArtisticManifestationBrigdes.Select(item => item.ArtisticManifestation).ToList(), groups);
+            }
+
+            var model = new CreationgroupSelectManisfestationInputViewModel
+            {
+                SelectGroups = groups,
+                GroupId = entity.Id
+            };
+
+            return View(model);
+        }
+
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddManifestations(CreationgroupSelectManisfestationInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.GroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+            if (ModelState.IsValid)
+            {
+
+                entity.CreationGroupArtisticManifestationBrigdes.Clear();
+
+                foreach (var selectionManifestation in modelInput.SelectGroups.Select(mani => mani.Value))
+                {
+                    foreach (var manifestationId in selectionManifestation.Where(m => m.Selected == true).Select(m => m.Id))
+                    {
+                        var artisticManifestation = artisticManifestationRepository.Get(manifestationId);
+
+                        var artistManifestationBridge = new CreationGroupArtisticManifestationBrigde { CreationGroupId = entity.Id, ArtisticManifestationId = manifestationId, CreationGroup = entity, ArtisticManifestation = artisticManifestation };
+                        entity.CreationGroupArtisticManifestationBrigdes.Add(artistManifestationBridge);
+                    }
+
+
+                }
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("manifestations", new { key = entity.Id });
         }
     }
 }

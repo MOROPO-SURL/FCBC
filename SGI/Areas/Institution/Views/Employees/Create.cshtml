@@ -181,12 +181,28 @@
                     @Html.TextAreaFor(model => model.About, 4, 0, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
                 </div>
-
-                <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                <fieldset style="margin-bottom: 20px;">
+                    <legend>@Html.LabelFor(model => model.SelectableRoles)</legend>
+                    <div class="row">
+                        @if (Model.SelectableRoles != null && Model.SelectableRoles.Count() > 0)
+                        {
+                            for (int i = 0; i < Model.SelectableRoles.Count(); i++)
+                            {
+                                @Html.EditorFor(subModel => subModel.SelectableRoles[i], "SelectionDescriptedGuidIDItemInputViewModel")
+                                ;
+                            }
+                        }
+                        else
+                        {
+                            <div class="editor-field col-md-12">Sin elementos que mostrar.</div>
+                        }
+                    </div>
+                </fieldset>
+                @*<div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
                    @Html.LabelFor(model => model.AdministrativeRoles, new { @class = "control-label" })
                     @Html.DropDownListFor(model => model.SelectedValues,Model.AdministrativeRoles , new { @class = "form-control custom-select listbox d-none ", multiple = "multiple" })
                     @Html.ValidationMessageFor(model => model.SelectedValues, null, new { @class = "text-danger" })
-                </div>
+                </div>*@
             </div>
 
             <fieldset>

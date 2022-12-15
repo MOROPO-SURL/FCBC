@@ -191,7 +191,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             inputViewModel.Municipality = ((MunicipalityRegion)getRegionRegister).Municipality;
             inputViewModel.State = inputViewModel.Municipality.State;
 
-            foreach (var admRolId in inputViewModel.SelectedValues)
+            /*foreach (var admRolId in inputViewModel.SelectableRoles.Where(r => r.Selected == true).Select(r => r.Id))
             {
                 AdministrativeRole admRole = this.administrativeRoleRepository.GetAll().FirstOrDefault(r => r.Id == admRolId);
                 AdministrativeRoleInputViewModel administrativeRoleInputViewModel = new AdministrativeRoleInputViewModel
@@ -203,7 +203,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = inputViewModel.Id, AdministrativeRoleId = admRolId, AdministrativeRole = administrativeRoleInputViewModel.Export(), Employee = inputViewModel.Export() };
                 entity.EmployeeAdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
                 
-            }            
+            }*/            
 
             if (inputViewModel.ImageFile == null) return;
 
@@ -239,7 +239,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.EmployeeAdministrativeRoleBridges.Clear();
 
-            foreach (var admRolId in inputViewModel.SelectedValues)
+            foreach (var admRolId in inputViewModel.SelectableRoles.Where(r => r.Selected == true).Select(e => e.Id))
             {
                 AdministrativeRole admRole = this.administrativeRoleRepository.GetAll().FirstOrDefault(r => r.Id == admRolId);
                 AdministrativeRoleInputViewModel administrativeRoleInputViewModel = new AdministrativeRoleInputViewModel
@@ -295,42 +295,26 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
 
             imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
-        }
-
-        private void PopulateWithAdministrativeRole(EmployeeInputViewModel modelInput)
-        {
-            List<SelectListItem> employeesItems = administrativeRoleRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToList();
-            modelInput.AdministrativeRoles = new MultiSelectList(employeesItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
-
-        private void PopulateWithAdministrativeRoleEdit(EmployeeInputViewModel modelInput)
-        {
-            var SelectedValues = modelInput.SelectedValues;
-
-            List<SelectListItem> employeesItems = administrativeRoleRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = SelectedValues.Any(s=>s == entity.Id) }).ToList();
-            modelInput.AdministrativeRoles = new MultiSelectList(employeesItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
+        }        
 
         protected override void ConfigureCreate(EmployeeInputViewModel modelInput)
-        {
-            PopulateWithAdministrativeRole(modelInput);
+        {           
             PopulateWithCountries(modelInput);
         }
 
         protected override void ConfigurePostFailCreateValidation(EmployeeInputViewModel modelInput)
         {
-            PopulateWithAdministrativeRole(modelInput);
+            
         }
 
         protected override void ConfigureEdit(Employee entity, EmployeeInputViewModel modelInput)
-        {
-            PopulateWithAdministrativeRoleEdit(modelInput);
+        {           
             PopulateWithCountriesEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(EmployeeInputViewModel modelInput)
         {
-            PopulateWithAdministrativeRole(modelInput);
+           
         }
 
         [Route("edit/{key}/contacts")]
@@ -387,7 +371,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 entity = Repository.Get(modelInput.EmployeeId);
             }
             catch { }
-
+           
             if (entity == null)
             {
                 SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
@@ -560,6 +544,99 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+
+        [Route("edit/{key}/administrativeroles")]
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        public IActionResult AdministrativeRoles(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var roles = administrativeRoleRepository.GetAll().ToArray();
+
+                var resultModel = new EmployeeAdministrativeRolesInputViewModel
+                {
+                    SelectableRoles = roles.Select(role => new SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
+                    {
+                        Id = role.Id,
+                        Label = role.Name,
+                        Description = role.Description,
+                        Selected = entity.EmployeeAdministrativeRoleBridges.Any(bridge => bridge.AdministrativeRoleId == role.Id)
+                    }).ToList(),
+                    EmployeeId = key
+
+                };                
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddadministrativeRoles(EmployeeAdministrativeRolesInputViewModel modelInput)
+        {
+            Employee entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.EmployeeId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+            if (ModelState.IsValid)
+            {
+
+                entity.EmployeeAdministrativeRoleBridges.Clear();
+
+                foreach (var admRolId in modelInput.SelectableRoles.Where(r => r.Selected == true).Select(e => e.Id))
+                {
+                    var admRole = this.administrativeRoleRepository.Get(admRolId);
+                   
+                    var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = entity.Id, AdministrativeRoleId = admRolId, AdministrativeRole = admRole, Employee = entity };
+                    entity.EmployeeAdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
+
+                }
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("administrativeroles", new { key = entity.Id });
         }
     }
 }

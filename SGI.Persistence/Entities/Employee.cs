@@ -15,8 +15,6 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         [System.ComponentModel.DataAnnotations.Required]
         public System.Guid PersonIdentityId { get; set; }
 
-        public System.Guid[] SelectedValues { get; set; }
-
         public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; }
 
         public Employee()

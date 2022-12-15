@@ -16,7 +16,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         protected override System.Linq.IQueryable<FBCB.SGI.Persistence.Entities.AdministrativeRole> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(r => r.EmployeeAdministrativeRoleBridges);
+            return base.GetQueryableDbSet().Include(r => r.EmployeeAdministrativeRoleBridges).ThenInclude(e => e.Employee);
         }
     }
 }

@@ -1,0 +1,70 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtistSelectManisfestationInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Artista";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Artista",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
+}
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header"><h4>@ViewData["Title"]</h4></div>
+        <div style="margin-bottom: 20px;"></div>
+
+        <ul class="nav nav-tabs justify-content-center" style="margin-bottom: 20px;">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.ArtistId)">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="@Url.Action("contacts", @Model.ArtistId)">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("manifestations", @Model.ArtistId)">Manifestaciones</a>
+            </li>
+        </ul>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
+                    <div class="card">
+                   
+
+                    
+                    </div>
+            </div>
+        </div>
+        
+
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-default" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+

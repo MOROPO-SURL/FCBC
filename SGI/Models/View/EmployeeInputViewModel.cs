@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
+using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
@@ -46,13 +47,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Alias { get; set; }
 
         [Display(Name = "About")]
-        public string About { get; set; }
-        
-        [Display(Name = "Select Rol")]
-        public MultiSelectList AdministrativeRoles { get; set; }
+        public string About { get; set; }  
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        public System.Guid[] SelectedValues { get; set; }
+        [Display(Name = "Roles Administrativos")]
+        public List<SelectionDescriptedItemInputViewModel<System.Guid>> SelectableRoles { get; set; }
 
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }
@@ -102,8 +100,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             CivilStatus = entity.PersonIdentity.CivilStatus;
             Alias = entity.PersonIdentity.Alias;
             About = entity.PersonIdentity.About;
-            EmployeeAdministrativeRoleBridges = entity.EmployeeAdministrativeRoleBridges;
-            SelectedValues = entity.SelectedValues;
+            EmployeeAdministrativeRoleBridges = entity.EmployeeAdministrativeRoleBridges;            
             AddressPostal = entity.PersonIdentity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
             var region = entity.PersonIdentity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;            
@@ -118,8 +115,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.PersonIdentity.CivilStatus = CivilStatus;
             entity.PersonIdentity.Alias = Alias;
             entity.PersonIdentity.About = About;
-            entity.EmployeeAdministrativeRoleBridges = entity.EmployeeAdministrativeRoleBridges;
-            entity.SelectedValues = SelectedValues;
+            entity.EmployeeAdministrativeRoleBridges = entity.EmployeeAdministrativeRoleBridges;            
         }
     }
 }

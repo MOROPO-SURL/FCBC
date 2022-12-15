@@ -234,7 +234,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             var SelectedValues = modelInput.SelectedValues;
 
-            List<SelectListItem> artisticManifestationItems = artisticManifestationRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = SelectedValues.Any(s => s == entity.Id) }).ToList();
+            List<SelectListItem> artisticManifestationItems = artisticManifestationRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.CreationGroupArtisticManifestationBrigdes.Any() }).ToList();
             modelInput.ArtisticManifestations = new MultiSelectList(artisticManifestationItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
         }
 
@@ -743,9 +743,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [Route("edit/{key}/manifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]        
         public ActionResult Manifestations(System.Guid key)
         {
             var entity = Repository.Get(key);
@@ -759,14 +757,74 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 PopulateSelectableManifestationGroups(manifestationKind, entity.ArtistManifestationBridges.Select(item => item.ArtisticManifestation).ToList(), groups);
             }
 
-            var model = new ArtistSelectManisfestationDisplayViewModel
+            var model = new ArtistSelectManisfestationInputViewModel
             {
-                Groups = groups
-            };
-
-            model.Artist.Import(entity);
+                SelectGroups = groups,
+                ArtistId = entity.Id
+            };            
 
             return View(model);
+        }
+
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddManifestations(ArtistSelectManisfestationInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.ArtistId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+            if (ModelState.IsValid)
+            {
+
+                entity.ArtistManifestationBridges.Clear();
+
+                foreach (var selectionManifestation in modelInput.SelectGroups.Select(mani => mani.Value))
+                {
+                    foreach (var manifestationId in selectionManifestation.Where(m => m.Selected == true).Select(m => m.Id))
+                    {
+                        var artisticManifestation = artisticManifestationRepository.Get(manifestationId);
+                       
+                        var artistManifestationBridge = new ArtistManifestationBridge { ArtistId = entity.Id, ArtisticManifestationId = manifestationId, Artist = entity, ArtisticManifestation = artisticManifestation };
+                        entity.ArtistManifestationBridges.Add(artistManifestationBridge);
+                    }                    
+                   
+
+                }
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("manifestations", new { key = entity.Id });
         }
     }
 }
