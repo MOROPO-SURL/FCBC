@@ -10,7 +10,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 
             entityTypeBuilder.HasKey(bridge => new { bridge.ArtistId, bridge.ManifestationId});
 
-            entityTypeBuilder.HasOne(bridge => bridge.Artist).WithMany(entity => entity.ArtisticManifestationBridge).HasForeignKey(bridge => bridge.ArtistId);
+            entityTypeBuilder.HasOne(bridge => bridge.Artist).WithMany(entity => entity.ArtisticManifestationBridges).HasForeignKey(bridge => bridge.ArtistId);
             entityTypeBuilder.HasOne(bridge => bridge.Manifestation).WithMany().HasForeignKey(bridge => bridge.ManifestationId);            
         }
     }

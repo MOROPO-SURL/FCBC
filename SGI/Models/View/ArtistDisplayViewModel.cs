@@ -58,9 +58,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
-        public string Context { get; set; }
+        public string AdmitionModeContext { get; set; }
 
-        public AdmitionMode AdmitionModel { get; set; }
+        public AdmitionMode AdmitionMode { get; set; }
 
         public System.Guid? AssociationId { get; set; }
 
@@ -92,9 +92,9 @@ namespace MOROPO.FCBC.SGI.Models.View
             Workplace = entity.Workplace;
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
-            AdmitionModel = entity.AdmitionMode;            
-            Context = entity.AdmitionModeContext;
-            ArtistManifestationBridges = entity.ArtisticManifestationBridge;
+            AdmitionMode = entity.AdmitionMode;
+            AdmitionModeContext = entity.AdmitionModeContext;
+            ArtistManifestationBridges = entity.ArtisticManifestationBridges;
         }
     }
 }

@@ -62,18 +62,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <h5>@Html.DisplayNameFor(model => model.AdmitionModel)</h5>
-                            <p>@Html.DisplayName(Model.AdmitionModel.ToString())</p>
+                            <h5>@Html.DisplayNameFor(model => model.AdmitionMode)</h5>
+                            <p>@Html.DisplayName(Model.AdmitionMode.ToString())</p>
                         </div>
                         <div class="col-md-8">
                             <h5>Asociación | Resolución</h5>
-                            @if (Model.Context!=null)
+                            @if (Model.AdmitionModeContext != null)
                             {
-                                @if (Model.Context.Contains("Resolution|"))
+                                @if (Model.AdmitionModeContext.Contains("Resolution|"))
                                 {
                                     <p>@Model.Resolution.NumberResolution-@Model.Resolution.Title</p>
                                 }
-                                else if (Model.Context.Contains("Association|"))
+                                else if (Model.AdmitionModeContext.Contains("Association|"))
                                 {
                                     <p>@Model.Association.OrganizationIdentityName</p>
                                 }
