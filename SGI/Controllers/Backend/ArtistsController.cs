@@ -242,11 +242,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void PreCreate(Artist entity, ArtistInputViewModel inputViewModel)
         {
-            PopulateWithArtisticManifestation(inputViewModel);
 
             base.PreCreate(entity, inputViewModel);
-
-           
 
             var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
             PostalContactItem postalContact = new PostalContactItem
@@ -268,22 +265,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             var getRegionRegister = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             inputViewModel.Municipality = ((MunicipalityRegion)getRegionRegister).Municipality;
             inputViewModel.State = inputViewModel.Municipality.State;
-
-            inputViewModel.ArtistManifestationBridges.Clear();
-
-            foreach (var artisticManifestationId in inputViewModel.SelectedValues)
-            {
-                ArtisticManifestation artisticMani = this.artisticManifestationRepository.GetAll().FirstOrDefault(r => r.Id == artisticManifestationId);
-                ArtisticManifestationInputViewModel artisticManifestationInputViewModel = new ArtisticManifestationInputViewModel
-                {
-                    Id = artisticManifestationId,
-                    Name = artisticMani.Name,
-                    
-                };
-                var ArtistManifestationBridge = new ArtistArtisticManifestationBridge { ArtistId = inputViewModel.Id, ManifestationId = artisticManifestationId, Manifestation = artisticManifestationInputViewModel.Export(), Artist = inputViewModel.Export() };
-                entity.ArtisticManifestationBridges.Add(ArtistManifestationBridge);
-
-            }
 
             if (inputViewModel.ImageFile == null) return;
 

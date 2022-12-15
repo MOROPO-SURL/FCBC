@@ -57,5 +57,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ICollection<ArtistResolutionLock> ResolutionLocks { get; set; }
 
         public ICollection<ArtistAttachment> Attachments { get; set; }
+        //public System.Collections.Generic.ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; }
+
+        public System.Collections.Generic.ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
     }
 }

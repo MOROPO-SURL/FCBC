@@ -31,8 +31,11 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.Guid[] SelectedValues { get; set; }
+
+        public ICollection<Artist> Members { get; set; }
+
+        public ICollection<SelectListItem> NotMembers { get; set; } = new List<SelectListItem>();
 
         public CreationGroup Export()
         {
@@ -56,6 +59,11 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             entity.Identity.Name = OrganizationIdentityName;
             entity.ArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
+        }
+
+        public string GetExtension(Artist artist)
+        {
+            return artist.Identity.Image.ContentType.ContentTypeToExtension();
         }
     }
 }

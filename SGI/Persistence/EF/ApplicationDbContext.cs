@@ -101,5 +101,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ServiceWork> ServiceWorks { get; set; }
         public DbSet<ArtistAssociationLock> ArtistAssociationLocks { get; set; }
         public DbSet<ArtistResolutionLock> ArtistResolutionLocks { get; set; }
+        public DbSet<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
     }
 }

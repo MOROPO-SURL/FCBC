@@ -16,7 +16,23 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         protected override System.Linq.IQueryable<CreationGroup> GetQueryableDbSet()
         {
-            return base.GetQueryableDbSet().Include(e => e.Identity).ThenInclude(e => e.Image).Include( e => e.ArtisticManifestationBrigdes).ThenInclude( e => e.Manifestation);
+            return base.GetQueryableDbSet().Include(e => e.Identity).ThenInclude(e => e.Image)
+                .Include(e => e.ArtisticManifestationBrigdes).ThenInclude(e => e.Manifestation)
+                .Include(e => e.CreationGroupArtistBridges).ThenInclude(e => e.Artist)
+                                                           .ThenInclude(e => e.Identity)
+                                                           .ThenInclude(e => e.Image)
+                .Include(e => e.CreationGroupArtistBridges).ThenInclude(e => e.Artist)
+                                                           .ThenInclude(e => e.Identity)
+                                                           .ThenInclude(e => e.PersonPostalContactItemBridges)
+                                                           .ThenInclude(e => e.ContactItem)
+                .Include(e => e.CreationGroupArtistBridges).ThenInclude(e => e.Artist)
+                                                           .ThenInclude(e => e.Identity)
+                                                           .ThenInclude(e => e.PersonEmailContactItemBridges)
+                                                           .ThenInclude(e => e.ContactItem)
+                .Include(e => e.CreationGroupArtistBridges).ThenInclude(e => e.Artist)
+                                                           .ThenInclude(e => e.Identity)
+                                                           .ThenInclude(e => e.PersonPhoneContactItemBridges)
+                                                           .ThenInclude(e => e.ContactItem);
         }
     }
 }

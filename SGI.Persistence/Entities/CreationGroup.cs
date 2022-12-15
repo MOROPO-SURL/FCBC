@@ -13,6 +13,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             CraftManifestationBridges = new List<CreationGroupCraftManifestationBridge>();
             DesignManifestationBridges = new List<CreationGroupDesignManifestationBridge>();
             ServiceLineBridges = new List<CreationGroupServiceLineBridge>();
+            CreationGroupArtistBridges = new List<CreationGroupArtistBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -31,5 +32,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ICollection<CreationGroupDesignManifestationBridge> DesignManifestationBridges { get; set; }
 
         public ICollection<CreationGroupServiceLineBridge> ServiceLineBridges { get; set; }
+        public System.Collections.Generic.ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
+
+        
     }
 }

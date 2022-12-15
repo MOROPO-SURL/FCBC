@@ -25,8 +25,6 @@
 
     Layout = "_BackendLayout";
 }
-<div id="js-var-scope-layout"
-     data-select-option-artisc=" @(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ArtisticManifestations.ToArray()))"></div>
 
 @section styles {
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-multiselect.css.css" />
@@ -41,7 +39,7 @@
 
     @section scripts {
     <script src="~/js/Views/CreationGroups/Edit.js"></script>
-    <script type="text/javascript">       
+    <script type="text/javascript">
         $(function () {
             $(document).on("change", "#ImageFile", function () {
                 var files = !!this.files ? this.files : [];
@@ -80,6 +78,16 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header"><h4>@ViewData["Title"]</h4></div>
+        <div style="margin-bottom: 20px;"></div>
+
+        <ul class="nav nav-tabs justify-content-center" style="margin-bottom: 20px;">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("members", @Model.Id)">Miembros</a>
+            </li>
+        </ul>
 
         <div class="card-body">
             <div class="row">
@@ -101,21 +109,18 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
                 </div>
-                <div class="row">
-                <div class="col-md-6 col-sm-4" style="margin-bottom: 20px;">
-                    <div style="margin-bottom: 20px;">
-                        @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
+                <div class="col-lg-9 col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
+                                @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-4" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.ArtisticManifestations, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.SelectedValues, Model.ArtisticManifestations , new { @class = "form-control custom-select listbox d-none ", multiple = "multiple" })
-                    @Html.ValidationMessageFor(model => model.SelectedValues, null, new { @class = "text-danger" })
-                </div>
-                </div>
-            </div>            
+            </div>
 
         </div>
         <div class="card-footer">
