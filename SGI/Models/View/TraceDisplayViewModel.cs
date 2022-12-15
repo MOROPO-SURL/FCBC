@@ -1,12 +1,9 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
     [Microsoft.AspNetCore.Mvc.ModelMetadataType(typeof(SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace))]
-    public class TraceDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Trace, long>
+    public class TraceDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long>
     {
         [Key]
         public long Id { get; set; }
@@ -16,7 +13,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Author { get; set; }
 
         [Required]
-        public DateTime Registered { get; private set; }
+        public System.DateTime Registered { get; private set; }
 
         [Required]
         public string EntityName { get; set; }
@@ -24,33 +21,17 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Required]
         public string BeforeData { get; set; }
 
-        public string AfterData { get; set; }
+        public string AfterData { get; set; }        
 
-        [Required]
-        public long NextId { get; set; }
-        
-
-        public void Import(Trace entity)
+        public void Import(SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace entity)
         {
-            var objectTrace = entity.GetSignableEntityModel();
-
-            Id = (long)objectTrace.GetType().GetProperty("Id").GetValue(objectTrace);
-
-            Type = (Microsoft.EntityFrameworkCore.EntityState)objectTrace.GetType().GetProperty("Type").GetValue(objectTrace);
-
-            Author = (string)objectTrace.GetType().GetProperty("Author").GetValue(objectTrace);
-
-            Registered = (DateTime)objectTrace.GetType().GetProperty("Registered").GetValue(objectTrace);
-
-            EntityName = (string)objectTrace.GetType().GetProperty("EntityName").GetValue(objectTrace);
-
-            BeforeData = (string)objectTrace.GetType().GetProperty("BeforeData").GetValue(objectTrace);
-
-            AfterData = (string)objectTrace.GetType().GetProperty("AfterData").GetValue(objectTrace);
-
-            NextId = (long)objectTrace.GetType().GetProperty("NextId").GetValue(objectTrace);
-            
+            Id = entity.Id;
+            Type = entity.Type;
+            Author = entity.Author;
+            Registered = entity.Registered;
+            EntityName = entity.EntityName;
+            BeforeData = entity.BeforeData;
+            AfterData = entity.AfterData;            
         }
-
     }
 }

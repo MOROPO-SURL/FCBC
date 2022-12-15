@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MOROPO.FBCB.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories;
-
-namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
+﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class ResolutionRepository: AbstractEntityRepository<Resolution, System.Guid>
+    public class ResolutionRepository: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.Resolution, System.Guid>
     {
-        public ResolutionRepository(DbContext dbContext) : base(dbContext)
+        public ResolutionRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
         {
         }
 
-        public override System.Func<Resolution, object> GetPagingOrderSelector()
+        public override System.Func<Entities.Resolution, object> GetPagingOrderSelector()
         {
-            return entity => entity.NumberResolution ?? entity.Title ?? entity.Description;
+            return entity => entity.ReleaseAt;
         }
     }
 }

@@ -1,41 +1,66 @@
-﻿
-using MOROPO.FBCB.SGI.Persistence.Enumerations;
+﻿using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using System.Collections.Generic;
 
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class Artist : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
         public Artist()
         {
             Id = System.Guid.NewGuid();
-            PersonIdentity = new SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity();
-            ArtistManifestationBridges = new List<ArtistManifestationBridge>();
+            Identity = new SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity();
+            Attachments = new List<ArtistAttachment>();
+            ArtisticManifestationBridge = new List<ArtistArtisticManifestationBridge>();
+            CraftManifestationBridges = new List<ArtistCraftManifestationBridge>();
+            DesignManifestationBridges = new List<ArtistDesignManifestationBridge>();
+            ServiceLineBridges = new List<ArtistServiceLineBridge>();
+            AssociationLocks = new List<ArtistAssociationLock>();
+            ResolutionLocks = new List<ArtistResolutionLock>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("PersonIdentityId")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity PersonIdentity { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("IdentityId")]
+        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity Identity { get; set; }
+        public System.Guid IdentityId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Guid PersonIdentityId { get; set; }
-
+        [System.ComponentModel.DataAnnotations.RegularExpression("^[0-9]{11}$")]
         public string CitizenId { get; set; }
 
-        public Enumerations.WorkPlace Workplace { get; set; }
+        public int RegistryId { get; set; }
 
-        public Enumerations.SchoolLevel SchoolLevel { get; set; }
+        public System.DateTime RegistryExpirateAt { get; set; }
+
+        public string BrandName { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("BrandImageId")]
+        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image BrandImage { get; set; }
+        public System.Guid? BrandImageId { get; set; }
+
+        public WorkPlace Workplace { get; set; }
+
+        public SchoolLevel SchoolLevel { get; set; }
 
         public string SpecificEducation { get; set; }
 
-        public string Context { get; set; }
+        public AdmitionMode AdmitionMode { get; set; }
 
-        public ModeEntry AdmitionModel { get; set; }
+        public string AdmitionModeContext { get; set; }
 
-        public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
+        public ICollection<ArtistAttachment> Attachments { get; set; }
 
-        public System.Guid[] SelectedValues { get; set; }
+        public ICollection<ArtistArtisticManifestationBridge> ArtisticManifestationBridge { get; set; }
+
+        public ICollection<ArtistCraftManifestationBridge> CraftManifestationBridges { get; set; }
+
+        public ICollection<ArtistDesignManifestationBridge> DesignManifestationBridges { get; set; }
+
+        public ICollection<ArtistServiceLineBridge> ServiceLineBridges { get; set; }
+
+        public ICollection<ArtistAssociationLock> AssociationLocks { get; set; }
+
+        public ICollection<ArtistResolutionLock> ResolutionLocks { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -8,13 +8,13 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Name { get; set; }
 
-        public ManifestationKind Parent { get; set; }
+        public ArtisticManifestationGroup Group { get; set; }
 
         public void Import(ArtisticManifestation entity)
         {
             Id = entity.Id;
             Name = entity.Name;
-            Parent = entity.Parent;
+            Group = entity.Group;
         }
     }
 }

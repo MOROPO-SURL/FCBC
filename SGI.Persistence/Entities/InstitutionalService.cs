@@ -1,7 +1,6 @@
-﻿
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Service : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
+    public class InstitutionalService : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
@@ -11,7 +10,7 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
 
         public string Description { get; set; }
 
-        public Service()
+        public InstitutionalService()
         {
             Id = System.Guid.NewGuid();
         }

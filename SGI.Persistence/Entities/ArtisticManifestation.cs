@@ -1,8 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class ArtisticManifestation : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
@@ -12,21 +8,15 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ParentId")]
-        public ManifestationKind Parent { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("GroupId")]
+        public ArtisticManifestationGroup Group { get; set; }
+        public System.Guid? GroupId { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
-        public System.Guid ParentId { get; set; }
-
-        public ICollection<ArtistManifestationBridge> ArtistManifestationBridges { get; set; }
-
-        public ICollection<CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; }
+        public string Description { get; set; }
 
         public ArtisticManifestation()
         {
             Id = System.Guid.NewGuid();
-            ArtistManifestationBridges = new List<ArtistManifestationBridge>();
         }
-        
     }
 }

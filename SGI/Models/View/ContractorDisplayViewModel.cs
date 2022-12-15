@@ -1,5 +1,5 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using MOROPO.FCBC.SGI.Extensions;
+﻿using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System;
 using System.Collections.Generic;
@@ -38,15 +38,15 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(Contractor entity)
         {
             Id = entity.Id;
-            ImageId = entity.OrganizationIdentity.ImageId ?? System.Guid.Empty;
-            ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
             ContractKindName = entity.ContractorKind.Name;
-            OrganizationIdentityName = entity.OrganizationIdentity.Name;
-            BornDate = entity.OrganizationIdentity.BornDate;
-            About = entity.OrganizationIdentity.About;
-            PostalContactItem = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem).FirstOrDefault();
-            EmailContactItems = entity.OrganizationIdentity.OrganizationEmailContactItemBridges.Select(e => e.ContactItem).ToArray();
-            PhoneContactItems = entity.OrganizationIdentity.OrganizationPhoneContactItemBridges.Select(p => p.ContactItem).ToArray();
+            OrganizationIdentityName = entity.Identity.Name;
+            BornDate = entity.Identity.BornDate;
+            About = entity.Identity.About;
+            PostalContactItem = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem).FirstOrDefault();
+            EmailContactItems = entity.Identity.OrganizationEmailContactItemBridges.Select(e => e.ContactItem).ToArray();
+            PhoneContactItems = entity.Identity.OrganizationPhoneContactItemBridges.Select(p => p.ContactItem).ToArray();
         }
     }
 }

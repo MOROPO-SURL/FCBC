@@ -1,5 +1,5 @@
 ﻿@using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
-@using MOROPO.FBCB.SGI.Persistence.Enumerations;
+@using MOROPO.FCBC.SGI.Persistence.Enumerations;
 
 @model MOROPO.FCBC.SGI.Models.View.ArtistInputViewModel
 
@@ -255,7 +255,7 @@
             <div class="row">
                 <div class="col-md-3" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.AdmitionModel, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Graduado", ViewLocalizer), ModeEntry.Graduate.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Miembro", ViewLocalizer), ModeEntry.Membership.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), ModeEntry.Resolution.ToString()) }, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Graduado", ViewLocalizer), AdmitionMode.Graduate.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Miembro", ViewLocalizer), AdmitionMode.Membership.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), AdmitionMode.Resolution.ToString()) }, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AdmitionModel, null, new { @class = "text-danger" })
                 </div>
                 <div id="show-hide-association" class="col-md-3" style="margin-bottom: 20px;">

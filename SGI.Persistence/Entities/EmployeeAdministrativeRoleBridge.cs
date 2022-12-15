@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class EmployeeAdministrativeRoleBridge
     {
@@ -10,8 +6,8 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
 
         public Employee Employee { get; set; }
 
-        public System.Guid AdministrativeRoleId { get; set; }
+        public System.Guid RoleId { get; set; }
 
-        public AdministrativeRole AdministrativeRole { get; set; }
+        public AdministrativeRole Role { get; set; }
     }
 }

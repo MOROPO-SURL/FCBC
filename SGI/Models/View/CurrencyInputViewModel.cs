@@ -1,5 +1,5 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using MOROPO.FBCB.SGI.Persistence.Enumerations;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 

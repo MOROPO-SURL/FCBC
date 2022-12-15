@@ -1,5 +1,5 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using MOROPO.FCBC.SGI.Extensions;
+﻿using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
@@ -68,25 +68,25 @@ namespace MOROPO.FCBC.SGI.Models.View
             return entity;
         }
 
-        public void Import(FBCB.SGI.Persistence.Entities.Contractor entity)
+        public void Import(Contractor entity)
         {
             Id = entity.Id;
-            ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty;
-            ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension()??null;
-            OrganizationIdentityName = entity.OrganizationIdentity.Name;
+            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension()??null;
+            OrganizationIdentityName = entity.Identity.Name;
             ContractKindId = entity.ContractorKindId;
-            BornDate = entity.OrganizationIdentity.BornDate;
-            About = entity.OrganizationIdentity.About;
-            AddressPostal = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).FirstOrDefault();
-            var region = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            BornDate = entity.Identity.BornDate;
+            About = entity.Identity.About;
+            AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).FirstOrDefault();
+            var region = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
         }
 
-        public void Mergue(FBCB.SGI.Persistence.Entities.Contractor entity)
+        public void Mergue(Contractor entity)
         {            
-            entity.OrganizationIdentity.Name = OrganizationIdentityName;
-            entity.OrganizationIdentity.BornDate = BornDate;
-            entity.OrganizationIdentity.About = About;
+            entity.Identity.Name = OrganizationIdentityName;
+            entity.Identity.BornDate = BornDate;
+            entity.Identity.About = About;
         }
     }
 }

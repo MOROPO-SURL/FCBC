@@ -1,7 +1,6 @@
-﻿
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class ArtistAssociationLocked
+    public class ArtistAssociationLock
     {
         public System.Guid ArtistId { get; set; }
 

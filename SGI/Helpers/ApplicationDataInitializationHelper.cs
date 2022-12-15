@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.RegionConst;
 using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Extensions;
@@ -439,40 +441,40 @@ namespace MOROPO.FCBC.SGI.Helpers
                 
             }
 
-            var institutionInformationDbSet = dbContext.Set<FBCB.SGI.Persistence.Entities.InstitutionInformation>();
+            var institutionInformationDbSet = dbContext.Set<InstitutionInformation>();
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.SocialObject))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.SocialObject))
             {
-                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionInformation
                 {
-                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.SocialObject,
+                    Id = InstitutionInformationKind.SocialObject,
                     Value = "Objeto social no especificado ..."
                 });
             }
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Mission))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.Mission))
             {
-                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionInformation
                 {
-                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Mission,
+                    Id = InstitutionInformationKind.Mission,
                     Value = "Misión no especificada ..."
                 });
             }
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Vision))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.Vision))
             {
-                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionInformation
                 {
-                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Vision,
+                    Id = InstitutionInformationKind.Vision,
                     Value = "Visión no especificada ..."
                 });
             }
 
-            if (!institutionInformationDbSet.Any(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.History))
+            if (!institutionInformationDbSet.Any(entity => entity.Id == InstitutionInformationKind.History))
             {
-                institutionInformationDbSet.Add(new FBCB.SGI.Persistence.Entities.InstitutionInformation
+                institutionInformationDbSet.Add(new InstitutionInformation
                 {
-                    Id = FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.History,
+                    Id = InstitutionInformationKind.History,
                     Value = "Historia no especificada ..."
                 });
             }

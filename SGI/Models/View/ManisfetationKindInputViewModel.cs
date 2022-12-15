@@ -1,4 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ManifestationKindInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ManifestationKind, System.Guid>
+    public class ManifestationKindInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ArtisticManifestationGroup, System.Guid>
     {
         public Guid Id { get; set; }
 
@@ -19,23 +19,23 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string SerializedTree { get; set; }
 
-        public ManifestationKind Export()
+        public ArtisticManifestationGroup Export()
         {
-            var entity = new ManifestationKind();
+            var entity = new ArtisticManifestationGroup();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(ManifestationKind entity)
+        public void Import(ArtisticManifestationGroup entity)
         {
             Id = entity.Id;
             Name = entity.Name;
             ParentId = entity.Parent?.Id;
         }
 
-        public void Mergue(ManifestationKind entity)
+        public void Mergue(ArtisticManifestationGroup entity)
         {
             entity.Name = Name;
             entity.ParentId = ParentId;

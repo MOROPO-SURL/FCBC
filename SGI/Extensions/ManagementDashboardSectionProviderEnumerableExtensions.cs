@@ -1,5 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View;
+﻿using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View;
 using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Extensions

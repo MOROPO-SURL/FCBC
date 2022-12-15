@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ContractorKindInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.ContractorKind, int>
+    public class ContractorKindInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ContractorKind, int>
     {
         public int Id { get ; set; }
 
@@ -13,23 +14,23 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Description")]
         public string Description { get; set; }
 
-        public FBCB.SGI.Persistence.Entities.ContractorKind Export()
+        public ContractorKind Export()
         {
-            var entity = new FBCB.SGI.Persistence.Entities.ContractorKind();
+            var entity = new ContractorKind();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(FBCB.SGI.Persistence.Entities.ContractorKind entity)
+        public void Import(ContractorKind entity)
         {
             Id = entity.Id;
             Name = entity.Name;
             Description = entity.Description;
         }
 
-        public void Mergue(FBCB.SGI.Persistence.Entities.ContractorKind entity)
+        public void Mergue(ContractorKind entity)
         {
             entity.Name = Name;
             entity.Description = Description;

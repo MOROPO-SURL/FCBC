@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CreationGroupInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.CreationGroup, System.Guid>
+    public class CreationGroupInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<CreationGroup, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -29,35 +29,33 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Select Artistict Manifestation")]
         public MultiSelectList ArtisticManifestations { get; set; }
 
-        public ICollection<CreationGroupArtisticManifestationBrigde> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBrigde>();
+        public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.Guid[] SelectedValues { get; set; }
 
-        public FBCB.SGI.Persistence.Entities.CreationGroup Export()
+        public CreationGroup Export()
         {
-            var entity = new FBCB.SGI.Persistence.Entities.CreationGroup();
+            var entity = new CreationGroup();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(FBCB.SGI.Persistence.Entities.CreationGroup entity)
+        public void Import(CreationGroup entity)
         {
             Id = entity.Id;
-            ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty;
-            ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            OrganizationIdentityName = entity.OrganizationIdentity.Name;
-            CreationGroupArtisticManifestationBrigdes = entity.CreationGroupArtisticManifestationBrigdes;
-            SelectedValues = entity.SelectedValues;
+            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            OrganizationIdentityName = entity.Identity.Name;
+            CreationGroupArtisticManifestationBrigdes = entity.ArtisticManifestationBrigdes;
         }
 
-        public void Mergue(FBCB.SGI.Persistence.Entities.CreationGroup entity)
+        public void Mergue(CreationGroup entity)
         {
-            entity.OrganizationIdentity.Name = OrganizationIdentityName;
-            entity.CreationGroupArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
-            entity.SelectedValues = SelectedValues;
+            entity.Identity.Name = OrganizationIdentityName;
+            entity.ArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
         }
     }
 }

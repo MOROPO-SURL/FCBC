@@ -1,16 +1,17 @@
 ﻿using System.Linq.Expressions;
 using System;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.Filter
 {
-    public class ArtistFilterModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<FBCB.SGI.Persistence.Entities.Artist, System.Guid>
+    public class ArtistFilterModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<Artist, System.Guid>
     {
         public string Id { get; set; }
-        public Expression<Func<FBCB.SGI.Persistence.Entities.Artist, bool>> GetSelector()
+        public Expression<Func<Artist, bool>> GetSelector()
         {
             if (Id == null || Id == string.Empty) return null;
 
-            return critic => critic.PersonIdentity.Name.ToLower().Contains(Id.ToLower());
+            return critic => critic.Identity.Name.ToLower().Contains(Id.ToLower());
         }
     }
 }

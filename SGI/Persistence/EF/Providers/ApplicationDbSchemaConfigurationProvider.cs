@@ -6,7 +6,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
     {
         public string DefaultPersistenceSchema => null;
 
-        public System.Collections.Generic.ICollection<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.IEntityTypeConfigurator> EntityTypeConfigurators
+        public System.Collections.Generic.ICollection<IEntityTypeConfigurator> EntityTypeConfigurators
         {
             get
             {
@@ -17,11 +17,18 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                     new Configurators.ArtistEntityTypeConfigurator(),
                     new Configurators.CreationGroupEntityTypeConfigurator(),
                     new Configurators.AssociationEntityTypeConfigurator(),
-                    new Configurators.ArtistEntityTypeConfigurator(),
                     new Configurators.EmployeeEntityTypeConfigurator(),
                     new Configurators.EmployeeAdministrativeRoleBridgeEntityTypeConfigurator(),
-                    new Configurators.ArtistManifestationBridgeEntityTypeConfigurator(),
-                    new Configurators.CreationGroupArtisticManifestationBridgeEntityTypeConfigurator()
+                    new Configurators.ArtistArtisticManifestationBridgeEntityTypeConfigurator(),
+                    new Configurators.ArtistCraftManifestationBridgeEntityTypeConfigurator(),
+                    new Configurators.ArtistDesignManifestationBridgeEntityTypeConfigurator(),
+                    new Configurators.ArtistServiceLineBridgeEntityTypeConfigurator(),
+                    new Configurators.CreationGroupArtisticManifestationBridgeEntityTypeConfigurator(),
+                    new Configurators.CreationGroupCraftManifestationBridgeEntityTypeConfigurator(),
+                    new Configurators.CreationGroupDesignManifestationBridgeEntityTypeConfigurator(),
+                    new Configurators.CreationGroupServiceLineBridgeEntityTypeConfigurator(),
+                    new Configurators.ArtistResolutionLockEntityTypeConfigurator(),
+                    new Configurators.ArtistAssotiationLockEntityTypeConfigurator()
                 };
             }
         }

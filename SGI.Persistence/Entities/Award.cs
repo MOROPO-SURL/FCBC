@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class Award : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<Guid>
     {

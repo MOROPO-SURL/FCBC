@@ -1,7 +1,9 @@
 ﻿
+using MOROPO.FCBC.SGI.Persistence.Entities;
+
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ContractorKindDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<FBCB.SGI.Persistence.Entities.ContractorKind, int>
+    public class ContractorKindDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<ContractorKind, int>
     {
         public int Id { get; set; }
 
@@ -9,7 +11,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Description { get; set; }
 
-        public void Import(FBCB.SGI.Persistence.Entities.ContractorKind entity)
+        public void Import(ContractorKind entity)
         {
             Id = entity.Id;
             Name = entity.Name;

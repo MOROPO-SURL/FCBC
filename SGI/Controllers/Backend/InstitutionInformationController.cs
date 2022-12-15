@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
 using System.Linq;
@@ -13,9 +15,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Area("institution")]
     public class InstitutionInformationController : SmartSolucionesCuba.SAPRESSC.Core.Web.Common.Controllers.BaseWebController
     {
-        private readonly IEntityRepository<FBCB.SGI.Persistence.Entities.InstitutionInformation, FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind> institutionInformationRepository;
+        private readonly IEntityRepository<InstitutionInformation, InstitutionInformationKind> institutionInformationRepository;
 
-        public InstitutionInformationController(IEntityRepository<FBCB.SGI.Persistence.Entities.InstitutionInformation, FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind> institutionInformationRepository, Microsoft.Extensions.Localization.IStringLocalizer<InstitutionInformationController> localizer, ILogger<InstitutionInformationController> logger) : base(localizer, logger)
+        public InstitutionInformationController(IEntityRepository<InstitutionInformation, InstitutionInformationKind> institutionInformationRepository, Microsoft.Extensions.Localization.IStringLocalizer<InstitutionInformationController> localizer, ILogger<InstitutionInformationController> logger) : base(localizer, logger)
         {
             this.institutionInformationRepository = institutionInformationRepository;
         }
@@ -27,10 +29,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var model = new Models.View.InstitutionInformationDisplayViewModel 
             {
-                SocialObject = entities.First(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.SocialObject).Value,
-                Mission = entities.First(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Mission).Value,
-                Vision = entities.First(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Vision).Value,
-                Histoy = entities.First(entity => entity.Id == FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.History).Value
+                SocialObject = entities.First(entity => entity.Id == InstitutionInformationKind.SocialObject).Value,
+                Mission = entities.First(entity => entity.Id == InstitutionInformationKind.Mission).Value,
+                Vision = entities.First(entity => entity.Id == InstitutionInformationKind.Vision).Value,
+                Histoy = entities.First(entity => entity.Id == InstitutionInformationKind.History).Value
             };
 
             return View(model);
@@ -43,10 +45,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             try
             {
-                var socialObjectEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.SocialObject);
-                var missionEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Mission);
-                var visionEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Vision);
-                var historyEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.History);
+                var socialObjectEntity = institutionInformationRepository.Get(InstitutionInformationKind.SocialObject);
+                var missionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Mission);
+                var visionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Vision);
+                var historyEntity = institutionInformationRepository.Get(InstitutionInformationKind.History);
 
                 var modelInput = new Models.View.InstitutionInformationInputViewModel();
 
@@ -77,10 +79,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 try
                 {
-                    var socialObjectEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.SocialObject);
-                    var missionEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Mission);
-                    var visionEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.Vision);
-                    var historyEntity = institutionInformationRepository.Get(FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind.History);
+                    var socialObjectEntity = institutionInformationRepository.Get(InstitutionInformationKind.SocialObject);
+                    var missionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Mission);
+                    var visionEntity = institutionInformationRepository.Get(InstitutionInformationKind.Vision);
+                    var historyEntity = institutionInformationRepository.Get(InstitutionInformationKind.History);
 
                     socialObjectEntity.Value = modelInput.SocialObject;
                     missionEntity.Value = modelInput.Mission;
