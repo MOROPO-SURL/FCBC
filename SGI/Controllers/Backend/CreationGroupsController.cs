@@ -52,7 +52,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.CreationGroupCreator)]
         public override IActionResult Create(CreationGroupInputViewModel inputViewModel)
         {
-            PopulateWithArtisticManifestation(inputViewModel);
 
             if (Request.Form.Files.Count > 0)
             {
@@ -81,7 +80,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
         public override IActionResult Edit(CreationGroupInputViewModel inputModel)
         {
-            PopulateWithArtisticManifestationEdit(inputModel);
 
             return base.Edit(inputModel);
         }
@@ -114,25 +112,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void PreCreate(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
-            PopulateWithArtisticManifestation(modelInput);
-
             base.PreCreate(entity, modelInput);
-
-            modelInput.CreationGroupArtisticManifestationBrigdes.Clear();
-
-            foreach (var artisticManifestationId in modelInput.SelectedValues)
-            {
-                ArtisticManifestation artisticMani = this.artisticManifestationRepository.GetAll().FirstOrDefault(r => r.Id == artisticManifestationId);
-                ArtisticManifestationInputViewModel artisticManifestationInputViewModel = new ArtisticManifestationInputViewModel
-                {
-                    Id = artisticManifestationId,
-                    Name = artisticMani.Name,
-
-                };
-                var CreationGroupArtisticManifestationBrigde = new CreationGroupArtisticManifestationBridge { GroupId = modelInput.Id, ManifestationId = artisticManifestationId, Manifestation = artisticManifestationInputViewModel.Export(), Group = modelInput.Export() };
-                entity.ArtisticManifestationBrigdes.Add(CreationGroupArtisticManifestationBrigde);
-
-            }
 
             if (modelInput.ImageFile == null) return;
 
@@ -150,7 +130,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void PreEdit(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
-            PopulateWithArtisticManifestationEdit(modelInput);
 
             base.PreEdit(entity, modelInput);
 
@@ -203,15 +182,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void ConfigureCreate(CreationGroupInputViewModel modelInput)
         {
-            PopulateWithArtisticManifestation(modelInput);
-
             base.ConfigureCreate(modelInput);
         }
 
         protected override void ConfigureEdit(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
-            PopulateWithArtisticManifestationEdit(modelInput);
-
             base.ConfigureEdit(entity, modelInput);
         }
 

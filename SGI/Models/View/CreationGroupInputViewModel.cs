@@ -31,7 +31,6 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.Guid[] SelectedValues { get; set; }
 
         public ICollection<Artist> Members { get; set; }

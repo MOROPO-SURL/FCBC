@@ -90,23 +90,19 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
                 </div>
-                <div class="row">
-                <div class=" col-md-6 col-sm-4" style="margin-bottom: 20px;">
-                    <div style="margin-bottom: 20px;">
-                        @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
+                <div class="col-lg-9 col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
+                                @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-4" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.ArtisticManifestations, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.SelectedValues, Model.ArtisticManifestations , new { @class = "form-control custom-select listbox d-none ", multiple = "multiple" })
-                    @Html.ValidationMessageFor(model => model.SelectedValues, null, new { @class = "text-danger" })
-                </div>
-                </div>
-                
             </div>
-            
+
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Crear</button>
