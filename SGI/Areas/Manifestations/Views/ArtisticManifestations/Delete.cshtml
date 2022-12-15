@@ -1,9 +1,9 @@
 ﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
 
-@model MOROPO.FCBC.SGI.Models.View.ArtisticManifestationGroupDisplayViewModel
+@model MOROPO.FCBC.SGI.Models.View.ArtisticManifestationDisplayViewModel
 
 @{
-    ViewData["Title"] = "Eliminar Tipo de Manifestación";
+    ViewData["Title"] = "Eliminar Manifestación Artística";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Tipos de Manifestaciones",
+            Caption = "Administración de Manifestaciones Artíticas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -26,14 +26,13 @@
     Layout = "_BackendLayout";
 }
 
-<h3>Esta seguro que desea eliminar el premio detallado a continuación?</h3>
+<h3>Esta seguro que desea eliminar la manifestación artística detallada a continuación?</h3>
 <dl>
-
-    <dt>@Html.DisplayNameFor(model => model.Name)</dt>
-    <dd>@Html.DisplayFor(model => model.Name)</dd>
     
+    <dt>@Html.DisplayNameFor(model => model.Name)</dt>    
+    <dd>@Html.DisplayFor(model => model.Name)</dd>    
 </dl>
-@using (Html.BeginForm("delete", "manifestationkinds", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
+@using (Html.BeginForm("delete", "artisticmanifestations", new { Area = "manifestations", key = string.Empty }, FormMethod.Post, true, null))
 {
     @Html.HiddenFor(model => model.Id)
     <div>

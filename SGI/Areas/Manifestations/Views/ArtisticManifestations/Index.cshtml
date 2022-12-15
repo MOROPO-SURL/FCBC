@@ -144,7 +144,14 @@
                         <span class="font-weight-bold">
                             Pertenece a:
                         </span>
-                        @item.Group.Name
+                        @if (item.Group != null)
+                        {
+                            <span>@item.Group.Name</span>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
@@ -172,7 +179,14 @@
                     <tr>
                         <td style="vertical-align: middle;" title="Manifestacin Artistica ">@item.Name</td>
                         <td style="vertical-align: middle;" title="Pertenece a">
-                            @item.Group.Name
+                            @if (item.Group != null)
+                            {
+                                <span>@item.Group.Name</span>
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
                         </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">

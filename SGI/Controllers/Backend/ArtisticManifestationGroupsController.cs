@@ -17,13 +17,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
     [Area("complements")]
-    public class ManifestationKindsController : AbstractEntityManagementController<ArtisticManifestationGroup, Guid, ManifestationKindInputViewModel, ArtisticManifestationGroupDisplayViewModel>
+    public class ArtisticManifestationGroupsController : AbstractEntityManagementController<ArtisticManifestationGroup, Guid, ManifestationKindInputViewModel, ArtisticManifestationGroupDisplayViewModel>
     {
-        private IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository;
+        private readonly IEntityRepository<ArtisticManifestationGroup, Guid> manifestationGroupRepository;
 
-        public ManifestationKindsController(IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository, IEntityRepository<ArtisticManifestationGroup, Guid> repository, IStringLocalizer<ManifestationKindsController> localizer, ILogger<ManifestationKindsController> logger) : base(repository, localizer, logger)
+        public ArtisticManifestationGroupsController(IEntityRepository<ArtisticManifestationGroup, Guid> manifestationGroupRepository, IEntityRepository<ArtisticManifestationGroup, Guid> repository, IStringLocalizer<ArtisticManifestationGroupsController> localizer, ILogger<ArtisticManifestationGroupsController> logger) : base(repository, localizer, logger)
         {
-            this.manifestationKindRepository = manifestationKindRepository;
+            this.manifestationGroupRepository = manifestationGroupRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ManifestationKindViewer)]
@@ -90,7 +90,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateTree(ManifestationKindInputViewModel modelInput)
         {
-            var manifestationKinds = manifestationKindRepository.GetAll().ToList();
+            var manifestationKinds = manifestationGroupRepository.GetAll().ToList();
             modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, modelInput.Id, null));
         }
 
@@ -98,7 +98,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             var result = new List<object>();
             
-            manifestationKinds = manifestationKindRepository.GetAll().Where(m => m.ParentId == parentId).ToList();
+            manifestationKinds = manifestationGroupRepository.GetAll().Where(m => m.ParentId == parentId).ToList();
             if (!(manifestationKinds.Count() == 0))
             {
                 foreach (var manifestationKind in manifestationKinds)

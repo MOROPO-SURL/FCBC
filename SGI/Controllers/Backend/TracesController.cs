@@ -6,7 +6,7 @@ using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers;
+using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
 using MOROPO.FCBC.SGI.Security.Authorization;
 

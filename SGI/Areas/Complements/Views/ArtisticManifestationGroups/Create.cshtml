@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ManifestationKindInputViewModel
 
 @{
-    ViewData["Title"] = "Agregar Tipo de Manifestación";
+    ViewData["Title"] = "Agregar Grupo de Manifestaciones Artísticas";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Tipos de Manifestaciones",
+            Caption = "Administración de Grupos de Manifestaciones Artísticas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -55,7 +55,7 @@
     </script>
 }
 
-@using (Html.BeginForm("create", "manifestationkinds", new { Area = "complements" }, FormMethod.Post, true, null))
+@using (Html.BeginForm("create", "artisticmanifestationgroups", new { Area = "complements" }, FormMethod.Post, true, null))
 {
     @Html.ValidationSummary(true)
 

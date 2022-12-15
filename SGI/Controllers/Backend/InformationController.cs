@@ -10,8 +10,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
     [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
-    [Route("management/[controller]")]
-    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/management/[controller]")]
+    [Route("management/[area]/[controller]")]
+    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/management/[area]/[controller]")]
     [Area("institution")]
     public class InformationController : SmartSolucionesCuba.SAPRESSC.Core.Web.Common.Controllers.BaseWebController
     {

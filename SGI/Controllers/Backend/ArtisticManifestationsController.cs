@@ -15,7 +15,7 @@ using System.Linq;
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
-    [Area("complements")]
+    [Area("manifestations")]
     public class ArtisticManifestationsController : AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>
     {
         private IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository;
