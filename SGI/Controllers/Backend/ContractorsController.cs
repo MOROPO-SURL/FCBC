@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
@@ -124,14 +124,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 var resultModel = new ContractorContactsManageViewModel
                 {
                     Contractor = new ContractorDisplayViewModel(),
-                    PhoneContacts = entity.OrganizationIdentity.OrganizationPhoneContactItemBridges.Select(bridge => new ContractorPhoneContactDisplayViewModel
+                    PhoneContacts = entity.Identity.OrganizationPhoneContactItemBridges.Select(bridge => new ContractorPhoneContactDisplayViewModel
                     {
                         Id = bridge.ContactItemId,
                         Label = bridge.ContactItem.Label,
                         Number = bridge.ContactItem.PhoneNumber,
                         ContractorId = entity.Id
                     }).ToList(),
-                    EmailContacts = entity.OrganizationIdentity.OrganizationEmailContactItemBridges.Select(bridge => new ContractorEmailContactDisplayViewModel
+                    EmailContacts = entity.Identity.OrganizationEmailContactItemBridges.Select(bridge => new ContractorEmailContactDisplayViewModel
                     {
                         Id = bridge.ContactItemId,
                         Label = bridge.ContactItem.Label,
@@ -217,12 +217,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             OrganizationPostalContactItemBridge organizationPostalContactItemBridge = new OrganizationPostalContactItemBridge
             {
-                OrganizationId = modelInput.Export().OrganizationIdentity.Id,
-                Organization = modelInput.Export().OrganizationIdentity,
+                OrganizationId = modelInput.Export().Identity.Id,
+                Organization = modelInput.Export().Identity,
                 ContactItemId = postalContact.Id,
                 ContactItem = postalContact
             };
-            entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Add(organizationPostalContactItemBridge);
+            entity.Identity.OrganizationPostalContactItemBridges.Add(organizationPostalContactItemBridge);
 
 
             if (modelInput.ImageFile == null) return;
@@ -235,7 +235,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), modelInput.ImageFile.ContentType);
 
-                entity.OrganizationIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -243,15 +243,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreEdit(entity, modelInput);
 
-            var contact = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem;
+            var contact = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem;
             contact.Address = modelInput.AddressPostal;
             var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == modelInput.MunicipalityId);
             var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId);
             modelInput.StateId = municipality.StateId;
-            if (region.Id != entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
+            if (region.Id != entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
             {
-                entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
-                entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
+                entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
+                entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
 
             }
 
@@ -262,21 +262,21 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (modelInput.ImageFile == null)
             {
-                if (modelInput.ResetImage && entity.OrganizationIdentity.Image != null)
+                if (modelInput.ResetImage && entity.Identity.Image != null)
                 {
-                    imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+                    imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                    imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
+                    imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
                 }
 
                 return;
             }
 
-            if (entity.OrganizationIdentity.Image != null)
+            if (entity.Identity.Image != null)
             {
-                imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+                imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
+                imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
             }
 
             using (var memoryStream = new System.IO.MemoryStream())
@@ -287,7 +287,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), modelInput.ImageFile.ContentType);
 
-                entity.OrganizationIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -295,13 +295,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PostDelete(entity);
 
-            organizationIdentityRepository.Delete(entity.OrganizationIdentity, User.Identity.Name);
+            organizationIdentityRepository.Delete(entity.Identity, User.Identity.Name);
 
-            if (entity.OrganizationIdentity.Image == null) return;
+            if (entity.Identity.Image == null) return;
 
-            imageRepository.Delete(entity.OrganizationIdentity.Image, User.Identity.Name);
+            imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
 
-            imageFileManagerFacade.DeleteImageFile(entity.OrganizationIdentity.Image);
+            imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
         }
 
         [Route("edit/contacts/phone/add")]
@@ -327,7 +327,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.OrganizationIdentity.OrganizationPhoneContactItemBridges.Add(new OrganizationPhoneContactItemBridge { OrganizationId = entity.OrganizationIdentityId, ContactItem = new PhoneContactItem { Label = modelInput.Label, PhoneNumber = modelInput.Number } });
+                entity.Identity.OrganizationPhoneContactItemBridges.Add(new OrganizationPhoneContactItemBridge { OrganizationId = entity.IdentityId, ContactItem = new PhoneContactItem { Label = modelInput.Label, PhoneNumber = modelInput.Number } });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -376,9 +376,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             try
             {
-                var bridge = entity.OrganizationIdentity.OrganizationPhoneContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+                var bridge = entity.Identity.OrganizationPhoneContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
 
-                entity.OrganizationIdentity.OrganizationPhoneContactItemBridges.Remove(bridge);
+                entity.Identity.OrganizationPhoneContactItemBridges.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -421,7 +421,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.OrganizationIdentity.OrganizationEmailContactItemBridges.Add(new OrganizationEmailContactItemBridge { OrganizationId = entity.OrganizationIdentityId, ContactItem = new EmailContactItem { Label = modelInput.Label, EmailAddress = modelInput.Address } });
+                entity.Identity.OrganizationEmailContactItemBridges.Add(new OrganizationEmailContactItemBridge { OrganizationId = entity.IdentityId, ContactItem = new EmailContactItem { Label = modelInput.Label, EmailAddress = modelInput.Address } });
                 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -470,9 +470,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             try
             {
-                var bridge = entity.OrganizationIdentity.OrganizationEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+                var bridge = entity.Identity.OrganizationEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
 
-                entity.OrganizationIdentity.OrganizationEmailContactItemBridges.Remove(bridge);
+                entity.Identity.OrganizationEmailContactItemBridges.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
 

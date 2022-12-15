@@ -1,4 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Web.Backend.Models.View;
 using System;

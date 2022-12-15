@@ -1,0 +1,41 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.InstitutionInformationDisplayViewModel
+
+@{
+    ViewData["Title"] = "Información Institucional";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+
+    <div class="card-body">
+        <b class = "control-label">Objeto Social</b>
+        <p>@Model.SocialObject</p>
+        <hr />
+        <b class = "control-label">Misión</b>
+        <p>@Model.Mission</p>
+        <hr />
+        <b class = "control-label">Visión</b>
+        <p>@Model.Vision</p>
+        <hr />
+        <b class = "control-label">Historia</b>
+        <p>@Model.Histoy</p>
+    </div>
+    <div class="card-footer">
+        <a asp-controller="information" asp-action="edit" asp-area="institution" class="btn btn-primary"><span class="mdi mdi-square-edit-outline"></span> Modificar</a>
+    </div>
+</div>

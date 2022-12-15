@@ -1,4 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
@@ -20,10 +20,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(EmployeeAdministrativeRoleBridge entity)
         {
             EmployeeId = entity.EmployeeId;
-            AdministrativeRoleId = entity.AdministrativeRoleId;
+            AdministrativeRoleId = entity.RoleId;
 
             Employee.Import(entity.Employee);
-            AdministrativeRole.Import(entity.AdministrativeRole);
+            AdministrativeRole.Import(entity.Role);
         }
     }
 }

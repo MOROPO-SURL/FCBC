@@ -1,5 +1,5 @@
 ﻿@using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
-@using MOROPO.FBCB.SGI.Persistence.Enumerations;
+@using MOROPO.FCBC.SGI.Persistence.Enumerations;
 
 @model MOROPO.FCBC.SGI.Models.View.ArtistInputViewModel
 
@@ -153,19 +153,17 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header"><h4>@ViewData["Title"]</h4></div>
-        <ul class="nav nav-tabs justify-content-center" style="margin-bottom: 20px;">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Información</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("manifestations", @Model.Id)">Manifestaciones</a>
-            </li>
-        </ul>
-
+        <div class="card-header">
+            <h4>@ViewData["Title"]</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Id">Contactos</a>
+                </li>
+            </ul>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-4" style="margin-bottom: 20px;">
@@ -257,7 +255,7 @@
             <div class="row">
                 <div class="col-md-3" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.AdmitionModel, new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Graduado", ViewLocalizer), ModeEntry.Graduate.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Miembro", ViewLocalizer), ModeEntry.Membership.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), ModeEntry.Resolution.ToString()) }, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Graduado", ViewLocalizer), AdmitionMode.Graduate.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Miembro", ViewLocalizer), AdmitionMode.Membership.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), AdmitionMode.Resolution.ToString()) }, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AdmitionModel, null, new { @class = "text-danger" })
                 </div>
                 <div id="show-hide-association" class="col-md-6" style="margin-bottom: 20px;">

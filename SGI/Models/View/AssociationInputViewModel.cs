@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class AssociationInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.Association, System.Guid>
+    public class AssociationInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Association, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -52,33 +53,33 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             BornDate = System.DateTime.Now.Date.AddYears(-16);
         }
-        public FBCB.SGI.Persistence.Entities.Association Export()
+        public Association Export()
         {
-            var entity = new FBCB.SGI.Persistence.Entities.Association();
+            var entity = new Association();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(FBCB.SGI.Persistence.Entities.Association entity)
+        public void Import(Association entity)
         {
             Id = entity.Id;
-            ImageId = entity.OrganizationIdentity.Image?.Id ?? System.Guid.Empty;
-            ImageExtension = entity.OrganizationIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            OrganizationIdentityName = entity.OrganizationIdentity.Name;
-            BornDate = entity.OrganizationIdentity.BornDate;
-            About = entity.OrganizationIdentity.About;
-            AddressPostal = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
-            var region = entity.OrganizationIdentity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            OrganizationIdentityName = entity.Identity.Name;
+            BornDate = entity.Identity.BornDate;
+            About = entity.Identity.About;
+            AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            var region = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;             
         }
 
-        public void Mergue(FBCB.SGI.Persistence.Entities.Association entity)
+        public void Mergue(Association entity)
         {
-            entity.OrganizationIdentity.Name = OrganizationIdentityName;
-            entity.OrganizationIdentity.BornDate = BornDate;
-            entity.OrganizationIdentity.About = About;  
+            entity.Identity.Name = OrganizationIdentityName;
+            entity.Identity.BornDate = BornDate;
+            entity.Identity.About = About;  
         }
     }
 }

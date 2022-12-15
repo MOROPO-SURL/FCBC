@@ -1,14 +1,13 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CriticInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<FBCB.SGI.Persistence.Entities.Critic, System.Guid>
+    public class CriticInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Critic, System.Guid>
     {
-        public Guid Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [FormFileContentTypes(ContentTypes = new string[] { "image/png", "image/jpeg" }, ErrorMessage = "PNG_JPEG_FileAllowedOnlyMessage")]
         [FormFileMaxLength(Length = 3145728, ErrorMessage = "FileLimitSizeExcededMessage")]
@@ -49,38 +48,38 @@ namespace MOROPO.FCBC.SGI.Models.View
             BornDate = System.DateTime.Now.Date.AddYears(-16);
         }
 
-        public FBCB.SGI.Persistence.Entities.Critic Export()
+        public Critic Export()
         {
-            var entity = new FBCB.SGI.Persistence.Entities.Critic();
+            var entity = new Critic();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(FBCB.SGI.Persistence.Entities.Critic entity)
+        public void Import(Critic entity)
         {
             Id = entity.Id;
-            ImageId = entity.PersonIdentity.Image?.Id ?? System.Guid.Empty;
-            ImageExtension = entity.PersonIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            Name = entity.PersonIdentity.Name;
-            LastName = entity.PersonIdentity.LastName;
-            BornDate = entity.PersonIdentity.BornDate;
-            Sex = entity.PersonIdentity.Sex;
-            CivilStatus = entity.PersonIdentity.CivilStatus;
-            Alias = entity.PersonIdentity.Alias;
-            About = entity.PersonIdentity.About;
+            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            Name = entity.Identity.Name;
+            LastName = entity.Identity.LastName;
+            BornDate = entity.Identity.BornDate;
+            Sex = entity.Identity.Sex;
+            CivilStatus = entity.Identity.CivilStatus;
+            Alias = entity.Identity.Alias;
+            About = entity.Identity.About;
         }
 
-        public void Mergue(FBCB.SGI.Persistence.Entities.Critic entity)
+        public void Mergue(Critic entity)
         {
-            entity.PersonIdentity.Name = Name;
-            entity.PersonIdentity.LastName = LastName;
-            entity.PersonIdentity.BornDate = BornDate;
-            entity.PersonIdentity.Sex = Sex;
-            entity.PersonIdentity.CivilStatus = CivilStatus;
-            entity.PersonIdentity.Alias = Alias;
-            entity.PersonIdentity.About = About;
+            entity.Identity.Name = Name;
+            entity.Identity.LastName = LastName;
+            entity.Identity.BornDate = BornDate;
+            entity.Identity.Sex = Sex;
+            entity.Identity.CivilStatus = CivilStatus;
+            entity.Identity.Alias = Alias;
+            entity.Identity.About = About;
         }
     }
 }

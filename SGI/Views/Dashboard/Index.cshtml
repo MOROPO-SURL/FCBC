@@ -54,7 +54,9 @@
     {
         var group = Model.Sections.ElementAt(i);
 
-        <div class="card mb-3">
+        if (group.Value == null) continue;
+
+        <div class="card mb-4">
             <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
             <div class="card-body">
                 @{
@@ -101,7 +103,9 @@
         {
             var group = Model.Sections.ElementAt(i);
 
-            <div class="card mb-3">
+            if (group.Value == null) continue;
+
+            <div class="card mb-4">
                 <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
                 <div class="card-body">
                     @{

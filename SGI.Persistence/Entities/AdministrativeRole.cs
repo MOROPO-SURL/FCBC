@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace MOROPO.FBCB.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class AdministrativeRole: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    public class AdministrativeRole : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
@@ -15,9 +13,6 @@ namespace MOROPO.FBCB.SGI.Persistence.Entities
         public AdministrativeRole()
         {
             Id = System.Guid.NewGuid();
-            EmployeeAdministrativeRoleBridges = new List<EmployeeAdministrativeRoleBridge>();
         }
-
-        public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; }
     }
 }

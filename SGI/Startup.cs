@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Options;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using Serilog;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
@@ -48,11 +49,11 @@ namespace MOROPO.FCBC.SGI
             services.PerformMiddlewareIdentityWebCommonServiceRegistration();
 
             services.AddScoped<IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long>, SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.TraceRepository>();
-            services.AddScoped<IEntityRepository<InstitutionInformation, FBCB.SGI.Persistence.Enumerations.InstitutionInformationKind>, InstitutionInformationRepository>();
+            services.AddScoped<IEntityRepository<InstitutionalInformation, InstitutionalInformationKind>, InstitutionalInformationRepository>();
             services.AddScoped<IEntityRepository<Award, Guid>, AwardRepository>();
             services.AddScoped<IEntityRepository<Distinction, Guid>, DistinctionRepository>();
             services.AddScoped<IEntityRepository<Recognition, Guid>, RecognitionRepository>();
-            services.AddScoped<IEntityRepository<Service, Guid>, ServiceRepository>();
+            services.AddScoped<IEntityRepository<InstitutionalService, Guid>, InstitutionalServiceRepository>();
             services.AddScoped<IEntityRepository<Thematic, Guid>, ThematicRepository>();
             services.AddScoped<IEntityRepository<Technique, Guid>, TechniqueRepository>();
             services.AddScoped<IEntityRepository<ContractorKind, int>, ContractorKindRepository>();
@@ -65,7 +66,7 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<AdministrativeRole, Guid>, AdministrativeRoleRepository>();
             services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
             services.AddScoped<IEntityRepository<Resolution, Guid>, ResolutionRepository>();
-            services.AddScoped<IEntityRepository<ManifestationKind, Guid>, ManifestationKindRepository>();
+            services.AddScoped<IEntityRepository<ArtisticManifestationGroup, Guid>, ArtisticManifestationGroupRepository>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();

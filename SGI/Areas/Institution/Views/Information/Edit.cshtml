@@ -1,0 +1,63 @@
+﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
+
+@model MOROPO.FCBC.SGI.Models.View.InstitutionInformationInputViewModel;
+
+@{
+    ViewData["Title"] = "Modificar Información Institucional";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Información Institucional",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@using (Html.BeginForm("edit", "information", new { Area = "institution" }, FormMethod.Post, true, null))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+
+        <div class="card-body">
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.SocialObject, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.SocialObject, 8, 1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SocialObject, null, new { @class = "text-danger" })
+            </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.Mission, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Mission, 5, 1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Mission, null, new { @class = "text-danger" })
+            </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.Vision, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Vision, 5, 1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Vision, null, new { @class = "text-danger" })
+            </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.Histoy, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Histoy, 16, 1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Histoy, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+        </div>
+    </div>
+}

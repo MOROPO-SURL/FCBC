@@ -1,4 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -11,8 +11,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        public System.Guid ParentId { get; set; }
+        public System.Guid? GroupId { get; set; }
 
         public string SerializedTree { get; set; }
 
@@ -29,13 +28,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             Id = entity.Id;
             Name = entity.Name;
-            ParentId = entity.ParentId;
+            GroupId = entity.GroupId;
         }
 
         public void Mergue(ArtisticManifestation entity)
         {
             entity.Name = Name;
-            entity.ParentId = ParentId;
+            entity.GroupId = GroupId;
         }
     }
 }

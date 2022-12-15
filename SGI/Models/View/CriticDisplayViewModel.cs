@@ -1,12 +1,13 @@
 ﻿
 using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CriticDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<FBCB.SGI.Persistence.Entities.Critic, System.Guid>
+    public class CriticDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Critic, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -28,18 +29,18 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string About { get; set; }
 
-        public void Import(FBCB.SGI.Persistence.Entities.Critic entity)
+        public void Import(Critic entity)
         {
             Id = entity.Id;
-            ImageId = entity.PersonIdentity.ImageId ?? System.Guid.Empty;
-            ImageExtension = entity.PersonIdentity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            Name = entity.PersonIdentity.Name;
-            LastName = entity.PersonIdentity.LastName;
-            BornDate = entity.PersonIdentity.BornDate;
-            Sex = entity.PersonIdentity.Sex;
-            CivilStatus = entity.PersonIdentity.CivilStatus;
-            Alias = entity.PersonIdentity.Alias;
-            About = entity.PersonIdentity.About;
+            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            Name = entity.Identity.Name;
+            LastName = entity.Identity.LastName;
+            BornDate = entity.Identity.BornDate;
+            Sex = entity.Identity.Sex;
+            CivilStatus = entity.Identity.CivilStatus;
+            Alias = entity.Identity.Alias;
+            About = entity.Identity.About;
         }
     }
 }

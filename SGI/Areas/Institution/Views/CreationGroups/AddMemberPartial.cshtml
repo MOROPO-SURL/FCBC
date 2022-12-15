@@ -1,0 +1,38 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupMembersInputViewModel
+
+<div class="modal fade" id="add-member" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-member-title">Agregar Miembros al Grupo de Creación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("addmember", "creationgroups", null, FormMethod.Post, true, null))
+            {
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.CreationGroupId)
+
+                    @if (Model.NotMembers.Count() != 0)
+                    {
+                        <div id="show-hide-association" class="col-md-3" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.NotMembers, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.ArtistId, Model.NotMembers, "", new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.ArtistId, null, new { @class = "text-danger" })
+                        </div>
+                    }else{
+                        <div>No hay mas artistas que puedan ser miembros del Grupo de Creación</div>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    @if(Model.NotMembers.Count() != 0){
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    }
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,13 +1,10 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
-using System;
-
-namespace MOROPO.FCBC.SGI.Models.View
+﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ResolutionDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Resolution, Guid>
+    public class ResolutionDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.Resolution, System.Guid>
     {
-        public Guid Id { get; set; }
+        public System.Guid Id { get; set; }
 
-        public string NumberResolution { get; set; }
+        public int NumberResolution { get; set; }
 
         public string Title { get; set; }
 
@@ -15,13 +12,13 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.DateTime ResolutionDate { get; set; }
 
-        public void Import(Resolution entity)
+        public void Import(Persistence.Entities.Resolution entity)
         {
             Id = entity.Id;
-            NumberResolution = entity.NumberResolution;
+            NumberResolution = entity.Number;
             Title = entity.Title;
             Description = entity.Description;
-            ResolutionDate = entity.ResolutionDate;
+            ResolutionDate = entity.ReleaseAt;
         }
     }
 }

@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using MOROPO.FBCB.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
@@ -128,7 +128,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), inputViewModel.ImageFile.ContentType);
 
-                entity.PersonIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -138,21 +138,21 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (inputViewModel.ImageFile == null)
             {
-                if (inputViewModel.ResetImage && entity.PersonIdentity.Image != null)
+                if (inputViewModel.ResetImage && entity.Identity.Image != null)
                 {
-                    imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
+                    imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                    imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
+                    imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
                 }
 
                 return;
             }
 
-            if (entity.PersonIdentity.Image != null)
+            if (entity.Identity.Image != null)
             {
-                imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
+                imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
 
-                imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
+                imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
             }
 
             using (var memoryStream = new System.IO.MemoryStream())
@@ -163,7 +163,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), inputViewModel.ImageFile.ContentType);
 
-                entity.PersonIdentity.Image = image;
+                entity.Identity.Image = image;
             }
         }
 
@@ -171,13 +171,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PostDelete(entity);
 
-            identityRepository.Delete(entity.PersonIdentity, User.Identity.Name);
+            identityRepository.Delete(entity.Identity, User.Identity.Name);
 
-            if (entity.PersonIdentity.Image == null) return;
+            if (entity.Identity.Image == null) return;
 
-            imageRepository.Delete(entity.PersonIdentity.Image, User.Identity.Name);
+            imageRepository.Delete(entity.Identity.Image, User.Identity.Name);
 
-            imageFileManagerFacade.DeleteImageFile(entity.PersonIdentity.Image);
+            imageFileManagerFacade.DeleteImageFile(entity.Identity.Image);
         }
     }
 }

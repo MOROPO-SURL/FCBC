@@ -1,4 +1,4 @@
-﻿using MOROPO.FBCB.SGI.Persistence.Entities;
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -21,29 +21,29 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Employees { get; set; }
 
-        public FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge Export()
+        public EmployeeAdministrativeRoleBridge Export()
         {
-            var entity = new FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge();
+            var entity = new EmployeeAdministrativeRoleBridge();
 
             Mergue(entity);
 
             return entity;
         }
 
-        public void Import(FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge entity)
+        public void Import(EmployeeAdministrativeRoleBridge entity)
         {
             EmployeeId = entity.EmployeeId;
             Employee = entity.Employee;
-            AdministrativeRoleId = entity.AdministrativeRoleId;
-            AdministrativeRole = entity.AdministrativeRole;
+            AdministrativeRoleId = entity.RoleId;
+            AdministrativeRole = entity.Role;
         }
 
-        public void Mergue(FBCB.SGI.Persistence.Entities.EmployeeAdministrativeRoleBridge entity)
+        public void Mergue(EmployeeAdministrativeRoleBridge entity)
         {
             entity.EmployeeId = EmployeeId;
             entity.Employee = Employee;
-            entity.AdministrativeRoleId = AdministrativeRoleId;
-            entity.AdministrativeRole = AdministrativeRole;
+            entity.RoleId = AdministrativeRoleId;
+            entity.Role = AdministrativeRole;
         }
     }
 }

@@ -7,7 +7,7 @@ const WeekTracesStatisticsValues = JSON.parse(varScope.attr('data-Week-traces-st
 const tracesByData = {
     labels: tracesByDayLabels,
     datasets: [{
-        label: 'Cantidad de registros por usuario',
+        label: 'Registros por usuario',
         data: TracesbyUsers,
 backgroundColor: [
     'rgba(255, 99, 132, 0.2)',
@@ -45,9 +45,9 @@ const tracesByUsersChart = new Chart(
 const weekStatisticsData = {
     labels: weekStatisticsLabels,
     datasets: [{
-        label: 'Cantidad de registros por días',
+        label: 'Registros por días',
         data: WeekTracesStatisticsValues,
-fill: false,
+    fill: true,
     borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
             tension: 0.1
