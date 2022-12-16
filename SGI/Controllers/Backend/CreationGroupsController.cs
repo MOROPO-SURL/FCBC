@@ -210,17 +210,36 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             try
             {
                 var entity = Repository.Get(key);
-                var members = entity.CreationGroupArtistBridges.Select(b => b.Artist).ToList();
-                var notMemberArtist = artistRepository.GetAll().ToList();
+                var members = entity.CreationGroupArtistBridges.Select(b => b.Artist).ToArray();
+                var notMemberArtist = artistRepository.GetAll().ToArray();
                 if (members.Count() != 0)
                 {
-                    notMemberArtist = notMemberArtist.Except(members).ToList();
+                    notMemberArtist = notMemberArtist.Except(members).ToArray();
                 }
                 
                 var resultModel = new CreationGroupInputViewModel ();
+                
                 resultModel.Import(entity);
+                
                 resultModel.NotMembers = notMemberArtist.Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.Identity.Name+" "+n.Identity.LastName }).ToArray();
-                resultModel.Members = members;
+                
+                resultModel.Members = members.Select(item =>
+                {
+                    var model = new ArtistDisplayViewModel { 
+                        CreationGroupMember =  new CreationGroupMemberDisplayViewModel
+                        {
+                            CreationGroupId = key,
+                            Name = item.Identity.Name+" "+ item.Identity.LastName,
+                            Alias = item.Identity.Alias,
+                            ArtistId = item.Id,
+                        }
+                    };
+
+                    model.Import(item);
+
+                    return model;
+                }).ToArray();
+
                 return View(resultModel);
             }
             catch (System.Exception e)
@@ -277,6 +296,51 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 }
 
                 SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("members", new { key = entity.Id });
+        }
+
+        [Route("edit/members/remove")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveMember(CreationGroupMemberDisplayViewModel modelDisplay)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelDisplay.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.CreationGroupArtistBridges.First(b => b.ArtistId == modelDisplay.ArtistId);
+
+                entity.CreationGroupArtistBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
             }
 
             return RedirectToAction("members", new { key = entity.Id });
