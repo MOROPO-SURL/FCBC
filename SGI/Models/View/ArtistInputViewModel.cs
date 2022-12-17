@@ -77,7 +77,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
 
-        [Display(Name = "Citizen Id")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [RegularExpression("[0-9]{11}")]
+        [Display(Name = "CitizenId")]
         public string CitizenId { get; set; }
 
         public Persistence.Enumerations.WorkPlace Workplace { get; set; }
@@ -87,24 +89,11 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
+        // TODO Remove if not required
         [Display(Name = "Select Artistict Manifestation")]
         public MultiSelectList ArtisticManifestations { get; set; }
-        
-        public System.Guid[] SelectedValues { get; set; }
 
-        [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; }
-        
-        public System.Guid[] SelectedValues { get; set; }
-
-        [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; }
-        
-        public System.Guid[] SelectedValues { get; set; }
-
-        [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; }
-        
+        // TODO Remove if not required
         public System.Guid[] SelectedValues { get; set; }
 
         public ArtistInputViewModel()
