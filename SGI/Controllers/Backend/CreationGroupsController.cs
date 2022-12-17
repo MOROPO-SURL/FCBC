@@ -98,20 +98,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             return base.Delete(displayModel);
         }
-
-        private void PopulateWithArtisticManifestation(CreationGroupInputViewModel modelInput)
-        {
-            List<SelectListItem> artisticManifestationItems = artisticManifestationRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToList();
-            modelInput.ArtisticManifestations = new MultiSelectList(artisticManifestationItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
-
-        private void PopulateWithArtisticManifestationEdit(CreationGroupInputViewModel modelInput)
-        {
-            var SelectedValues = modelInput.SelectedValues;
-
-            List<SelectListItem> artisticManifestationItems = artisticManifestationRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = SelectedValues.Any(s => s == entity.Id) }).ToList();
-            modelInput.ArtisticManifestations = new MultiSelectList(artisticManifestationItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
+             
 
         protected override void PreCreate(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
