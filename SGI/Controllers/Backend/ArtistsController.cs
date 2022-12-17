@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
@@ -21,6 +22,8 @@ using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rotativa;
+using MOROPO.FCBC.SGI.Extensions;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -78,8 +81,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [RequiresRoleBasePermission(Roles.ArtistCreator)]
         public override IActionResult Create(ArtistInputViewModel inputViewModel)
-        {
-            PopulateWithArtisticManifestation(inputViewModel);
+        {            
             if (inputViewModel.AssociationId != null)
             {
                 inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
@@ -117,8 +119,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.ArtistEditor)]
         public override IActionResult Edit(ArtistInputViewModel inputViewModel)
         {
-            PopulateWithArtisticManifestationEdit(inputViewModel);
-
             ModelState.ClearValidationState("ImageFile");
             ModelState.MarkFieldValid("ImageFile");            
 
@@ -225,20 +225,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.States = stateRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();
         }
 
-        private void PopulateWithArtisticManifestation(ArtistInputViewModel modelInput)
-        {            
-            List<SelectListItem> artisticManifestationItems = artisticManifestationRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToList();
-            modelInput.ArtisticManifestations = new MultiSelectList(artisticManifestationItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
-
-        private void PopulateWithArtisticManifestationEdit(ArtistInputViewModel modelInput)
-        {
-            var SelectedValues = modelInput.SelectedValues;
-
-            modelInput.ArtisticManifestations = new MultiSelectList(artisticManifestationItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
-
-
+        
         protected override void PreCreate(Artist entity, ArtistInputViewModel inputViewModel)
         {
 
@@ -294,24 +281,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
                 entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
 
-            }
-
-            inputViewModel.ArtistManifestationBridges.Clear();
-            
-            foreach (var artisticManifestationId in inputViewModel.SelectedValues)
-            {
-                ArtisticManifestation artisticMani = this.artisticManifestationRepository.GetAll().FirstOrDefault(r => r.Id == artisticManifestationId);
-                ArtisticManifestationInputViewModel artisticManifestationInputViewModel = new ArtisticManifestationInputViewModel
-                {
-                    Id = artisticManifestationId,
-                    Name = artisticMani.Name,
-
-                };
-                var ArtistManifestationBridge = new ArtistArtisticManifestationBridge { ArtistId = inputViewModel.Id, ManifestationId = artisticManifestationId, Manifestation = artisticManifestationInputViewModel.Export(), Artist = inputViewModel.Export() };
-                
-                entity.ArtisticManifestationBridges.Add(ArtistManifestationBridge);
-
-            }
+            }            
 
             if (inputViewModel.ImageFile == null)
             {
@@ -361,8 +331,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             PopulateWithCountries(modelInput);
             PopulateWithAssociation(modelInput);
-            PopulateWithResolution(modelInput);
-            PopulateWithArtisticManifestation(modelInput);
+            PopulateWithResolution(modelInput);            
 
             if (modelInput.AssociationId != null)
             {
@@ -385,7 +354,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountriesEdit(modelInput);
             PopulateWithAssociationEdit(modelInput);
             PopulateWithResolutionEdit(modelInput);
-            PopulateWithArtisticManifestationEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(ArtistInputViewModel modelInput)
@@ -423,6 +391,58 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 resultModel.Artist.Import(entity);
 
                 return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("artists/{key}/print")]
+        [RequiresRoleBasePermission(Roles.ArtistViewer)]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public IActionResult Print(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new ArtistContactsManageViewModel
+                {
+                    Artist = new ArtistDisplayViewModel
+                    {
+                        ImageId = (Guid)entity.Identity.ImageId,
+                        ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null,
+                        Name = entity.Identity.Name,
+                        LastName = entity.Identity.LastName
+                    },
+                    PhoneContacts = entity.Identity.PersonPhoneContactItemBridges.Select(bridge => new ArtistPhoneContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Number = bridge.ContactItem.PhoneNumber,
+                        ArtistId = entity.Id
+                    }).ToList(),
+                    EmailContacts = entity.Identity.PersonEmailContactItemBridges.Select(bridge => new ArtistEmailContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Address = bridge.ContactItem.EmailAddress,
+                        ArtistId = entity.Id
+                    }).ToList()
+                };
+
+                return new Rotativa.AspNetCore.ViewAsPdf("Print", resultModel)
+                {
+                    FileName = $"Datos del Artista {resultModel.Artist.Name} - { resultModel.Artist.LastName}.pdf",
+                    PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                    PageSize = Rotativa.AspNetCore.Options.Size.A4
+                };
+                
             }
             catch (System.Exception e)
             {
@@ -683,7 +703,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             PopulateWithResolutionEdit(modelInput);
             PopulateWithAssociationEdit(modelInput);
-            PopulateWithArtisticManifestationEdit(modelInput);
 
             switch (modelInput.AdmitionModel)
             {
@@ -769,7 +788,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             if (ModelState.IsValid)
             {
 
-                entity.ArtistManifestationBridges.Clear();
+                entity.ArtisticManifestationBridges.Clear();
 
                 foreach (var selectionManifestation in modelInput.SelectGroups.Select(mani => mani.Value))
                 {
@@ -777,8 +796,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     {
                         var artisticManifestation = artisticManifestationRepository.Get(manifestationId);
                        
-                        var artistManifestationBridge = new ArtistManifestationBridge { ArtistId = entity.Id, ArtisticManifestationId = manifestationId, Artist = entity, ArtisticManifestation = artisticManifestation };
-                        entity.ArtistManifestationBridges.Add(artistManifestationBridge);
+                        var artistManifestationBridge = new ArtistArtisticManifestationBridge { ArtistId = entity.Id, ManifestationId = manifestationId, Artist = entity, Manifestation = artisticManifestation };
+                        entity.ArtisticManifestationBridges.Add(artistManifestationBridge);
                     }                    
                    
 

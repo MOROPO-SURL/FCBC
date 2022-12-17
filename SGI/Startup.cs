@@ -67,6 +67,8 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
             services.AddScoped<IEntityRepository<Resolution, Guid>, ResolutionRepository>();
             services.AddScoped<IEntityRepository<ArtisticManifestationGroup, Guid>, ArtisticManifestationGroupRepository>();
+            services.AddScoped<IEntityRepository<UnitMeasurement, Guid>, UnitMeasurementRepository>();
+            services.AddScoped<IEntityRepository<Material, Guid>, MaterialRepository>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
@@ -207,8 +209,10 @@ namespace MOROPO.FCBC.SGI
 
                 routes.MapRoute(
                     name: "defaultRoutes",
-                    template: "{controller=start}/{action=index}/{id?}");
+                    template: "{controller=start}/{action=index}/{id?}");                
             });
+            
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
         }
     }
 }

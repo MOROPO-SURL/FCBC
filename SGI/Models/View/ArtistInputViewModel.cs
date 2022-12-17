@@ -88,12 +88,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string SpecificEducation { get; set; }
 
         public ICollection<Persistence.Entities.ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; } = new List<Persistence.Entities.ArtistArtisticManifestationBridge>();
-
-        [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; }
-        
-        public System.Guid[] SelectedValues { get; set; }
-
+                
         public ArtistInputViewModel()
         {
             BornDate = System.DateTime.Now.AddYears(-16);

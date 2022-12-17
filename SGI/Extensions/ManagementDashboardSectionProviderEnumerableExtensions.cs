@@ -1,4 +1,5 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View;
+﻿using MOROPO.FCBC.SGI.Controllers.Backend;
+using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View;
 using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Extensions
@@ -160,7 +161,26 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Action = "index",
                     Area = "complements",
                     Role = Security.Authorization.Roles.AdministrativeRolesViewer
-                }
+                },
+
+                 new ManagementDashboardSectionViewModel
+                {
+                    Title = "Unidades de Medidas",
+                    Controller = "unitmeasurements",
+                    Action = "index",
+                    Area = "complements",
+                    Role = Security.Authorization.Roles.UnitMeasurementViewer
+                },
+                 
+
+                 new ManagementDashboardSectionViewModel
+                 {
+                    Title = "Materiales",
+                    Controller = "materials",
+                    Action = "index",
+                    Area = "complements",
+                    Role = Security.Authorization.Roles.UnitMeasurementViewer
+                 }
             };
 
             var institutionSection = new List<ManagementDashboardSectionViewModel>

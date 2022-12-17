@@ -46,18 +46,36 @@
                 <a class="nav-link " href="@Url.Action("contacts", @Model.ArtistId)">Contactos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="@Url.Action("manifestations", @Model.ArtistId)">Manifestaciones</a>
+                <a class="nav-link active" href="@Url.Action("manifestations", @Model.ArtistId)">Selectionar Manifestaciones</a>
             </li>
         </ul>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
-                    <div class="card">
-                   
-
-                    
-                    </div>
-            </div>
+            @using (Html.BeginForm("AddManifestations", "artists", null, FormMethod.Post, true, null))
+            {
+                @if (Model.SelectGroups != null && Model.SelectGroups.Count() > 0)
+                {
+                    var keyValuesSelectArtisticManifestationGroups = Model.SelectGroups;
+                    foreach (var keyValuesSelectArtisticManifestationGroup in keyValuesSelectArtisticManifestationGroups)
+                    {
+                        <div class="card">
+                            <h5>@keyValuesSelectArtisticManifestationGroup.Key.Name</h5>
+                            @for (int i = 0; i < keyValuesSelectArtisticManifestationGroup.Value.Count(); i++)
+                            {
+                                    @for (int j = 0; j < keyValuesSelectArtisticManifestationGroup.Value.Count(); j++)
+                                    {                                    
+                                    <div class="col-md-4">
+                                            @Html.EditorFor(subModel => subModel.SelectGroups, "SelectionDescriptedGuidIDItemInputViewModel")
+                                    </div>
+                                    }
+                            }                           
+                        </div>
+                    }
+                }else{
+                    <div class="editor-field col-md-12">Sin elementos que mostrar.</div>
+                }
+            }
+        </div>
         </div>
         
 

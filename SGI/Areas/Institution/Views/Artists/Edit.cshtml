@@ -26,8 +26,7 @@
 
     Layout = "_BackendLayout";
 }
-<div id="js-var-scope-layout"
-     data-select-option-artisc=" @(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ArtisticManifestations.ToArray()))"></div>
+
 @section styles {
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-multiselect.css.css" />
     <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
@@ -161,6 +160,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Id">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="manifestations" asp-route-key="@Model.Id">Selectionar Manifestaciones</a>
                 </li>
             </ul>
         </div>

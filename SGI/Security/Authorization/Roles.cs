@@ -141,6 +141,20 @@
         public const string ManifestationKindEditor = "manifestation-kind-editor";
         public const string ManifestationKindRemover = "manifestation-kind-remover";
         #endregion
+
+        #region UnitMeasurement
+        public const string UnitMeasurementViewer = "unit-measurement-viewer";
+        public const string UnitMeasurementCreator = "unit-measurement-creator";
+        public const string UnitMeasurementEditor = "unit-measurement-editor";
+        public const string UnitMeasurementRemover = "unit-measurement-remover";
+        #endregion
+
+        #region Material
+        public const string MaterialViewer = "material-viewer";
+        public const string MaterialCreator = "material-creator";
+        public const string MaterialEditor = "material-editor";
+        public const string MaterialRemover = "material-remover";
+        #endregion
     }
 }
 

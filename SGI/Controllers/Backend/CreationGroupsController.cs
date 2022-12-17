@@ -29,15 +29,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
         private readonly IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository;
         private readonly IEntityRepository<Artist, Guid> artistRepository;
-        private readonly IEntityRepository<ManifestationKind, Guid> manifestationKindRepository;
-        public CreationGroupsController(IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ManifestationKind, Guid> manifestationKindRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository;
+        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
             this.artisticManifestationRepository = artisticManifestationRepository;
             this.artistRepository = artistRepository;
-            this.manifestationKindRepository = manifestationKindRepository;
+            this.artisticManifestationGroupRepository = artisticManifestationGroupRepository;
         }
 
         [RequiresRoleBasePermission(Roles.CreationGroupViewer)]
@@ -285,13 +285,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return RedirectToAction("members", new { key = entity.Id });
         }
 
-        private void PopulateSelectableManifestationGroups(ManifestationKind manifestationKind, List<ArtisticManifestation> selectedArtisticManifestations, Dictionary<ManifestationKind, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]> groups)
+        private void PopulateSelectableManifestationGroups(ArtisticManifestationGroup group, List<ArtisticManifestation> selectedArtisticManifestations, Dictionary<ArtisticManifestationGroup, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]> groups)
         {
-            var artisticManifestations = artisticManifestationRepository.FindBy(item => item.ParentId == manifestationKind.Id).ToArray();
+            var artisticManifestations = artisticManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
 
             if (artisticManifestations.Length > 0)
             {
-                groups.Add(manifestationKind, artisticManifestations.Select(item => new SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
+                groups.Add(group, artisticManifestations.Select(item => new SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
                 {
                     Id = item.Id,
                     Label = item.Name,
@@ -300,7 +300,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 }).ToArray());
             }
 
-            var children = manifestationKindRepository.FindBy(item => item.ParentId == manifestationKind.Id);
+            var children = artisticManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
 
             foreach (var child in children)
             {
@@ -315,13 +315,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             var entity = Repository.Get(key);
 
-            var rootManisfestationKinds = manifestationKindRepository.FindBy(e => e.Parent == null).ToArray();
+            var rootManisfestationKinds = artisticManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
 
-            var groups = new Dictionary<ManifestationKind, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>[]>();
+            var groups = new Dictionary<ArtisticManifestationGroup, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>[]>();
 
             foreach (var manifestationKind in rootManisfestationKinds)
             {
-                PopulateSelectableManifestationGroups(manifestationKind, entity.CreationGroupArtisticManifestationBrigdes.Select(item => item.ArtisticManifestation).ToList(), groups);
+                PopulateSelectableManifestationGroups(manifestationKind, entity.ArtisticManifestationBrigdes.Select(item => item.Manifestation).ToList(), groups);
             }
 
             var model = new CreationgroupSelectManisfestationInputViewModel
@@ -355,7 +355,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             if (ModelState.IsValid)
             {
 
-                entity.CreationGroupArtisticManifestationBrigdes.Clear();
+                entity.ArtisticManifestationBrigdes.Clear();
 
                 foreach (var selectionManifestation in modelInput.SelectGroups.Select(mani => mani.Value))
                 {
@@ -363,8 +363,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     {
                         var artisticManifestation = artisticManifestationRepository.Get(manifestationId);
 
-                        var artistManifestationBridge = new CreationGroupArtisticManifestationBrigde { CreationGroupId = entity.Id, ArtisticManifestationId = manifestationId, CreationGroup = entity, ArtisticManifestation = artisticManifestation };
-                        entity.CreationGroupArtisticManifestationBrigdes.Add(artistManifestationBridge);
+                        var artistManifestationBridge = new CreationGroupArtisticManifestationBridge { GroupId = entity.Id, ManifestationId = manifestationId, Group = entity, Manifestation = artisticManifestation };
+                        
+                        entity.ArtisticManifestationBrigdes.Add(artistManifestationBridge);
                     }
 
 

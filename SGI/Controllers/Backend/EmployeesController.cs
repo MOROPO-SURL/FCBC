@@ -564,7 +564,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                         Id = role.Id,
                         Label = role.Name,
                         Description = role.Description,
-                        Selected = entity.EmployeeAdministrativeRoleBridges.Any(bridge => bridge.AdministrativeRoleId == role.Id)
+                        Selected = entity.EmployeeAdministrativeRoleBridges.Any(bridge => bridge.RoleId == role.Id)
                     }).ToList(),
                     EmployeeId = key
 
@@ -610,7 +610,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 {
                     var admRole = this.administrativeRoleRepository.Get(admRolId);
                    
-                    var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = entity.Id, AdministrativeRoleId = admRolId, AdministrativeRole = admRole, Employee = entity };
+                    var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = entity.Id, RoleId = admRolId, Role = admRole, Employee = entity };
                     entity.EmployeeAdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
 
                 }

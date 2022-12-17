@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.2.0" />
     <PackageReference Include="SAPRESSC.Core.Common" Version="2.8.0" />
     <PackageReference Include="SAPRESSC.Core.Web.Api" Version="2.8.0" />
     <PackageReference Include="SAPRESSC.Core.Web.SecurityLocal" Version="2.8.2" />

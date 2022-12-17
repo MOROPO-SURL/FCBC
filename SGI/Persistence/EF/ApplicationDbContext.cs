@@ -102,5 +102,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ArtistAssociationLock> ArtistAssociationLocks { get; set; }
         public DbSet<ArtistResolutionLock> ArtistResolutionLocks { get; set; }
         public DbSet<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
+        public DbSet<UnitMeasurement> UnitMeasurements { get; set; }
+        public DbSet<Material> Materials { get; set; }
     }
 }
