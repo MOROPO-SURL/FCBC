@@ -6,7 +6,6 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
-using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.RegionConst;
@@ -79,7 +78,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.ArtistCreator)]
         public override IActionResult Create(ArtistInputViewModel inputViewModel)
         {
-            PopulateWithArtisticManifestation(inputViewModel);
             if (inputViewModel.AssociationId != null)
             {
                 inputViewModel.Context = "Association|" + inputViewModel.AssociationId.ToString();
@@ -117,8 +115,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.ArtistEditor)]
         public override IActionResult Edit(ArtistInputViewModel inputViewModel)
         {
-            PopulateWithArtisticManifestationEdit(inputViewModel);
-
             ModelState.ClearValidationState("ImageFile");
             ModelState.MarkFieldValid("ImageFile");            
 
@@ -163,7 +159,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpGet("PopulateStateToMunicipality/{stateId}")]
         public IActionResult PopulateStateToMunicipality(string stateId)
         {
-            var stateIdParse = System.Guid.Parse(stateId);
+            var stateIdParse = Guid.Parse(stateId);
 
             var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
             return Ok(municipalities);
@@ -172,7 +168,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpGet("edit/PopulateStateToMunicipalityEdit/{stateId}")]
         public IActionResult PopulateStateToMunicipalityEdit(string stateId)
         {
-            var stateIdParse = System.Guid.Parse(stateId);
+            var stateIdParse = Guid.Parse(stateId);
 
             var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
             return Ok(municipalities);
@@ -208,6 +204,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private void PopulateWithResolutionEdit(ArtistInputViewModel modelInput)
         {
             bool contextHasElemet = false;
+            
             if (modelInput.Context != null && modelInput.Context.Contains("Resolution"))
             {
                 contextHasElemet = true;
@@ -225,44 +222,31 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.States = stateRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();
         }
 
-        private void PopulateWithArtisticManifestation(ArtistInputViewModel modelInput)
-        {            
-            List<SelectListItem> artisticManifestationItems = artisticManifestationRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToList();
-            modelInput.ArtisticManifestations = new MultiSelectList(artisticManifestationItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
-
-        private void PopulateWithArtisticManifestationEdit(ArtistInputViewModel modelInput)
-        {
-            var SelectedValues = modelInput.SelectedValues;
-
-            List<SelectListItem> artisticManifestationItems = artisticManifestationRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = SelectedValues.Any(s => s == entity.Id) }).ToList();
-            modelInput.ArtisticManifestations = new MultiSelectList(artisticManifestationItems.OrderBy(i => i.Text), "Value", "Text", modelInput.SelectedValues);
-        }
-
-
         protected override void PreCreate(Artist entity, ArtistInputViewModel inputViewModel)
         {
-
             base.PreCreate(entity, inputViewModel);
 
             var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
-            PostalContactItem postalContact = new PostalContactItem
+
+            var postalContact = new PostalContactItem
             {
                 Address = inputViewModel.AddressPostal,
                 RegionId = region.Id,
                 Region = region
             };
 
-            PersonPostalContactItemBridge personPostalContactItemBridge = new PersonPostalContactItemBridge
+            var personPostalContactItemBridge = new PersonPostalContactItemBridge
             {
                 PersonId = inputViewModel.Export().Identity.Id,
                 Person = inputViewModel.Export().Identity,
                 ContactItemId = postalContact.Id,
                 ContactItem = postalContact
             };
+
             entity.Identity.PersonPostalContactItemBridges.Add(personPostalContactItemBridge);
 
             var getRegionRegister = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            
             inputViewModel.Municipality = ((MunicipalityRegion)getRegionRegister).Municipality;
             inputViewModel.State = inputViewModel.Municipality.State;
 
@@ -272,7 +256,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 inputViewModel.ImageFile.CopyTo(memoryStream);
 
-                var image = new Image { ContentType = inputViewModel.ImageFile.ContentType, Length = inputViewModel.ImageFile.Length, About = "Critic " + entity.Id };
+                var image = new Image { ContentType = inputViewModel.ImageFile.ContentType, Length = inputViewModel.ImageFile.Length, About = "Artist " + entity.Id };
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), inputViewModel.ImageFile.ContentType);
 
@@ -286,31 +270,19 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.PreEdit(entity, inputViewModel);
 
             var contact = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem;
+            
             contact.Address = inputViewModel.AddressPostal;
+            
             var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == inputViewModel.MunicipalityId);
+            
             var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == inputViewModel.MunicipalityId);
+            
             inputViewModel.StateId = municipality.StateId;
+            
             if (region.Id != entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
             {
                 entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
                 entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
-
-            }
-
-            inputViewModel.ArtistManifestationBridges.Clear();
-            
-            foreach (var artisticManifestationId in inputViewModel.SelectedValues)
-            {
-                ArtisticManifestation artisticMani = this.artisticManifestationRepository.GetAll().FirstOrDefault(r => r.Id == artisticManifestationId);
-                ArtisticManifestationInputViewModel artisticManifestationInputViewModel = new ArtisticManifestationInputViewModel
-                {
-                    Id = artisticManifestationId,
-                    Name = artisticMani.Name,
-
-                };
-                var ArtistManifestationBridge = new ArtistArtisticManifestationBridge { ArtistId = inputViewModel.Id, ManifestationId = artisticManifestationId, Manifestation = artisticManifestationInputViewModel.Export(), Artist = inputViewModel.Export() };
-                
-                entity.ArtisticManifestationBridges.Add(ArtistManifestationBridge);
 
             }
 
@@ -337,7 +309,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 inputViewModel.ImageFile.CopyTo(memoryStream);
 
-                var image = new Image { ContentType = inputViewModel.ImageFile.ContentType, Length = inputViewModel.ImageFile.Length, About = "Critic " + entity.Id };
+                var image = new Image { ContentType = inputViewModel.ImageFile.ContentType, Length = inputViewModel.ImageFile.Length, About = "Artist " + entity.Id };
 
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), inputViewModel.ImageFile.ContentType);
 
@@ -363,7 +335,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountries(modelInput);
             PopulateWithAssociation(modelInput);
             PopulateWithResolution(modelInput);
-            PopulateWithArtisticManifestation(modelInput);
 
             if (modelInput.AssociationId != null)
             {
@@ -386,7 +357,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountriesEdit(modelInput);
             PopulateWithAssociationEdit(modelInput);
             PopulateWithResolutionEdit(modelInput);
-            PopulateWithArtisticManifestationEdit(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(ArtistInputViewModel modelInput)
@@ -466,7 +436,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
             else
             {
-                var messages = new System.Collections.Generic.List<string>();
+                var messages = new List<string>();
 
                 foreach (var item in ModelState)
                 {
@@ -649,7 +619,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 if (modelDisplay.AdmitionModeContext.Contains("Association|"))
                 {
                     var resultSplit = modelDisplay.AdmitionModeContext.Split("|");                    
-                    var association = associationRepository.Get(System.Guid.Parse(resultSplit[1]));
+                    var association = associationRepository.Get(Guid.Parse(resultSplit[1]));
                     modelDisplay.Association = new AssociationDisplayViewModel 
                     { 
                          Id = association.Id,
@@ -661,7 +631,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 if (modelDisplay.AdmitionModeContext.Contains("Resolution|"))
                 {
                     var resultSplit = modelDisplay.AdmitionModeContext.Split("|");
-                    var resolution = resolutionRepository.Get(System.Guid.Parse(resultSplit[1]));
+                    var resolution = resolutionRepository.Get(Guid.Parse(resultSplit[1]));
                     modelDisplay.Resolution = new ResolutionDisplayViewModel
                     {
                         Id = resolution.Id,
@@ -684,7 +654,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             PopulateWithResolutionEdit(modelInput);
             PopulateWithAssociationEdit(modelInput);
-            PopulateWithArtisticManifestationEdit(modelInput);
 
             switch (modelInput.AdmitionModel)
             {
@@ -728,7 +697,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manifestations(System.Guid key)
+        public ActionResult Manifestations(Guid key)
         {
             var entity = Repository.Get(key);
 

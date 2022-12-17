@@ -23,12 +23,8 @@ namespace MOROPO.FCBC.SGI.Helpers
             {
                 roleDbSet.Add(Security.Authorization.Roles.TraceViewer.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationViewer)).Result)
-            {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationViewer.ToRoleEntity());
-            }
 
-            #region ArtisticManifestation
+            #region InstitutionalInformation
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionalInformationViewer)).Result)
             {
                 roleDbSet.Add(Security.Authorization.Roles.InstitutionalInformationViewer.ToRoleEntity());
@@ -55,6 +51,63 @@ namespace MOROPO.FCBC.SGI.Helpers
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationRemover)).Result)
             {
                 roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region CraftManifestation
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region DesignManifestation
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region ServiceLine
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineRemover.ToRoleEntity());
             }
             #endregion
 
@@ -153,22 +206,79 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
-            #region Technique
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueViewer)).Result)
+            #region ArtisticTechnique
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.TechniqueViewer.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueViewer.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueCreator)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.TechniqueCreator.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueCreator.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueEditor)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.TechniqueEditor.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueEditor.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TechniqueRemover)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.TechniqueRemover.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region CraftTechnique
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region DesignTechnique
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region ServiceTechnique
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueRemover.ToRoleEntity());
             }
             #endregion
 
@@ -362,25 +472,157 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
-            #region ManisfetationKind
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindViewer)).Result)
+            #region ArtisticManifestationGroup
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindViewer.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupViewer.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindCreator)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindCreator.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupCreator.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindEditor)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindEditor.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupEditor.ToRoleEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ManifestationKindRemover)).Result)
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ManifestationKindRemover.ToRoleEntity());
+                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupRemover.ToRoleEntity());
             }
             #endregion
 
+            #region CraftManifestationGroup
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region DesignManifestationGroup
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region ServiceLineGroup
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region ArtWork
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ArtWorkViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ArtWorkCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ArtWorkEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ArtWorkRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region CraftWork
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftWorkViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftWorkCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftWorkEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.CraftWorkRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region DesignWork
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignWorkViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignWorkCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignWorkEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.DesignWorkRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region ServiceWork
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkRemover.ToRoleEntity());
+            }
+            #endregion
 
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();
@@ -430,12 +672,15 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
 
             var municipalityRegionDbSet = dbContext.Set<MunicipalityRegion>();
+            
             foreach (var currentMunicipality in municipalitiesDbSet)
             {
                 var municipalityRegion = municipalityRegionDbSet.FirstOrDefault(r => r.MunicipalityId == currentMunicipality.Id);
+                
                 if(municipalityRegion == null)
                 {
                     municipalityRegion = new MunicipalityRegion { MunicipalityId = currentMunicipality.Id, Municipality = currentMunicipality };
+                    
                     municipalityRegionDbSet.Add(municipalityRegion);
                 }
                 

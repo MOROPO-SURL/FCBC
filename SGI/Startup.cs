@@ -55,7 +55,6 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<Recognition, Guid>, RecognitionRepository>();
             services.AddScoped<IEntityRepository<InstitutionalService, Guid>, InstitutionalServiceRepository>();
             services.AddScoped<IEntityRepository<Thematic, Guid>, ThematicRepository>();
-            services.AddScoped<IEntityRepository<Technique, Guid>, TechniqueRepository>();
             services.AddScoped<IEntityRepository<ContractorKind, int>, ContractorKindRepository>();
             services.AddScoped<IEntityRepository<Currency, int>, CurrencyRepository>();
             services.AddScoped<IEntityRepository<Critic, Guid>, CriticRepository>();
@@ -67,17 +66,24 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
             services.AddScoped<IEntityRepository<Resolution, Guid>, ResolutionRepository>();
             services.AddScoped<IEntityRepository<ArtisticManifestationGroup, Guid>, ArtisticManifestationGroupRepository>();
+            services.AddScoped<IEntityRepository<CraftManifestationGroup, Guid>, CraftManifestationGroupRepository>();
+            services.AddScoped<IEntityRepository<DesignManifestationGroup, Guid>, DesignManifestationGroupRepository>();
+            services.AddScoped<IEntityRepository<ServiceLineGroup, Guid>, ServiceLineGroupRepository>();
+            services.AddScoped<IEntityRepository<ArtisticManifestation, Guid>, ArtisticManifestationRepository>();
+            services.AddScoped<IEntityRepository<CraftManifestation, Guid>, CraftManifestationRepository>();
+            services.AddScoped<IEntityRepository<DesignManifestation, Guid>, DesignManifestationRepository>();
+            services.AddScoped<IEntityRepository<ServiceLine, Guid>, ServiceLineRepository>();
+            services.AddScoped<IEntityRepository<ArtisticTechnique, Guid>, ArtisticTechniqueRepository>();
+            services.AddScoped<IEntityRepository<CraftTechnique, Guid>, CraftTechniqueRepository>();
+            services.AddScoped<IEntityRepository<DesignTechnique, Guid>, DesignTechniqueRepository>();
+            services.AddScoped<IEntityRepository<ServiceTechnique, Guid>, ServiceTechniqueRepository>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade, Persistence.EF.Providers.ApplicationDbSchemaConfigurationProvider>();
 
-            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper, Helpers.ApplicationDataInitializationHelper>();
-           
-            services.AddScoped<IEntityRepository<ArtisticManifestation, Guid>, ArtisticManifestationRepository>();
-
-            
+            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper, Helpers.ApplicationDataInitializationHelper>();            
 
             services.AddAuthentication(config =>
             {

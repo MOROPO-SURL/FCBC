@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
@@ -14,14 +13,16 @@ using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
-    [Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
     [Area("manifestations")]
     public class ArtisticManifestationsController : AbstractEntityManagementController<ArtisticManifestation, Guid, ArtisticManifestationInputViewModel, ArtisticManifestationDisplayViewModel>
     {
-        private IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository;
-        public ArtisticManifestationsController(IEntityRepository<ArtisticManifestationGroup, Guid> manifestationKindRepository, IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer<ArtisticManifestationsController> localizer, ILogger<ArtisticManifestationsController> logger) : base(repository, localizer, logger)
+        private readonly IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository;
+
+        public ArtisticManifestationsController(IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository, IEntityRepository<ArtisticManifestation, Guid> repository, IStringLocalizer<ArtisticManifestationsController> localizer, ILogger<ArtisticManifestationsController> logger) : base(repository, localizer, logger)
         {
-            this.manifestationKindRepository = manifestationKindRepository;
+            this.artisticManifestationGroupRepository = artisticManifestationGroupRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtisticManifestationViewer)]
@@ -86,29 +87,60 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateTree(modelInput);
         }
 
-        private void PopulateTree(ArtisticManifestationInputViewModel modelInput)
+        protected override void PopulateViewModelDisplayExtras(ArtisticManifestationDisplayViewModel modelDisplay, ArtisticManifestation entity)
         {
-            var manifestationKinds = manifestationKindRepository.GetAll().ToList();
-            modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(manifestationKinds, null));
+            base.PopulateViewModelDisplayExtras(modelDisplay, entity);
+
+            if (entity.GroupId == null) return;
+
+            var group = artisticManifestationGroupRepository.Get(entity.GroupId.Value);
+
+            modelDisplay.Group = new ArtisticManifestationGroupDisplayViewModel();
+
+            modelDisplay.Group.Import(group);
+
+            CompleteManifestationGroup(group, modelDisplay.Group);
         }
 
-        private List<object> GetTree(List<ArtisticManifestationGroup> manifestationKinds, System.Guid? parentId)
+        private void CompleteManifestationGroup(ArtisticManifestationGroup entity, ArtisticManifestationGroupDisplayViewModel displayModel)
+        {
+            if (entity.ParentId == null) return;
+
+            var parent = artisticManifestationGroupRepository.Get(entity.Id);
+
+            displayModel.Parent = new ArtisticManifestationGroupDisplayViewModel();
+
+            displayModel.Parent.Import(parent);
+
+            CompleteManifestationGroup(entity.Parent, displayModel.Parent);
+        }
+
+        private void PopulateTree(ArtisticManifestationInputViewModel modelInput)
+        {
+            var groups = artisticManifestationGroupRepository.GetAll().ToList();
+            
+            modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(groups, null));
+        }
+
+        private List<object> GetTree(List<ArtisticManifestationGroup> groups, Guid? parentId)
         {
             var result = new List<object>();
 
-            manifestationKinds = manifestationKindRepository.GetAll().Where(m => m.ParentId == parentId).ToList();
-            if (!(manifestationKinds.Count() == 0))
+            groups = artisticManifestationGroupRepository.GetAll().Where(m => m.ParentId == parentId).ToList();
+            
+            if (!(groups.Count() == 0))
             {
-                foreach (var manifestationKind in manifestationKinds)
+                foreach (var group in groups)
                 {
                     result.Add(new
                     {
-                        id = manifestationKind.Id,
-                        text = manifestationKind.Name,
-                        children = GetTree(manifestationKinds, manifestationKind.Id)
+                        id = group.Id,
+                        text = group.Name,
+                        children = GetTree(groups, group.Id)
                     });
                 }
             }
+
             return result;
         }
     }

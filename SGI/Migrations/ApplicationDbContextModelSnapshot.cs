@@ -66,6 +66,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artworks");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkTechniqueBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("TechniqueId")
+                        .HasColumnName("techniqueid");
+
+                    b.HasKey("WorkId", "TechniqueId")
+                        .HasName("pk_artworktechniquebridges");
+
+                    b.HasIndex("TechniqueId")
+                        .HasName("ix_artworktechniquebridges_techniqueid");
+
+                    b.ToTable("artworktechniquebridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Artist", b =>
                 {
                     b.Property<Guid>("Id")
@@ -296,6 +313,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artisticmanifestationgroups");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticTechnique", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_artistictechniques");
+
+                    b.ToTable("artistictechniques");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Association", b =>
                 {
                     b.Property<Guid>("Id")
@@ -430,6 +466,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("craftmanifestationgroups");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftTechnique", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_crafttechniques");
+
+                    b.ToTable("crafttechniques");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", b =>
                 {
                     b.Property<Guid>("Id")
@@ -456,6 +511,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_craftworks_manifestationid");
 
                     b.ToTable("craftworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkTechniqueBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("TechniqueId")
+                        .HasColumnName("techniqueid");
+
+                    b.HasKey("WorkId", "TechniqueId")
+                        .HasName("pk_craftworktechniquebridges");
+
+                    b.HasIndex("TechniqueId")
+                        .HasName("ix_craftworktechniquebridges_techniqueid");
+
+                    b.ToTable("craftworktechniquebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
@@ -686,6 +758,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("designmanifestationgroups");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignTechnique", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_designtechniques");
+
+                    b.ToTable("designtechniques");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", b =>
                 {
                     b.Property<Guid>("Id")
@@ -712,6 +803,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_designworks_manifestationid");
 
                     b.ToTable("designworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkTechniqueBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("TechniqueId")
+                        .HasColumnName("techniqueid");
+
+                    b.HasKey("WorkId", "TechniqueId")
+                        .HasName("pk_designworktechniquebridges");
+
+                    b.HasIndex("TechniqueId")
+                        .HasName("ix_designworktechniquebridges_techniqueid");
+
+                    b.ToTable("designworktechniquebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Distinction", b =>
@@ -890,6 +998,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("servicelinegroups");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceTechnique", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_servicetechniques");
+
+                    b.ToTable("servicetechniques");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", b =>
                 {
                     b.Property<Guid>("Id")
@@ -918,23 +1045,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("serviceworks");
                 });
 
-            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Technique", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkTechniqueBridge", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
 
-                    b.Property<string>("Description")
-                        .HasColumnName("description");
+                    b.Property<Guid>("TechniqueId")
+                        .HasColumnName("techniqueid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
+                    b.HasKey("WorkId", "TechniqueId")
+                        .HasName("pk_serviceworktechniquebridges");
 
-                    b.HasKey("Id")
-                        .HasName("pk_technique");
+                    b.HasIndex("TechniqueId")
+                        .HasName("ix_serviceworktechniquebridges_techniqueid");
 
-                    b.ToTable("technique");
+                    b.ToTable("serviceworktechniquebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", b =>
@@ -1788,6 +1913,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkTechniqueBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticTechnique", "Technique")
+                        .WithMany()
+                        .HasForeignKey("TechniqueId")
+                        .HasConstraintName("fk_artworktechniquebridges_artistictechniques_techniqueid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "Work")
+                        .WithMany("TechniqueBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_artworktechniquebridges_artworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Artist", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "BrandImage")
@@ -1975,6 +2115,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkTechniqueBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftTechnique", "Technique")
+                        .WithMany()
+                        .HasForeignKey("TechniqueId")
+                        .HasConstraintName("fk_craftworktechniquebridges_crafttechniques_techniqueid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("TechniqueBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworktechniquebridges_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
@@ -2102,6 +2257,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkTechniqueBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignTechnique", "Technique")
+                        .WithMany()
+                        .HasForeignKey("TechniqueId")
+                        .HasConstraintName("fk_designworktechniquebridges_designtechniques_techniqueid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("TechniqueBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworktechniquebridges_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Employee", b =>
                 {
                     b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
@@ -2148,6 +2318,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("LineId")
                         .HasConstraintName("fk_serviceworks_servicelines_lineid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkTechniqueBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceTechnique", "Technique")
+                        .WithMany()
+                        .HasForeignKey("TechniqueId")
+                        .HasConstraintName("fk_serviceworktechniquebridges_servicetechniques_techniqueid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
+                        .WithMany("TechniqueBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_serviceworktechniquebridges_serviceworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

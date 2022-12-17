@@ -1,9 +1,9 @@
 ﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
 
-@model MOROPO.FCBC.SGI.Models.View.ManifestationKindInputViewModel
+@model MOROPO.FCBC.SGI.Models.View.ArtisticManifestationGroupInputViewModel
 
 @{
-    ViewData["Title"] = "Modificar Grupo de Manifestaciones Artísticas";
+    ViewData["Title"] = "Modificar Grupo de Manifestaciones de Artes Plásticas";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Grupos de Manifestaciones Artísticas",
+            Caption = "Administración de Grupos de Manifestaciones de Artes Plásticas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -30,7 +30,7 @@
     <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
 }
 
-    @section scripts {
+@section scripts {
     <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -62,7 +62,7 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header"><h4>@ViewData["Title"]</h4></div>
+        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
 
         <div class="card-body">
 
@@ -72,18 +72,21 @@
                     @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                 </div>
-
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
                     @Html.HiddenFor(model => model.ParentId)
                     <div id="tree"></div>
                 </div>
             </div>
-           
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Description, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Modificar</button>
-            <a class="btn btn-default" href="@Url.Action("index")">Regresar al listado</a>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
         </div>
     </div>
 }

@@ -65,7 +65,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<Recognition> Recognitions { get; set; }
         public DbSet<InstitutionalService> InstitutionalServices { get; set; }
         public DbSet<Thematic> Thematics { get; set; }
-        public DbSet<Technique> Technique { get; set; }
         public DbSet<ContractorKind> ContractorKinds { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Critic> Critics { get; set; }
@@ -102,5 +101,17 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ArtistAssociationLock> ArtistAssociationLocks { get; set; }
         public DbSet<ArtistResolutionLock> ArtistResolutionLocks { get; set; }
         public DbSet<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
+        public DbSet<ArtisticTechnique> ArtisticTechniques { get; set; }
+        public DbSet<CraftTechnique> CraftTechniques { get; set; }
+        public DbSet<DesignTechnique> DesignTechniques { get; set; }
+        public DbSet<ServiceTechnique> ServiceTechniques { get; set; }
+        public DbSet<ArtWorkTechniqueBridge> ArtWorkTechniqueBridges { get; set; }
+        public DbSet<CraftWorkTechniqueBridge> CraftWorkTechniqueBridges { get; set; }
+        public DbSet<DesignWorkTechniqueBridge> DesignWorkTechniqueBridges { get; set; }
+        public DbSet<ServiceWorkTechniqueBridge> ServiceWorkTechniqueBridges { get; set; }
+        public DbSet<ArtWorkImageBridge> ArtWorkImageBridges { get; set; }
+        public DbSet<CraftWorkImageBridge> CraftWorkImageBridges { get; set; }
+        public DbSet<DesignWorkImageBridge> DesignWorkImageBridges { get; set; }
+        public DbSet<ServiceWorkImageBridge> ServiceWorkImageBridges { get; set; }
     }
 }

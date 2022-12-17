@@ -87,13 +87,6 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
-        public ICollection<Persistence.Entities.ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; } = new List<Persistence.Entities.ArtistArtisticManifestationBridge>();
-
-        [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; }
-        
-        public System.Guid[] SelectedValues { get; set; }
-
         public ArtistInputViewModel()
         {
             BornDate = System.DateTime.Now.AddYears(-16);
@@ -130,8 +123,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
             AdmitionModel = entity.AdmitionMode;
-            Context = entity.AdmitionModeContext;
-            ArtistManifestationBridges = entity.ArtisticManifestationBridges;            
+            Context = entity.AdmitionModeContext;            
         }
 
         public void Mergue(Persistence.Entities.Artist entity)
@@ -148,8 +140,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.SpecificEducation = SpecificEducation;
             entity.SchoolLevel = SchoolLevel;
             entity.AdmitionMode = AdmitionModel;
-            entity.AdmitionModeContext = Context;
-            entity.ArtisticManifestationBridges = ArtistManifestationBridges;            
+            entity.AdmitionModeContext = Context;            
         }
     }
 }

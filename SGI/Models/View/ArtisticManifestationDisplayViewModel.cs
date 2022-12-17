@@ -8,13 +8,15 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Name { get; set; }
 
-        public ArtisticManifestationGroup Group { get; set; }
+        public ArtisticManifestationGroupDisplayViewModel Group { get; set; }
+
+        public string Description { get; set; }
 
         public void Import(ArtisticManifestation entity)
         {
             Id = entity.Id;
             Name = entity.Name;
-            Group = entity.Group;
+            Description = entity.Description;
         }
     }
 }
