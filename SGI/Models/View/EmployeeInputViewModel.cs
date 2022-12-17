@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
@@ -44,13 +45,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Alias { get; set; }
 
         [Display(Name = "About")]
-        public string About { get; set; }
-        
-        [Display(Name = "Select Rol")]
-        public MultiSelectList AdministrativeRoles { get; set; }
+        public string About { get; set; }  
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        public System.Guid[] SelectedValues { get; set; }
+        [Display(Name = "Roles Administrativos")]
+        public List<SelectionDescriptedItemInputViewModel<System.Guid>> SelectableRoles { get; set; }
 
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }

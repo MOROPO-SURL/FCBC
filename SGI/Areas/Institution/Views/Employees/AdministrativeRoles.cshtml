@@ -1,0 +1,82 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.EmployeeAdministrativeRolesInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Trabajador";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Trabajador",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
+}
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header"><h4>@ViewData["Title"]</h4></div>
+        <div style="margin-bottom: 20px;"></div>
+
+        <ul class="nav nav-tabs justify-content-center" style="margin-bottom: 20px;">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.EmployeeId)">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("edit", @Model.EmployeeId)">Roles Administrativos</a>
+            </li>
+        </ul>
+        @using (Html.BeginForm("addadministrativeroles", "employees", null, FormMethod.Post, true, null))
+            {
+            @Html.HiddenFor(model => model.EmployeeId)
+        <div class="card-body">
+            <div class="row">
+                @if (Model.SelectableRoles != null && Model.SelectableRoles.Count() > 0)
+                {
+                    for (int i = 0; i < Model.SelectableRoles.Count(); i++)
+                    {
+                        <div class="col-md-4">
+                            @Html.EditorFor(subModel => subModel.SelectableRoles[i], "SelectionDescriptedGuidIDItemInputViewModel")
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="editor-field col-md-12">Sin elementos que mostrar.</div>
+                }
+            </div>
+        </div>
+        
+
+   
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Adicionar Roles</button>
+        <a class="btn btn-default" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+    }
+</div>
+
+

@@ -48,6 +48,10 @@
 
             if (target.Controller == "manifestationkinds") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-briefcase-account    \"></span>");
 
+            if (target.Controller == "unitmeasurements") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-briefcase-account    \"></span>");
+
+            if (target.Controller == "materials") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-briefcase-account    \"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }

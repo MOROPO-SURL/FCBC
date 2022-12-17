@@ -605,6 +605,44 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region UnitMeasurement
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementRemover.ToRoleEntity());
+            }
+            #endregion
+
+            #region Material
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialViewer)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.MaterialViewer.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialCreator)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.MaterialCreator.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialEditor)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.MaterialEditor.ToRoleEntity());
+            }
+            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialRemover)).Result)
+            {
+                roleDbSet.Add(Security.Authorization.Roles.MaterialRemover.ToRoleEntity());
+            }
+            #endregion
+
             #region ServiceWork
             if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkViewer)).Result)
             {

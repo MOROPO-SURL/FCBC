@@ -64,6 +64,9 @@
             <li class="nav-item">
                 <a class="nav-link active" href="#">Miembros</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
+            </li>
         </ul>
 
         <div class="card-body">
@@ -74,27 +77,27 @@
                 {
                     <div class="col-sm-4 d-sm-flex" style="margin-bottom: 20px;">
                         <div class="card text-center" style="width:100%;">
-                            @if (artist.Identity.ImageId != null )
+                            @if (artist.ImageId != System.Guid.Empty)
                             {
-                                var extension = Model.GetExtension(artist);
-                                <img src="~/media/images/@artist.Identity.ImageId.@extension" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
+                                <img src="~/media/images/@artist.ImageId.@artist.ImageExtension" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
                             }
                             else
                             {
-                                <img src="~/media/images/default-person.png" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
+                                <img src="~/img/default-person-picture.jpg" class="card-img-top rounded-circle mt-1 mx-auto member-img" />
                             }
                             <div class="card-body">
-                                <h5 class="card-title">@artist.Identity.Name @artist.Identity.LastName</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@artist.Identity.Alias</h6>
-                                <p class="card-text">@artist.Identity.About</p>
-                            </div>
-                            <div class="card-footer">
-                                @if(@artist.Identity.PersonEmailContactItemBridges.Count() != 0){
-                                    @artist.Identity.PersonEmailContactItemBridges.FirstOrDefault().ContactItem.EmailAddress;
-                                }
+                                <h5 class="card-title">@artist.Name @artist.LastName</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@artist.Alias</h6>
+                                <p class="card-text">@artist.About</p>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-light" title="@artist.Alias" data-toggle="modal" data-target="#descrip-@artist.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detail</span></button>
+                                    <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-member-@artist.Id"><span class="mdi mdi-trash-can-outline"></span>Eliminar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    await Html.RenderPartialAsync("_MemberDetailPartial", @artist);
+                    await Html.RenderPartialAsync("_DeleteMemberPartial", @artist.CreationGroupMember);
                 }
             </div>
             }else{
@@ -103,7 +106,7 @@
         </div>
         <div class="card-footer">
             <button type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-member">Agregar</button>
-            <a class="btn btn-default" href="@Url.Action("index")">Regresar al listado</a>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
         </div>
         @await Html.PartialAsync("AddMemberPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupMembersInputViewModel
                         {

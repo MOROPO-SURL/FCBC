@@ -1,0 +1,90 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtistDisplayViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>@Html.DisplayNameFor(model => model.Name)</h5>
+                            <p>@Model.Name</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5>@Html.DisplayNameFor(model => model.LastName)</h5>
+                            <p>@Model.LastName</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>@Html.DisplayNameFor(model => model.Sex)</h5>
+                            <p>@Model.Sex</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5>@Html.DisplayNameFor(model => model.CivilStatus)</h5>
+                            <p>@Model.CivilStatus</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <h5>@Html.DisplayNameFor(model => model.About)</h5>
+                    <p>@Model.About</p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>@Html.DisplayNameFor(model => model.State)</h5>
+                            <p>@Html.DisplayName(Model.State.Name)</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5>@Html.DisplayNameFor(model => model.Municipality)</h5>
+                            <p>@Html.DisplayName(Model.Municipality.Name)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h5>@Html.DisplayNameFor(model => model.AdmitionMode)</h5>
+                            <p>@Html.DisplayName(Model.AdmitionMode.ToString())</p>
+                        </div>
+                        <div class="col-sm-8">
+                            <h5>Asociación | Resolución</h5>
+                            @if (Model.AdmitionModeContext != null)
+                            {
+                                @if (Model.AdmitionModeContext.Contains("Resolution|"))
+                                {
+                                    <p>@Model.Resolution.NumberResolution-@Model.Resolution.Title</p>
+                                }
+                                else if (Model.AdmitionModeContext.Contains("Association|"))
+                                {
+                                    <p>@Model.Association.OrganizationIdentityName</p>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <h5>Lista de Manifestaciones</h5>
+                    @foreach (var item in Model.ArtistManifestationBridges)
+                    {
+                        <h5>Manifestación</h5>
+                        <p>@item.Manifestation.Name</p>
+                        <hr />
+                    }
+                    <div class="row">
+                        <div>
+                            <h5>@Html.DisplayNameFor(model => model.AddressPostal)</h5>
+                            <p>@Html.DisplayName(Model.AddressPostal)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -33,7 +33,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.Guid[] SelectedValues { get; set; }
 
-        public ICollection<Artist> Members { get; set; }
+        public ICollection<ArtistDisplayViewModel> Members { get; set; }
 
         public ICollection<SelectListItem> NotMembers { get; set; } = new List<SelectListItem>();
 

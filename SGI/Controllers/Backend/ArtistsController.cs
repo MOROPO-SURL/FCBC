@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
@@ -20,6 +21,8 @@ using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rotativa;
+using MOROPO.FCBC.SGI.Extensions;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -284,7 +287,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
                 entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
 
-            }
+            }            
 
             if (inputViewModel.ImageFile == null)
             {
@@ -394,6 +397,58 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 resultModel.Artist.Import(entity);
 
                 return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("artists/{key}/print")]
+        [RequiresRoleBasePermission(Roles.ArtistViewer)]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public IActionResult Print(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new ArtistContactsManageViewModel
+                {
+                    Artist = new ArtistDisplayViewModel
+                    {
+                        ImageId = (Guid)entity.Identity.ImageId,
+                        ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null,
+                        Name = entity.Identity.Name,
+                        LastName = entity.Identity.LastName
+                    },
+                    PhoneContacts = entity.Identity.PersonPhoneContactItemBridges.Select(bridge => new ArtistPhoneContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Number = bridge.ContactItem.PhoneNumber,
+                        ArtistId = entity.Id
+                    }).ToList(),
+                    EmailContacts = entity.Identity.PersonEmailContactItemBridges.Select(bridge => new ArtistEmailContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Address = bridge.ContactItem.EmailAddress,
+                        ArtistId = entity.Id
+                    }).ToList()
+                };
+
+                return new Rotativa.AspNetCore.ViewAsPdf("Print", resultModel)
+                {
+                    FileName = $"Datos del Artista {resultModel.Artist.Name} - { resultModel.Artist.LastName}.pdf",
+                    PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                    PageSize = Rotativa.AspNetCore.Options.Size.A4
+                };
+                
             }
             catch (System.Exception e)
             {
@@ -710,14 +765,74 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 PopulateSelectableManifestationGroups(manifestationKind, entity.ArtisticManifestationBridges.Select(item => item.Manifestation).ToList(), groups);
             }
 
-            var model = new ArtistSelectManisfestationDisplayViewModel
+            var model = new ArtistSelectManisfestationInputViewModel
             {
-                Groups = groups
-            };
-
-            model.Artist.Import(entity);
+                SelectGroups = groups,
+                ArtistId = entity.Id
+            };            
 
             return View(model);
+        }
+
+        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddManifestations(ArtistSelectManisfestationInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.ArtistId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+            if (ModelState.IsValid)
+            {
+
+                entity.ArtisticManifestationBridges.Clear();
+
+                foreach (var selectionManifestation in modelInput.SelectGroups.Select(mani => mani.Value))
+                {
+                    foreach (var manifestationId in selectionManifestation.Where(m => m.Selected == true).Select(m => m.Id))
+                    {
+                        var artisticManifestation = artisticManifestationRepository.Get(manifestationId);
+                       
+                        var artistManifestationBridge = new ArtistArtisticManifestationBridge { ArtistId = entity.Id, ManifestationId = manifestationId, Artist = entity, Manifestation = artisticManifestation };
+                        entity.ArtisticManifestationBridges.Add(artistManifestationBridge);
+                    }                    
+                   
+
+                }
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("manifestations", new { key = entity.Id });
         }
     }
 }

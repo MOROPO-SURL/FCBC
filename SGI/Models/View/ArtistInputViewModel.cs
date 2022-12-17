@@ -87,6 +87,26 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
+        [Display(Name = "Select Artistict Manifestation")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+        
+        public System.Guid[] SelectedValues { get; set; }
+
+        [Display(Name = "Select Artistict Manifestation")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+        
+        public System.Guid[] SelectedValues { get; set; }
+
+        [Display(Name = "Select Artistict Manifestation")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+        
+        public System.Guid[] SelectedValues { get; set; }
+
+        [Display(Name = "Select Artistict Manifestation")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+        
+        public System.Guid[] SelectedValues { get; set; }
+
         public ArtistInputViewModel()
         {
             BornDate = System.DateTime.Now.AddYears(-16);
