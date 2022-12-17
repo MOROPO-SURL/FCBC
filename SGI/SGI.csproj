@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Frontend\Api\" />
+    <Folder Include="Rotativa\Windows\" />
   </ItemGroup>
 
   <ItemGroup>
