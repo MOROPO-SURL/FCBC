@@ -47,8 +47,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("About")
                         .HasColumnName("about");
 
-                    b.Property<DateTime>("BornAt")
-                        .HasColumnName("bornat");
+                    b.Property<int>("BornYear")
+                        .HasColumnName("bornyear");
+
+                    b.Property<Guid?>("FeatureImageId")
+                        .HasColumnName("featureimageid");
 
                     b.Property<Guid>("ManifestationId")
                         .HasColumnName("manifestationid");
@@ -60,10 +63,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasKey("Id")
                         .HasName("pk_artworks");
 
+                    b.HasIndex("FeatureImageId")
+                        .HasName("ix_artworks_featureimageid");
+
                     b.HasIndex("ManifestationId")
                         .HasName("ix_artworks_manifestationid");
 
                     b.ToTable("artworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkImageBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnName("imageid");
+
+                    b.HasKey("WorkId", "ImageId")
+                        .HasName("pk_artworkimagebridges");
+
+                    b.HasIndex("ImageId")
+                        .HasName("ix_artworkimagebridges_imageid");
+
+                    b.ToTable("artworkimagebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkTechniqueBridge", b =>
@@ -494,8 +517,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("About")
                         .HasColumnName("about");
 
-                    b.Property<DateTime>("BornAt")
-                        .HasColumnName("bornat");
+                    b.Property<int>("BornYear")
+                        .HasColumnName("bornyear");
+
+                    b.Property<Guid?>("FeatureImageId")
+                        .HasColumnName("featureimageid");
 
                     b.Property<Guid>("ManifestationId")
                         .HasColumnName("manifestationid");
@@ -507,10 +533,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasKey("Id")
                         .HasName("pk_craftworks");
 
+                    b.HasIndex("FeatureImageId")
+                        .HasName("ix_craftworks_featureimageid");
+
                     b.HasIndex("ManifestationId")
                         .HasName("ix_craftworks_manifestationid");
 
                     b.ToTable("craftworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkImageBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnName("imageid");
+
+                    b.HasKey("WorkId", "ImageId")
+                        .HasName("pk_craftworkimagebridges");
+
+                    b.HasIndex("ImageId")
+                        .HasName("ix_craftworkimagebridges_imageid");
+
+                    b.ToTable("craftworkimagebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkTechniqueBridge", b =>
@@ -786,8 +832,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("About")
                         .HasColumnName("about");
 
-                    b.Property<DateTime>("BornAt")
-                        .HasColumnName("bornat");
+                    b.Property<int>("BornYear")
+                        .HasColumnName("bornyear");
+
+                    b.Property<Guid?>("FeatureImageId")
+                        .HasColumnName("featureimageid");
 
                     b.Property<Guid>("ManifestationId")
                         .HasColumnName("manifestationid");
@@ -799,10 +848,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasKey("Id")
                         .HasName("pk_designworks");
 
+                    b.HasIndex("FeatureImageId")
+                        .HasName("ix_designworks_featureimageid");
+
                     b.HasIndex("ManifestationId")
                         .HasName("ix_designworks_manifestationid");
 
                     b.ToTable("designworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkImageBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnName("imageid");
+
+                    b.HasKey("WorkId", "ImageId")
+                        .HasName("pk_designworkimagebridges");
+
+                    b.HasIndex("ImageId")
+                        .HasName("ix_designworkimagebridges_imageid");
+
+                    b.ToTable("designworkimagebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkTechniqueBridge", b =>
@@ -865,11 +934,17 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("EmployeeId")
                         .HasColumnName("employeeid");
 
+                    b.Property<Guid?>("EmployeeId1")
+                        .HasColumnName("employeeid1");
+
                     b.HasKey("RoleId", "EmployeeId")
                         .HasName("pk_administrativerolebridges");
 
                     b.HasIndex("EmployeeId")
                         .HasName("ix_administrativerolebridges_employeeid");
+
+                    b.HasIndex("EmployeeId1")
+                        .HasName("ix_administrativerolebridges_employeeid1");
 
                     b.ToTable("administrativerolebridges");
                 });
@@ -906,6 +981,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_institutionalservices");
 
                     b.ToTable("institutionalservices");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Material", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_materials");
+
+                    b.ToTable("materials");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Recognition", b =>
@@ -1026,8 +1120,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("About")
                         .HasColumnName("about");
 
-                    b.Property<DateTime>("BornAt")
-                        .HasColumnName("bornat");
+                    b.Property<int>("BornYear")
+                        .HasColumnName("bornyear");
+
+                    b.Property<Guid?>("FeatureImageId")
+                        .HasColumnName("featureimageid");
 
                     b.Property<Guid>("LineId")
                         .HasColumnName("lineid");
@@ -1039,10 +1136,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasKey("Id")
                         .HasName("pk_serviceworks");
 
+                    b.HasIndex("FeatureImageId")
+                        .HasName("ix_serviceworks_featureimageid");
+
                     b.HasIndex("LineId")
                         .HasName("ix_serviceworks_lineid");
 
                     b.ToTable("serviceworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkImageBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnName("imageid");
+
+                    b.HasKey("WorkId", "ImageId")
+                        .HasName("pk_serviceworkimagebridges");
+
+                    b.HasIndex("ImageId")
+                        .HasName("ix_serviceworkimagebridges_imageid");
+
+                    b.ToTable("serviceworkimagebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkTechniqueBridge", b =>
@@ -1079,6 +1196,25 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_thematics");
 
                     b.ToTable("thematics");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.UnitMeasurement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnName("symbol");
+
+                    b.HasKey("Id")
+                        .HasName("pk_unitmeasurements");
+
+                    b.ToTable("unitmeasurements");
                 });
 
             modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace", b =>
@@ -1906,10 +2042,30 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", b =>
                 {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                        .WithMany()
+                        .HasForeignKey("FeatureImageId")
+                        .HasConstraintName("fk_artworks_images_featureimageid");
+
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestation", "Manifestation")
                         .WithMany()
                         .HasForeignKey("ManifestationId")
                         .HasConstraintName("fk_artworks_artisticmanifestations_manifestationid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkImageBridge", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .HasConstraintName("fk_artworkimagebridges_images_imageid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "Work")
+                        .WithMany("ImageBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_artworkimagebridges_artworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2108,10 +2264,30 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", b =>
                 {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                        .WithMany()
+                        .HasForeignKey("FeatureImageId")
+                        .HasConstraintName("fk_craftworks_images_featureimageid");
+
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftManifestation", "Manifestation")
                         .WithMany()
                         .HasForeignKey("ManifestationId")
                         .HasConstraintName("fk_craftworks_craftmanifestations_manifestationid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkImageBridge", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .HasConstraintName("fk_craftworkimagebridges_images_imageid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("ImageBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworkimagebridges_craftworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2250,10 +2426,30 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", b =>
                 {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                        .WithMany()
+                        .HasForeignKey("FeatureImageId")
+                        .HasConstraintName("fk_designworks_images_featureimageid");
+
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignManifestation", "Manifestation")
                         .WithMany()
                         .HasForeignKey("ManifestationId")
                         .HasConstraintName("fk_designworks_designmanifestations_manifestationid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkImageBridge", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .HasConstraintName("fk_designworkimagebridges_images_imageid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("ImageBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkimagebridges_designworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2289,6 +2485,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasConstraintName("fk_administrativerolebridges_employees_employeeid")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Employee")
+                        .WithMany("EmployeeAdministrativeRoleBridges")
+                        .HasForeignKey("EmployeeId1")
+                        .HasConstraintName("fk_administrativerolebridges_employees_employeeid1");
+
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.AdministrativeRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -2314,10 +2515,30 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", b =>
                 {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                        .WithMany()
+                        .HasForeignKey("FeatureImageId")
+                        .HasConstraintName("fk_serviceworks_images_featureimageid");
+
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceLine", "Line")
                         .WithMany()
                         .HasForeignKey("LineId")
                         .HasConstraintName("fk_serviceworks_servicelines_lineid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkImageBridge", b =>
+                {
+                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .HasConstraintName("fk_serviceworkimagebridges_images_imageid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
+                        .WithMany("ImageBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_serviceworkimagebridges_serviceworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
