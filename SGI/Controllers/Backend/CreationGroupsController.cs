@@ -213,17 +213,36 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             try
             {
                 var entity = Repository.Get(key);
-                var members = entity.CreationGroupArtistBridges.Select(b => b.Artist).ToList();
-                var notMemberArtist = artistRepository.GetAll().ToList();
+                var members = entity.CreationGroupArtistBridges.Select(b => b.Artist).ToArray();
+                var notMemberArtist = artistRepository.GetAll().ToArray();
                 if (members.Count() != 0)
                 {
-                    notMemberArtist = notMemberArtist.Except(members).ToList();
+                    notMemberArtist = notMemberArtist.Except(members).ToArray();
                 }
                 
                 var resultModel = new CreationGroupInputViewModel ();
+                
                 resultModel.Import(entity);
+                
                 resultModel.NotMembers = notMemberArtist.Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.Identity.Name+" "+n.Identity.LastName }).ToArray();
-                resultModel.Members = members;
+                
+                resultModel.Members = members.Select(item =>
+                {
+                    var model = new ArtistDisplayViewModel { 
+                        CreationGroupMember =  new CreationGroupMemberDisplayViewModel
+                        {
+                            CreationGroupId = key,
+                            Name = item.Identity.Name+" "+ item.Identity.LastName,
+                            Alias = item.Identity.Alias,
+                            ArtistId = item.Id,
+                        }
+                    };
+
+                    model.Import(item);
+
+                    return model;
+                }).ToArray();
+
                 return View(resultModel);
             }
             catch (System.Exception e)
@@ -309,40 +328,17 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         }
 
-        [Route("edit/{key}/manifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
-        public ActionResult Manifestations(System.Guid key)
-        {
-            var entity = Repository.Get(key);
-
-            var rootManisfestationKinds = artisticManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
-
-            var groups = new Dictionary<ArtisticManifestationGroup, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>[]>();
-
-            foreach (var manifestationKind in rootManisfestationKinds)
-            {
-                PopulateSelectableManifestationGroups(manifestationKind, entity.ArtisticManifestationBrigdes.Select(item => item.Manifestation).ToList(), groups);
-            }
-
-            var model = new CreationgroupSelectManisfestationInputViewModel
-            {
-                SelectGroups = groups,
-                GroupId = entity.Id
-            };
-
-            return View(model);
-        }
-
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [Route("edit/members/remove")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddManifestations(CreationgroupSelectManisfestationInputViewModel modelInput)
+        public IActionResult RemoveMember(CreationGroupMemberDisplayViewModel modelDisplay)
         {
             CreationGroup entity = null;
 
             try
             {
-                entity = Repository.Get(modelInput.GroupId);
+                entity = Repository.Get(modelDisplay.CreationGroupId);
             }
             catch { }
 
@@ -352,24 +348,103 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 return GetDefaultActionResult();
             }
+
+            try
+            {
+                var bridge = entity.CreationGroupArtistBridges.First(b => b.ArtistId == modelDisplay.ArtistId);
+
+                entity.CreationGroupArtistBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("members", new { key = entity.Id });
+        }
+
+        [Route("edit/{key}/contacts")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public IActionResult Contacts(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new CreationGroupContactsManageViewModel
+                {
+                    CreationGroup = new CreationGroupDisplayViewModel(),
+                    PhoneContacts = entity.Identity.OrganizationPhoneContactItemBridges.Select(bridge => new CreationGroupPhoneContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Number = bridge.ContactItem.PhoneNumber,
+                        CreationGroupId = entity.Id
+                    }).ToList(),
+                    EmailContacts = entity.Identity.OrganizationEmailContactItemBridges.Select(bridge => new CreationGroupEmailContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        Address = bridge.ContactItem.EmailAddress,
+                        CreationGroupId = entity.Id
+                    }).ToList(),
+                    SocialContacts = entity.Identity.OrganizationSocialContactItemBridges.Select(bridge => new CreationGroupSocialContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        SocialId = bridge.ContactItem.SocialId,
+                        CreationGroupId = entity.Id
+                    }).ToList()
+                };
+
+                resultModel.CreationGroup.Import(entity);
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("edit/contacts/phone/add")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddPhoneContact(CreationGroupPhoneContactInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
             if (ModelState.IsValid)
             {
-
-                entity.ArtisticManifestationBrigdes.Clear();
-
-                foreach (var selectionManifestation in modelInput.SelectGroups.Select(mani => mani.Value))
-                {
-                    foreach (var manifestationId in selectionManifestation.Where(m => m.Selected == true).Select(m => m.Id))
-                    {
-                        var artisticManifestation = artisticManifestationRepository.Get(manifestationId);
-
-                        var artistManifestationBridge = new CreationGroupArtisticManifestationBridge { GroupId = entity.Id, ManifestationId = manifestationId, Group = entity, Manifestation = artisticManifestation };
-                        
-                        entity.ArtisticManifestationBrigdes.Add(artistManifestationBridge);
-                    }
-
-
-                }
+                entity.Identity.OrganizationPhoneContactItemBridges.Add(new OrganizationPhoneContactItemBridge { OrganizationId = entity.IdentityId, ContactItem = new PhoneContactItem { Label = modelInput.Label, PhoneNumber = modelInput.Number } });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -392,7 +467,240 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("manifestations", new { key = entity.Id });
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/phone/delete")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePhoneContact(CreationGroupPhoneContactDisplayViewModel modelDisplay)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelDisplay.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Identity.OrganizationPhoneContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.Identity.OrganizationPhoneContactItemBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/email/add")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddEmailContact(CreationGroupEmailContactInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.Identity.OrganizationEmailContactItemBridges.Add(new OrganizationEmailContactItemBridge { OrganizationId = entity.IdentityId, ContactItem = new EmailContactItem { Label = modelInput.Label, EmailAddress = modelInput.Address } });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new System.Collections.Generic.List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/email/delete")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteEmailContact(CreationGroupEmailContactDisplayViewModel modelDisplay)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelDisplay.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Identity.OrganizationEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.Identity.OrganizationEmailContactItemBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/social/add")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddSocialContact(CreationGroupSocialContactInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.Identity.OrganizationSocialContactItemBridges.Add(new OrganizationSocialContactItemBridge { OrganizationId = entity.IdentityId, ContactItem = new SocialContactItem { Label = modelInput.Label, SocialId = modelInput.SocialId } });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/social/delete")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteSocialContact(CreationGroupSocialContactDisplayViewModel modelDisplay)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelDisplay.CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Identity.OrganizationSocialContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.Identity.OrganizationSocialContactItemBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
         }
     }
 }

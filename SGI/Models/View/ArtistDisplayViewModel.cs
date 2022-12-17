@@ -70,6 +70,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ResolutionDisplayViewModel Resolution { get; set; }
 
+        public CreationGroupMemberDisplayViewModel CreationGroupMember { get; set; }
+
         public void Import(Artist entity)
         {
             Id = entity.Id;
