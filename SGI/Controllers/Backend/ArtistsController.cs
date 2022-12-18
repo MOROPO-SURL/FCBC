@@ -391,6 +391,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                         Label = bridge.ContactItem.Label,
                         Address = bridge.ContactItem.EmailAddress,
                         ArtistId = entity.Id
+                    }).ToList(),
+                    SocialContacts = entity.Identity.PersonSocialContactItemBridges.Select(bridge => new ArtistSocialContactDisplayViewModel
+                    {
+                        Id = bridge.ContactItemId,
+                        Label = bridge.ContactItem.Label,
+                        SocialId = bridge.ContactItem.SocialId,
+                        ArtistId = entity.Id,
+                        Icon = GetIcon(bridge.ContactItem.SocialId)
                     }).ToList()
                 };
 
@@ -833,6 +841,117 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             return RedirectToAction("manifestations", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/social/add")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddSocialContact(ArtistSocialContactInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.ArtistId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.Identity.PersonSocialContactItemBridges.Add(new PersonSocialContactItemBridge { PersonId = entity.IdentityId, ContactItem = new SocialContactItem { Label = modelInput.Label, SocialId = modelInput.SocialId } });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        [Route("edit/contacts/social/delete")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteSocialContact(ArtistSocialContactDisplayViewModel modelDisplay)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelDisplay.ArtistId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Identity.PersonSocialContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.Identity.PersonSocialContactItemBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        private Microsoft.AspNetCore.Html.HtmlString GetIcon(string socialId)
+        {
+            switch (socialId)
+            {
+                case string x when x.Contains("facebook.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-facebook\"></span>");
+                case string x when x.Contains("twitter.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-twitter\"></span>");
+                case string x when x.Contains("instagram.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-instagram\"></span>");
+                case string x when x.Contains("linkedin.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-linkedin\"></span>");
+                default:
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-cloud-question\"></span>");
+            }
         }
     }
 }

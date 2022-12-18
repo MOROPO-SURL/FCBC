@@ -159,10 +159,10 @@
                     <a class="nav-link active" href="#">Generales</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Id">Contactos</a>
+                    <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="manifestations" asp-route-key="@Model.Id">Selectionar Manifestaciones</a>
+                    <a class="nav-link" href="@Url.Action("manifestations", @Model.Id)">Selectionar Manifestaciones</a>
                 </li>
             </ul>
         </div>
