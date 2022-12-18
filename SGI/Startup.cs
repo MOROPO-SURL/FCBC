@@ -218,7 +218,8 @@ namespace MOROPO.FCBC.SGI
                     template: "{controller=start}/{action=index}/{id?}");                
             });
             
-            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
+            // TODO Restore and redesign
+            //Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
         }
     }
 }
