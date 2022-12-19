@@ -89,12 +89,12 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
-        // TODO Remove if not required
-        [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; }
+        [Display(Name = "Número de registro del creador")]
+        public int RegistrationNumber { get; set; }
 
-        // TODO Remove if not required
-        public System.Guid[] SelectedValues { get; set; }
+        [Display(Name = "Fecha en que expira")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.DateTime RegistrationEndAt { get; set; }
 
         public ArtistInputViewModel()
         {
@@ -123,6 +123,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Alias = entity.Identity.Alias;
             About = entity.Identity.About;
             AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            RegistrationNumber = entity.RegistrationNumber;
+            RegistrationEndAt = (System.DateTime)entity.RegistrationEndAt;
             
             var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             
@@ -149,7 +151,9 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.SpecificEducation = SpecificEducation;
             entity.SchoolLevel = SchoolLevel;
             entity.AdmitionMode = AdmitionModel;
-            entity.AdmitionModeContext = Context;            
+            entity.AdmitionModeContext = Context;
+            entity.RegistrationNumber = RegistrationNumber;
+            entity.RegistrationEndAt = RegistrationEndAt;
         }
     }
 }

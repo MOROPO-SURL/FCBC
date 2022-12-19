@@ -454,6 +454,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 var entity = Repository.Get(key);
 
+                var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+                var municipality = ((MunicipalityRegion)region).Municipality;
+                var state = municipality.State;
+
                 var resultModel = new ArtistContactsManageViewModel
                 {
                     Artist = new ArtistDisplayViewModel
@@ -461,7 +465,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                         ImageId = (Guid)entity.Identity.ImageId,
                         ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null,
                         Name = entity.Identity.Name,
-                        LastName = entity.Identity.LastName
+                        LastName = entity.Identity.LastName,
+                        Municipality = municipality,
+                        State = municipality.State,
+                        CitizenId = entity.CitizenId,
+                        Workplace = entity.Workplace,
+                        SchoolLevel = entity.SchoolLevel,
+                        SpecificEducation = entity.SpecificEducation,
+                        AdmitionMode = entity.AdmitionMode,
+                        AdmitionModeContext = entity.AdmitionModeContext,
+                        ArtistManifestationBridges = entity.ArtisticManifestationBridges,
+                        About = entity.Identity.About,
+                        EmailContactItems = entity.Identity.PersonEmailContactItemBridges.Select(b => b.ContactItem).ToArray(),
+                        PhoneContactItems = entity.Identity.PersonPhoneContactItemBridges.Select(b => b.ContactItem).ToArray(),
+                        AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First(),
                     },
                     PhoneContacts = entity.Identity.PersonPhoneContactItemBridges.Select(bridge => new ArtistPhoneContactDisplayViewModel
                     {
