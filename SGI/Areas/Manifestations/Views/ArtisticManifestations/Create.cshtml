@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ArtisticManifestationInputViewModel
 
 @{
-    ViewData["Title"] = "Agregar Manifestación Artística";
+    ViewData["Title"] = "Agregar Manifestación de Artes Plásticas";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Manifestaciones Artíticas",
+            Caption = "Administración de Manifestaciones de Artes Plásticas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -45,7 +45,10 @@
             tree.expandAll();
 
             tree.on('select', function (e, node, id) {
-                $('#ParentId').val(id);
+                $('#GroupId').val(id);
+            });
+            tree.on('unselect', function (e, node, id) {
+                $('#GroupId').val(null);
             });
         });
     </script>
@@ -72,14 +75,16 @@
                     <div id="tree"></div>
                     @Html.ValidationMessageFor(model => model.GroupId, null, new { @class = "text-danger", style = "display: inline-block;" })
                 </div>
-                
+            </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Description, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
             </div>           
-
-           
         </div>
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Crear</button>
-            <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
         </div>
     </div>
 }

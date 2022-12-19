@@ -1,0 +1,44 @@
+﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
+
+@model MOROPO.FCBC.SGI.Models.View.ArtWorkDisplayViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Obra Artística";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras Artísticas",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<h3>Esta seguro que desea eliminar la obra artística detallada a continuación?</h3>
+<dl>
+    
+    <dt>@Html.DisplayNameFor(model => model.Title)</dt>    
+    <dd>@Html.DisplayFor(model => model.Title)</dd>  
+    <dt>@Html.DisplayNameFor(model => model.BornYear)</dt>
+    <dd>@Html.DisplayFor(model => model.BornYear)</dd>
+</dl>
+@using (Html.BeginForm("delete", "artworks", new { Area = "works", key = string.Empty }, FormMethod.Post, true, null))
+{
+    @Html.HiddenFor(model => model.Id)
+    <div>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+    </div>
+}

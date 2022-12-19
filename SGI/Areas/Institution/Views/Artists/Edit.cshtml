@@ -4,7 +4,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ArtistInputViewModel
 
 @{
-    ViewData["Title"] = "Editar Artista";
+    ViewData["Title"] = "Editar Creador";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -162,7 +162,7 @@
                     <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Id">Contactos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="manifestations" asp-route-key="@Model.Id">Selectionar Manifestaciones</a>
+                    <a class="nav-link" asp-action="editartisticmanifestations" asp-route-key="@Model.Id">Manifestaciones</a>
                 </li>
             </ul>
         </div>

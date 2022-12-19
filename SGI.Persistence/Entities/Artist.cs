@@ -44,6 +44,10 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
 
         public string AdmitionModeContext { get; set; }
 
+        public int RegistrationNumber { get; set; }
+
+        public System.DateTime? RegistrationEndAt { get; set; }
+
         public ICollection<ArtistArtisticManifestationBridge> ArtisticManifestationBridges { get; set; }
 
         public ICollection<ArtistCraftManifestationBridge> CraftManifestationBridges { get; set; }

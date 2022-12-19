@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ArtisticManifestationGroupDisplayViewModel
 
 @{
-    ViewData["Title"] = "Eliminar Grupo de Manifestaciones Artísticas";
+    ViewData["Title"] = "Eliminar Grupo de Manifestaciones de Artes Plásticas";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Grupos de Manifestaciones Artísticas",
+            Caption = "Administración de Grupos de Manifestaciones de Artes Plásticas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -26,7 +26,7 @@
     Layout = "_BackendLayout";
 }
 
-<h3>Esta seguro que desea eliminar el grupo de manifestaciones artísticas detallado a continuación?</h3>
+<h3>Esta seguro que desea eliminar el grupo de manifestaciones de artes plásticas detallado a continuación?</h3>
 <dl>
 
     <dt>@Html.DisplayNameFor(model => model.Name)</dt>

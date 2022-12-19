@@ -1,7 +1,7 @@
 ﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestationGroup, System.Guid, MOROPO.FCBC.SGI.Models.View.ArtisticManifestationGroupDisplayViewModel>
 
 @{
-    ViewData["Title"] = "Administración de Grupos de Manifestaciones Artísticas";
+    ViewData["Title"] = "Administración de Grupos de Manifestaciones de Artes Plásticas";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -144,9 +144,9 @@
                                 <span class="font-weight-bold">
                                     Pertenece a:
                                 </span>
-                                @if (@item.ParentName != null)
+                                @if (@item.Parent != null)
                                 {
-                                    @item.ParentName
+                                    @item.Parent.Name
                                 }
                                 else
                                 {
@@ -180,8 +180,8 @@
                             <tr>
                                 <td style="vertical-align: middle;" title="Nombre ">@item.Name</td>   
                                 <td style="vertical-align: middle;" title="Pertenece a">
-                                @if(item.ParentName != null){
-                                    @item.ParentName
+                                @if(item.Parent != null){
+                                    @item.Parent.Name
                                 }
                                 </td>   
                                 <td style="vertical-align: middle;">

@@ -77,7 +77,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
 
-        [Display(Name = "Citizen Id")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [RegularExpression("[0-9]{11}")]
+        [Display(Name = "CitizenId")]
         public string CitizenId { get; set; }
 
         public Persistence.Enumerations.WorkPlace Workplace { get; set; }
@@ -87,8 +89,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
 
-        public ICollection<Persistence.Entities.ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; } = new List<Persistence.Entities.ArtistArtisticManifestationBridge>();
-                
+        // TODO Remove if not required
+        [Display(Name = "Select Artistict Manifestation")]
+        public MultiSelectList ArtisticManifestations { get; set; }
+
+        // TODO Remove if not required
+        public System.Guid[] SelectedValues { get; set; }
+
         public ArtistInputViewModel()
         {
             BornDate = System.DateTime.Now.AddYears(-16);
@@ -125,8 +132,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
             AdmitionModel = entity.AdmitionMode;
-            Context = entity.AdmitionModeContext;
-            ArtistManifestationBridges = entity.ArtisticManifestationBridges;            
+            Context = entity.AdmitionModeContext;            
         }
 
         public void Mergue(Persistence.Entities.Artist entity)
@@ -143,8 +149,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.SpecificEducation = SpecificEducation;
             entity.SchoolLevel = SchoolLevel;
             entity.AdmitionMode = AdmitionModel;
-            entity.AdmitionModeContext = Context;
-            entity.ArtisticManifestationBridges = ArtistManifestationBridges;            
+            entity.AdmitionModeContext = Context;            
         }
     }
 }

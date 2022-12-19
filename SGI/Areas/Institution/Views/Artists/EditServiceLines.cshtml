@@ -1,0 +1,111 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtistServiceLinesInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Creador (Manifestaciones de Servicio)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Creador",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Modificar Creador",
+            Url = Url.Action("edit", "artists", new { key = Model.Artist.Id })
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Manifestaciones de Servicio"
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@using (Html.BeginForm("editservicelines", "artists", new { key = Model.Artist.Id }, FormMethod.Post, true, null))
+{       
+    var selectableIndex = 0;
+                
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Creador</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Artist.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Artist.Id">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Manifestaciones</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="editartisticmanifestations" asp-route-key="@Model.Artist.Id">Artísticas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="editcraftmanifestations" asp-route-key="@Model.Artist.Id">Artesanales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="editdesignmanifestations" asp-route-key="@Model.Artist.Id">Diseño</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Servicios</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var item in Model.UngroupManifestations)
+                        {
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
+                            </div>
+                        }
+                    </div>
+
+                    @if (Model.SelectGroups != null && Model.SelectGroups.Count > 0)
+                    {
+                        foreach (var group in Model.SelectGroups)
+                        {
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h5>@group.Key.Name</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        @foreach (var item in group.Value)
+                                        {
+                                            <div class="col-md-4">
+                                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+    </div>
+}
+
+

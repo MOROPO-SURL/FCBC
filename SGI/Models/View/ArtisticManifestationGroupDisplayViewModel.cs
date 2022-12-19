@@ -6,13 +6,15 @@
 
         public string Name { get; set; }
 
-        public string ParentName { get; set; }
+        public ArtisticManifestationGroupDisplayViewModel Parent { get; set; }
+
+        public string Description { get; set; }
 
         public void Import(Persistence.Entities.ArtisticManifestationGroup entity)
         {
             Id = entity.Id;
             Name = entity.Name;
-            ParentName = entity.Parent?.Name;
+            Description = entity.Description;
         }
     }
 }
