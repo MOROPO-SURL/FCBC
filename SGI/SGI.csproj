@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>MOROPO.FCBC.SGI</RootNamespace>
-    <AssemblyName>FCBC-SGI</AssemblyName>
+    <AssemblyName>MOROPO.FCBC.SGI</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
