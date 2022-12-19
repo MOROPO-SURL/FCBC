@@ -77,21 +77,23 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header"><h4>@ViewData["Title"]</h4></div>
-        <ul class="nav nav-tabs justify-content-center" style="margin-bottom: 20px;">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Información</a>
-            </li>            
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("manifestations", @Model.Id)">Manifestaciones</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("members", @Model.Id)">Miembros</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
-            </li>
-        </ul>
+        <div class="card-header">
+            <h4>@ViewData["Title"]</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Información</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("manifestations", @Model.Id)">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("members", @Model.Id)">Miembros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
+                </li>
+            </ul>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-4" style="margin-bottom: 20px;">
@@ -102,7 +104,7 @@
                         }
                         else
                         {
-                            <img src="~/media/images/default-person.png" class="card-img-top" id="ImageFilePreview" />
+                            <img src="~/img/default-person-picture.jpg" class="card-img-top" id="ImageFilePreview" />
                         }
 
                         <label class="btn btn-light" style="border-top-left-radius: 0; border-top-right-radius: 0; margin-bottom: 0;">

@@ -390,7 +390,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                         Id = bridge.ContactItemId,
                         Label = bridge.ContactItem.Label,
                         SocialId = bridge.ContactItem.SocialId,
-                        CreationGroupId = entity.Id
+                        CreationGroupId = entity.Id,
+                        Icon = GetIcon(bridge.ContactItem.SocialId)
                     }).ToList()
                 };
 
@@ -688,6 +689,23 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
+        }
+
+        private Microsoft.AspNetCore.Html.HtmlString GetIcon(string socialId)
+        {
+            switch(socialId)
+            {
+                case string x when x.Contains("facebook.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-facebook\"></span>");
+                case string x when x.Contains("twitter.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-twitter\"></span>");
+                case string x when x.Contains("instagram.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-instagram\"></span>");
+                case string x when x.Contains("linkedin.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-linkedin\"></span>");
+                default:
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-cloud-question\"></span>");
+            }
         }
     }
 }
