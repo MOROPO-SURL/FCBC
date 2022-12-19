@@ -13,6 +13,8 @@
 
         public long Length { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public string Description { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ArtistId")]
