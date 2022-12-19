@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>MOROPO.FCBC.SGI</RootNamespace>
-    <AssemblyName>FCBC-SGI</AssemblyName>
+    <AssemblyName>MOROPO.FCBC.SGI</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +26,12 @@
     <Folder Include="Areas\Works\Views\DesignWorks\" />
     <Folder Include="Areas\Works\Views\ServiceWorks\" />
     <Folder Include="Controllers\Frontend\Api\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\bootstrap-combobox\js\bootstrap-combobox.js" />
+    <None Include="wwwroot\lib\bootstrap-combobox\less\combobox.less" />
+    <None Include="wwwroot\lib\bootstrap-combobox\README.md" />
   </ItemGroup>
 
   <ItemGroup>
