@@ -7,5 +7,7 @@
         public string Label { get; set; }
 
         public string SocialId { get; set; }
+
+        public Microsoft.AspNetCore.Html.HtmlString Icon { get; set; }
     }
 }
