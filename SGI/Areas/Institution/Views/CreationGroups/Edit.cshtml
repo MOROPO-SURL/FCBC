@@ -84,7 +84,7 @@
                     <a class="nav-link active" href="#">Información</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("manifestations", @Model.Id)">Manifestaciones</a>
+                    <a class="nav-link" asp-action="editartisticmanifestations" asp-route-key="@Model.Id">Manifestaciones</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("members", @Model.Id)">Miembros</a>
