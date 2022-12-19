@@ -94,15 +94,6 @@ namespace MOROPO.FCBC.SGI.Extensions
 
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Técnicas",
-                    Controller = "techniques",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Roles.ArtisticTechniqueViewer
-                },
-
-                new ManagementDashboardSectionViewModel
-                {
                     Title = "Tipo de Contratista",
                     Controller = "contractorkinds",
                     Action = "index",
@@ -170,7 +161,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "materials",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.UnitMeasurementViewer
+                    Role = Security.Authorization.Roles.MaterialViewer
                  }
             };
 

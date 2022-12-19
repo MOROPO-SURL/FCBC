@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
@@ -21,18 +19,19 @@ using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Rotativa;
 using MOROPO.FCBC.SGI.Extensions;
+using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
-    [Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
     [Area("institution")]
-    public class ArtistsController : AbstractEntityManagementFilteredController<Artist, System.Guid, ArtistInputViewModel, ArtistDisplayViewModel, ArtistFilterModel>
+    public class ArtistsController : AbstractEntityManagementFilteredController<Artist, Guid, ArtistInputViewModel, ArtistDisplayViewModel, ArtistFilterModel>
     {
         private readonly IImageFileManagerFacade imageFileManagerFacade;
-        private readonly IEntityRepository<Image, System.Guid> imageRepository;
-        private readonly IEntityRepository<PersonIdentity, System.Guid> identityRepository;
+        private readonly IEntityRepository<Image, Guid> imageRepository;
+        private readonly IEntityRepository<PersonIdentity, Guid> identityRepository;
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<State, Guid> stateRepository;
         private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
@@ -40,8 +39,32 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Resolution, Guid> resolutionRepository;
         private readonly IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository;
         private readonly IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository;
+        private readonly IEntityRepository<CraftManifestation, Guid> craftManifestationRepository;
+        private readonly IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository;
+        private readonly IEntityRepository<DesignManifestation, Guid> designManifestationRepository;
+        private readonly IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository;
+        private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
+        private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
 
-        public ArtistsController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<Artist, Guid> repository, IEntityRepository<Association, Guid> associationRepository, IEntityRepository<Resolution, Guid> resolutionRepository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IStringLocalizer<ArtistsController> localizer, ILogger<ArtistsController> logger) : base(repository, localizer, logger)
+        public ArtistsController(
+            IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository,
+            IEntityRepository<ServiceLine, Guid> serviceLineRepository,
+            IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository,
+            IEntityRepository<DesignManifestation, Guid> designManifestationRepository,
+            IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository,
+            IEntityRepository<CraftManifestation, Guid> craftManifestationRepository,
+            IEntityRepository<PersonIdentity, Guid> identityRepository, 
+            IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository, 
+            IEntityRepository<Image, Guid> imageRepository, 
+            IImageFileManagerFacade imageFileManagerFacade,
+            IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, 
+            IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, 
+            IEntityRepository<Artist, Guid> repository, 
+            IEntityRepository<Association, Guid> associationRepository, 
+            IEntityRepository<Resolution, Guid> resolutionRepository, 
+            IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, 
+            IStringLocalizer<ArtistsController> localizer, 
+            ILogger<ArtistsController> logger) : base(repository, localizer, logger)
         {
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
@@ -53,6 +76,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.resolutionRepository = resolutionRepository;
             this.artisticManifestationRepository = artisticManifestationRepository;
             this.artisticManifestationGroupRepository = artisticManifestationGroupRepository;
+            this.craftManifestationRepository = craftManifestationRepository;
+            this.craftManifestationGroupRepository = craftManifestationGroupRepository;
+            this.designManifestationRepository = designManifestationRepository;
+            this.designManifestationGroupRepository = designManifestationGroupRepository;
+            this.serviceLineRepository = serviceLineRepository;
+            this.serviceLineGroupRepository = serviceLineGroupRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtistViewer)]
@@ -730,118 +759,401 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         }
 
-        
+        #region Manifestations
 
-        private void PopulateSelectableManifestationGroups(ArtisticManifestationGroup manifestationKind, List<ArtisticManifestation> selectedArtisticManifestations, Dictionary<ArtisticManifestationGroup, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]> groups)
-        {
-            var artisticManifestations = artisticManifestationRepository.FindBy(item => item.GroupId == manifestationKind.Id).ToArray();
-
-            if (artisticManifestations.Length > 0)
-            {
-                groups.Add(manifestationKind, artisticManifestations.Select(item => new SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = selectedArtisticManifestations.Any(entity => entity.Id == item.Id),
-                    Description = null
-                }).ToArray());
-            }
-
-            var children = artisticManifestationGroupRepository.FindBy(item => item.ParentId == manifestationKind.Id);
-
-            foreach (var child in children)
-            {
-                PopulateSelectableManifestationGroups(child, selectedArtisticManifestations, groups);
-            }           
-
-        }
-
-        [Route("edit/{key}/manifestations")]
+        [HttpGet]
+        [Route("edit/{key}/artisticmanifestations")]
         [RequiresRoleBasePermission(Roles.ArtistEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Manifestations(Guid key)
+        public ActionResult EditArtisticManifestations(Guid key)
         {
             var entity = Repository.Get(key);
 
-            var rootManisfestationKinds = artisticManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
+            var rootManisfestationGroups = artisticManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
 
-            var groups = new Dictionary<ArtisticManifestationGroup, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>[]>();
+            var groups = new Dictionary<ArtisticManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
 
-            foreach (var manifestationKind in rootManisfestationKinds)
+            foreach (var group in rootManisfestationGroups)
             {
-                PopulateSelectableManifestationGroups(manifestationKind, entity.ArtisticManifestationBridges.Select(item => item.Manifestation).ToList(), groups);
+                PopulateArtisticManifestationSelectableGroups(group, entity.ArtisticManifestationBridges.Select(item => item.Manifestation).ToList(), groups);
             }
 
-            var model = new ArtistSelectManisfestationInputViewModel
+            var model = new ArtistArtisticManisfestationsInputViewModel
             {
+                UngroupManifestations = artisticManifestationRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ArtisticManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
                 SelectGroups = groups,
-                ArtistId = entity.Id
-            };            
+                Artist = new ArtistDisplayViewModel()
+            };
+
+            model.Artist.Import(entity);
 
             return View(model);
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [HttpGet]
+        [Route("edit/{key}/craftmanifestations")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditCraftManifestations(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var rootManisfestationGroups = craftManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
+
+            var groups = new Dictionary<CraftManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
+
+            foreach (var group in rootManisfestationGroups)
+            {
+                PopulateCraftManifestationSelectableGroups(group, entity.CraftManifestationBridges.Select(item => item.Manifestation).ToList(), groups);
+            }
+
+            var model = new ArtistCraftManisfestationsInputViewModel
+            {
+                UngroupManifestations = craftManifestationRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.CraftManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+                SelectGroups = groups,
+                Artist = new ArtistDisplayViewModel()
+            };
+
+            model.Artist.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("edit/{key}/designmanifestations")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditDesignManifestations(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var rootManisfestationGroups = designManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
+
+            var groups = new Dictionary<DesignManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
+
+            foreach (var group in rootManisfestationGroups)
+            {
+                PopulateDesignManifestationSelectableGroups(group, entity.DesignManifestationBridges.Select(item => item.Manifestation).ToList(), groups);
+            }
+
+            var model = new ArtistDesignManisfestationsInputViewModel
+            {
+                UngroupManifestations = designManifestationRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ArtisticManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+                SelectGroups = groups,
+                Artist = new ArtistDisplayViewModel()
+            };
+
+            model.Artist.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("edit/{key}/servicelines")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditServiceLines(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var rootManisfestationGroups = serviceLineGroupRepository.FindBy(e => e.Parent == null).ToArray();
+
+            var groups = new Dictionary<ServiceLineGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
+
+            foreach (var group in rootManisfestationGroups)
+            {
+                PopulateServiceLineSelectableGroups(group, entity.ServiceLineBridges.Select(item => item.Line).ToList(), groups);
+            }
+
+            var model = new ArtistServiceLinesInputViewModel
+            {
+                UngroupManifestations = serviceLineRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ServiceLineBridges.Any(bridge => bridge.LineId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+                SelectGroups = groups,
+                Artist = new ArtistDisplayViewModel()
+            };
+
+            model.Artist.Import(entity);
+
+            return View(model);
+        }
+
         [HttpPost]
+        [Route("edit/{key}/artisticmanifestations")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
         [ValidateAntiForgeryToken]
-        public IActionResult AddManifestations(ArtistSelectManisfestationInputViewModel modelInput)
+        public IActionResult EditArtisticManifestations(Guid key, ArtistArtisticManisfestationsInputViewModel modelInput)
         {
             Artist entity = null;
 
             try
             {
-                entity = Repository.Get(modelInput.ArtistId);
+                entity = Repository.Get(key);
             }
             catch { }
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
-            if (ModelState.IsValid)
+
+            entity.ArtisticManifestationBridges.Clear();
+
+            foreach (var item in modelInput.UngroupManifestations)
             {
+                if (!item.Selected) continue;
 
-                entity.ArtisticManifestationBridges.Clear();
-
-                foreach (var selectionManifestation in modelInput.SelectGroups.Select(mani => mani.Value))
+                entity.ArtisticManifestationBridges.Add(new ArtistArtisticManifestationBridge
                 {
-                    foreach (var manifestationId in selectionManifestation.Where(m => m.Selected == true).Select(m => m.Id))
-                    {
-                        var artisticManifestation = artisticManifestationRepository.Get(manifestationId);
-                       
-                        var artistManifestationBridge = new ArtistArtisticManifestationBridge { ArtistId = entity.Id, ManifestationId = manifestationId, Artist = entity, Manifestation = artisticManifestation };
-                        entity.ArtisticManifestationBridges.Add(artistManifestationBridge);
-                    }                    
-                   
-
-                }
-
-                Repository.Update(entity, User.Identity.Name);
-
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new System.Collections.Generic.List<string>();
-
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
-
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                    ArtistId = entity.Id,
+                    ManifestationId = item.Id
+                });
             }
 
-            return RedirectToAction("manifestations", new { key = entity.Id });
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("editartisticmanifestations", new { key = entity.Id });
         }
+
+        [HttpPost]
+        [Route("edit/{key}/craftmanifestations")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCraftManifestations(Guid key, ArtistCraftManisfestationsInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            entity.CraftManifestationBridges.Clear();
+
+            foreach (var item in modelInput.UngroupManifestations)
+            {
+                if (!item.Selected) continue;
+
+                entity.CraftManifestationBridges.Add(new ArtistCraftManifestationBridge
+                {
+                    ArtistId = entity.Id,
+                    ManifestationId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("editcraftmanifestations", new { key = entity.Id });
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/designmanifestations")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDesignManifestations(Guid key, ArtistDesignManisfestationsInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            entity.DesignManifestationBridges.Clear();
+
+            foreach (var item in modelInput.UngroupManifestations)
+            {
+                if (!item.Selected) continue;
+
+                entity.DesignManifestationBridges.Add(new ArtistDesignManifestationBridge
+                {
+                    ArtistId = entity.Id,
+                    ManifestationId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("editdesignmanifestations", new { key = entity.Id });
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/servicelines")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditServiceLines(Guid key, ArtistServiceLinesInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            entity.ServiceLineBridges.Clear();
+
+            foreach (var item in modelInput.UngroupManifestations)
+            {
+                if (!item.Selected) continue;
+
+                entity.ServiceLineBridges.Add(new ArtistServiceLineBridge
+                {
+                    ArtistId = entity.Id,
+                    LineId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("editservicelines", new { key = entity.Id });
+        }
+
+        private void PopulateArtisticManifestationSelectableGroups(ArtisticManifestationGroup group, List<ArtisticManifestation> selectedItems, Dictionary<ArtisticManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
+        {
+            var manifestations = artisticManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
+
+            if (manifestations.Length > 0)
+            {
+                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
+                    Description = item.Description
+                }).ToArray());
+            }
+
+            var children = artisticManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
+
+            foreach (var child in children)
+            {
+                PopulateArtisticManifestationSelectableGroups(child, selectedItems, groups);
+            }
+        }
+
+        private void PopulateCraftManifestationSelectableGroups(CraftManifestationGroup group, List<CraftManifestation> selectedItems, Dictionary<CraftManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
+        {
+            var manifestations = craftManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
+
+            if (manifestations.Length > 0)
+            {
+                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
+                    Description = item.Description
+                }).ToArray());
+            }
+
+            var children = craftManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
+
+            foreach (var child in children)
+            {
+                PopulateCraftManifestationSelectableGroups(child, selectedItems, groups);
+            }
+        }
+
+        private void PopulateDesignManifestationSelectableGroups(DesignManifestationGroup group, List<DesignManifestation> selectedItems, Dictionary<DesignManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
+        {
+            var manifestations = designManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
+
+            if (manifestations.Length > 0)
+            {
+                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
+                    Description = item.Description
+                }).ToArray());
+            }
+
+            var children = designManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
+
+            foreach (var child in children)
+            {
+                PopulateDesignManifestationSelectableGroups(child, selectedItems, groups);
+            }
+        }
+
+        private void PopulateServiceLineSelectableGroups(ServiceLineGroup group, List<ServiceLine> selectedItems, Dictionary<ServiceLineGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
+        {
+            var manifestations = serviceLineRepository.FindBy(item => item.GroupId == group.Id).ToArray();
+
+            if (manifestations.Length > 0)
+            {
+                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
+                    Description = item.Description
+                }).ToArray());
+            }
+
+            var children = serviceLineGroupRepository.FindBy(item => item.ParentId == group.Id);
+
+            foreach (var child in children)
+            {
+                PopulateServiceLineSelectableGroups(child, selectedItems, groups);
+            }
+        }
+
+        #endregion
 
         [Route("edit/contacts/social/add")]
         [RequiresRoleBasePermission(Roles.ArtistEditor)]

@@ -23,6 +23,9 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
                 .Include(p => p.Identity).ThenInclude(p => p.PersonEmailContactItemBridges).ThenInclude(p => p.ContactItem)
                 .Include(p => p.Identity).ThenInclude(p => p.PersonSocialContactItemBridges).ThenInclude(p => p.ContactItem)
                 .Include(p => p.ArtisticManifestationBridges).ThenInclude(p => p.Manifestation)
+                .Include(p => p.CraftManifestationBridges).ThenInclude(b => b.Manifestation)
+                .Include(p => p.DesignManifestationBridges).ThenInclude(b => b.Manifestation)
+                .Include(p => p.ServiceLineBridges).ThenInclude(b => b.Line)
                 .Include(p => p.CreationGroupArtistBridges).ThenInclude(p =>  p.CreationGroup);
         }
     }

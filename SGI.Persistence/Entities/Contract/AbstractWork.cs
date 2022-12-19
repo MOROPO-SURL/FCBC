@@ -16,5 +16,17 @@
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("FeatureImageId")]
         public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
         public System.Guid? FeatureImageId { get; set; }
+
+        public decimal? Price { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("PriceCurrencyId")]
+        public Currency PriceCurrency { get; set; }
+        public int? PriceCurrencyId { get; set; }
+
+        public decimal? Cost { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("CostCurrencyId")]
+        public Currency CostCurrency { get; set; }
+        public int? CostCurrencyId { get; set; }
     }
 }

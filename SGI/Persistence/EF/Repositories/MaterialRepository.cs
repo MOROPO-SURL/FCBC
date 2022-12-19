@@ -11,7 +11,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 
         public override System.Func<Material, object> GetPagingOrderSelector()
         {
-            return entity => entity.Name ?? entity.Name ?? entity.Description;
+            return entity => entity.Name;
         }
     }
 }

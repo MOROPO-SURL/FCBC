@@ -79,6 +79,7 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<ServiceTechnique, Guid>, ServiceTechniqueRepository>();
             services.AddScoped<IEntityRepository<UnitMeasurement, Guid>, UnitMeasurementRepository>();
             services.AddScoped<IEntityRepository<Material, Guid>, MaterialRepository>();
+            services.AddScoped<IEntityRepository<ArtWork, Guid>, ArtWorkRepository>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
@@ -218,7 +219,8 @@ namespace MOROPO.FCBC.SGI
                     template: "{controller=start}/{action=index}/{id?}");                
             });
             
-            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
+            // TODO Restore and redesign
+            //Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
         }
     }
 }
