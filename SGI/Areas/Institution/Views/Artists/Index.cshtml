@@ -172,7 +172,6 @@
                         <div class="btn-group btn-group-sm float-right">
                             <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
-                            <a role="button" href="@Url.Action("print", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Imprimir</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
                         <div class="clearfix"></div>
@@ -207,8 +206,6 @@
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
-                                <a class="btn btn-light" asp-action="print" asp-route-key="@item.Id"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Imprimir</span></a>
-                                @*<a asp-action="print" asp-route-key="@item.Id" class="btn btn-light"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs">  Imprimir</span></a>*@
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
                         </td>

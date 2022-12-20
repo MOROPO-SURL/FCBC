@@ -5,7 +5,7 @@
 
     
 
-    Layout = "_BackendLayout";
+    Layout = "_Layout";
 }
 
 @section styles {
@@ -22,7 +22,7 @@
         
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
+                <div class="col-md-4 col-sm-" style="margin-bottom: 20px;">
                     <div class="card">
                     @if (Model.Artist.ImageId != System.Guid.Empty)
                     {
@@ -33,7 +33,7 @@
                         <img class="img-thumbnail" src="~/media/images/default-person.png" />
                     }
 
-                    <div class="col-lg-10 col-md-9 col-sm-9">
+                    <div class="col-md-9 col-sm-9">
                         <dl style="margin-bottom: 0;">
                             <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
                             <dd>@Model.Artist.Name</dd>
@@ -43,93 +43,66 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6" style="margin-bottom: 20px;">
-                <div class="page-header">
-                    <h4>Contactos Telefónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>@Html.DisplayNameFor(model => model.Artist.State)</h5>
+                    <p>@Html.DisplayName(Model.Artist.State.Name)</p>
                 </div>
-
-
-                @await Html.PartialAsync("AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.ArtistPhoneContactInputViewModel
-                {
-                ArtistId = Model.Artist.Id
-                })
-
-                <table class="table" style="margin: 0;">
-                    <thead>
-                        <tr>
-                            <th>@GlobalViewLocalizationHelper.Localize("Number")</th>
-                            <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
-                            <th style="width: 1px; white-space: nowrap;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.PhoneContacts.Count > 0)
-                        {
-                            @foreach (var item in Model.PhoneContacts)
-                            {
-                                <tr>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Number")">@item.Number</td>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
-                                    <td style="vertical-align: middle;">
-                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-phonecontact-@item.Id">Eliminar</a>
-                                        @await Html.PartialAsync("DeletePhoneContactPartial", item)
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6" style="margin-bottom: 20px;">
-                <div class="page-header">
-                    <h4>Contactos de Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                <div class="col-md-6">
+                    <h5>@Html.DisplayNameFor(model => model.Artist.Municipality)</h5>
+                    <p>@Html.DisplayName(Model.Artist.Municipality.Name)</p>
                 </div>
-                @await Html.PartialAsync("AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.ArtistEmailContactInputViewModel
-                {
-                ArtistId = Model.Artist.Id
-                })
-                <table class="table" style="margin: 0;">
-                    <thead>
-                        <tr>
-                            <th>@GlobalViewLocalizationHelper.Localize("Email")</th>
-                            <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
-                            <th style="width: 1px; white-space: nowrap;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.EmailContacts.Count > 0)
-                        {
-                            @foreach (var item in Model.EmailContacts)
-                            {
-                                <tr>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Email")">@item.Address</td>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
-                                    <td style="vertical-align: middle;">
-                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-emailcontact-@item.Id">Eliminar</a>
-                                        @await Html.PartialAsync("DeleteEmailContactPartial", item)
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>@Html.DisplayNameFor(model => model.Artist.Sex)</h5>
+                    <p>@Model.Artist.Sex</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>@Html.DisplayNameFor(model => model.Artist.CivilStatus)</h5>
+                    <p>@Model.Artist.CivilStatus</p>
+                </div>
+            </div>
+            <hr />
+            <h5>@Html.DisplayNameFor(model => model.Artist.About)</h5>
+            <p>@Model.Artist.About</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>@Html.DisplayNameFor(model => model.Artist.AdmitionMode)</h5>
+                    <p>@Html.DisplayName(Model.Artist.AdmitionMode.ToString())</p>
+                </div>
+                <div class="col-md-8">
+                    <h5>Asociación | Resolución</h5>
+                    @if (Model.Artist.AdmitionModeContext != null)
+                    {
+                        @if (Model.Artist.AdmitionModeContext.Contains("Resolution|"))
+                        {
+                            <p>@Model.Artist.Resolution.NumberResolution-@Model.Artist.Resolution.Title</p>
+                        }
+                        else if (Model.Artist.AdmitionModeContext.Contains("Association|"))
+                        {
+                            <p>@Model.Artist.Association.OrganizationIdentityName</p>
+                        }
+                    }
 
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <h5>@Html.DisplayNameFor(model => model.Artist.AddressPostal)</h5>
+                    <p>@Html.DisplayName(Model.Artist.AddressPostal)</p>
+                </div>
+            </div>
+            <h5>Lista de Manifestaciones</h5>
+            @foreach (var item in Model.Artist.ArtistManifestationBridges)
+            {
+                <h5>Manifestación</h5>
+                <p>@item.Manifestation.Name</p>
+                <hr />
+            }
+            
+        </div>
+        
     </div>
     
 </div>

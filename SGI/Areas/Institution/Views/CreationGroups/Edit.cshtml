@@ -40,6 +40,32 @@
     @section scripts {
     <script src="~/js/Views/CreationGroups/Edit.js"></script>
     <script type="text/javascript">
+        $('#BornDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.CreateDate.ToShortDateString()'
+        });
+
+        $('#RegistrationEndAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.RegistrationEndAt.ToShortDateString()'
+        });
+
+        $(document).ready(function () {
+            var admitionModel = $('#AdmitionModel').val();
+            if (admitionModel == "Resolution") {
+                $("#show-hide-association").addClass("d-none");
+                $("#show-hide-resolution").removeClass("d-none");
+            }
+        });
+
         $(function () {
             $(document).on("change", "#ImageFile", function () {
                 var files = !!this.files ? this.files : [];
@@ -122,6 +148,35 @@
                                 @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
                             </div>
+                        </div>
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.CreateDate, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.CreateDate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CreateDate, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.AdmitionModel, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), AdmitionMode.Resolution.ToString()) },"", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AdmitionModel, null, new { @class = "text-danger" })
+                        </div>
+                        <div id="show-hide-resolution" class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
