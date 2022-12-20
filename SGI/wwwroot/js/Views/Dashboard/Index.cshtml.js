@@ -64,3 +64,99 @@ const weekStatisticsChart = new Chart(
     document.getElementById('weekStatisticsChart'),
     weekStatisticsConfig
 );
+
+const dataPie = {
+    labels: [
+        'Creador',
+        'Grupos de Creación',
+        'Contratista'
+    ],
+    datasets: [{
+        label: 'Institición',
+        data: [300, 50, 100],
+        backgroundColor: [
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+    }]
+};
+
+const pieConfig = {
+    type: 'pie',
+    data: dataPie,
+};
+
+const pieChart = new Chart(
+    document.getElementById('pieChart'),
+    pieConfig
+);
+
+const dataDoughnut = {
+    labels: [
+        'Artes Plásticas',
+        'Artesanía',
+        'Diseño',
+        'Servicios'
+    ],
+    datasets: [{
+        label: '',
+        data: [300, 50, 100, 10],
+        backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)'
+        ],
+        hoverOffset: 4
+    }]
+};
+
+const doughnutConfig = {
+    type: 'doughnut',
+    data: dataDoughnut
+};
+
+const doughnutChart = new Chart(
+    document.getElementById('doughnutChart'),
+    doughnutConfig
+);
+
+const dataPolarArea = {
+    labels: [
+        'Pintura',
+        'Dibujo',
+        'Collage',
+        'Mural',
+        'Alfarería',
+        'Cerámica',
+        'Orfebrería',
+        'Herrería',
+    ],
+    datasets: [{
+        label: 'My First Dataset',
+        data: [28, 16, 25, 20, 14, 19, 30, 34],
+        backgroundColor: [
+            '#4dc9f6',
+            '#f67019',
+            '#f53794',
+            '#537bc4',
+            '#acc236',
+            '#166a8f',
+            '#00a950',
+            '#58595b'
+        ]
+    }]
+};
+
+const polarAreaConfig = {
+    type: 'polarArea',
+    data: dataPolarArea,
+    options: {}
+};
+
+const polarAreaChart = new Chart(
+    document.getElementById('polarAreaChart'),
+    polarAreaConfig
+);

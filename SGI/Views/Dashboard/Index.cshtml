@@ -47,6 +47,17 @@
             <canvas id="weekStatisticsChart"></canvas>
         </div>
     </div>
+    <div class="row"style="margin-bottom: 16px;">
+        <div class="col-md-4">
+            <canvas id="pieChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="doughnutChart"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="polarAreaChart"></canvas>
+        </div>
+    </div>
 
 <div class="row">
     <div class="col-sm-6">
@@ -54,7 +65,7 @@
     {
         var group = Model.Sections.ElementAt(i);
 
-        if (group.Value == null) continue;
+            if (group.Value == null) { continue; }
 
         <div class="card mb-4">
             <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
@@ -103,10 +114,10 @@
         {
             var group = Model.Sections.ElementAt(i);
 
-            if (group.Value == null) continue;
+                if (group.Value == null) { continue; }
 
-            <div class="card mb-4">
-                <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
+                <div class="card mb-4">
+                    <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
                 <div class="card-body">
                     @{
                         var total = group.Value.Count;
