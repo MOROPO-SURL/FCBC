@@ -70,11 +70,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.CreationGroupCreator)]
         public override IActionResult Create(CreationGroupInputViewModel inputViewModel)
         {
-            if (inputViewModel.ResolutionId != null)
-            {
-                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
-            }
-
             if (Request.Form.Files.Count > 0)
             {
                 var formFile = Request.Form.Files[0];
@@ -90,6 +85,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     updateModelTask.Wait();
                 }
             }
+
             return base.Create(inputViewModel);
         }
 
@@ -102,11 +98,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
         public override IActionResult Edit(CreationGroupInputViewModel inputModel)
         {
-            if (inputModel.ResolutionId != null)
-            {
-                inputModel.Context = "Resolution|" + inputModel.ResolutionId.ToString();
-            }
-
             return base.Edit(inputModel);
         }
 
@@ -127,6 +118,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreCreate(entity, modelInput);
 
+            if (modelInput.ResolutionId != null)
+            {
+                entity.Resolution = resolutionRepository.Get(modelInput.ResolutionId.Value);
+                entity.ResolutionId = modelInput.ResolutionId;
+            }
+
             if (modelInput.ImageFile == null) return;
 
             using (var memoryStream = new System.IO.MemoryStream())
@@ -143,8 +140,21 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void PreEdit(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
-
             base.PreEdit(entity, modelInput);
+
+            if (modelInput.ResolutionId != null)
+            {
+                if (modelInput.ResolutionId != entity.ResolutionId)
+                {
+                    entity.Resolution = resolutionRepository.Get(modelInput.ResolutionId.Value);
+                    entity.ResolutionId = modelInput.ResolutionId;
+                }
+            }
+            else
+            {
+                entity.Resolution = null;
+                entity.ResolutionId = null;
+            }
 
             modelInput.CreationGroupArtisticManifestationBrigdes.Clear();
 
@@ -223,7 +233,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             try
             {
                 var entity = Repository.Get(key);
-                var members = entity.CreationGroupArtistBridges.Select(b => b.Artist).ToArray();
+                var members = entity.ArtistBridges.Select(b => b.Artist).ToArray();
                 var notMemberArtist = artistRepository.GetAll().ToArray();
                 if (members.Count() != 0)
                 {
@@ -288,7 +298,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.CreationGroupArtistBridges.Add(new CreationGroupArtistBridge { CreationGroupId = entity.Id, ArtistId = modelInput.ArtistId });
+                entity.ArtistBridges.Add(new CreationGroupArtistBridge { CreationGroupId = entity.Id, ArtistId = modelInput.ArtistId });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -320,7 +330,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (artisticManifestations.Length > 0)
             {
-                groups.Add(group, artisticManifestations.Select(item => new SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
+                groups.Add(group, artisticManifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
                 {
                     Id = item.Id,
                     Label = item.Name,
@@ -361,9 +371,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             try
             {
-                var bridge = entity.CreationGroupArtistBridges.First(b => b.ArtistId == modelDisplay.ArtistId);
+                var bridge = entity.ArtistBridges.First(b => b.ArtistId == modelDisplay.ArtistId);
 
-                entity.CreationGroupArtistBridges.Remove(bridge);
+                entity.ArtistBridges.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -427,7 +437,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
@@ -448,7 +458,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -459,7 +469,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -734,18 +744,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private void PopulateWithResolution(CreationGroupInputViewModel modelInput)
         {
             modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Number + " - " + entity.Title }).ToArray();
-        }
-
-        private void PopulateWithResolutionEdit(CreationGroupInputViewModel modelInput)
-        {
-            bool contextHasElemet = false;
-
-            if (modelInput.Context != null && modelInput.Context.Contains("Resolution"))
-            {
-                contextHasElemet = true;
-            }
-
-            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Number + " - " + entity.Title, Selected = contextHasElemet }).ToArray();
         }
 
         #region Manifestations

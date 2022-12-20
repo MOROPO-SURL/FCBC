@@ -13,7 +13,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             CraftManifestationBridges = new List<CreationGroupCraftManifestationBridge>();
             DesignManifestationBridges = new List<CreationGroupDesignManifestationBridge>();
             ServiceLineBridges = new List<CreationGroupServiceLineBridge>();
-            CreationGroupArtistBridges = new List<CreationGroupArtistBridge>();
+            ArtistBridges = new List<CreationGroupArtistBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -23,9 +23,9 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity Identity { get; set; }
         public System.Guid IdentityId { get; set; }
 
-        public Enumerations.AdmitionMode AdmitionMode { get; set; }
-
-        public string AdmitionModeContext { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ResolutionId")]
+        public Resolution Resolution { get; set; }
+        public System.Guid? ResolutionId { get; set; }
 
         public int RegistrationNumber { get; set; }
 
@@ -40,7 +40,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ICollection<CreationGroupDesignManifestationBridge> DesignManifestationBridges { get; set; }
 
         public ICollection<CreationGroupServiceLineBridge> ServiceLineBridges { get; set; }
-        public System.Collections.Generic.ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
+        
+        public ICollection<CreationGroupArtistBridge> ArtistBridges { get; set; }
 
         
     }

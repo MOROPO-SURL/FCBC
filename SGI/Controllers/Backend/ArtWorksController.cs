@@ -6,6 +6,8 @@ using MOROPO.FCBC.SGI.Security.Authorization;
 using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
+using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -22,8 +24,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Currency, int> currencyRepository;
         private readonly IEntityRepository<Artist, System.Guid> creatorRepository;
         private readonly IEntityRepository<CreationGroup, System.Guid> creationGroupRepository;
+        private readonly IEntityRepository<Image, System.Guid> imageRepository;
+        private readonly IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository;
+        private readonly IImageFileManagerFacade imageFileManager;
+        private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
 
-        public ArtWorksController(IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<UnitMeasurement, System.Guid> unitMeasurementRepository, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository, IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository, IEntityRepository<ArtWork, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ArtWorksController> localizer, ILogger<ArtWorksController> logger) : base(repository, localizer, logger)
+        public ArtWorksController(Managers.RelativeAttachmentFileManager attachmentFileManager, IImageFileManagerFacade imageFileManager, IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<UnitMeasurement, System.Guid> unitMeasurementRepository, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository, IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository, IEntityRepository<ArtWork, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ArtWorksController> localizer, ILogger<ArtWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.techniqueRepository = techniqueRepository;
@@ -32,6 +38,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.currencyRepository = currencyRepository;
             this.creatorRepository = creatorRepository;
             this.creationGroupRepository = creationGroupRepository;
+            this.imageRepository = imageRepository;
+            this.attachmentRepository = attachmentRepository;
+            this.imageFileManager = imageFileManager;
+            this.attachmentFileManager = attachmentFileManager;
         }
 
         [RequiresRoleBasePermission(Roles.ArtWorkViewer)]
@@ -449,6 +459,277 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
 
                 return RedirectToAction("editauthors", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Images
+
+        [HttpGet]
+        [Route("edit/{key}/images")]
+        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        public ActionResult EditImages(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtWorkImagesDisplayViewModel
+            {
+                Work = new ArtWorkDisplayViewModel(),
+                FeatureImage = entity.FeatureImageId == null ? null : new ImageDisplayViewModel(),
+                Images = entity.ImageBridges.Select(bridge =>
+                {
+                    var result = new ImageDisplayViewModel();
+
+                    result.Import(bridge.Image);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.Work.Import(entity);
+
+            model.FeatureImage?.Import(entity.FeatureImage);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/images/add")]
+        [ValidateAntiForgeryToken]
+        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        public IActionResult AddImage(System.Guid key, Microsoft.AspNetCore.Http.IFormFile imageFile)
+        {
+            try
+            {
+                imageFile = Request.Form.Files[0];
+
+                var entity = Repository.Get(key);
+
+                // TODO Validate imageFile
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            imageFile.CopyTo(memoryStream);
+
+                            var image = new Image { ContentType = imageFile.ContentType, Length = imageFile.Length, About = "For ArtWork " + entity.Id };
+
+                            imageFileManager.SaveImageFileContent(image.Id, memoryStream.ToArray(), imageFile.ContentType);
+
+                            entity.ImageBridges.Add(new ArtWorkImageBridge
+                            {
+                                WorkId = entity.Id,
+                                Image = image
+                            });
+                        }
+
+                        Repository.Update(entity, User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editimages", new { key = entity.Id });
+                    }
+                    catch (SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editimages", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/images/delete")]
+        [ValidateAntiForgeryToken]
+        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        public IActionResult DeleteImage(System.Guid key, System.Guid imageId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var bridge = entity.ImageBridges.First(b => b.ImageId == imageId);
+
+                entity.ImageBridges.Remove(bridge);
+
+                if (entity.FeatureImageId == imageId)
+                {
+                    entity.FeatureImage = null;
+                    entity.FeatureImageId = null;
+                }
+
+                Repository.Update(entity, User.Identity.Name);
+
+                imageRepository.Delete(bridge.Image, User.Identity.Name);
+
+                imageFileManager.DeleteImageFile(bridge.Image);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editimages", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editimages", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Attachments
+
+        [HttpGet]
+        [Route("edit/{key}/attachments")]
+        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        public ActionResult EditAttachments(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtWorkAttachmentsDisplayViewModel
+            {
+                Work = new ArtWorkDisplayViewModel(),
+                Attachments = entity.Attachments.Select(item =>
+                {
+                    var result = new AttachmentDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/add")]
+        [ValidateAntiForgeryToken]
+        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        public IActionResult AddAttachment(System.Guid key, AttachmentInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var attachment = new ArtWorkAttachment 
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType, 
+                                Length = model.File.Length,
+                                WorkId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(attachment.Id, memoryStream.ToArray(), attachment.ContentType);
+
+                            attachmentRepository.Add(attachment, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editattachments", new { key = entity.Id });
+                    }
+                    catch (SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/delete")]
+        [ValidateAntiForgeryToken]
+        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        public IActionResult DeleteAttachment(System.Guid key, System.Guid attachmentId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var attachment = entity.Attachments.First(e => e.Id == attachmentId);
+
+                attachmentRepository.Delete(attachment, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(attachment);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editattachments", new { key });
             }
             catch (System.Exception e)
             {

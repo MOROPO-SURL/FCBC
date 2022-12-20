@@ -636,4 +636,34 @@
   <data name="VideoLibraryManagement" xml:space="preserve">
     <value>Videoteca</value>
   </data>
+  <data name="AfterData" xml:space="preserve">
+    <value>Datos Actuales</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="BeforeData" xml:space="preserve">
+    <value>Datos Anteriores</value>
+  </data>
+  <data name="CitizenId" xml:space="preserve">
+    <value>Carnet de Identidad</value>
+  </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>Nombre de la Entidad</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="Stage name" xml:space="preserve">
+    <value>Nombre Artístico</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
 </root>
