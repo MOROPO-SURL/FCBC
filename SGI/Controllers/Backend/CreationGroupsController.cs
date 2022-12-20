@@ -37,7 +37,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository;
         private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
         private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
-        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IStringLocalizer<CreationGroupsController> localizer, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<Resolution, Guid> resolutionRepository;
+        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Resolution, Guid> resolutionRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
@@ -48,7 +49,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.craftManifestationRepository = craftManifestationRepository;
             this.craftManifestationGroupRepository = craftManifestationGroupRepository;
             this.designManifestationRepository = designManifestationRepository;
+            this.designManifestationGroupRepository = designManifestationGroupRepository;
             this.serviceLineRepository = serviceLineRepository;
+            this.serviceLineGroupRepository = serviceLineGroupRepository;
+            this.resolutionRepository = resolutionRepository;
         }
 
         [RequiresRoleBasePermission(Roles.CreationGroupViewer)]
@@ -66,6 +70,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.CreationGroupCreator)]
         public override IActionResult Create(CreationGroupInputViewModel inputViewModel)
         {
+            if (inputViewModel.ResolutionId != null)
+            {
+                inputViewModel.Context = "Resolution|" + inputViewModel.ResolutionId.ToString();
+            }
 
             if (Request.Form.Files.Count > 0)
             {
@@ -94,6 +102,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
         public override IActionResult Edit(CreationGroupInputViewModel inputModel)
         {
+            if (inputModel.ResolutionId != null)
+            {
+                inputModel.Context = "Resolution|" + inputModel.ResolutionId.ToString();
+            }
 
             return base.Edit(inputModel);
         }
@@ -717,6 +729,23 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 default:
                     return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-cloud-question\"></span>");
             }
+        }
+
+        private void PopulateWithResolution(CreationGroupInputViewModel modelInput)
+        {
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Number + " - " + entity.Title }).ToArray();
+        }
+
+        private void PopulateWithResolutionEdit(CreationGroupInputViewModel modelInput)
+        {
+            bool contextHasElemet = false;
+
+            if (modelInput.Context != null && modelInput.Context.Contains("Resolution"))
+            {
+                contextHasElemet = true;
+            }
+
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Number + " - " + entity.Title, Selected = contextHasElemet }).ToArray();
         }
 
         #region Manifestations

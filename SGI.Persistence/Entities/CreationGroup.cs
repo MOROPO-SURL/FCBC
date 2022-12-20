@@ -23,6 +23,14 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity Identity { get; set; }
         public System.Guid IdentityId { get; set; }
 
+        public Enumerations.AdmitionMode AdmitionMode { get; set; }
+
+        public string AdmitionModeContext { get; set; }
+
+        public int RegistrationNumber { get; set; }
+
+        public System.DateTime? RegistrationEndAt { get; set; }
+
         public ICollection<CreationGroupAttachment> Attachments { get; set; }
 
         public ICollection<CreationGroupArtisticManifestationBridge> ArtisticManifestationBrigdes { get; set; }

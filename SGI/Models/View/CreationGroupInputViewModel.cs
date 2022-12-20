@@ -4,6 +4,7 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -26,8 +27,23 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Organization")]
         public string OrganizationIdentityName { get; set; }
 
-        [Display(Name = "Select Artistict Manifestation")]
-        public MultiSelectList ArtisticManifestations { get; set; }
+        [Display(Name = "Número de registro del creador")]
+        public int RegistrationNumber { get; set; }
+
+        [Display(Name = "Fecha en que expira")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.DateTime RegistrationEndAt { get; set; }
+
+        public System.Guid? ResolutionId { get; set; }
+
+        public string Context { get; set; }
+
+        public Persistence.Enumerations.AdmitionMode AdmitionModel { get; set; }
+
+        [Display(Name = "Fecha de Creación")]
+        public System.DateTime CreateDate { get; set; } = System.DateTime.Now.Date.AddYears(-16);
+
+        public ICollection<SelectListItem> Resolutions { get; set; } = new List<SelectListItem>();
 
         public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
 
@@ -53,12 +69,21 @@ namespace MOROPO.FCBC.SGI.Models.View
             ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
             OrganizationIdentityName = entity.Identity.Name;
             CreationGroupArtisticManifestationBrigdes = entity.ArtisticManifestationBrigdes;
+            CreateDate = entity.Identity.BornDate;
+            RegistrationNumber = entity.RegistrationNumber;
+            RegistrationEndAt = (System.DateTime)entity.RegistrationEndAt;
+            Context = entity.AdmitionModeContext;
         }
 
         public void Mergue(CreationGroup entity)
         {
             entity.Identity.Name = OrganizationIdentityName;
             entity.ArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
+            entity.AdmitionMode = AdmitionModel;
+            entity.AdmitionModeContext = Context;
+            entity.RegistrationNumber = RegistrationNumber;
+            entity.RegistrationEndAt = RegistrationEndAt;
+            entity.Identity.BornDate = CreateDate;
         }
 
         public string GetExtension(Artist artist)

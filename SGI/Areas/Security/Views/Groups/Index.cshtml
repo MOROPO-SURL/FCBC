@@ -1,7 +1,7 @@
 ﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.Group, System.Guid, SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Models.View.GroupDisplayViewModel>
 
 @{
-    ViewData["Title"] = "Administración de Grupos";
+    ViewData["Title"] = "Administración de Roles";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -125,7 +125,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
-                    <th style="width: 184px;">Opciones</th>
+                    <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -136,7 +136,7 @@
                         <td style="vertical-align: middle;" title="Descripción">@item.Description</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="fas fa-edit"></span><span class="hidden-xs"> Modificar</span></a>&nbsp;|&nbsp;
+                                <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="fas fa-edit"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="fas fa-trash"></span> Eliminar</a>
                             </div>
                         </td>
@@ -247,7 +247,7 @@ else
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
-                    <th style="width: 184px;">Opciones</th>
+                    <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>

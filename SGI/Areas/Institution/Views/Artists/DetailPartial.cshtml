@@ -1,23 +1,9 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.ArtistDisplayViewModel
 
-@*{
-    var AssociationResolution ="";
-    string[] resultSplit = null;
-    if(Model.Context !=null){
 
-        if (Model.Context.Contains("Association")) 
-        {
-            resultSplit = Model.Context.Split("|");
-            AssociationResolution = "Asociación : "+resultSplit[2];
-        }else{
-            resultSplit = Model.Context.Split("|");
-            AssociationResolution = "Resolución : " + resultSplit[2];
-        }
-    }
-}*@
 <!-- Modal -->
-<div class="modal fade" id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade " id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
@@ -36,7 +22,15 @@
                             <h5>@Html.DisplayNameFor(model => model.LastName)</h5>
                             <p>@Model.LastName</p>
                         </div>
-                    </div>                        
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.State)</h5>
+                            <p>@Html.DisplayName(Model.State.Name)</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.Municipality)</h5>
+                            <p>@Html.DisplayName(Model.Municipality.Name)</p>
+                        </div>
+                    </div>                    
                     <div class="row">
                         <div class="col-md-3">
                              <h5>@Html.DisplayNameFor(model => model.Sex)</h5>                            
@@ -49,17 +43,7 @@
                     </div>
                     <hr />
                     <h5>@Html.DisplayNameFor(model => model.About)</h5>
-                    <p>@Model.About</p>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5>@Html.DisplayNameFor(model => model.State)</h5>
-                            <p>@Html.DisplayName(Model.State.Name)</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h5>@Html.DisplayNameFor(model => model.Municipality)</h5>
-                            <p>@Html.DisplayName(Model.Municipality.Name)</p>
-                        </div>
-                    </div>
+                    <p>@Model.About</p>                    
                     <div class="row">
                         <div class="col-md-4">
                             <h5>@Html.DisplayNameFor(model => model.AdmitionMode)</h5>
@@ -97,7 +81,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a role="button" href="@Url.Action("print", new { key = Model.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Imprimir</span></a>
+                
             </div>
         </div>
     </div>

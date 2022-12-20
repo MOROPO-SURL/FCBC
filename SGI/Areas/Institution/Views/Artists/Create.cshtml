@@ -51,6 +51,15 @@
             value: '@Model.BornDate.ToShortDateString()'
         });
 
+        $('#RegistrationEndAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.RegistrationEndAt.ToShortDateString()'
+        });
+
         $(document).ready(function(){
             var admitionModel = $('#AdmitionModel').val();
             if (admitionModel == "Graduate") {
@@ -194,6 +203,18 @@
                             @Html.LabelFor(model => model.Workplace, new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.Workplace, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("House", ViewLocalizer), WorkPlace.House.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Workshop", ViewLocalizer), WorkPlace.Workshop.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Gallery", ViewLocalizer), WorkPlace.Gallery.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("HouseWorkshop", ViewLocalizer), WorkPlace.HouseWorkshop.ToString()) }, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Workplace, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class=row>
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row">
