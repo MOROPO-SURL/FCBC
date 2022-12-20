@@ -57,14 +57,6 @@
             value: '@Model.RegistrationEndAt.ToShortDateString()'
         });
 
-        $(document).ready(function () {
-            var admitionModel = $('#AdmitionModel').val();
-            if (admitionModel == "Resolution") {
-                $("#show-hide-association").addClass("d-none");
-                $("#show-hide-resolution").removeClass("d-none");
-            }
-        });
-
         $(function () {
             $(document).on("change", "#ImageFile", function () {
                 var files = !!this.files ? this.files : [];
@@ -144,12 +136,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.AdmitionModel, new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), AdmitionMode.Resolution.ToString()) },"", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.AdmitionModel, null, new { @class = "text-danger" })
-                        </div>
-                        <div id="show-hide-resolution" class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-md-6" style="margin-bottom: 20px;">
                             @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
                             @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })

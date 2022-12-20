@@ -34,11 +34,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.DateTime RegistrationEndAt { get; set; }
 
+        [Display(Name = "Resolution")]
         public System.Guid? ResolutionId { get; set; }
-
-        public string Context { get; set; }
-
-        public Persistence.Enumerations.AdmitionMode AdmitionModel { get; set; }
 
         [Display(Name = "Fecha de Creación")]
         public System.DateTime CreateDate { get; set; } = System.DateTime.Now.Date.AddYears(-16);
@@ -72,15 +69,13 @@ namespace MOROPO.FCBC.SGI.Models.View
             CreateDate = entity.Identity.BornDate;
             RegistrationNumber = entity.RegistrationNumber;
             RegistrationEndAt = (System.DateTime)entity.RegistrationEndAt;
-            Context = entity.AdmitionModeContext;
+            ResolutionId = entity.ResolutionId;
         }
 
         public void Mergue(CreationGroup entity)
         {
             entity.Identity.Name = OrganizationIdentityName;
             entity.ArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
-            entity.AdmitionMode = AdmitionModel;
-            entity.AdmitionModeContext = Context;
             entity.RegistrationNumber = RegistrationNumber;
             entity.RegistrationEndAt = RegistrationEndAt;
             entity.Identity.BornDate = CreateDate;

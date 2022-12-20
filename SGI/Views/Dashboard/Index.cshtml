@@ -39,26 +39,94 @@
     <script src="~/js/Views/Dashboard/Index.cshtml.js"></script>
 }
 
-    <div class="row" style="margin-bottom: 16px;">
-        <div class="col-md-6">
-            <canvas id="tracesByUsersChart"></canvas>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="border-bottom mb-2">
+            <h5>Usuarios más activos</h5>
         </div>
-        <div class="col-md-6">
-            <canvas id="weekStatisticsChart"></canvas>
+        <canvas id="tracesByUsersChart"></canvas>
+    </div>
+    <div class="col-md-6">
+        <div class="border-bottom mb-2">
+            <h5>Actividad en el sistema</h5>
+        </div>
+        <canvas id="weekStatisticsChart"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="border-bottom mb-2">
+            <h5>Universo de creación</h5>
+        </div>
+        <canvas id="pieChart"></canvas>
+    </div>
+    <div class="col-md-4">
+        <div class="border-bottom mb-2">
+            <h5>Distribución de obras</h5>
+        </div>
+        <canvas id="doughnutChart"></canvas>
+    </div>
+    <div class="col-md-4">
+        <div class="border-bottom mb-2">
+            <h5>Manifestaciones punteras</h5>
+        </div>
+        <canvas id="polarAreaChart"></canvas>
+    </div>
+</div>
+<div class="border-bottom mt-4">
+    <h5>Estadísticas primarias</h5>
+</div>
+<div class="row mb-4 mt-4">
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Usuarios</h5>
+                @Model.UserCount
+            </div>
         </div>
     </div>
-    <div class="row"style="margin-bottom: 16px;">
-        <div class="col-md-4">
-            <canvas id="pieChart"></canvas>
-        </div>
-        <div class="col-md-4">
-            <canvas id="doughnutChart"></canvas>
-        </div>
-        <div class="col-md-4">
-            <canvas id="polarAreaChart"></canvas>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Registros</h5>
+                @Model.TraceCount
+            </div>
         </div>
     </div>
-
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Creadores</h5>
+                @Model.CreatorCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Grupos de Creación</h5>
+                @Model.CreationGroupCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Contratistas</h5>
+                @Model.ContractorCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Obras</h5>
+                @Model.WorkCount
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
 <div class="row">
     <div class="col-sm-6">
     @for (int i = 0; i < Model.Sections.Count; i += 2)
