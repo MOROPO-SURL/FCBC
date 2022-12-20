@@ -30,6 +30,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "ContractKindId")]
         public int ContractKindId { get; set; }
 
+        [Display(Name = "ContractKind")]
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ContractKinds { get; set; }
 
         [Display(Name = "Founding date")]
