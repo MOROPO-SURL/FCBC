@@ -12,15 +12,20 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    @foreach (var item in Model.EmployeeAdministrativeRoleBridges)
-                    {
-                        <h5>Rol</h5>
-                        <p>@item.Role.Name</p>
+                    if(Model.EmployeeAdministrativeRoleBridges.Count() != 0){
+                        @foreach (var item in Model.EmployeeAdministrativeRoleBridges)
+                        {
+                            <h5>Rol</h5>
+                            <p>@item.Role.Name</p>
+                            <hr />
+                            <h5>Description</h5>
+                            <p>@item.Role.Description</p>
+                        }
                         <hr />
-                        <h5>Description</h5>
-                        <p>@item.Role.Description</p>
+                    }else{
+                        <div>No hay roles que mostrar</div>
                     }
-                    <hr />
+
                     <h5>@Html.DisplayNameFor(model => model.About)</h5>
                     <p>@Model.About</p>
                     <div class="row">
@@ -33,16 +38,13 @@
                             <p>@Html.DisplayName(Model.Municipality.Name)</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div>                       
+                    <div>
+                        <div>
                             <h5>@Html.DisplayNameFor(model => model.AddressPostal)</h5>
                             <p>@Html.DisplayName(Model.AddressPostal)</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

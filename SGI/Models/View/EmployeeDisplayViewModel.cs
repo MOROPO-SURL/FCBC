@@ -17,20 +17,27 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string ImageExtension { get; set; }
 
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Display(Name = "LastName")]
         public string LastName { get; set; }
 
+        [Display(Name = "BornDate")]
         public System.DateTime BornDate { get; set; }
 
+        [Display(Name = "Sex")]
         public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
 
+        [Display(Name = "CivilStatus")]
         public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
 
         public string Alias { get; set; }
 
+        [Display(Name = "About")]
         public string About { get; set; }
 
+        [Display(Name = "Address")]
         public string AddressPostal { get; set; }
 
         [Display(Name = "State")]

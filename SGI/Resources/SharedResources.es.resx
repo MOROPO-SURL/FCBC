@@ -696,4 +696,7 @@
   <data name="PhoneValidationErrorMessage" xml:space="preserve">
     <value>El número de teléfono no es valido</value>
   </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
 </root>
