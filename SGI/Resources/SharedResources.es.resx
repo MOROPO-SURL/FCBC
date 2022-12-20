@@ -690,4 +690,10 @@
   <data name="State" xml:space="preserve">
     <value>Provincia</value>
   </data>
+  <data name="EmailAddressValidationErrorMessage" xml:space="preserve">
+    <value>El correo electrónico no es valido</value>
+  </data>
+  <data name="PhoneValidationErrorMessage" xml:space="preserve">
+    <value>El número de teléfono no es valido</value>
+  </data>
 </root>
