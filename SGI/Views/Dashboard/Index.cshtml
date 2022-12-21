@@ -31,12 +31,37 @@
         .nav-link .mdi {
             font-size: 18px;
         }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+        }
     </style>
 }
 
 @section scripts {
     <script src="~/lib/chartjs/chart.min.js"></script>
     <script src="~/js/Views/Dashboard/Index.cshtml.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 500) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 400);
+                return false;
+            });
+        });
+    </script>
 }
 
 <div class="row mb-4">
@@ -226,3 +251,4 @@
     }
     </div>
 </div>
+<a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
