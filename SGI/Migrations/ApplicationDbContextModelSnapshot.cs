@@ -807,12 +807,24 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("IdentityId")
                         .HasColumnName("identityid");
 
+                    b.Property<DateTime?>("RegistrationEndAt")
+                        .HasColumnName("registrationendat");
+
+                    b.Property<int>("RegistrationNumber")
+                        .HasColumnName("registrationnumber");
+
+                    b.Property<Guid?>("ResolutionId")
+                        .HasColumnName("resolutionid");
+
                     b.HasKey("Id")
                         .HasName("pk_creationgroups");
 
                     b.HasIndex("IdentityId")
                         .IsUnique()
                         .HasName("ix_creationgroups_identityid");
+
+                    b.HasIndex("ResolutionId")
+                        .HasName("ix_creationgroups_resolutionid");
 
                     b.ToTable("creationgroups");
                 });
@@ -2688,6 +2700,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "IdentityId")
                         .HasConstraintName("fk_creationgroups_organizationidentities_identityid")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Resolution", "Resolution")
+                        .WithMany()
+                        .HasForeignKey("ResolutionId")
+                        .HasConstraintName("fk_creationgroups_resolutions_resolutionid");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupArtistBridge", b =>
@@ -2699,7 +2716,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "CreationGroup")
-                        .WithMany("CreationGroupArtistBridges")
+                        .WithMany("ArtistBridges")
                         .HasForeignKey("CreationGroupId")
                         .HasConstraintName("fk_creationgroupartistbridges_creationgroups_creationgroupid")
                         .OnDelete(DeleteBehavior.Cascade);

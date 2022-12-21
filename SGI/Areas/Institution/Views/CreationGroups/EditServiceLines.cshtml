@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.GrouptServiceLinesInputViewModel
 
 @{
-    ViewData["Title"] = "Editar Creador (Manifestaciones de Servicio)";
+    ViewData["Title"] = "Editar Grupo de Creación (Manifestaciones de Servicio)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -12,12 +12,12 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Creador",
+            Caption = "Administración de Grupos de Creación",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
         {
-            Caption = "Modificar Creador",
+            Caption = "Modificar Grupo de Creación",
             Url = Url.Action("edit", "CreationGroups", new { key = Model.Group.Id })
         },
         new BreadcrumbViewModel
@@ -35,16 +35,19 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            <h4>Editar Creador</h4>
+            <h4>Editar Grupo de Creación</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Group.Id">Generales</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Group.Id">Contactos</a>
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Group.Id">Información</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("members", @Model.Group.Id)">Miembros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("contacts", @Model.Group.Id)">Contactos</a>
                 </li>
             </ul>
         </div>

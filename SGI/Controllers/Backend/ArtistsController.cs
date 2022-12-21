@@ -230,7 +230,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateWithResolution(ArtistInputViewModel modelInput)
         {
-            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text =entity.Number +" - "+entity.Title }).ToArray();
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = string.Format("{0} - {1} - {2}", entity.Number, entity.ReleaseAt.ToShortDateString(), entity.Title) }).ToArray();
         }
 
         private void PopulateWithResolutionEdit(ArtistInputViewModel modelInput)
@@ -242,7 +242,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 contextHasElemet = true;
             }
 
-            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Number + " - " + entity.Title, Selected = contextHasElemet }).ToArray();
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = string.Format("{0} - {1} - {2}", entity.Number, entity.ReleaseAt.ToShortDateString(), entity.Title), Selected = contextHasElemet }).ToArray();
         }
 
         private void PopulateWithCountriesEdit(ArtistInputViewModel modelInput)

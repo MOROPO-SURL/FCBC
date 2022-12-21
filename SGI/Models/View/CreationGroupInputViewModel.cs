@@ -32,7 +32,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Display(Name = "Fecha en que expira")]
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        public System.DateTime RegistrationEndAt { get; set; }
+        public System.DateTime? RegistrationEndAt { get; set; }
 
         [Display(Name = "Resolution")]
         public System.Guid? ResolutionId { get; set; }
@@ -50,6 +50,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<SelectListItem> NotMembers { get; set; } = new List<SelectListItem>();
 
+        [Display(Name = "About")]
+        public string About { get; set; }
+
         public CreationGroup Export()
         {
             var entity = new CreationGroup();
@@ -65,16 +68,18 @@ namespace MOROPO.FCBC.SGI.Models.View
             ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
             ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
             OrganizationIdentityName = entity.Identity.Name;
+            About = entity.Identity.About;
             CreationGroupArtisticManifestationBrigdes = entity.ArtisticManifestationBrigdes;
             CreateDate = entity.Identity.BornDate;
             RegistrationNumber = entity.RegistrationNumber;
-            RegistrationEndAt = (System.DateTime)entity.RegistrationEndAt;
+            RegistrationEndAt = entity.RegistrationEndAt;
             ResolutionId = entity.ResolutionId;
         }
 
         public void Mergue(CreationGroup entity)
         {
             entity.Identity.Name = OrganizationIdentityName;
+            entity.Identity.About = About;
             entity.ArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
             entity.RegistrationNumber = RegistrationNumber;
             entity.RegistrationEndAt = RegistrationEndAt;

@@ -50,21 +50,6 @@
                             <h5>@Html.DisplayNameFor(model => model.AdmitionMode)</h5>
                             <p>@Html.DisplayName(Model.AdmitionMode.ToString())</p>
                         </div>
-                        <div class="col-sm-8">
-                            <h5>Asociación | Resolución</h5>
-                            @if (Model.AdmitionModeContext != null)
-                            {
-                                @if (Model.AdmitionModeContext.Contains("Resolution|"))
-                                {
-                                    <p>@Model.Resolution.NumberResolution-@Model.Resolution.Title</p>
-                                }
-                                else if (Model.AdmitionModeContext.Contains("Association|"))
-                                {
-                                    <p>@Model.Association.OrganizationIdentityName</p>
-                                }
-                            }
-
-                        </div>
                     </div>
                     <h5>Lista de Manifestaciones</h5>
                     @foreach (var item in Model.ArtistManifestationBridges)
