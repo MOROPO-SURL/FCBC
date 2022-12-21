@@ -15,7 +15,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Artistas",
+            Caption = "Administración de Creadores",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -58,7 +58,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.RegistrationEndAt.ToShortDateString()'
+            value: '@Model.RegistrationEndAt?.ToShortDateString()'
         });
 
         $(document).ready(function () {

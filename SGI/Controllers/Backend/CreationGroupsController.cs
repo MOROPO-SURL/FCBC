@@ -156,22 +156,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 entity.ResolutionId = null;
             }
 
-            modelInput.CreationGroupArtisticManifestationBrigdes.Clear();
-
-            foreach (var artisticManifestationId in modelInput.SelectedValues)
-            {
-                ArtisticManifestation artisticMani = this.artisticManifestationRepository.GetAll().FirstOrDefault(r => r.Id == artisticManifestationId);
-                ArtisticManifestationInputViewModel artisticManifestationInputViewModel = new ArtisticManifestationInputViewModel
-                {
-                    Id = artisticManifestationId,
-                    Name = artisticMani.Name,
-
-                };
-                var CreationGroupArtisticManifestationBrigde = new CreationGroupArtisticManifestationBridge { GroupId = modelInput.Id, ManifestationId = artisticManifestationId, Manifestation = artisticManifestationInputViewModel.Export(), Group = modelInput.Export() };
-                entity.ArtisticManifestationBrigdes.Add(CreationGroupArtisticManifestationBrigde);
-
-            }
-
             if (modelInput.ImageFile == null)
             {
                 if (modelInput.ResetImage && entity.Identity.Image != null)
@@ -206,11 +190,29 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         protected override void ConfigureCreate(CreationGroupInputViewModel modelInput)
         {
             base.ConfigureCreate(modelInput);
+
+            PopulateAvailableResolutions(modelInput);
         }
 
         protected override void ConfigureEdit(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
             base.ConfigureEdit(entity, modelInput);
+
+            PopulateAvailableResolutions(modelInput);
+        }
+
+        protected override void ConfigurePostFailCreateValidation(CreationGroupInputViewModel modelInput)
+        {
+            base.ConfigurePostFailCreateValidation(modelInput);
+
+            PopulateAvailableResolutions(modelInput);
+        }
+
+        protected override void ConfigurePostFailEditValidation(CreationGroupInputViewModel modelInput)
+        {
+            base.ConfigurePostFailEditValidation(modelInput);
+
+            PopulateAvailableResolutions(modelInput);
         }
 
         protected override void PostDelete(CreationGroup entity)
@@ -741,9 +743,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
         }
 
-        private void PopulateWithResolution(CreationGroupInputViewModel modelInput)
+        private void PopulateAvailableResolutions(CreationGroupInputViewModel modelInput)
         {
-            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Number + " - " + entity.Title }).ToArray();
+            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = string.Format("{0} - {1} - {2}", entity.Number, entity.ReleaseAt.ToShortDateString(), entity.Title) }).ToArray();
         }
 
         #region Manifestations

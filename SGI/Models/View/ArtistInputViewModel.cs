@@ -94,7 +94,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Display(Name = "Fecha en que expira")]
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        public System.DateTime RegistrationEndAt { get; set; }
+        public System.DateTime? RegistrationEndAt { get; set; }
 
         public ArtistInputViewModel()
         {
@@ -124,7 +124,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             About = entity.Identity.About;
             AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
             RegistrationNumber = entity.RegistrationNumber;
-            RegistrationEndAt = (System.DateTime)entity.RegistrationEndAt;
+            RegistrationEndAt = entity.RegistrationEndAt;
             
             var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             

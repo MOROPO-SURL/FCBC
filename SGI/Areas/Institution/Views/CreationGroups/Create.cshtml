@@ -54,7 +54,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.RegistrationEndAt.ToShortDateString()'
+            value: '@Model.RegistrationEndAt?.ToShortDateString()'
         });
 
         $(function () {
@@ -144,11 +144,15 @@
                     </div>
                 </div>
             </div>
-
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.About, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.About, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Crear</button>
-            <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+            <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
         </div>
     </div>
 }

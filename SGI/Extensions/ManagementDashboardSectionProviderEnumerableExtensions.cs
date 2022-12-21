@@ -184,24 +184,14 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Area = "institution",
                     Role = Security.Authorization.Roles.ServiceViewer
                 },
-
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Contratista",
-                    Controller = "contractors",
-                    Action = "index",
-                    Area = "institution",
-                    Role = Security.Authorization.Roles.ContractorViewer
-                },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Artista",
+                    Title = "Creadores",
                     Controller = "artists",
                     Action = "index",
                     Area = "institution",
                     Role = Security.Authorization.Roles.ArtistViewer
                 },
-
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Grupos de Creación",
@@ -210,7 +200,14 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Area = "institution",
                     Role = Security.Authorization.Roles.CreationGroupViewer
                 },
-
+                new ManagementDashboardSectionViewModel
+                {
+                    Title = "Contratistas",
+                    Controller = "contractors",
+                    Action = "index",
+                    Area = "institution",
+                    Role = Security.Authorization.Roles.ContractorViewer
+                },
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Asociaciones",
