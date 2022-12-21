@@ -666,4 +666,37 @@
   <data name="User" xml:space="preserve">
     <value>Usuario</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="ContractKind" xml:space="preserve">
+    <value>Tipo de Contratista</value>
+  </data>
+  <data name="Founding date" xml:space="preserve">
+    <value>Fecha de Fundada</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
+  <data name="Municipality" xml:space="preserve">
+    <value>Municipio</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organización</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
+  <data name="EmailAddressValidationErrorMessage" xml:space="preserve">
+    <value>El correo electrónico no es valido</value>
+  </data>
+  <data name="PhoneValidationErrorMessage" xml:space="preserve">
+    <value>El número de teléfono no es valido</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
 </root>

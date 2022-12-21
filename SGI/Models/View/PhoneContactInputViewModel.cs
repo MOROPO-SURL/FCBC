@@ -12,7 +12,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Phone(ErrorMessage = "PhoneValidationErrorMessage")]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Number")]
         public string Number { get; set; }
 
         public PhoneContactItem Export()

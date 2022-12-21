@@ -12,7 +12,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [EmailAddress(ErrorMessage = "EmailAddressValidationErrorMessage")]
-        [Display(Name = "Email Address")]
+        [Display(Name = "Email")]
         public string Address { get; set; }
 
         public EmailContactItem Export()

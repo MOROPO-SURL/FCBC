@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -17,7 +16,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string ImageExtension { get; set; }
 
-        [Display(Name = "Contract Type")]
+        [Display(Name = "ContractKind")]
         public string ContractKindName { get; set; }
 
         [Display(Name = "Organization")]
