@@ -1,11 +1,14 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
 
+
 namespace MOROPO.FCBC.SGI.Models.View
 {
     public class RecognitionDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Recognition, Guid>
     {
         public Guid Id { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
         public void Import(Recognition entity)
