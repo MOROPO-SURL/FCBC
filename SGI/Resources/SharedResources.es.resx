@@ -747,4 +747,7 @@
   <data name="Workshop" xml:space="preserve">
     <value>Taller</value>
   </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Resolución</value>
+  </data>
 </root>
