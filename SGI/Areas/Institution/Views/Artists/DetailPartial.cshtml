@@ -33,12 +33,12 @@
                     </div>                    
                     <div class="row">
                         <div class="col-md-3">
-                             <h5>@Html.DisplayNameFor(model => model.Sex)</h5>                            
-                             <p>@Model.Sex</p>
+                             <h5>@Html.DisplayNameFor(model => model.Sex)</h5>
+                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</p>
                         </div>                            
                         <div class="col-md-6">
-                             <h5>@Html.DisplayNameFor(model => model.CivilStatus)</h5>                                
-                             <p>@Model.CivilStatus</p>
+                             <h5>@Html.DisplayNameFor(model => model.CivilStatus)</h5>
+                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.CivilStatus.ToString(), ViewLocalizer))</p>
                         </div>
                     </div>
                     <hr />
