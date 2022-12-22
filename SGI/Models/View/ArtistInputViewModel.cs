@@ -51,6 +51,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Context { get; set; }
 
+        [Display(Name = "AdmitionMode")]
         public Persistence.Enumerations.AdmitionMode AdmitionModel { get; set; }        
         
         public System.Guid? AssociationId { get; set; }
@@ -82,8 +83,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "CitizenId")]
         public string CitizenId { get; set; }
 
+        [Display(Name = "Workplace")]
         public Persistence.Enumerations.WorkPlace Workplace { get; set; }
 
+        [Display(Name = "SchoolLevel")]
         public Persistence.Enumerations.SchoolLevel SchoolLevel { get; set; }
 
         [Display(Name = "specify training")]
