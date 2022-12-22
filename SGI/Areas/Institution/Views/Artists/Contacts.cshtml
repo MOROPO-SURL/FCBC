@@ -66,7 +66,7 @@
                         }
                         else
                         {
-                            <img class="img-thumbnail" src="~/media/images/default-person.png" />
+                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg"/>
                         }
 
                         <div class="col-lg-10 col-md-9 col-sm-9">
@@ -83,7 +83,7 @@
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <div class="page-header">
-                    <h4>Contactos Telefónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    <h4>Teléfonos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                     </div>
 
 
@@ -126,7 +126,7 @@
                 </div>
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <div class="page-header">
-                    <h4>Contactos de Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    <h4>Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                     </div>
                 @await Html.PartialAsync("AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.ArtistEmailContactInputViewModel
                         {
@@ -167,7 +167,7 @@
             </div>
         <div style="margin-bottom: 20px;">
             <div class="page-header">
-                <h4>Contactos de Redes Sociales<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-socialcontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                <h4>Redes Sociales<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-socialcontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
             </div>
 
 
@@ -212,7 +212,7 @@
         </div>
         </div>
     <div class="card-footer">
-        <a class="btn btn-default" href="@Url.Action("index")">Regresar al listado</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
     </div>
     </div>
      

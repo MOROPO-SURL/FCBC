@@ -699,4 +699,55 @@
   <data name="Unknown" xml:space="preserve">
     <value>Desconocido</value>
   </data>
+  <data name="AdmitionMode" xml:space="preserve">
+    <value>Modalidad de ingreso</value>
+  </data>
+  <data name="FourthLevelEducation" xml:space="preserve">
+    <value>Cuarto nivel de Educación</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galería</value>
+  </data>
+  <data name="Higher" xml:space="preserve">
+    <value>Superior</value>
+  </data>
+  <data name="House" xml:space="preserve">
+    <value>Casa</value>
+  </data>
+  <data name="HouseWorkshop" xml:space="preserve">
+    <value>Casa-Taller</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medio</value>
+  </data>
+  <data name="Observations" xml:space="preserve">
+    <value>Observasiones</value>
+  </data>
+  <data name="Primary" xml:space="preserve">
+    <value>Primaria</value>
+  </data>
+  <data name="SchoolLevel" xml:space="preserve">
+    <value>Nivel escolar</value>
+  </data>
+  <data name="specify training" xml:space="preserve">
+    <value>Formación (especificar formación escolar)</value>
+  </data>
+  <data name="Unknow" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
+  <data name="UpperMiddle" xml:space="preserve">
+    <value>Medio Superior</value>
+  </data>
+  <data name="UrlValidationErrorMessage" xml:space="preserve">
+    <value>La dirección web no es valida</value>
+  </data>
+  <data name="Workplace" xml:space="preserve">
+    <value>Lugar de trabajo</value>
+  </data>
+  <data name="Workshop" xml:space="preserve">
+    <value>Taller</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Resolución</value>
+  </data>
 </root>
