@@ -83,6 +83,7 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<ArtWorkAttachment, Guid>, ArtWorkAttachmentRepository>();
             services.AddScoped<IEntityRepository<CraftWork, Guid>, CraftWorkRepository>();
             services.AddScoped<IEntityRepository<DesignWork, Guid>, DesignWorkRepository>();
+            services.AddScoped<IEntityRepository<ServiceWork, Guid>, ServiceWorkRepository>();
 
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
