@@ -34,9 +34,9 @@
     <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
     <dd>@Html.DisplayFor(model => model.LastName)</dd>
     <dt>@Html.DisplayNameFor(model => model.Sex)</dt>
-    <dd>@Html.DisplayFor(model => model.Sex)</dd>
+    <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</dd>
     <dt>@Html.DisplayNameFor(model => model.CivilStatus)</dt>
-    <dd>@Html.DisplayFor(model => model.CivilStatus)</dd>
+    <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.CivilStatus.ToString(), ViewLocalizer))</dd>
 </dl>
 @using (Html.BeginForm("delete", "artists", new { Area = "institution", key = string.Empty }, FormMethod.Post, true, null))
 {

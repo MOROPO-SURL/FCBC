@@ -16,6 +16,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public Guid Id { get; set; }
 
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Display(Name = "Country")]

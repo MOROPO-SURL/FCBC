@@ -32,16 +32,16 @@
     <dd>@Html.DisplayFor(model => model.Name)</dd>
     <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
     <dd>@Html.DisplayFor(model => model.LastName)</dd>
-    <dt>@Html.DisplayNameFor(model => model.Sex)</dt>
-    <dd>@Html.DisplayFor(model => model.Sex)</dd>
+    <dt>@Html.DisplayNameFor(model =>model.Sex)</dt>
+    <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</dd>
     <dt>@Html.DisplayNameFor(model => model.CivilStatus)</dt>
-    <dd>@Html.DisplayFor(model => model.CivilStatus)</dd>
+    <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.CivilStatus.ToString(), ViewLocalizer))</dd>
 </dl>
 @using (Html.BeginForm("delete", "critics", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
 {
     @Html.HiddenFor(model => model.Id)
     <div>
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
     </div>
 }

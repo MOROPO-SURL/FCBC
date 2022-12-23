@@ -28,16 +28,13 @@
                 <h5>@Html.DisplayNameFor(model => model.LastName)</h5>
                 <p>@Model.LastName</p>
                 <h5>@Html.DisplayNameFor(model => model.Sex)</h5>
-                <p>@Model.Sex</p>
+                <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</p>
                 <h5>@Html.DisplayNameFor(model => model.CivilStatus)</h5>
-                <p>@Model.CivilStatus</p>
+                <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.CivilStatus.ToString(), ViewLocalizer))</p>
                 <h5>@Html.DisplayNameFor(model => model.Alias)</h5>
                 <p>@Model.Alias</p>
                 <h5>@Html.DisplayNameFor(model => model.About)</h5>
                 <p>@Model.About</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

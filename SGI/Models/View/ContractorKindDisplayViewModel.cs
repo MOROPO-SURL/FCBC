@@ -7,8 +7,10 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public int Id { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Display(Name = "Description")]
         public string Description { get; set; }
 
         public void Import(ContractorKind entity)
