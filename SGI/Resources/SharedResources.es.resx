@@ -753,4 +753,7 @@
   <data name="Resolution" xml:space="preserve">
     <value>Resolución</value>
   </data>
+  <data name="ResolutionDate" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
 </root>
