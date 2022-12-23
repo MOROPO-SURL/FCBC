@@ -26,7 +26,7 @@
     Layout = "_BackendLayout";
 }
 
-<h3>Esta seguro que desea eliminar la unidad de medida detallado a continuación?</h3>
+<h3>Esta seguro que desea eliminar la unidad de medida detallada a continuación?</h3>
 <dl>
     <dt>@Html.DisplayNameFor(model => model.Name)</dt>
     <dd>@Html.DisplayFor(model => model.Name)</dd>
@@ -40,7 +40,7 @@
     @Html.HiddenFor(model => model.Id)
     <div>
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
     </div>
 }
 

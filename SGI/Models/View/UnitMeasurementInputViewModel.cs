@@ -1,5 +1,6 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -7,8 +8,10 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public Guid Id { get; set; }
 
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Display(Name = "Symbol")]
         public string Symbol { get; set; }
 
         public UnitMeasurement Export()
