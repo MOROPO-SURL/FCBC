@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Works\Views\DesignWorks\" />
     <Folder Include="Areas\Works\Views\ServiceWorks\" />
     <Folder Include="Controllers\Frontend\Api\" />
   </ItemGroup>
