@@ -116,8 +116,9 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "resolutions",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.CriticViewer
+                    Role = Security.Authorization.Roles.ResolutionViewer
                 },
+
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Temáticas",

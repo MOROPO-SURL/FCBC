@@ -1,5 +1,7 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -7,12 +9,16 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public System.Guid Id { get; set; }
 
+        [Display(Name = "Number")]
         public int NumberResolution { get; set; }
 
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "ResolutionDate")]
         public System.DateTime ResolutionDate { get; set; }
 
         public ResolutionInputViewModel()
