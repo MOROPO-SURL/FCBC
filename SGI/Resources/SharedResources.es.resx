@@ -756,4 +756,19 @@
   <data name="ResolutionDate" xml:space="preserve">
     <value>Fecha</value>
   </data>
+  <data name="Is Spaced Symbol" xml:space="preserve">
+    <value>¿Es espaciado el simbolo?</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Posición</value>
+  </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>Prefijo</value>
+  </data>
+  <data name="Sufix" xml:space="preserve">
+    <value>Sufijo</value>
+  </data>
+  <data name="Symbol" xml:space="preserve">
+    <value>Símbolo</value>
+  </data>
 </root>

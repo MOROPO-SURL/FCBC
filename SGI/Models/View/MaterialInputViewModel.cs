@@ -1,12 +1,18 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
     public class MaterialInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Material, System.Guid>
     {
         public Guid Id { get; set; }
+
+        [Display(Name = "Name")]
         public string Name { get; set; }
+
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
         public Material Export()
