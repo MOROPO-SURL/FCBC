@@ -423,6 +423,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artistattachments");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistAwardBridge", b =>
+                {
+                    b.Property<Guid>("ArtistId")
+                        .HasColumnName("artistid");
+
+                    b.Property<Guid>("AwardId")
+                        .HasColumnName("awardid");
+
+                    b.HasKey("ArtistId", "AwardId")
+                        .HasName("pk_artistawards");
+
+                    b.HasIndex("AwardId")
+                        .HasName("ix_artistawards_awardid");
+
+                    b.ToTable("artistawards");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistCraftManifestationBridge", b =>
                 {
                     b.Property<Guid>("ArtistId")
@@ -2511,6 +2528,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Attachments")
                         .HasForeignKey("ArtistId")
                         .HasConstraintName("fk_artistattachments_artists_artistid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistAwardBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Artist", "Artist")
+                        .WithMany("ArtistAwardBridges")
+                        .HasForeignKey("ArtistId")
+                        .HasConstraintName("fk_artistawards_artists_artistid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Award", "Award")
+                        .WithMany()
+                        .HasForeignKey("AwardId")
+                        .HasConstraintName("fk_artistawards_awards_awardid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

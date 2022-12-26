@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MOROPO.FCBC.SGI.Extensions;
 using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -45,6 +46,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository;
         private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
         private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
+        private readonly IEntityRepository<Award, Guid> awardRepository;        
 
         public ArtistsController(
             IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository,
@@ -62,7 +64,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             IEntityRepository<Artist, Guid> repository, 
             IEntityRepository<Association, Guid> associationRepository, 
             IEntityRepository<Resolution, Guid> resolutionRepository, 
-            IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, 
+            IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository,
+            IEntityRepository<Award, Guid> awardRepository,
             IStringLocalizer<ArtistsController> localizer, 
             ILogger<ArtistsController> logger) : base(repository, localizer, logger)
         {
@@ -82,6 +85,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.designManifestationGroupRepository = designManifestationGroupRepository;
             this.serviceLineRepository = serviceLineRepository;
             this.serviceLineGroupRepository = serviceLineGroupRepository;
+            this.awardRepository = awardRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtistViewer)]
@@ -1168,6 +1172,84 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 PopulateServiceLineSelectableGroups(child, selectedItems, groups);
             }
+        }
+
+        #endregion
+
+        #region Acknowledgments
+
+        [HttpGet]
+        [Route("edit/{key}/artisticacknowledgments")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditArtisticAcknowledgments(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtistInputViewModel();
+
+            PopulateAwards(entity, model.AwardsToGive);
+
+            model.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/artisticacknowledgments")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditArtisticAcknowledgments(Guid key, ArtistInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.ArtistAwardBridges.Clear();
+
+            foreach (var item in modelInput.AwardsToGive)
+            {
+                if (!item.Selected) continue;
+
+                entity.ArtistAwardBridges.Add(new ArtistAwardBridge
+                {
+                    ArtistId = entity.Id,
+                    AwardId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("editartisticacknowledgments", new { key = entity.Id });
+        }
+
+        private void PopulateAwards(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
+        {
+            var awads = awardRepository.GetAll();
+            
+
+            if (awads.Count() > 0)
+            {
+                awardsForSelecting.AddRange(awads.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ArtistAwardBridges.Any(a => a.AwardId == item.Id),
+                    Description = item.Country.Name
+                }));
+            }
+           
         }
 
         #endregion

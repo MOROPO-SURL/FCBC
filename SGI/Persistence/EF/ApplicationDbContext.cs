@@ -120,5 +120,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ArtWorkCreationGroupBridge> ArtWorkCreationGroupBridges { get; set; }
         public DbSet<ArtWorkAward> ArtWorkAwards { get; set; }
         public DbSet<ArtWorkAttachment> ArtWorkAttachments { get; set; }
+        public DbSet<ArtistAwardBridge> ArtistAwards { get; set; }
     }
 }

@@ -64,5 +64,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         //public System.Collections.Generic.ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; }
 
         public System.Collections.Generic.ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
+        public System.Collections.Generic.ICollection<ArtistAwardBridge> ArtistAwardBridges { get; set; }
     }
 }

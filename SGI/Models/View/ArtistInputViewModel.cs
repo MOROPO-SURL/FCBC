@@ -99,6 +99,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.DateTime? RegistrationEndAt { get; set; }
 
+        public List< SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToGive { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+
         public ArtistInputViewModel()
         {
             BornDate = System.DateTime.Now.AddYears(-16);
