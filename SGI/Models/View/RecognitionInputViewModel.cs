@@ -12,6 +12,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
         public Recognition Export()
         {
             var entity = new Recognition();
@@ -25,11 +28,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             Id = entity.Id;
             Name = entity.Name;
+            Description = entity.Description;
         }
 
         public void Mergue(Recognition entity)
         {
             entity.Name = Name;
+            entity.Description = Description;
         }
     }
 }

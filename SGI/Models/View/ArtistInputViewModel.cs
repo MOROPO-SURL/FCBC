@@ -99,7 +99,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.DateTime? RegistrationEndAt { get; set; }
 
-        public List< SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToGive { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List< SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List< SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
 
         public ArtistInputViewModel()
         {

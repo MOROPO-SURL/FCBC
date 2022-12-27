@@ -46,7 +46,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository;
         private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
         private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
-        private readonly IEntityRepository<Award, Guid> awardRepository;        
+        private readonly IEntityRepository<Award, Guid> awardRepository;
+        private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
 
         public ArtistsController(
             IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository,
@@ -66,6 +67,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             IEntityRepository<Resolution, Guid> resolutionRepository, 
             IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository,
             IEntityRepository<Award, Guid> awardRepository,
+            IEntityRepository<Recognition, Guid> recognitionRepository,
             IStringLocalizer<ArtistsController> localizer, 
             ILogger<ArtistsController> logger) : base(repository, localizer, logger)
         {
@@ -86,6 +88,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.serviceLineRepository = serviceLineRepository;
             this.serviceLineGroupRepository = serviceLineGroupRepository;
             this.awardRepository = awardRepository;
+            this.recognitionRepository = recognitionRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtistViewer)]
@@ -1187,7 +1190,23 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var model = new ArtistInputViewModel();
 
-            PopulateAwards(entity, model.AwardsToGive);
+            PopulateAwards(entity, model.AwardsToSelect);
+
+            model.Import(entity);
+
+            return View(model);
+        }
+        
+        [HttpGet]
+        [Route("edit/{key}/artisticRecognitions")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditArtisticRecognitions(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtistInputViewModel();
+
+            PopulateRecognitions(entity, model.RecognitionsToSelect);
 
             model.Import(entity);
 
@@ -1216,7 +1235,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.ArtistAwardBridges.Clear();
 
-            foreach (var item in modelInput.AwardsToGive)
+            foreach (var item in modelInput.AwardsToSelect)
             {
                 if (!item.Selected) continue;
 
@@ -1232,6 +1251,46 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
 
             return RedirectToAction("editartisticacknowledgments", new { key = entity.Id });
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/artisticRecognitions")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditArtisticRecognitions(Guid key, ArtistInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.ArtistRecognitionBridges.Clear();
+
+            foreach (var item in modelInput.RecognitionsToSelect)
+            {
+                if (!item.Selected) continue;
+
+                entity.ArtistRecognitionBridges.Add(new ArtistRecognitionBridge
+                {
+                    ArtistId = entity.Id,
+                    RecognitionId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditArtisticRecognitions", new { key = entity.Id });
         }
 
         private void PopulateAwards(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
@@ -1250,6 +1309,23 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 }));
             }
            
+        }
+
+        private void PopulateRecognitions(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
+        {
+            var recognitions = recognitionRepository.GetAll();
+
+            if (recognitions.Count() > 0)
+            {
+                awardsForSelecting.AddRange(recognitions.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ArtistRecognitionBridges.Any(a => a.RecognitionId == item.Id),
+                    Description = String.IsNullOrWhiteSpace(item.Description) ? "Sin Descripción" : item.Description
+                }));
+            }
+
         }
 
         #endregion

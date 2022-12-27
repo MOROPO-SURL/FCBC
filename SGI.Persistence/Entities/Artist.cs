@@ -15,6 +15,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             ResolutionLocks = new List<ArtistResolutionLock>();
             AssociationLocks = new List<ArtistAssociationLock>();
             Attachments = new List<ArtistAttachment>();
+            ArtistAwardBridges = new List<ArtistAwardBridge>();
+            ArtistRecognitionBridges = new List<ArtistRecognitionBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -65,5 +67,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
 
         public System.Collections.Generic.ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
         public System.Collections.Generic.ICollection<ArtistAwardBridge> ArtistAwardBridges { get; set; }
+        public System.Collections.Generic.ICollection<ArtistRecognitionBridge> ArtistRecognitionBridges { get; set; }
     }
 }

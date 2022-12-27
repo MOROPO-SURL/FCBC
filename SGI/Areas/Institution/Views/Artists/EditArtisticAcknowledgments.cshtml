@@ -59,7 +59,7 @@
                             <a class="nav-link active" href="#">Premios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="editcraftmanifestations" asp-route-key="@Model.Id">Reconocimientos</a>
+                            <a class="nav-link" asp-action="EditArtisticRecognitions" asp-route-key="@Model.Id">Reconocimientos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="editdesignmanifestations" asp-route-key="@Model.Id">Distinciones</a>
@@ -68,11 +68,11 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @if (Model.AwardsToGive != null || Model.AwardsToGive.Count() > 0) { 
-                            @foreach (var item in Model.AwardsToGive)
+                        @if (Model.AwardsToSelect != null || Model.AwardsToSelect.Count() > 0) { 
+                            @foreach (var item in Model.AwardsToSelect)
                             {
                                 <div class="col-md-4">
-                                    @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("AwardsToGive[{0}]", selectableIndex++))
+                                    @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("AwardsToSelect[{0}]", selectableIndex++))
                                 </div>
                             }
                         }
