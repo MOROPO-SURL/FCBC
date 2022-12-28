@@ -48,6 +48,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
         private readonly IEntityRepository<Award, Guid> awardRepository;
         private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
+        private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
 
         public ArtistsController(
             IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository,
@@ -68,6 +69,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository,
             IEntityRepository<Award, Guid> awardRepository,
             IEntityRepository<Recognition, Guid> recognitionRepository,
+            IEntityRepository<Distinction, Guid> distintionsRepository,
             IStringLocalizer<ArtistsController> localizer, 
             ILogger<ArtistsController> logger) : base(repository, localizer, logger)
         {
@@ -89,6 +91,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.serviceLineGroupRepository = serviceLineGroupRepository;
             this.awardRepository = awardRepository;
             this.recognitionRepository = recognitionRepository;
+            this.distintionsRepository = distintionsRepository;
         }
 
         [RequiresRoleBasePermission(Roles.ArtistViewer)]
@@ -1213,6 +1216,22 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return View(model);
         }
 
+        [HttpGet]
+        [Route("edit/{key}/artisticDistintions")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditArtisticDistintions(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtistInputViewModel();
+
+            PopulateDistintions(entity, model.DistintionsToSelect);
+
+            model.Import(entity);
+
+            return View(model);
+        }
+
         [HttpPost]
         [Route("edit/{key}/artisticacknowledgments")]
         [RequiresRoleBasePermission(Roles.ArtistEditor)]
@@ -1293,6 +1312,46 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return RedirectToAction("EditArtisticRecognitions", new { key = entity.Id });
         }
 
+        [HttpPost]
+        [Route("edit/{key}/artisticDistintions")]
+        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        public ActionResult EditArtisticDistintions(Guid key, ArtistInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.ArtistDistinctionBridges.Clear();
+
+            foreach (var item in modelInput.DistintionsToSelect)
+            {
+                if (!item.Selected) continue;
+
+                entity.ArtistDistinctionBridges.Add(new ArtistDistinctionBridge
+                {
+                    ArtistId = entity.Id,
+                    DistinctionId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditArtisticDistintions", new { key = entity.Id });
+        }
+
         private void PopulateAwards(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
         {
             var awads = awardRepository.GetAll();
@@ -1322,6 +1381,23 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Id = item.Id,
                     Label = item.Name,
                     Selected = entity.ArtistRecognitionBridges.Any(a => a.RecognitionId == item.Id),
+                    Description = String.IsNullOrWhiteSpace(item.Description) ? "Sin Descripción" : item.Description
+                }));
+            }
+
+        }
+
+        private void PopulateDistintions(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
+        {
+            var distintions = distintionsRepository.GetAll();
+
+            if (distintions.Count() > 0)
+            {
+                awardsForSelecting.AddRange(distintions.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ArtistDistinctionBridges.Any(a => a.DistinctionId == item.Id),
                     Description = String.IsNullOrWhiteSpace(item.Description) ? "Sin Descripción" : item.Description
                 }));
             }

@@ -28,7 +28,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
                 .Include(p => p.ServiceLineBridges).ThenInclude(b => b.Line)
                 .Include(p => p.CreationGroupArtistBridges).ThenInclude(p =>  p.CreationGroup)
                 .Include(p => p.ArtistAwardBridges).ThenInclude(p => p.Award)
-                .Include(p => p.ArtistRecognitionBridges).ThenInclude(p => p.Recognition);
+                .Include(p => p.ArtistRecognitionBridges).ThenInclude(p => p.Recognition)
+                .Include(p => p.ArtistDistinctionBridges).ThenInclude(p => p.Distinction);
         }
     }
 }

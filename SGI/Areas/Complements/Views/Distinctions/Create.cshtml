@@ -41,7 +41,11 @@
                     @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                 </div>
-
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
+                </div>
 
             </div>
 
