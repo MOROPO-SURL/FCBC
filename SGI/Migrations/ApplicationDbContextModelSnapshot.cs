@@ -949,6 +949,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("creationgroupattachments");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupAwardBridge", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnName("groupid");
+
+                    b.Property<Guid>("AwardId")
+                        .HasColumnName("awardid");
+
+                    b.HasKey("GroupId", "AwardId")
+                        .HasName("pk_creationgroupawardbridges");
+
+                    b.HasIndex("AwardId")
+                        .HasName("ix_creationgroupawardbridges_awardid");
+
+                    b.ToTable("creationgroupawardbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupCraftManifestationBridge", b =>
                 {
                     b.Property<Guid>("GroupId")
@@ -981,6 +998,40 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_creationgroupdesignmanifestationbridges_manifestationid");
 
                     b.ToTable("creationgroupdesignmanifestationbridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupDistinctionBridge", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnName("groupid");
+
+                    b.Property<Guid>("DistinctionId")
+                        .HasColumnName("distinctionid");
+
+                    b.HasKey("GroupId", "DistinctionId")
+                        .HasName("pk_creationgroupdistinctionbridges");
+
+                    b.HasIndex("DistinctionId")
+                        .HasName("ix_creationgroupdistinctionbridges_distinctionid");
+
+                    b.ToTable("creationgroupdistinctionbridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupRecognitionBridge", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnName("groupid");
+
+                    b.Property<Guid>("RecognitionId")
+                        .HasColumnName("recognitionid");
+
+                    b.HasKey("GroupId", "RecognitionId")
+                        .HasName("pk_creationgrouprecognitionbridges");
+
+                    b.HasIndex("RecognitionId")
+                        .HasName("ix_creationgrouprecognitionbridges_recognitionid");
+
+                    b.ToTable("creationgrouprecognitionbridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupServiceLineBridge", b =>
@@ -2848,6 +2899,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupAwardBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Award", "Award")
+                        .WithMany()
+                        .HasForeignKey("AwardId")
+                        .HasConstraintName("fk_creationgroupawardbridges_awards_awardid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
+                        .WithMany("CreationGroupAwardBridges")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("fk_creationgroupawardbridges_creationgroups_groupid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupCraftManifestationBridge", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
@@ -2875,6 +2941,36 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("ManifestationId")
                         .HasConstraintName("fk_creationgroupdesignmanifestationbridges_designmanifestation~")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupDistinctionBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
+                        .WithMany("CreationGroupDistinctionBridges")
+                        .HasForeignKey("DistinctionId")
+                        .HasConstraintName("fk_creationgroupdistinctionbridges_creationgroups_distinctionid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Distinction", "Distinction")
+                        .WithMany()
+                        .HasForeignKey("DistinctionId")
+                        .HasConstraintName("fk_creationgroupdistinctionbridges_distinctions_distinctionid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupRecognitionBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
+                        .WithMany("CreationGroupRecognitionBridges")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("fk_creationgrouprecognitionbridges_creationgroups_groupid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Recognition", "Recognition")
+                        .WithMany()
+                        .HasForeignKey("RecognitionId")
+                        .HasConstraintName("fk_creationgrouprecognitionbridges_recognitions_recognitionid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
