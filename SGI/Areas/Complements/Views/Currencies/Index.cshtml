@@ -148,15 +148,18 @@
                     </div>
                     <div class="mb-2">
                         <span class="font-weight-bold">
-                            Tiene Espacio:
+                            Tiene Espacio?:
                         </span>
-                        @item.IsSpacedSymbol
+                        @if (item.IsSpacedSymbol)
+                            {<span class="mdi mdi-checkbox-marked-outline"></span> }
+                        else
+                            { <span class="mdi mdi-checkbox-blank-outline"></span>}
                     </div>
                     <div class="mb-2">
                         <span class="font-weight-bold">
                             Posición:
                         </span>
-                        @item.Position
+                        @Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.Position.ToString(), ViewLocalizer))
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
@@ -175,7 +178,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Símbolo</th>
-                    <th>Tiene Espacio</th>
+                    <th>Tiene Espacio?</th>
                     <th>Posición</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
@@ -186,8 +189,15 @@
                     <tr>
                         <td style="vertical-align: middle;" title="Premios ">@item.Name</td>   
                         <td style="vertical-align: middle;" title="Premios ">@item.Symbol</td>   
-                        <td style="vertical-align: middle;" title="Premios ">@item.IsSpacedSymbol</td>   
-                        <td style="vertical-align: middle;" title="Premios ">@item.Position</td>   
+                        <td style="vertical-align: middle;" title="Premios ">
+                        @if (item.IsSpacedSymbol)
+                            {<span class="mdi mdi-checkbox-marked-outline"></span> }
+                        else
+                            { <span class="mdi mdi-checkbox-blank-outline"></span>}
+                        </td>   
+                        <td style="vertical-align: middle;" title="Premios ">
+                            @Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.Position.ToString(), ViewLocalizer))
+                        </td>   
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
@@ -301,7 +311,7 @@ else
                 <tr>                    
                     <th>Nombre</th>
                     <th>Símbolo</th>
-                    <th>Tiene Espacio</th>
+                    <th>Tiene Espacio?</th>
                     <th>Posición</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
