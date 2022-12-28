@@ -757,7 +757,7 @@
     <value>Fecha</value>
   </data>
   <data name="Is Spaced Symbol" xml:space="preserve">
-    <value>¿Es espaciado el simbolo?</value>
+    <value>¿Tiene espacio?</value>
   </data>
   <data name="Position" xml:space="preserve">
     <value>Posición</value>
@@ -770,5 +770,8 @@
   </data>
   <data name="Symbol" xml:space="preserve">
     <value>Símbolo</value>
+  </data>
+  <data name="CurrentUserNotDisactivableMessage" xml:space="preserve">
+    <value>Este usuario no puede ser desavilitado</value>
   </data>
 </root>

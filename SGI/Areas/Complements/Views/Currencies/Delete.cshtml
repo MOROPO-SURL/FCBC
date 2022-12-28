@@ -37,7 +37,7 @@
     <dt>@Html.DisplayNameFor(model => model.IsSpacedSymbol)</dt>
     <dd>@Html.DisplayFor(model => model.IsSpacedSymbol)</dd>
     <dt>@Html.DisplayNameFor(model => model.Position)</dt>
-    <dd>@Html.DisplayFor(model => model.Position)</dd>
+    <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Position.ToString(), ViewLocalizer))</dd>
 </dl>
 @using (Html.BeginForm("delete", "currencies", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
 {
