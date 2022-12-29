@@ -65,41 +65,49 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#distintions" role="tab" aria-controls="distintions" aria-selected="false">Distinciones</a>
-                        </li>                        
+                        </li>
                     </ul>
                 </div>
                 <div class="card-body tab-content">
-                    <div class="row tab-pane fade show active" id="awards" role="tabpanel" aria-labelledby="awards-tab">
-                        @if (Model.AwardsToSelect != null || Model.AwardsToSelect.Count() > 0) { 
-                            @foreach (var item in Model.AwardsToSelect)
+                    <div class="tab-pane fade show active" id="awards" role="tabpanel" aria-labelledby="awards-tab">
+                        <div class="row">
+                            @if (Model.AwardsToSelect != null || Model.AwardsToSelect.Count() > 0)
                             {
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("AwardsToSelect[{0}]", selectableAwardsIndex++))
-                                </div>
+                                @foreach (var item in Model.AwardsToSelect)
+                                {
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("AwardsToSelect[{0}]", selectableAwardsIndex++))
+                                    </div>
+                                }
                             }
-                        }
+                        </div>
                     </div>
-                    <div class="row tab-pane fade" id="recognitions" role="tabpanel" ariaa-labelledby="recognitions-tab">
-                        @if (Model.RecognitionsToSelect != null || Model.RecognitionsToSelect.Count() > 0)
-                        {
-                            @foreach (var item in Model.RecognitionsToSelect)
+                    <div class="tab-pane fade" id="recognitions" role="tabpanel" ariaa-labelledby="recognitions-tab">
+                        <div class="row">
+                            @if (Model.RecognitionsToSelect != null || Model.RecognitionsToSelect.Count() > 0)
                             {
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("RecognitionsToSelect[{0}]", selectableRecognitionIndex++))
-                                </div>
+                                @foreach (var item in Model.RecognitionsToSelect)
+                                {
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("RecognitionsToSelect[{0}]", selectableRecognitionIndex++))
+                                    </div>
+                                }
                             }
-                        }
+                        </div>
                     </div>
-                    <div class="row tab-pane fade" id="distintions" role="tabpanel" ariaa-labelledby="distintions-tab">
-                        @if (Model.DistintionsToSelect != null || Model.DistintionsToSelect.Count() > 0)
-                        {
-                            @foreach (var item in Model.DistintionsToSelect)
+                    <div class="tab-pane fade" id="distintions" role="tabpanel" ariaa-labelledby="distintions-tab">
+                        <div class="row">
+                            @if (Model.DistintionsToSelect != null || Model.DistintionsToSelect.Count() > 0)
                             {
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("DistintionsToSelect[{0}]", selectableDisctintionIndex++))
-                                </div>
+                                @foreach (var item in Model.DistintionsToSelect)
+                                {
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("DistintionsToSelect[{0}]", selectableDisctintionIndex++))
+                                    </div>
+                                }
                             }
-                        }
+                        </div>
+
                     </div>
                 </div>
             </div>
