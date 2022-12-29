@@ -38,7 +38,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
         private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
         private readonly IEntityRepository<Resolution, Guid> resolutionRepository;
-        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Resolution, Guid> resolutionRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
+        private readonly IEntityRepository<Award, Guid> awardRepository;
+        private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
+        private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
+        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IEntityRepository<Award, Guid> awardRepository,
+            IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Resolution, Guid> resolutionRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
@@ -53,6 +57,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.serviceLineRepository = serviceLineRepository;
             this.serviceLineGroupRepository = serviceLineGroupRepository;
             this.resolutionRepository = resolutionRepository;
+            this.awardRepository = awardRepository;
+            this.distintionsRepository = distintionsRepository;
+            this.recognitionRepository = recognitionRepository;
         }
 
         [RequiresRoleBasePermission(Roles.CreationGroupViewer)]
@@ -1140,6 +1147,230 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 PopulateServiceLineSelectableGroups(child, selectedItems, groups);
             }
+        }
+
+        #endregion
+
+        #region Acknowledgments
+
+        [HttpGet]
+        [Route("edit/{key}/groupacknowledgments")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public ActionResult EditGroupAcknowledgments(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new CreationGroupInputViewModel();
+
+            PopulateAwards(entity, model.AwardsToSelect);
+
+            model.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("edit/{key}/groupRecognitions")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public ActionResult EditGroupRecognitions(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new CreationGroupInputViewModel();
+
+            PopulateRecognitions(entity, model.RecognitionsToSelect);
+
+            model.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("edit/{key}/groupDistintions")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public ActionResult EditGroupDistintions(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new CreationGroupInputViewModel();
+
+            PopulateDistintions(entity, model.DistintionsToSelect);
+
+            model.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/groupacknowledgments")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public ActionResult EditGroupAcknowledgments(Guid key, CreationGroupInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.CreationGroupAwardBridges.Clear();
+
+            foreach (var item in modelInput.AwardsToSelect)
+            {
+                if (!item.Selected) continue;
+
+                entity.CreationGroupAwardBridges.Add(new CreationGroupAwardBridge
+                {
+                    GroupId = entity.Id,
+                    AwardId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditGroupAcknowledgments", new { key = entity.Id });
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/groupRecognitions")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public ActionResult EditGroupRecognitions(Guid key, CreationGroupInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.CreationGroupRecognitionBridges.Clear();
+
+            foreach (var item in modelInput.RecognitionsToSelect)
+            {
+                if (!item.Selected) continue;
+
+                entity.CreationGroupRecognitionBridges.Add(new CreationGroupRecognitionBridge
+                {
+                    GroupId = entity.Id,
+                    RecognitionId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditGroupRecognitions", new { key = entity.Id });
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/groupDistintions")]
+        [RequiresRoleBasePermission(Roles.CreationGroupEditor)]
+        public ActionResult EditGroupDistintions(Guid key, CreationGroupInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.CreationGroupDistinctionBridges.Clear();
+
+            foreach (var item in modelInput.DistintionsToSelect)
+            {
+                if (!item.Selected) continue;
+
+                entity.CreationGroupDistinctionBridges.Add(new CreationGroupDistinctionBridge
+                {
+                    GroupId = entity.Id,
+                    DistinctionId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditGroupDistintions", new { key = entity.Id });
+        }
+
+        private void PopulateAwards(CreationGroup entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
+        {
+            var awads = awardRepository.GetAll();
+
+
+            if (awads.Count() > 0)
+            {
+                awardsForSelecting.AddRange(awads.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.CreationGroupAwardBridges.Any(a => a.AwardId == item.Id),
+                    Description = item.Country.Name
+                }));
+            }
+
+        }
+
+        private void PopulateRecognitions(CreationGroup entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
+        {
+            var recognitions = recognitionRepository.GetAll();
+
+            if (recognitions.Count() > 0)
+            {
+                awardsForSelecting.AddRange(recognitions.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.CreationGroupRecognitionBridges.Any(a => a.RecognitionId == item.Id),
+                    Description = String.IsNullOrWhiteSpace(item.Description) ? "Sin Descripción" : item.Description
+                }));
+            }
+
+        }
+
+        private void PopulateDistintions(CreationGroup entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
+        {
+            var distintions = distintionsRepository.GetAll();
+
+            if (distintions.Count() > 0)
+            {
+                awardsForSelecting.AddRange(distintions.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.CreationGroupDistinctionBridges.Any(a => a.DistinctionId == item.Id),
+                    Description = String.IsNullOrWhiteSpace(item.Description) ? "Sin Descripción" : item.Description
+                }));
+            }
+
         }
 
         #endregion
