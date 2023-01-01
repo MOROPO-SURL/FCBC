@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class DistinctionDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Distinction, Guid>
+    public class DistinctionDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Distinction, Guid>
     {
         public Guid Id { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtisticManifestationInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ArtisticManifestation, System.Guid>
+    public class ArtisticManifestationInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<ArtisticManifestation, System.Guid>
     {
         public System.Guid Id { get ; set; }
 

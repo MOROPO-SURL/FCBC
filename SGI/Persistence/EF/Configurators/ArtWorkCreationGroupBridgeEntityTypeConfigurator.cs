@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 {
-    public class ArtWorkCreationGroupBridgeEntityTypeConfigurator : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Entities.ArtWorkCreationGroupBridge>
+    public class ArtWorkCreationGroupBridgeEntityTypeConfigurator : SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Entities.ArtWorkCreationGroupBridge>
     {
         protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Entities.ArtWorkCreationGroupBridge> entityTypeBuilder)
         {

@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Currency : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<int>
+    public class Currency : SAPRESSC.Core.Persistence.Entities.INamedEntity<int>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public int Id { get; set; }

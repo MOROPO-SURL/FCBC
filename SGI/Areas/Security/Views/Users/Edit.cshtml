@@ -1,6 +1,6 @@
-﻿@using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
+﻿@using MOROPO.SAPRESSC.Core.Common.Models.View;
 
-@model SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Models.View.UserInputViewModel
+@model MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Backend.Models.View.UserInputViewModel
 
 @{
     ViewData["Title"] = "Modificar Usuario";
@@ -73,14 +73,14 @@
             </div>
 
             <fieldset style="margin-bottom: 20px;">
-                <legend>@Html.LabelFor(model => model.SelectableGroups)</legend>
+                <legend>@Html.LabelFor(model => model.SelectableRoles)</legend>
                 <div class="row">
-                @if (Model.SelectableGroups != null && Model.SelectableGroups.Count() > 0)
+                @if (Model.SelectableRoles != null && Model.SelectableRoles.Count() > 0)
                 {
-                    for (int i = 0; i < Model.SelectableGroups.Count(); i++)
+                    for (int i = 0; i < Model.SelectableRoles.Count(); i++)
                     {
                         <div class="col-md-6">
-                            @Html.EditorFor(subModel => subModel.SelectableGroups[i], "SelectionDescriptedGuidIDItemInputViewModel")
+                            @Html.EditorFor(subModel => subModel.SelectableRoles[i], "SelectionDescriptedGuidIDItemInputViewModel")
                         </div>
                     }
                 }

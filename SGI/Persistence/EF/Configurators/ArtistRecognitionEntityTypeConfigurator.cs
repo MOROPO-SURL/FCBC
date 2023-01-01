@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 {
-    public class ArtistRecognitionEntityTypeConfigurator: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<ArtistRecognitionBridge>
+    public class ArtistRecognitionEntityTypeConfigurator: SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<ArtistRecognitionBridge>
     {
         protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<ArtistRecognitionBridge> entityTypeBuilder)
         {

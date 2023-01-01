@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ServiceDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<InstitutionalService, System.Guid>
+    public class ServiceDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<InstitutionalService, System.Guid>
     {
         public System.Guid Id { get; set; }
 

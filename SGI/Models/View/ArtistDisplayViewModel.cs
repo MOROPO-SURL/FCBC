@@ -1,8 +1,8 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Persistence.Enumerations;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtistDisplayViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Artist, System.Guid>
+    public class ArtistDisplayViewModel: SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Artist, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -25,13 +25,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string LastName { get; set; }
 
         [Display(Name = "BornDate")]
-        public System.DateTime BornDate { get; set; }
+        public System.DateTime? BornDate { get; set; }
 
         [Display(Name = "Sex")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
 
         [Display(Name = "CivilStatus")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
 
         [Display(Name = "Stage name")]
         public string Alias { get; set; }

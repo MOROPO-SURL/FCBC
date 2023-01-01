@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 {
-    public class AssociationEntityTypeConfigurator : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Association>
+    public class AssociationEntityTypeConfigurator : SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Association>
     {
         protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Association> entityTypeBuilder)
         {

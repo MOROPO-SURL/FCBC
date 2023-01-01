@@ -1,7 +1,7 @@
-﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Models.View.GroupInputViewModel
+﻿@model MOROPO.SAPRESSC.Core.Security.Common.Web.Backend.Models.View.RoleInputViewModel
 
 @{
-    ViewData["Title"] = "Agregar Rol";
+    ViewData["Title"] = "Modificar Rol";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -24,9 +24,11 @@
     Layout = "_BackendLayout";
 }
 
-@using (Html.BeginForm("create", "groups", new { Area = "security" }, FormMethod.Post, true, null))
+@using (Html.BeginForm("edit", "roles", new { Area = "security", key = string.Empty }, FormMethod.Post, true, null))
 {
     @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.Id)
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
@@ -46,23 +48,32 @@
                 @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
             </div>
 
-            @if (Model.SelectableRoles != null && Model.SelectableRoles.Count() > 0)
-                {
-                    int count = Model.SelectableRoles.Count();
+            @if (Model.GroupedSelectablePermissions.Length > 0 || Model.UngroupedSelectablePermissions.Length > 0)
+            {
+                var index = 0;
 
-                    for (int i = 0; i < count; i += 2)
+                <div class="row">
+                    @foreach (var item in Model.UngroupedSelectablePermissions)
                     {
-                    <div class="row">
                         <div class="col-md-6">
-                            @Html.EditorFor(subModel => subModel.SelectableRoles[i], "SelectionDescriptedIntIDItemInputViewModel")
+                            @Html.EditorFor(model => item, "SelectionDescriptedIntIDItemInputViewModel", string.Format("UngroupedSelectablePermissions[{0}]", index++))
                         </div>
-                        @if (i + 1 < count)
-                        {
-                            <div class="col-md-6">
-                                @Html.EditorFor(subModel => subModel.SelectableRoles[i + 1], "SelectionDescriptedIntIDItemInputViewModel")
-                            </div>
-                        }
-                    </div>
+                    }
+                </div>
+
+                foreach (var group in Model.GroupedSelectablePermissions)
+                {
+                    <fieldset>
+                        <legend class="border-bottom">@GlobalViewLocalizationHelper.Localize(group.Key)</legend>
+                        <div class="row">
+                            @foreach (var item in group.Value)
+                            {
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => item, "SelectionDescriptedIntIDItemInputViewModel", string.Format("UngroupedSelectablePermissions[{0}]", index++))
+                                </div>
+                            }
+                        </div>
+                    </fieldset>
                 }
             }
             else
@@ -71,8 +82,8 @@
             }
         </div>
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Agregar</button>
-            <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
         </div>
     </div>
 }

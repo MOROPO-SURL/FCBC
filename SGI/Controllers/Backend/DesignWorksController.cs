@@ -4,20 +4,19 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using MOROPO.SAPRESSC.Core.Common.Models.View;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System.Linq;
-using System;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("works")]
-    public class DesignWorksController : SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<DesignWork, System.Guid, DesignWorkInputViewModel, DesignWorkDisplayViewModel>
+    public class DesignWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<DesignWork, System.Guid, DesignWorkInputViewModel, DesignWorkDisplayViewModel>
     {
 
         private readonly IEntityRepository<DesignManifestation, System.Guid> manifestationRepository;
@@ -25,7 +24,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IImageFileManagerFacade imageFileManager;
 
-        public DesignWorksController(IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<DesignWork, Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
+        public DesignWorksController(IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<DesignWork, System.Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.currencyRepository = currencyRepository;
@@ -33,43 +32,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.imageFileManager = imageFileManager;
         }
 
-        [RequiresRoleBasePermission(Roles.DesignWorkViewer)]
+        [RequirePermissions(Permission.DesignWorkViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.DesignWorkCreator)]
+        [RequirePermissions(Permission.DesignWorkCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.DesignWorkCreator)]
+        [RequirePermissions(Permission.DesignWorkCreator)]
         public override IActionResult Create(DesignWorkInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignWorkEditor)]
+        [RequirePermissions(Permission.DesignWorkEditor)]
         public override IActionResult Edit(System.Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignWorkEditor)]
+        [RequirePermissions(Permission.DesignWorkEditor)]
         public override IActionResult Edit(DesignWorkInputViewModel inputModel)
         {
             return base.Edit(inputModel);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignWorkRemover)]
+        [RequirePermissions(Permission.DesignWorkRemover)]
         public override IActionResult Delete(System.Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignWorkRemover)]
+        [RequirePermissions(Permission.DesignWorkRemover)]
         public override IActionResult Delete(DesignWorkDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);
@@ -145,7 +144,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/images")]
-        [RequiresRoleBasePermission(Roles.DesignWorkEditor)]
+        [RequirePermissions(Permission.DesignWorkEditor)]
         public ActionResult EditImages(System.Guid key)
         {
             var entity = Repository.Get(key);
@@ -174,7 +173,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/images/add")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.DesignWorkEditor)]
+        [RequirePermissions(Permission.DesignWorkEditor)]
         public IActionResult AddImage(System.Guid key, Microsoft.AspNetCore.Http.IFormFile imageFile)
         {
             try
@@ -210,7 +209,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                         return RedirectToAction("editimages", new { key = entity.Id });
                     }
-                    catch (SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
                     {
                         ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
                     }
@@ -233,7 +232,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/images/delete")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.DesignWorkEditor)]
+        [RequirePermissions(Permission.DesignWorkEditor)]
         public IActionResult DeleteImage(System.Guid key, System.Guid imageId)
         {
             try

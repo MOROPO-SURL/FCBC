@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.Filter;
+using MOROPO.SAPRESSC.Core.Persistence.Models.Filter;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.Filter

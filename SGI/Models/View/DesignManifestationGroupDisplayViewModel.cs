@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class DesignManifestationGroupDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.DesignManifestationGroup, System.Guid>
+    public class DesignManifestationGroupDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.DesignManifestationGroup, System.Guid>
     {
         public System.Guid Id { get; set; }
 

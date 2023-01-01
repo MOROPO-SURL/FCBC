@@ -1,14 +1,13 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using System;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ContractorDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Contractor, System.Guid>
+    public class ContractorDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Contractor, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -23,7 +22,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string OrganizationIdentityName { get; set; }
 
         [Display(Name = "Founding date")]
-        public DateTime BornDate { get; set; }
+        public System.DateTime? BornDate { get; set; }
 
         [Display(Name = "About")]
         public string About { get; set; }

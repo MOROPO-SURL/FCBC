@@ -8,6 +8,6 @@
 
         public System.Guid ImageId { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image Image { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image Image { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ThematicInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Thematic, System.Guid>
+    public class ThematicInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<Thematic, System.Guid>
     {
         public System.Guid Id { get ; set ; }
 

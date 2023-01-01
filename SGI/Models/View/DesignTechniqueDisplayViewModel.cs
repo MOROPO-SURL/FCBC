@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class DesignTechniqueDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.DesignTechnique, System.Guid>
+    public class DesignTechniqueDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.DesignTechnique, System.Guid>
     {
         public System.Guid Id { get; set; }
 

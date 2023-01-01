@@ -4,7 +4,7 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.Filter
 {
-    public class ArtistFilterModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<Artist, System.Guid>
+    public class ArtistFilterModel: SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<Artist, System.Guid>
     {
         public string Id { get; set; }
         public Expression<Func<Artist, bool>> GetSelector()

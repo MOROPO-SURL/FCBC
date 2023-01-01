@@ -5,58 +5,57 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using System;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
-    public class MaterialsController : SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<Material, System.Guid, MaterialInputViewModel, MaterialDisplayViewModel>
+    public class MaterialsController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<Material, System.Guid, MaterialInputViewModel, MaterialDisplayViewModel>
     {
-        public MaterialsController(IEntityRepository<Material, Guid> repository, IStringLocalizer<MaterialsController> localizer, ILogger<MaterialsController> logger) : base(repository, localizer, logger)
+        public MaterialsController(IEntityRepository<Material, System.Guid> repository, IStringLocalizer<MaterialsController> localizer, ILogger<MaterialsController> logger) : base(repository, localizer, logger)
         {
         }
 
-        [RequiresRoleBasePermission(Roles.MaterialViewer)]
+        [RequirePermissions(Permission.MaterialViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.MaterialCreator)]
+        [RequirePermissions(Permission.MaterialCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.MaterialCreator)]
+        [RequirePermissions(Permission.MaterialCreator)]
         public override IActionResult Create(MaterialInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.MaterialEditor)]
-        public override IActionResult Edit(Guid key)
+        [RequirePermissions(Permission.MaterialEditor)]
+        public override IActionResult Edit(System.Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.MaterialEditor)]
+        [RequirePermissions(Permission.MaterialEditor)]
         public override IActionResult Edit(MaterialInputViewModel inputViewModel)
         {
             return base.Edit(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.MaterialRemover)]
-        public override IActionResult Delete(Guid key)
+        [RequirePermissions(Permission.MaterialRemover)]
+        public override IActionResult Delete(System.Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.MaterialRemover)]
+        [RequirePermissions(Permission.MaterialRemover)]
         public override IActionResult Delete(MaterialDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);

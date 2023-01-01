@@ -1,4 +1,4 @@
-﻿@using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
 @using MOROPO.FCBC.SGI.Persistence.Enumerations;
 
 @model MOROPO.FCBC.SGI.Models.View.ArtistInputViewModel
@@ -48,7 +48,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.BornDate.ToShortDateString()'
+            value: '@Model.BornDate?.ToShortDateString()'
         });
 
         $('#RegistrationEndAt').datepicker({

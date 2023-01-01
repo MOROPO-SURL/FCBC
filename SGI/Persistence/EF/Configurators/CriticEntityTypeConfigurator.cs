@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 {
-    public class CriticEntityTypeConfigurator : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Critic>
+    public class CriticEntityTypeConfigurator : SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Critic>
     {
         protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Critic> entityTypeBuilder)
         {

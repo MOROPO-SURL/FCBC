@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class DistinctionInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Distinction, Guid>
+    public class DistinctionInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<Distinction, Guid>
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]

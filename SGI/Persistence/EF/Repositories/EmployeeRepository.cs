@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class EmployeeRepository: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Employee, System.Guid>
+    public class EmployeeRepository: SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Employee, System.Guid>
     {
         public EmployeeRepository(DbContext dbContext) : base(dbContext)
         {

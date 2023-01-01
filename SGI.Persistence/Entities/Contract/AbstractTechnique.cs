@@ -1,7 +1,7 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.Entities.Contract
 {
     [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-    public abstract class AbstractTechnique : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
+    public abstract class AbstractTechnique : SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }

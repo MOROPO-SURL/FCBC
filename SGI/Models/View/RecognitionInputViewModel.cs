@@ -5,7 +5,7 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class RecognitionInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Recognition, Guid>
+    public class RecognitionInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<Recognition, Guid>
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]

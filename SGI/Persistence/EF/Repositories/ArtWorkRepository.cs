@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class ArtWorkRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.ArtWork, System.Guid>
+    public class ArtWorkRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.ArtWork, System.Guid>
     {
         public ArtWorkRepository(DbContext dbContext) : base(dbContext)
         {

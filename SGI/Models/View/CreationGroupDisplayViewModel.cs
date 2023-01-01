@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CreationGroupDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<CreationGroup, System.Guid>
+    public class CreationGroupDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<CreationGroup, System.Guid>
     {
         public System.Guid Id { get; set; }
 

@@ -9,24 +9,23 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using MOROPO.FCBC.SGI.Extensions;
-using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
-using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using MOROPO.SAPRESSC.Core.Common.Models.View;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("institution")]
     public class ArtistsController : AbstractEntityManagementFilteredController<Artist, Guid, ArtistInputViewModel, ArtistDisplayViewModel, ArtistFilterModel>
     {
@@ -94,13 +93,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.distintionsRepository = distintionsRepository;
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistViewer)]
+        [RequirePermissions(Permission.ArtistViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistViewer)]
+        [RequirePermissions(Permission.ArtistViewer)]
         public override IActionResult Filter(ArtistFilterModel filterModel)
         {
             return base.Filter(filterModel);
@@ -111,13 +110,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return "artist-management-filter";
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistCreator)]
+        [RequirePermissions(Permission.ArtistCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistCreator)]
+        [RequirePermissions(Permission.ArtistCreator)]
         public override IActionResult Create(ArtistInputViewModel inputViewModel)
         {
             if (inputViewModel.AssociationId != null)
@@ -148,13 +147,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public override IActionResult Edit(Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public override IActionResult Edit(ArtistInputViewModel inputViewModel)
         {
             ModelState.ClearValidationState("ImageFile");
@@ -186,13 +185,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Edit(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistRemover)]
+        [RequirePermissions(Permission.ArtistRemover)]
         public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtistRemover)]
+        [RequirePermissions(Permission.ArtistRemover)]
         public override IActionResult Delete(ArtistDisplayViewModel displayViewModel)
         {
             return base.Delete(displayViewModel);
@@ -407,7 +406,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [Route("edit/{key}/contacts")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public IActionResult Contacts(System.Guid key)
         {
             try
@@ -450,14 +449,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
 
         [Route("artists/{key}/print")]
-        [RequiresRoleBasePermission(Roles.ArtistViewer)]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistViewer)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public IActionResult Print(System.Guid key)
         {
             try
@@ -519,13 +518,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
 
         [Route("edit/contacts/phone/add")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddPhoneContact(ArtistPhoneContactInputViewModel modelInput)
@@ -540,7 +539,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -551,7 +550,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -567,14 +566,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
         }
 
         [Route("edit/contacts/phone/delete")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePhoneContact(ArtistPhoneContactDisplayViewModel modelDisplay)
@@ -589,7 +588,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -602,13 +601,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
             catch (System.Exception e)
             {
@@ -619,7 +618,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [Route("edit/contacts/email/add")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddEmailContact(ArtistEmailContactInputViewModel modelInput)
@@ -634,7 +633,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -645,7 +644,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -661,14 +660,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
         }
 
         [Route("edit/contacts/email/delete")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteEmailContact(ArtistEmailContactDisplayViewModel modelDisplay)
@@ -683,7 +682,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -696,13 +695,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
             catch (System.Exception e)
             {
@@ -790,7 +789,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/artisticmanifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public ActionResult EditArtisticManifestations(Guid key)
         {
             var entity = Repository.Get(key);
@@ -824,7 +823,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/craftmanifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public ActionResult EditCraftManifestations(Guid key)
         {
             var entity = Repository.Get(key);
@@ -858,7 +857,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/designmanifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public ActionResult EditDesignManifestations(Guid key)
         {
             var entity = Repository.Get(key);
@@ -892,7 +891,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/servicelines")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public ActionResult EditServiceLines(Guid key)
         {
             var entity = Repository.Get(key);
@@ -926,7 +925,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpPost]
         [Route("edit/{key}/artisticmanifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [ValidateAntiForgeryToken]
         public IActionResult EditArtisticManifestations(Guid key, ArtistArtisticManisfestationsInputViewModel modelInput)
         {
@@ -967,7 +966,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpPost]
         [Route("edit/{key}/craftmanifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [ValidateAntiForgeryToken]
         public IActionResult EditCraftManifestations(Guid key, ArtistCraftManisfestationsInputViewModel modelInput)
         {
@@ -1008,7 +1007,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpPost]
         [Route("edit/{key}/designmanifestations")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [ValidateAntiForgeryToken]
         public IActionResult EditDesignManifestations(Guid key, ArtistDesignManisfestationsInputViewModel modelInput)
         {
@@ -1049,7 +1048,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpPost]
         [Route("edit/{key}/servicelines")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [ValidateAntiForgeryToken]
         public IActionResult EditServiceLines(Guid key, ArtistServiceLinesInputViewModel modelInput)
         {
@@ -1186,7 +1185,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/artisticacknowledgments")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public ActionResult EditArtisticAcknowledgments(Guid key)
         {
             var entity = Repository.Get(key);
@@ -1204,7 +1203,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpPost]
         [Route("edit/{key}/artisticacknowledgments")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         public ActionResult EditArtisticAcknowledgments(Guid key, ArtistInputViewModel modelInput)
         {
             Artist entity = null;
@@ -1321,7 +1320,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         #endregion
 
         [Route("edit/contacts/social/add")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddSocialContact(ArtistSocialContactInputViewModel modelInput)
@@ -1336,7 +1335,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -1347,7 +1346,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -1363,14 +1362,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
         }
 
         [Route("edit/contacts/social/delete")]
-        [RequiresRoleBasePermission(Roles.ArtistEditor)]
+        [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteSocialContact(ArtistSocialContactDisplayViewModel modelDisplay)
@@ -1385,7 +1384,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -1398,13 +1397,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
             catch (System.Exception e)
             {

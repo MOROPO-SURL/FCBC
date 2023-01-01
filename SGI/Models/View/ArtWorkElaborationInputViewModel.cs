@@ -4,8 +4,8 @@
     {
         public ArtWorkDisplayViewModel Work { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[] TechniqueSelectors { get; set; }
+        public SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[] TechniqueSelectors { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[] MaterialSelectors { get; set; }
+        public SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[] MaterialSelectors { get; set; }
     }
 }

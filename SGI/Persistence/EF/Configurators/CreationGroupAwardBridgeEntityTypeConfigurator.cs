@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 {
-    public class CreationGroupAwardBridgeEntityTypeConfigurator: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<CreationGroupAwardBridge>
+    public class CreationGroupAwardBridgeEntityTypeConfigurator: SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<CreationGroupAwardBridge>
     {
         protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<CreationGroupAwardBridge> entityTypeBuilder)
         {

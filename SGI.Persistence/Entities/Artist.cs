@@ -2,12 +2,12 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Artist : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    public class Artist : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
         public Artist()
         {
             Id = System.Guid.NewGuid();
-            Identity = new SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity();
+            Identity = new SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity();
             ArtisticManifestationBridges = new List<ArtistArtisticManifestationBridge>();
             CraftManifestationBridges = new List<ArtistCraftManifestationBridge>();
             DesignManifestationBridges = new List<ArtistDesignManifestationBridge>();
@@ -24,7 +24,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public System.Guid Id { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("IdentityId")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity Identity { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity Identity { get; set; }
         public System.Guid IdentityId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Required]
@@ -34,7 +34,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public string BrandName { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("BrandImageId")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image BrandImage { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image BrandImage { get; set; }
         public System.Guid? BrandImageId { get; set; }
 
         public Enumerations.WorkPlace Workplace { get; set; }

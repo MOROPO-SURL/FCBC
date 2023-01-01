@@ -1,7 +1,7 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.Entities.Contract
 {
     [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-    public abstract class AbstractWork : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    public abstract class AbstractWork : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
@@ -14,7 +14,7 @@
         public string About { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("FeatureImageId")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
         public System.Guid? FeatureImageId { get; set; }
 
         public decimal? Price { get; set; }

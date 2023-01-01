@@ -1,13 +1,13 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Web.Backend.Models.View;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Web.Backend.Models.View;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class AwardDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Award, Guid>
+    public class AwardDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Award, Guid>
     {
         public AwardDisplayViewModel()
         {

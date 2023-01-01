@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class DesignManifestationGroup : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
+    public class DesignManifestationGroup : SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }

@@ -1,42 +1,38 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
-using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("institution")]
-    public class EmployeesController : AbstractEntityManagementFilteredController<Employee, System.Guid, EmployeeInputViewModel, EmployeeDisplayViewModel, EmployeeFilterModel>
+    public class EmployeesController : AbstractEntityManagementFilteredController<Employee, Guid, EmployeeInputViewModel, EmployeeDisplayViewModel, EmployeeFilterModel>
     {
         private readonly IImageFileManagerFacade imageFileManagerFacade;
-        private readonly IEntityRepository<Image, System.Guid> imageRepository;
-        private readonly IEntityRepository<PersonIdentity, System.Guid> identityRepository;
-        private readonly IEntityRepository<AdministrativeRole, System.Guid> administrativeRoleRepository;
+        private readonly IEntityRepository<Image, Guid> imageRepository;
+        private readonly IEntityRepository<PersonIdentity, Guid> identityRepository;
+        private readonly IEntityRepository<AdministrativeRole, Guid> administrativeRoleRepository;
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<State, Guid> stateRepository;
         private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
 
-        public EmployeesController(IEntityRepository<PersonIdentity, System.Guid> identityRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Employee,System.Guid> repository, IEntityRepository<AdministrativeRole, System.Guid> administrativeRoleRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository,
+        public EmployeesController(IEntityRepository<PersonIdentity, Guid> identityRepository, IEntityRepository<Image, Guid> imageRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Employee, Guid> repository, IEntityRepository<AdministrativeRole, Guid> administrativeRoleRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository,
         IStringLocalizer<EmployeesController> localizer, ILogger<EmployeesController> logger) : base(repository, localizer, logger)
         {
             this.imageFileManagerFacade = imageFileManagerFacade;
@@ -48,13 +44,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.municipalityRepository = municipalityRepository;
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeViewer)]
+        [RequirePermissions(Permission.EmployeeViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.CriticViewer)]
+        [RequirePermissions(Permission.CriticViewer)]
         public override IActionResult Filter(EmployeeFilterModel filterModel)
         {
             return base.Filter(filterModel);
@@ -65,13 +61,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return "employee-management-filter";
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeCreator)]
+        [RequirePermissions(Permission.EmployeeCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeCreator)]
+        [RequirePermissions(Permission.EmployeeCreator)]
         public override IActionResult Create(EmployeeInputViewModel inputViewModel)
         {
             if (Request.Form.Files.Count > 0)
@@ -92,13 +88,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         public override IActionResult Edit( System.Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         public override IActionResult Edit(EmployeeInputViewModel inputViewModel)
         {
             ModelState.ClearValidationState("ImageFile");
@@ -120,13 +116,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Edit(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeRemover)]
+        [RequirePermissions(Permission.EmployeeRemover)]
         public override IActionResult Delete(System.Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeRemover)]
+        [RequirePermissions(Permission.EmployeeRemover)]
         public override IActionResult Delete(EmployeeDisplayViewModel displayViewModel)
         {
             return base.Delete(displayViewModel);
@@ -318,7 +314,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [Route("edit/{key}/contacts")]
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         public IActionResult Contacts(System.Guid key)
         {
             try
@@ -353,13 +349,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
 
         [Route("edit/contacts/phone/add")]
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddPhoneContact(EmployeePhoneContactInputViewModel modelInput)
@@ -374,7 +370,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
            
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -385,7 +381,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -401,14 +397,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
         }
 
         [Route("edit/contacts/phone/delete")]
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePhoneContact(EmployeePhoneContactDisplayViewModel modelDisplay)
@@ -423,7 +419,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -436,13 +432,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
             catch (System.Exception e)
             {
@@ -453,7 +449,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [Route("edit/contacts/email/add")]
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddEmailContact(EmployeeEmailContactInputViewModel modelInput)
@@ -468,7 +464,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -479,7 +475,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -495,14 +491,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
         }
 
         [Route("edit/contacts/email/delete")]
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteEmailContact(EmployeeEmailContactDisplayViewModel modelDisplay)
@@ -517,7 +513,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -530,13 +526,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
             catch (System.Exception e)
             {
@@ -548,7 +544,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
 
         [Route("edit/{key}/administrativeroles")]
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         public IActionResult AdministrativeRoles(System.Guid key)
         {
             try
@@ -559,7 +555,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 var resultModel = new EmployeeAdministrativeRolesInputViewModel
                 {
-                    SelectableRoles = roles.Select(role => new SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
+                    SelectableRoles = roles.Select(role => new SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
                     {
                         Id = role.Id,
                         Label = role.Name,
@@ -577,12 +573,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
 
-        [RequiresRoleBasePermission(Roles.EmployeeEditor)]
+        [RequirePermissions(Permission.EmployeeEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddadministrativeRoles(EmployeeAdministrativeRolesInputViewModel modelInput)
@@ -597,7 +593,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -617,7 +613,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -633,7 +629,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("administrativeroles", new { key = entity.Id });

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class ArtistRepository: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Artist, System.Guid>
+    public class ArtistRepository: SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Artist, System.Guid>
     {
         public ArtistRepository(DbContext dbContext) : base(dbContext)
         {

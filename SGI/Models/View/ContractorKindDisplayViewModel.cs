@@ -3,7 +3,7 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ContractorKindDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<ContractorKind, int>
+    public class ContractorKindDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<ContractorKind, int>
     {
         public int Id { get; set; }
 

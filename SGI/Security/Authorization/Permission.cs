@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Security.Authorization
 {
-    public static class Roles
+    public static class Permission
     {
         public const string TraceViewer = "security-trace-viewer";
 

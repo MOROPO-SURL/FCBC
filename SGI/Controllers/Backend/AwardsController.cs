@@ -5,18 +5,17 @@ using Microsoft.Extensions.Localization;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Web.Backend.Models.View;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
     public class AwardsController : AbstractEntityManagementController<Award, Guid, AwardInputViewModel, AwardDisplayViewModel>
     {
@@ -28,43 +27,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             
         }
 
-        [RequiresRoleBasePermission(Roles.AwardViewer)]
+        [RequirePermissions(Permission.AwardViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.AwardCreator)]
+        [RequirePermissions(Permission.AwardCreator)]
         public override IActionResult Create()
         {       
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.AwardCreator)]
+        [RequirePermissions(Permission.AwardCreator)]
         public override IActionResult Create(AwardInputViewModel inputViewModel)
         {     
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.AwardEditor)]
+        [RequirePermissions(Permission.AwardEditor)]
         public override IActionResult Edit(Guid key)
         {                       
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.AwardEditor)]
+        [RequirePermissions(Permission.AwardEditor)]
         public override IActionResult Edit(AwardInputViewModel inputModel)
         {
             return base.Edit(inputModel);
         }
 
-        [RequiresRoleBasePermission(Roles.AwardRemover)]
+        [RequirePermissions(Permission.AwardRemover)]
         public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.AwardRemover)]
+        [RequirePermissions(Permission.AwardRemover)]
         public override IActionResult Delete(AwardDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);

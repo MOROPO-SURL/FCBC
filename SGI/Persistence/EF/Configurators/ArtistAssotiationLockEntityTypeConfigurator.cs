@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 {
-    public class ArtistAssotiationLockEntityTypeConfigurator : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Entities.ArtistAssociationLock>
+    public class ArtistAssotiationLockEntityTypeConfigurator : SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Entities.ArtistAssociationLock>
     {
         protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Entities.ArtistAssociationLock> entityTypeBuilder)
         {

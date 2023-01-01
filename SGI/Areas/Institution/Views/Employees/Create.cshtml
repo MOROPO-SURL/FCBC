@@ -1,4 +1,4 @@
-﻿@using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
 
 @model MOROPO.FCBC.SGI.Models.View.EmployeeInputViewModel
 
@@ -49,7 +49,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.BornDate.ToShortDateString()'
+            value: '@Model.BornDate?.ToShortDateString()'
         });
 
         $(function () {

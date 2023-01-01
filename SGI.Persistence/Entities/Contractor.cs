@@ -1,18 +1,18 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Contractor : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    public class Contractor : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
         public Contractor()
         {
             Id = System.Guid.NewGuid();
-            Identity = new SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity();
+            Identity = new SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("IdentityId")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity Identity { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity Identity { get; set; }
         public System.Guid IdentityId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ContractorKindId")]

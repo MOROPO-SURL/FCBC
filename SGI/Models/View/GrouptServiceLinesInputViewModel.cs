@@ -6,13 +6,13 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public CreationGroupDisplayViewModel Group { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[] UngroupManifestations { get; set; }
+        public SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[] UngroupManifestations { get; set; }
 
-        public Dictionary<Persistence.Entities.ServiceLineGroup, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]> SelectGroups { get; set; }
+        public Dictionary<Persistence.Entities.ServiceLineGroup, SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]> SelectGroups { get; set; }
 
         public GrouptServiceLinesInputViewModel()
         {
-            SelectGroups = new Dictionary<Persistence.Entities.ServiceLineGroup, SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]>();
+            SelectGroups = new Dictionary<Persistence.Entities.ServiceLineGroup, SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]>();
         }
     }
 }

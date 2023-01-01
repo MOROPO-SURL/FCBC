@@ -4,7 +4,7 @@ using System;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class RecognitionDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Recognition, Guid>
+    public class RecognitionDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Recognition, Guid>
     {
         public Guid Id { get; set; }
 

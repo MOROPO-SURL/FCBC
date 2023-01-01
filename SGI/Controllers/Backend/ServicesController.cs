@@ -5,14 +5,15 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("institution")]
     public class ServicesController : AbstractEntityManagementController<InstitutionalService, Guid, ServiceInputViewModel, ServiceDisplayViewModel>
     {
@@ -20,43 +21,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceViewer)]
+        [RequirePermissions(Permission.ServiceViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceCreator)]
+        [RequirePermissions(Permission.ServiceCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceCreator)]
+        [RequirePermissions(Permission.ServiceCreator)]
         public override IActionResult Create(ServiceInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceEditor)]
+        [RequirePermissions(Permission.ServiceEditor)]
         public override IActionResult Edit(Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceEditor)]
+        [RequirePermissions(Permission.ServiceEditor)]
         public override IActionResult Edit(ServiceInputViewModel inputModel)
         {
             return base.Edit(inputModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceRemover)]
+        [RequirePermissions(Permission.ServiceRemover)]
         public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceRemover)]
+        [RequirePermissions(Permission.ServiceRemover)]
         public override IActionResult Delete(ServiceDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);

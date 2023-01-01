@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtWorkInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ArtWork, System.Guid>
+    public class ArtWorkInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<ArtWork, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -51,7 +51,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string FeatureImageExtenion { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image[] AvailableImages { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image[] AvailableImages { get; set; }
 
         [Display(Name = "Height")]
         public decimal? Height { get; set; }

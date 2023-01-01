@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ContractorKindInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ContractorKind, int>
+    public class ContractorKindInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<ContractorKind, int>
     {
         public int Id { get ; set; }
 

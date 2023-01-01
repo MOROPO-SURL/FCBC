@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class UnitMeasurementDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<UnitMeasurement, System.Guid>
+    public class UnitMeasurementDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<UnitMeasurement, System.Guid>
     {
         public Guid Id { get; set; }
 

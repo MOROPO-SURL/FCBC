@@ -1,14 +1,11 @@
 ﻿
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CriticDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Critic, System.Guid>
+    public class CriticDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Critic, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -23,13 +20,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string LastName { get; set; }
 
         [Display(Name = "BornDate")]
-        public System.DateTime BornDate { get; set; }
+        public System.DateTime? BornDate { get; set; }
 
         [Display(Name = "Sex")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
 
         [Display(Name = "CivilStatus")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
 
         [Display(Name = "Alias")]
         public string Alias { get; set; }

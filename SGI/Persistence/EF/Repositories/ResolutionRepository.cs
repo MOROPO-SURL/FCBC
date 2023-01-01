@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class ResolutionRepository: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.Resolution, System.Guid>
+    public class ResolutionRepository: SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.Resolution, System.Guid>
     {
         public ResolutionRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
         {

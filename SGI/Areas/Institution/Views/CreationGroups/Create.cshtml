@@ -45,7 +45,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.CreateDate.ToShortDateString()'
+            value: '@Model.CreateDate?.ToShortDateString()'
         });
 
         $('#RegistrationEndAt').datepicker({

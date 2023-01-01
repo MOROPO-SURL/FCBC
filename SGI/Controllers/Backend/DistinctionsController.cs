@@ -5,14 +5,15 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
     public class DistinctionsController : AbstractEntityManagementController<Distinction, Guid, DistinctionInputViewModel, DistinctionDisplayViewModel>
     {
@@ -20,43 +21,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
         }
 
-        [RequiresRoleBasePermission(Roles.DistinctionViewer)]
+        [RequirePermissions(Permission.DistinctionViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.DistinctionCreator)]
+        [RequirePermissions(Permission.DistinctionCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.DistinctionCreator)]
+        [RequirePermissions(Permission.DistinctionCreator)]
         public override IActionResult Create(DistinctionInputViewModel inputViewModel)
         {
            return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.DistinctionEditor)]
+        [RequirePermissions(Permission.DistinctionEditor)]
         public override IActionResult Edit(Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.DistinctionEditor)]
+        [RequirePermissions(Permission.DistinctionEditor)]
         public override IActionResult Edit(DistinctionInputViewModel inputViewModel)
         {
             return base.Edit(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.DistinctionRemover)]
+        [RequirePermissions(Permission.DistinctionRemover)]
         public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.DistinctionRemover)]
+        [RequirePermissions(Permission.DistinctionRemover)]
         public override IActionResult Delete(DistinctionDisplayViewModel displayViewModel)
         {
            return base.Delete(displayViewModel);

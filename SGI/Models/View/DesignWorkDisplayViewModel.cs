@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class DesignWorkDisplayViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.DesignWork, System.Guid>
+    public class DesignWorkDisplayViewModel: SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.DesignWork, System.Guid>
     {
         public Guid Id { get; set; }
 
@@ -12,9 +12,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public DesignManifestationDisplayViewModel Manifestation { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image[] Images { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image[] Images { get; set; }
 
         public DesignTechniqueDisplayViewModel[] Techniques { get; set; }
 

@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using MOROPO.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CreationGroupInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<CreationGroup, System.Guid>
+    public class CreationGroupInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<CreationGroup, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -38,7 +38,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public System.Guid? ResolutionId { get; set; }
 
         [Display(Name = "Fecha de Creación")]
-        public System.DateTime CreateDate { get; set; } = System.DateTime.Now.Date.AddYears(-16);
+        public System.DateTime? CreateDate { get; set; } = System.DateTime.Now.Date.AddYears(-16);
 
         public ICollection<SelectListItem> Resolutions { get; set; } = new List<SelectListItem>();
 
@@ -53,9 +53,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "About")]
         public string About { get; set; }
 
-        public List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
 
 
         public CreationGroup Export()

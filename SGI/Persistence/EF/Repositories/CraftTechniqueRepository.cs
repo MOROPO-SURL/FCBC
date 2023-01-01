@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class CraftTechniqueRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.CraftTechnique, System.Guid>
+    public class CraftTechniqueRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.CraftTechnique, System.Guid>
     {
         public CraftTechniqueRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
         {

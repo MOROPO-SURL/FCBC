@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ThematicDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Thematic, System.Guid>
+    public class ThematicDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Thematic, System.Guid>
     {
         public System.Guid Id { get ; set ; }
 

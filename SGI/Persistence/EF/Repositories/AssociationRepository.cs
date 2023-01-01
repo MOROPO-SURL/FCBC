@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class AssociationRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Association, System.Guid>
+    public class AssociationRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Association, System.Guid>
     {
         public AssociationRepository(DbContext dbContext) : base(dbContext)
         {

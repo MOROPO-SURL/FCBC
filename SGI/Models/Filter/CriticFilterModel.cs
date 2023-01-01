@@ -1,4 +1,4 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.Filter;
+﻿using MOROPO.SAPRESSC.Core.Persistence.Models.Filter;
 using System.Linq.Expressions;
 using System;
 using MOROPO.FCBC.SGI.Persistence.Entities;

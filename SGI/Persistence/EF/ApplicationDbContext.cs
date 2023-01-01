@@ -1,18 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF
 {
     public class ApplicationDbContext :
-        SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.AbstractTraceableDbContext,
-        SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.EF.Context.ISecurityPersistenceModuleDbContext,
-        SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.EF.Context.IIdentityMiddlewarePersistenceDbContext
+        SAPRESSC.Core.Persistence.EF.Context.AbstractTraceableDbContext,
+        SAPRESSC.Core.Security.Common.Persistence.EF.Contract.IModulePersistenceDbContext,
+        SAPRESSC.Middleware.Security.Essential.Persistence.EF.Contract.IModulePersistenceDbContext,
+        SAPRESSC.Middleware.Identity.Persistence.EF.Context.IIdentityMiddlewarePersistenceDbContext
     {
-        public ApplicationDbContext(System.Collections.Generic.IEnumerable<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade> dbSchemaConfigurationProviders, DbContextOptions options) : base(dbSchemaConfigurationProviders, options)
+        public ApplicationDbContext(System.Collections.Generic.IEnumerable<SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade> dbSchemaConfigurationProviders, DbContextOptions options) : base(dbSchemaConfigurationProviders, options)
         {
         }
 
@@ -20,11 +22,12 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         //        public override bool TraceChanges => false;
         //#endif
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<Permission> Permissions { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserGroupBridge> UserGroupBridges { get; set; }
-        public DbSet<GroupRoleBridge> GroupRoleBridges { get; set; }
+        public DbSet<RolePermissionBridge> RolePermissionBridges { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRoleBridge> UserRoleBridges { get; set; }
 
         public DbSet<Thumbnail> Thumbnails { get; set; }
         public DbSet<Image> Images { get; set; }

@@ -5,16 +5,16 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
     public class ArtisticManifestationGroupsController : AbstractEntityManagementController<ArtisticManifestationGroup, System.Guid, ArtisticManifestationGroupInputViewModel, ArtisticManifestationGroupDisplayViewModel>
     {
@@ -22,43 +22,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
         }
 
-        [RequiresRoleBasePermission(Roles.ArtisticManifestationGroupViewer)]
+        [RequirePermissions(Permission.ArtisticManifestationGroupViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.ArtisticManifestationGroupCreator)]
+        [RequirePermissions(Permission.ArtisticManifestationGroupCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.ArtisticManifestationGroupCreator)]
+        [RequirePermissions(Permission.ArtisticManifestationGroupCreator)]
         public override IActionResult Create(ArtisticManifestationGroupInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtisticManifestationGroupEditor)]
+        [RequirePermissions(Permission.ArtisticManifestationGroupEditor)]
         public override IActionResult Edit(System.Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtisticManifestationGroupEditor)]
+        [RequirePermissions(Permission.ArtisticManifestationGroupEditor)]
         public override IActionResult Edit(ArtisticManifestationGroupInputViewModel inputModel)
         {
             return base.Edit(inputModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtisticManifestationGroupRemover)]
+        [RequirePermissions(Permission.ArtisticManifestationGroupRemover)]
         public override IActionResult Delete(System.Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtisticManifestationGroupRemover)]
+        [RequirePermissions(Permission.ArtisticManifestationGroupRemover)]
         public override IActionResult Delete(ArtisticManifestationGroupDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);

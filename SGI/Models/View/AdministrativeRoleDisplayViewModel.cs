@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class AdministrativeRoleDisplayViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<AdministrativeRole, System.Guid>
+    public class AdministrativeRoleDisplayViewModel: SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<AdministrativeRole, System.Guid>
     {
         public System.Guid Id { get; set; }
 

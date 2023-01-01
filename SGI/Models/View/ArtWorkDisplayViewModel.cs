@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtWorkDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.ArtWork, System.Guid>
+    public class ArtWorkDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.ArtWork, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -14,9 +14,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ArtisticManifestationDisplayViewModel Manifestation { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
 
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image[] Images { get; set; }
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image[] Images { get; set; }
 
         public ArtisticTechniqueDisplayViewModel[] Techniques { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ServiceWorkInputViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork, System.Guid>
+    public class ServiceWorkInputViewModel: SAPRESSC.Core.Persistence.Models.IEntityInputModel<MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork, System.Guid>
     {
         public System.Guid Id { get; set; }
 

@@ -3,19 +3,19 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using MOROPO.SAPRESSC.Core.Common.Models.View;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("works")]
-    public class ArtWorksController : SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<ArtWork, System.Guid, ArtWorkInputViewModel, ArtWorkDisplayViewModel>
+    public class ArtWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<ArtWork, System.Guid, ArtWorkInputViewModel, ArtWorkDisplayViewModel>
     {
         private readonly IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository;
         private readonly IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository;
@@ -44,43 +44,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.attachmentFileManager = attachmentFileManager;
         }
 
-        [RequiresRoleBasePermission(Roles.ArtWorkViewer)]
+        [RequirePermissions(Permission.ArtWorkViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.ArtWorkCreator)]
+        [RequirePermissions(Permission.ArtWorkCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.ArtWorkCreator)]
+        [RequirePermissions(Permission.ArtWorkCreator)]
         public override IActionResult Create(ArtWorkInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public override IActionResult Edit(System.Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public override IActionResult Edit(ArtWorkInputViewModel inputModel)
         {
             return base.Edit(inputModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtWorkRemover)]
+        [RequirePermissions(Permission.ArtWorkRemover)]
         public override IActionResult Delete(System.Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ArtWorkRemover)]
+        [RequirePermissions(Permission.ArtWorkRemover)]
         public override IActionResult Delete(ArtWorkDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);
@@ -169,7 +169,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/elaboration")]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public ActionResult EditElaboration(System.Guid key)
         {
             var entity = Repository.Get(key);
@@ -200,7 +200,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpPost]
         [Route("edit/{key}/elaboration")]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         [ValidateAntiForgeryToken]
         public IActionResult EditElaboration(System.Guid key, ArtWorkElaborationInputViewModel modelInput)
         {
@@ -258,7 +258,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/authors")]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public ActionResult EditAuthors(System.Guid key)
         {
             var entity = Repository.Get(key);
@@ -305,7 +305,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/authors/addcreator")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult AddCreator(System.Guid key, System.Guid creatorId)
         {
             try
@@ -328,7 +328,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                         return RedirectToAction("editauthors", new { key = entity.Id });
                     }
-                    catch (SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
                     {
                         ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
                     }
@@ -351,7 +351,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/authors/addcreationgroup")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult AddCreationGroup(System.Guid key, System.Guid creationGroupId)
         {
             try
@@ -374,7 +374,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                         return RedirectToAction("editauthors", new { key = entity.Id });
                     }
-                    catch (SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
                     {
                         ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
                     }
@@ -397,7 +397,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/authors/deletecreator")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult DeleteCreator(System.Guid key, System.Guid creatorId)
         {
             try
@@ -435,7 +435,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/authors/deletecreationgroup")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult DeleteCreationGroup(System.Guid key, System.Guid creationGroupId)
         {
             try
@@ -476,7 +476,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/images")]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public ActionResult EditImages(System.Guid key)
         {
             var entity = Repository.Get(key);
@@ -505,7 +505,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/images/add")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult AddImage(System.Guid key, Microsoft.AspNetCore.Http.IFormFile imageFile)
         {
             try
@@ -541,7 +541,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                         return RedirectToAction("editimages", new { key = entity.Id });
                     }
-                    catch (SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
                     {
                         ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
                     }
@@ -564,7 +564,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/images/delete")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult DeleteImage(System.Guid key, System.Guid imageId)
         {
             try
@@ -615,7 +615,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [HttpGet]
         [Route("edit/{key}/attachments")]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public ActionResult EditAttachments(System.Guid key)
         {
             var entity = Repository.Get(key);
@@ -641,7 +641,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/attachments/add")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult AddAttachment(System.Guid key, AttachmentInputViewModel model)
         {
             try
@@ -683,7 +683,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                         return RedirectToAction("editattachments", new { key = entity.Id });
                     }
-                    catch (SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
                     {
                         ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
                     }
@@ -706,7 +706,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpPost]
         [Route("edit/{key}/attachments/delete")]
         [ValidateAntiForgeryToken]
-        [RequiresRoleBasePermission(Roles.ArtWorkEditor)]
+        [RequirePermissions(Permission.ArtWorkEditor)]
         public IActionResult DeleteAttachment(System.Guid key, System.Guid attachmentId)
         {
             try

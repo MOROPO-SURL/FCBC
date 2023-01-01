@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Frontend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -21,43 +21,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
         }
 
-        [RequiresRoleBasePermission(Roles.ResolutionViewer)]
+        [RequirePermissions(Permission.ResolutionViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.ResolutionCreator)]
+        [RequirePermissions(Permission.ResolutionCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.ResolutionCreator)]
+        [RequirePermissions(Permission.ResolutionCreator)]
         public override IActionResult Create(ResolutionInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ResolutionEditor)]
+        [RequirePermissions(Permission.ResolutionEditor)]
         public override IActionResult Edit(Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ResolutionEditor)]
+        [RequirePermissions(Permission.ResolutionEditor)]
         public override IActionResult Edit(ResolutionInputViewModel inputViewModel)
         {
             return base.Edit(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ResolutionRemover)]
+        [RequirePermissions(Permission.ResolutionRemover)]
         public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ResolutionRemover)]
+        [RequirePermissions(Permission.ResolutionRemover)]
         public override IActionResult Delete(ResolutionDisplayViewModel displayViewModel)
         {
             return base.Delete(displayViewModel);

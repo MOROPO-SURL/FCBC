@@ -1,13 +1,13 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ContractorInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Contractor, System.Guid>
+    public class ContractorInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<Contractor, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -34,7 +34,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ContractKinds { get; set; }
 
         [Display(Name = "Founding date")]
-        public System.DateTime BornDate { get; set; }
+        public System.DateTime? BornDate { get; set; }
 
         [Display(Name = "About")]
         public string About { get; set; }

@@ -3,58 +3,58 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
-    public class DesignManifestationGroupsController : SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<DesignManifestationGroup, System.Guid, DesignManifestationGroupInputViewModel, DesignManifestationGroupDisplayViewModel>
+    public class DesignManifestationGroupsController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<DesignManifestationGroup, System.Guid, DesignManifestationGroupInputViewModel, DesignManifestationGroupDisplayViewModel>
     {
         public DesignManifestationGroupsController(IEntityRepository<DesignManifestationGroup, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<DesignManifestationGroupsController> localizer, ILogger<DesignManifestationGroupsController> logger) : base(repository, localizer, logger)
         {
         }
 
-        [RequiresRoleBasePermission(Roles.DesignManifestationGroupViewer)]
+        [RequirePermissions(Permission.DesignManifestationGroupViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.DesignManifestationGroupCreator)]
+        [RequirePermissions(Permission.DesignManifestationGroupCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.DesignManifestationGroupCreator)]
+        [RequirePermissions(Permission.DesignManifestationGroupCreator)]
         public override IActionResult Create(DesignManifestationGroupInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignManifestationGroupEditor)]
+        [RequirePermissions(Permission.DesignManifestationGroupEditor)]
         public override IActionResult Edit(System.Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignManifestationGroupEditor)]
+        [RequirePermissions(Permission.DesignManifestationGroupEditor)]
         public override IActionResult Edit(DesignManifestationGroupInputViewModel inputModel)
         {
             return base.Edit(inputModel);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignManifestationGroupRemover)]
+        [RequirePermissions(Permission.DesignManifestationGroupRemover)]
         public override IActionResult Delete(System.Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.DesignManifestationGroupRemover)]
+        [RequirePermissions(Permission.DesignManifestationGroupRemover)]
         public override IActionResult Delete(DesignManifestationGroupDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);

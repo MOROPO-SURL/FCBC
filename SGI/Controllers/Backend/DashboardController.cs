@@ -2,24 +2,25 @@
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities;
 using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [ChangeUserPasswordRequiredAction]
     [CatchChangeUserPasswordRequiredException]
     [Route("management/[controller]")]
     [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/management/[controller]")]
-    public class DashboardController : SmartSolucionesCuba.SAPRESSC.Core.Web.Common.Controllers.BaseWebController
+    public class DashboardController : SAPRESSC.Core.Web.Common.Controllers.BaseWebController
     {
-        private readonly IEnumerable<SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> managementDashboardSectionProviders;
+        private readonly IEnumerable<SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> managementDashboardSectionProviders;
 
-        private readonly IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long> traceRepository;
-        private readonly IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.User, string> userRepository;
+        private readonly IEntityRepository<SAPRESSC.Core.Persistence.EF.Entities.Trace, long> traceRepository;
+        private readonly IEntityRepository<User, string> userRepository;
         private readonly IEntityRepository<Artist, System.Guid> creatorRepository;
         private readonly IEntityRepository<CreationGroup, System.Guid> creationGroupRepository;
         private readonly IEntityRepository<Contractor, System.Guid> contractorRepository;
@@ -27,7 +28,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private static readonly string[] DAYS_OF_WEEK = new[] { "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
 
-        public DashboardController(IEntityRepository<ArtWork, System.Guid> artWorkRepository, IEntityRepository<Contractor, System.Guid> contractorRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.User, string> userRepository, IEnumerable<SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> managementDashboardSectionProviders, Microsoft.Extensions.Localization.IStringLocalizer<DashboardController> localizer, ILogger<DashboardController> logger, IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long> traceRepository) : base(localizer, logger)
+        public DashboardController(IEntityRepository<ArtWork, System.Guid> artWorkRepository, IEntityRepository<Contractor, System.Guid> contractorRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<User, string> userRepository, IEnumerable<SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> managementDashboardSectionProviders, Microsoft.Extensions.Localization.IStringLocalizer<DashboardController> localizer, ILogger<DashboardController> logger, IEntityRepository<SAPRESSC.Core.Persistence.EF.Entities.Trace, long> traceRepository) : base(localizer, logger)
         {
             this.managementDashboardSectionProviders = managementDashboardSectionProviders;
             this.userRepository = userRepository;
@@ -57,7 +58,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var tracesByUsers = new Dictionary<string, long>();
 
-            foreach (SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace trace in traces)
+            foreach (MOROPO.SAPRESSC.Core.Persistence.EF.Entities.Trace trace in traces)
             {
                 if (!tracesByUsers.ContainsKey(trace.Author))
                 {

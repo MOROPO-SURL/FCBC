@@ -12,7 +12,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             WeekTracesStatisticsValues = new List<int>();
         }
 
-        public Dictionary<string, ICollection<SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View.ManagementDashboardSectionViewModel>> Sections { get; set; }
+        public Dictionary<string, ICollection<SAPRESSC.Core.Web.Backend.Models.View.ManagementDashboardSectionViewModel>> Sections { get; set; }
 
         public List<string> UsersList { get; set; }
         public List<long> TracesbyUsers { get; set; }

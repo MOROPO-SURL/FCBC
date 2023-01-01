@@ -6,17 +6,19 @@ using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
     public class CriticsController : AbstractEntityManagementFilteredController<Critic, System.Guid, CriticInputViewModel, CriticDisplayViewModel, CriticFilterModel>
     {
@@ -30,13 +32,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.identityRepository = identityRepository;
         }
 
-        [RequiresRoleBasePermission(Roles.CriticViewer)]
+        [RequirePermissions(Permission.CriticViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.CriticViewer)]
+        [RequirePermissions(Permission.CriticViewer)]
         public override IActionResult Filter(CriticFilterModel filterModel)
         {
             return base.Filter(filterModel);
@@ -47,13 +49,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return "critic-management-filter";
         }
 
-        [RequiresRoleBasePermission(Roles.CriticCreator)]
+        [RequirePermissions(Permission.CriticCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.CriticCreator)]
+        [RequirePermissions(Permission.CriticCreator)]
         public override IActionResult Create(CriticInputViewModel inputViewModel)
         {
             if (Request.Form.Files.Count > 0)
@@ -74,13 +76,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.CriticEditor)]
+        [RequirePermissions(Permission.CriticEditor)]
         public override IActionResult Edit(Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.CriticEditor)]
+        [RequirePermissions(Permission.CriticEditor)]
         public override IActionResult Edit(CriticInputViewModel inputViewModel)
         {
             ModelState.ClearValidationState("ImageFile");
@@ -102,13 +104,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Edit(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.CriticRemover)]
+        [RequirePermissions(Permission.CriticRemover)]
         public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.CriticRemover)]
+        [RequirePermissions(Permission.CriticRemover)]
         public override IActionResult Delete(CriticDisplayViewModel displayViewModel)
         {
             return base.Delete(displayViewModel);

@@ -2,14 +2,14 @@
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.RegionConst;
-using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Extensions;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Security.Common.Persistence.EF.Extensions;
+using MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Helpers
 {
-    public sealed class ApplicationDataInitializationHelper : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper
+    public sealed class ApplicationDataInitializationHelper : SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper
     {
         private const string CUBA_COUNTRY_NAME = "Cuba";
         private const string CMG_STATE_NAME = "Camagüey";
@@ -17,648 +17,648 @@ namespace MOROPO.FCBC.SGI.Helpers
 
         public void InitialiseData(DbContext dbContext)
         {
-            var roleDbSet = dbContext.Set<Role>();
+            var permissionDbSet = dbContext.Set<Permission>();
 
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.TraceViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.TraceViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.TraceViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.TraceViewer.ToPermissionEntity());
             }
 
             #region InstitutionalInformation
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionalInformationViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.InstitutionalInformationViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.InstitutionalInformationViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.InstitutionalInformationViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.InstitutionalInformationManagement));
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.InstitutionalInformationEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.InstitutionalInformationEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.InstitutionalInformationEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.InstitutionalInformationEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.InstitutionalInformationManagement));
             }
             #endregion
 
             #region ArtisticManifestation
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.ArtisticManifestationManagement));
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationCreator.ToPermissionEntity(Security.Authorization.PermissionsFamily.ArtisticManifestationManagement));
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.ArtisticManifestationManagement));
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationRemover.ToPermissionEntity(Security.Authorization.PermissionsFamily.ArtisticManifestationManagement));
             }
             #endregion
 
             #region CraftManifestation
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationRemover.ToPermissionEntity());
             }
             #endregion
 
             #region DesignManifestation
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ServiceLine
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Award
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AwardViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AwardViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AwardViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AwardCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AwardCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AwardCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AwardEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AwardEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AwardEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AwardRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AwardRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AwardRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AwardRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Distinction
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionViewer)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.DistinctionViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DistinctionViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DistinctionViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionCreator)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.DistinctionCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DistinctionCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DistinctionCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionEditor)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.DistinctionEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DistinctionEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DistinctionEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.DistinctionRemover)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.DistinctionRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DistinctionRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DistinctionRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Recognition
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionViewer)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.RecognitionViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.RecognitionViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.RecognitionViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionCreator)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.RecognitionCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.RecognitionCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.RecognitionCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionEditor)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.RecognitionEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.RecognitionEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.RecognitionEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Roles.RecognitionRemover)).Result)
+            if (!permissionDbSet.AnyAsync(roleDisctinction => roleDisctinction.Code.Equals(Security.Authorization.Permission.RecognitionRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.RecognitionRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.RecognitionRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Service
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Thematic
-            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicViewer)).Result)
+            if (!permissionDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Permission.ThematicViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ThematicViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ThematicViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicCreator)).Result)
+            if (!permissionDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Permission.ThematicCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ThematicCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ThematicCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicEditor)).Result)
+            if (!permissionDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Permission.ThematicEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ThematicEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ThematicEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Roles.ThematicRemover)).Result)
+            if (!permissionDbSet.AnyAsync(roleThematic => roleThematic.Code.Equals(Security.Authorization.Permission.ThematicRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ThematicRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ThematicRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ArtisticTechnique
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticTechniqueViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticTechniqueViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticTechniqueCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticTechniqueCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticTechniqueEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticTechniqueEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticTechniqueRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticTechniqueRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticTechniqueRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticTechniqueRemover.ToPermissionEntity());
             }
             #endregion
 
             #region CraftTechnique
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftTechniqueViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftTechniqueViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftTechniqueCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftTechniqueCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftTechniqueEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftTechniqueEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftTechniqueRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftTechniqueRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftTechniqueRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftTechniqueRemover.ToPermissionEntity());
             }
             #endregion
 
             #region DesignTechnique
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignTechniqueViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignTechniqueViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignTechniqueCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignTechniqueCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignTechniqueEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignTechniqueEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignTechniqueRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignTechniqueRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignTechniqueRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignTechniqueRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ServiceTechnique
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceTechniqueViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceTechniqueViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceTechniqueCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceTechniqueCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceTechniqueEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceTechniqueEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceTechniqueRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceTechniqueRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceTechniqueRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceTechniqueRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ContractorKind
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorKindViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorKindViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorKindViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorKindCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorKindCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorKindCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorKindEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorKindEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorKindEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorKindRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorKindRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorKindRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorKindRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Currency
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CurrencyViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CurrencyViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CurrencyViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CurrencyCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CurrencyCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CurrencyCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CurrencyEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CurrencyEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CurrencyEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CurrencyRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CurrencyRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CurrencyRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CurrencyRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Critic
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CriticViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CriticViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CriticViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CriticViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CriticCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CriticCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CriticCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CriticCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CriticEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CriticEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CriticEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CriticEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CriticRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CriticRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CriticRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CriticRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Contractor
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ContractorRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ContractorRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ContractorRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ContractorRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Artist
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtistViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtistViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtistViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtistViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtistCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtistCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtistCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtistCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtistEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtistEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtistEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtistEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtistRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtistRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtistRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtistRemover.ToPermissionEntity());
             }
             #endregion
 
             #region CreationGroup
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CreationGroupViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CreationGroupViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CreationGroupViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CreationGroupCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CreationGroupCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CreationGroupCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CreationGroupEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CreationGroupEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CreationGroupEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CreationGroupRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CreationGroupRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CreationGroupRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CreationGroupRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Association
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AssociationViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AssociationViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AssociationViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AssociationCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AssociationCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AssociationCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AssociationEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AssociationEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AssociationEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AssociationRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AssociationRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AssociationRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AssociationRemover.ToPermissionEntity());
             }
             #endregion
 
             #region AdministrativeRole
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AdministrativeRolesViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AdministrativeRolesViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AdministrativeRolesViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AdministrativeRolesViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AdministrativeRolesCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AdministrativeRolesCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AdministrativeRolesCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AdministrativeRolesCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AdministrativeRolesEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AdministrativeRolesEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AdministrativeRolesEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AdministrativeRolesEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.AdministrativeRolesRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AdministrativeRolesRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.AdministrativeRolesRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.AdministrativeRolesRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Employee
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.EmployeeViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.EmployeeViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.EmployeeViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.EmployeeCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.EmployeeCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.EmployeeCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.EmployeeEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.EmployeeEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.EmployeeEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.EmployeeRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.EmployeeRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.EmployeeRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.EmployeeRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Resolution
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ResolutionViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ResolutionViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ResolutionViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ResolutionViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ResolutionCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ResolutionCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ResolutionCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ResolutionCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ResolutionEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ResolutionEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ResolutionEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ResolutionEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ResolutionRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ResolutionRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ResolutionRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ResolutionRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ArtisticManifestationGroup
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationGroupViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationGroupViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationGroupCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationGroupCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationGroupEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationGroupEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtisticManifestationGroupRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtisticManifestationGroupRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtisticManifestationGroupRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtisticManifestationGroupRemover.ToPermissionEntity());
             }
             #endregion
 
             #region CraftManifestationGroup
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationGroupViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationGroupViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationGroupCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationGroupCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationGroupEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationGroupEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftManifestationGroupRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftManifestationGroupRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftManifestationGroupRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftManifestationGroupRemover.ToPermissionEntity());
             }
             #endregion
 
             #region DesignManifestationGroup
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationGroupViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationGroupViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationGroupCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationGroupCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationGroupEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationGroupEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignManifestationGroupRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignManifestationGroupRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignManifestationGroupRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignManifestationGroupRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ServiceLineGroup
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineGroupViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineGroupViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineGroupCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineGroupCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineGroupEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineGroupEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceLineGroupRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceLineGroupRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceLineGroupRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceLineGroupRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ArtWork
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtWorkViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtWorkViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtWorkViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtWorkCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtWorkCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtWorkCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtWorkEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtWorkEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtWorkEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ArtWorkRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ArtWorkRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ArtWorkRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ArtWorkRemover.ToPermissionEntity());
             }
             #endregion
 
             #region CraftWork
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftWorkViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftWorkViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftWorkViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftWorkCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftWorkCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftWorkCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftWorkEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftWorkEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftWorkEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.CraftWorkRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.CraftWorkRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.CraftWorkRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.CraftWorkRemover.ToPermissionEntity());
             }
             #endregion
 
             #region DesignWork
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignWorkViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignWorkViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignWorkViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignWorkCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignWorkCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignWorkCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignWorkEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignWorkEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignWorkEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.DesignWorkRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.DesignWorkRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.DesignWorkRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.DesignWorkRemover.ToPermissionEntity());
             }
             #endregion
 
             #region UnitMeasurement
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.UnitMeasurementViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.UnitMeasurementViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.UnitMeasurementCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.UnitMeasurementCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.UnitMeasurementEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.UnitMeasurementEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.UnitMeasurementRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.UnitMeasurementRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.UnitMeasurementRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.UnitMeasurementRemover.ToPermissionEntity());
             }
             #endregion
 
             #region Material
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.MaterialViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.MaterialViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.MaterialViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.MaterialCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.MaterialCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.MaterialCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.MaterialEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.MaterialEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.MaterialEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.MaterialRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.MaterialRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.MaterialRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.MaterialRemover.ToPermissionEntity());
             }
             #endregion
 
             #region ServiceWork
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkViewer)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceWorkViewer)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkViewer.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceWorkViewer.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkCreator)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceWorkCreator)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkCreator.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceWorkCreator.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkEditor)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceWorkEditor)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkEditor.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceWorkEditor.ToPermissionEntity());
             }
-            if (!roleDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Roles.ServiceWorkRemover)).Result)
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ServiceWorkRemover)).Result)
             {
-                roleDbSet.Add(Security.Authorization.Roles.ServiceWorkRemover.ToRoleEntity());
+                permissionDbSet.Add(Security.Authorization.Permission.ServiceWorkRemover.ToPermissionEntity());
             }
             #endregion
 
@@ -762,9 +762,9 @@ namespace MOROPO.FCBC.SGI.Helpers
                 });
             }
 
-            if (dbContext is SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
+            if (dbContext is SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext)
             {
-                (dbContext as SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext).SaveChanges("system");
+                (dbContext as SAPRESSC.Core.Persistence.EF.Context.ITraceableDbContext).SaveChanges("system");
             }
             else
             {

@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Material : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
+    public class Material : SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
         public System.Guid Id { get; set; }
 

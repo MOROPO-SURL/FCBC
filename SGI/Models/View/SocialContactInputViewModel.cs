@@ -1,9 +1,9 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+﻿using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class SocialContactInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<SocialContactItem, System.Guid>
+    public class SocialContactInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<SocialContactItem, System.Guid>
     {
         public System.Guid Id { get; set; }
 

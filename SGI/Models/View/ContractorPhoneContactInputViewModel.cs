@@ -1,9 +1,9 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+﻿using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ContractorPhoneContactInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<PhoneContactItem, System.Guid>
+    public class ContractorPhoneContactInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<PhoneContactItem, System.Guid>
     {
         public System.Guid Id { get; set; }
 

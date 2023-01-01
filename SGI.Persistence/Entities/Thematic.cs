@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Thematic : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
+    public class Thematic : SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
         public Thematic()
         {

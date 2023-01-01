@@ -1,8 +1,8 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Configurators;
+﻿using MOROPO.SAPRESSC.Core.Persistence.EF.Configurators;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
 {
-    public sealed class ApplicationDbSchemaConfigurationProvider : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade
+    public sealed class ApplicationDbSchemaConfigurationProvider : SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade
     {
         public string DefaultPersistenceSchema => null;
 

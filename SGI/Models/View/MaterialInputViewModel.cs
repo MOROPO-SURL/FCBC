@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class MaterialInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Material, System.Guid>
+    public class MaterialInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<Material, System.Guid>
     {
         public Guid Id { get; set; }
 

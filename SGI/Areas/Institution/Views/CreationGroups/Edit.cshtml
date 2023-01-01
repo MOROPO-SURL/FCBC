@@ -1,4 +1,4 @@
-﻿@using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
 @using MOROPO.FCBC.SGI.Persistence.Enumerations;
 
 @model MOROPO.FCBC.SGI.Models.View.CreationGroupInputViewModel
@@ -47,7 +47,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.CreateDate.ToShortDateString()'
+            value: '@Model.CreateDate?.ToShortDateString()'
         });
 
         $('#RegistrationEndAt').datepicker({

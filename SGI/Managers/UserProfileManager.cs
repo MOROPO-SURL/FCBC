@@ -1,14 +1,22 @@
-﻿namespace MOROPO.FCBC.SGI.Managers
+﻿using MOROPO.SAPRESSC.Core.Web.Security.Models.View.Contrat;
+
+namespace MOROPO.FCBC.SGI.Managers
 {
-    public class UserProfileManager : SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Managers.Facade.IUserProfileManagerFacade
+    public class UserProfileManager : SAPRESSC.Core.Web.Security.Managers.Facade.IUserProfileManagerFacade
     {
-        public SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Models.View.IUserProfileViewModel GetUserProfile(string username)
+        public IUserProfileViewModel GetUserProfile(string username)
         {
-            return new Models.View.UserProfileViewModel();
+            throw new System.NotImplementedException();
         }
 
-        public void UpdateUserProfile(string username, SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Models.View.IUserProfileViewModel profileModel)
+        public void PreValidateUserProfile(string username, IUserProfileViewModel profileModel, Microsoft.AspNetCore.Mvc.Controller controller)
         {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateUserProfile(string username, IUserProfileViewModel profileModel)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

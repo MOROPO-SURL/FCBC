@@ -1,6 +1,6 @@
 ﻿using MOROPO.FCBC.SGI.Models.View;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.Filter;
+using MOROPO.SAPRESSC.Core.Persistence.EF.Entities;
+using MOROPO.SAPRESSC.Core.Persistence.Models.Filter;
 using System;
 using System.Linq.Expressions;
 

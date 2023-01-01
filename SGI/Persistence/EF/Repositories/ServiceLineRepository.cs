@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class ServiceLineRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.ServiceLine, System.Guid>
+    public class ServiceLineRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.ServiceLine, System.Guid>
     {
         public ServiceLineRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
         {

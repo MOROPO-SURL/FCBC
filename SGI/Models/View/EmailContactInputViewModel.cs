@@ -1,9 +1,9 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
+﻿using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class EmailContactInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<EmailContactItem, System.Guid>
+    public class EmailContactInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<EmailContactItem, System.Guid>
     {
         public System.Guid Id { get; set; }
 

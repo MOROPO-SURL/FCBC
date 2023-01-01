@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class AdministrativeRoleInputViewModel: SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<AdministrativeRole, System.Guid>
+    public class AdministrativeRoleInputViewModel: SAPRESSC.Core.Persistence.Models.IEntityInputModel<AdministrativeRole, System.Guid>
     {
         public System.Guid Id { get; set; }
 

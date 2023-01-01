@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class DesignTechniqueRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.DesignTechnique, System.Guid>
+    public class DesignTechniqueRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.DesignTechnique, System.Guid>
     {
         public DesignTechniqueRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
         {

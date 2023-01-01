@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class DesignManifestationRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.DesignManifestation, System.Guid>
+    public class DesignManifestationRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.DesignManifestation, System.Guid>
     {
         public DesignManifestationRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
         {

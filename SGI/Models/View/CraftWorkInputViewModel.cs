@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CraftWorkInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<MOROPO.FCBC.SGI.Persistence.Entities.CraftWork, System.Guid>
+    public class CraftWorkInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<MOROPO.FCBC.SGI.Persistence.Entities.CraftWork, System.Guid>
     {
         public System.Guid Id { get; set; }
 

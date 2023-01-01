@@ -3,7 +3,7 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class AdministrativeRoleRepository: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<AdministrativeRole, System.Guid>
+    public class AdministrativeRoleRepository: SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<AdministrativeRole, System.Guid>
     {
         public AdministrativeRoleRepository(DbContext dbContext) : base(dbContext)
         {

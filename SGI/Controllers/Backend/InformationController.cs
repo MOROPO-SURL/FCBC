@@ -2,18 +2,18 @@
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Persistence.Enumerations;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Route("management/[area]/[controller]")]
     [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/management/[area]/[controller]")]
     [Area("institution")]
-    public class InformationController : SmartSolucionesCuba.SAPRESSC.Core.Web.Common.Controllers.BaseWebController
+    public class InformationController : SAPRESSC.Core.Web.Common.Controllers.BaseWebController
     {
         private readonly IEntityRepository<InstitutionalInformation, InstitutionalInformationKind> institutionalInformationRepository;
 
@@ -22,7 +22,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.institutionalInformationRepository = institutionalInformationRepository;
         }
 
-        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionalInformationViewer)]
+        [RequirePermissions(Security.Authorization.Permission.InstitutionalInformationViewer)]
         public IActionResult Index()
         {
             var entities = institutionalInformationRepository.GetAll().ToArray();
@@ -39,7 +39,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [HttpGet]
-        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionalInformationEditor)]
+        [RequirePermissions(Security.Authorization.Permission.InstitutionalInformationEditor)]
         [Route("[action]")]
         public virtual IActionResult Edit()
         {
@@ -50,12 +50,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 var visionEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.Vision);
                 var historyEntity = institutionalInformationRepository.Get(InstitutionalInformationKind.History);
 
-                var modelInput = new Models.View.InstitutionInformationInputViewModel();
-
-                modelInput.SocialObject = socialObjectEntity.Value;
-                modelInput.Mission = missionEntity.Value;
-                modelInput.Vision = visionEntity.Value;
-                modelInput.Histoy = historyEntity.Value;
+                var modelInput = new Models.View.InstitutionInformationInputViewModel
+                {
+                    SocialObject = socialObjectEntity.Value,
+                    Mission = missionEntity.Value,
+                    Vision = visionEntity.Value,
+                    Histoy = historyEntity.Value
+                };
 
                 return View(modelInput);
             }
@@ -64,13 +65,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, null, "NotFoundMessage", null);
+            SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, null, "NotFoundMessage", null);
 
             return Redirect("/");
         }
 
         [HttpPost]
-        [RequiresRoleBasePermission(Security.Authorization.Roles.InstitutionalInformationEditor)]
+        [RequirePermissions(Security.Authorization.Permission.InstitutionalInformationEditor)]
         [Route("[action]")]
         [ValidateAntiForgeryToken]
         public virtual IActionResult Edit(Models.View.InstitutionInformationInputViewModel modelInput)
@@ -94,25 +95,25 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     institutionalInformationRepository.Update(visionEntity, User.Identity.Name, false);
                     institutionalInformationRepository.Update(historyEntity, User.Identity.Name, true);
 
-                    SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Success, null, "EditionSuccessMessage", null);
+                    SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, null, "EditionSuccessMessage", null);
 
                     return RedirectToAction("index");
                 }
 
                 catch (System.Exception e)
                 {
-                    if (!(e.InnerException is SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.InvalidModelException))
+                    if (!(e.InnerException is SAPRESSC.Core.Web.Frontend.InvalidModelException))
                     {
                         logger.LogError(e.InnerException, e.Message);
 
-                        SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, null, "NotFoundMessage", null);
+                        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, null, "NotFoundMessage", null);
 
                         return Redirect("/");
                     }
                 }
             }
 
-            SetDefaultNotification(SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, null, "InvalidMessage", null);
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, null, "InvalidMessage", null);
 
             return View(modelInput);
         }

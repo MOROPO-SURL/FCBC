@@ -5,57 +5,58 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
     public class RecognitionsController : AbstractEntityManagementController<Recognition, Guid, RecognitionInputViewModel, RecognitionDisplayViewModel>
     {
         public RecognitionsController(IEntityRepository<Recognition, Guid> repository, IStringLocalizer<RecognitionsController> localizer, ILogger<RecognitionsController> logger) : base(repository, localizer, logger)
         {
         }
-        [RequiresRoleBasePermission(Roles.RecognitionViewer)]
+        [RequirePermissions(Permission.RecognitionViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.RecognitionCreator)]
+        [RequirePermissions(Permission.RecognitionCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.RecognitionCreator)]
+        [RequirePermissions(Permission.RecognitionCreator)]
         public override IActionResult Create(RecognitionInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.RecognitionEditor)]
+        [RequirePermissions(Permission.RecognitionEditor)]
         public override IActionResult Edit(Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.RecognitionEditor)]
+        [RequirePermissions(Permission.RecognitionEditor)]
         public override IActionResult Edit(RecognitionInputViewModel inputViewModel)
         {
             return base.Edit(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.RecognitionRemover)]
+        [RequirePermissions(Permission.RecognitionRemover)]
         public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.RecognitionRemover)]
+        [RequirePermissions(Permission.RecognitionRemover)]
         public override IActionResult Delete(RecognitionDisplayViewModel displayViewModel)
         {
             return base.Delete(displayViewModel);

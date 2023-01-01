@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ServiceLineInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ServiceLine, System.Guid>
+    public class ServiceLineInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<ServiceLine, System.Guid>
     {
         public System.Guid Id { get; set; }
 

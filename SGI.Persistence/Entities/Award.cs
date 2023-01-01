@@ -1,10 +1,10 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+﻿using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class Award : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<Guid>
+    public class Award : SAPRESSC.Core.Persistence.Entities.INamedEntity<Guid>
     {
         public Award()
         {

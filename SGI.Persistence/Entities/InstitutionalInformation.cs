@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class InstitutionalInformation : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.IEntity<InstitutionalInformationKind>
+    public class InstitutionalInformation : SAPRESSC.Core.Persistence.Entities.IEntity<InstitutionalInformationKind>
     {
         [System.ComponentModel.DataAnnotations.Key]
         public InstitutionalInformationKind Id { get; set; }

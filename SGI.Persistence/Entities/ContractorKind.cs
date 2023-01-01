@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class ContractorKind : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Entities.INamedEntity<int>
+    public class ContractorKind : SAPRESSC.Core.Persistence.Entities.INamedEntity<int>
     {
         [System.ComponentModel.DataAnnotations.Key]
         [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]

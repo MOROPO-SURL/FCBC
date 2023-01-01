@@ -1,4 +1,4 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View;
+﻿using MOROPO.SAPRESSC.Core.Common.Models.View;
 using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Models.View

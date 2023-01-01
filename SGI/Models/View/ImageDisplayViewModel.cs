@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ImageDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image, System.Guid>
+    public class ImageDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<SAPRESSC.Middleware.Media.Persistence.Entities.Image, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -12,7 +12,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public int Height { get; set; }
 
-        public void Import(SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image entity)
+        public void Import(MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image entity)
         {
             Id = entity.Id;
             Extension = entity.ContentType.ContentTypeToExtension();

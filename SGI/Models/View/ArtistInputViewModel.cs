@@ -1,14 +1,14 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using MOROPO.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtistInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Persistence.Entities.Artist, System.Guid>
+    public class ArtistInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<Persistence.Entities.Artist, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -31,13 +31,13 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string LastName { get; set; }
 
         [Display(Name = "BornDate")]
-        public System.DateTime BornDate { get; set; } = System.DateTime.Now.Date.AddYears(-16);
+        public System.DateTime? BornDate { get; set; }
 
         [Display(Name = "Sex")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
 
         [Display(Name = "CivilStatus")]
-        public SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
+        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
 
         [Display(Name = "Stage name")]
         public string Alias { get; set; }
@@ -99,9 +99,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public System.DateTime? RegistrationEndAt { get; set; }
 
-        public List< SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List< SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List< SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List< SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List< SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List< SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
 
         public ArtistInputViewModel()
         {

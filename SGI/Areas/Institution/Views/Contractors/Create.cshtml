@@ -45,7 +45,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.BornDate.ToShortDateString()'
+            value: '@Model.BornDate?.ToShortDateString()'
         });
 
         $(function () {

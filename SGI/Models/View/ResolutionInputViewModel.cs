@@ -1,5 +1,5 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models;
+using MOROPO.SAPRESSC.Core.Persistence.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 

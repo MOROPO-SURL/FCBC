@@ -3,7 +3,7 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class UnitMeasurementRepository: SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<UnitMeasurement, System.Guid>
+    public class UnitMeasurementRepository: SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<UnitMeasurement, System.Guid>
     {
         public UnitMeasurementRepository(DbContext dbContext) : base(dbContext)
         {

@@ -1,4 +1,4 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+﻿using MOROPO.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View

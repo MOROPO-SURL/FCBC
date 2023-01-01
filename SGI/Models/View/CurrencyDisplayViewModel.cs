@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class CurrencyDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Currency, int>
+    public class CurrencyDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Currency, int>
     {
         public int Id { get; set; }
 

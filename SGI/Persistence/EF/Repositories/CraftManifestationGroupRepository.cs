@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class CraftManifestationGroupRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.CraftManifestationGroup, System.Guid>
+    public class CraftManifestationGroupRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.CraftManifestationGroup, System.Guid>
     {
         public CraftManifestationGroupRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
         {

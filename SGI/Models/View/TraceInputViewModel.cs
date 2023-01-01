@@ -1,8 +1,8 @@
-﻿using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities;
+﻿using MOROPO.SAPRESSC.Core.Persistence.EF.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class TraceInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<Trace, long>
+    public class TraceInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<Trace, long>
     {
         public long Id { get ; set ; }
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ServiceTechniqueInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<ServiceTechnique, System.Guid>
+    public class ServiceTechniqueInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<ServiceTechnique, System.Guid>
     {
         public System.Guid Id { get; set; }
 

@@ -3,57 +3,57 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Filters;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
-    [RequiresRoleBasePermission(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.SecurityRoleCodes.ShellManager)]
+    [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("complements")]
-    public class ServiceTechniquesController : SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<ServiceTechnique, System.Guid, ServiceTechniqueInputViewModel, ServiceTechniqueDisplayViewModel>
+    public class ServiceTechniquesController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<ServiceTechnique, System.Guid, ServiceTechniqueInputViewModel, ServiceTechniqueDisplayViewModel>
     {
         public ServiceTechniquesController(IEntityRepository<ServiceTechnique, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ServiceTechniquesController> localizer, ILogger<ServiceTechniquesController> logger) : base(repository, localizer, logger)
         {
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceTechniqueViewer)]
+        [RequirePermissions(Permission.ServiceTechniqueViewer)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceTechniqueCreator)]
+        [RequirePermissions(Permission.ServiceTechniqueCreator)]
         public override IActionResult Create()
         {
             return base.Create();
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceTechniqueCreator)]
+        [RequirePermissions(Permission.ServiceTechniqueCreator)]
         public override IActionResult Create(ServiceTechniqueInputViewModel inputViewModel)
         {
             return base.Create(inputViewModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceTechniqueEditor)]
+        [RequirePermissions(Permission.ServiceTechniqueEditor)]
         public override IActionResult Edit(System.Guid key)
         {
             return base.Edit(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceTechniqueEditor)]
+        [RequirePermissions(Permission.ServiceTechniqueEditor)]
         public override IActionResult Edit(ServiceTechniqueInputViewModel inputModel)
         {
             return base.Edit(inputModel);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceTechniqueRemover)]
+        [RequirePermissions(Permission.ServiceTechniqueRemover)]
         public override IActionResult Delete(System.Guid key)
         {
             return base.Delete(key);
         }
 
-        [RequiresRoleBasePermission(Roles.ServiceTechniqueRemover)]
+        [RequirePermissions(Permission.ServiceTechniqueRemover)]
         public override IActionResult Delete(ServiceTechniqueDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);

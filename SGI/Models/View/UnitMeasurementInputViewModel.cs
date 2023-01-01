@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class UnitMeasurementInputViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityInputModel<UnitMeasurement, System.Guid>
+    public class UnitMeasurementInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<UnitMeasurement, System.Guid>
     {
         public Guid Id { get; set; }
 

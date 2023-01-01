@@ -1598,7 +1598,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("unitmeasurements");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Core.Persistence.EF.Entities.Trace", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1636,7 +1636,33 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("traces");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.Group", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnName("code");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Family")
+                        .HasColumnName("family");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permissions");
+
+                    b.ToTable("permissions","fcbc-sgi_sapressc_core_security_common");
+                });
+
+            modelBuilder.Entity("MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1650,111 +1676,29 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("Id")
-                        .HasName("pk_groups");
-
-                    b.ToTable("groups","fcbc-sgi_sapressc_core_securitylocal");
-                });
-
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.GroupRoleBridge", b =>
-                {
-                    b.Property<Guid>("GroupId")
-                        .HasColumnName("groupid");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnName("roleid");
-
-                    b.HasKey("GroupId", "RoleId")
-                        .HasName("pk_grouprolebridges");
-
-                    b.HasIndex("RoleId")
-                        .HasName("ix_grouprolebridges_roleid");
-
-                    b.ToTable("grouprolebridges","fcbc-sgi_sapressc_core_securitylocal");
-                });
-
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnName("code");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
                         .HasName("pk_roles");
 
-                    b.ToTable("roles","fcbc-sgi_sapressc_core_securitylocal");
+                    b.ToTable("roles","fcbc-sgi_sapressc_core_security_common");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.User", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities.RolePermissionBridge", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnName("roleid");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnName("created");
+                    b.Property<int>("PermissionId")
+                        .HasColumnName("permissionid");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnName("enabled");
+                    b.HasKey("RoleId", "PermissionId")
+                        .HasName("pk_rolepermissionbridges");
 
-                    b.Property<int>("FailAuthenticationCount")
-                        .HasColumnName("failauthenticationcount");
+                    b.HasIndex("PermissionId")
+                        .HasName("ix_rolepermissionbridges_permissionid");
 
-                    b.Property<bool>("HasFullAccess")
-                        .HasColumnName("hasfullaccess");
-
-                    b.Property<DateTime>("LastSessionDate")
-                        .HasColumnName("lastsessiondate");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnName("password");
-
-                    b.Property<bool>("PasswordChangeRequired")
-                        .HasColumnName("passwordchangerequired");
-
-                    b.Property<string>("Signature")
-                        .IsRequired()
-                        .HasColumnName("signature");
-
-                    b.HasKey("Id")
-                        .HasName("pk_users");
-
-                    b.ToTable("users","fcbc-sgi_sapressc_core_securitylocal");
+                    b.ToTable("rolepermissionbridges","fcbc-sgi_sapressc_core_security_common");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.UserGroupBridge", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnName("userid");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnName("groupid");
-
-                    b.Property<string>("Signature")
-                        .IsRequired()
-                        .HasColumnName("signature");
-
-                    b.HasKey("UserId", "GroupId")
-                        .HasName("pk_usergroupbridges");
-
-                    b.HasIndex("GroupId")
-                        .HasName("ix_usergroupbridges_groupid");
-
-                    b.ToTable("usergroupbridges","fcbc-sgi_sapressc_core_securitylocal");
-                });
-
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.EmailContactItem", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.EmailContactItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1773,7 +1717,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("emailcontactitems","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.Membership", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.Membership", b =>
                 {
                     b.Property<Guid>("OrganizationId")
                         .HasColumnName("organizationid");
@@ -1793,7 +1737,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("memberships","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationEmailContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationEmailContactItemBridge", b =>
                 {
                     b.Property<Guid>("OrganizationId")
                         .HasColumnName("organizationid");
@@ -1810,7 +1754,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("organizationemailcontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1819,7 +1763,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("About")
                         .HasColumnName("about");
 
-                    b.Property<DateTime>("BornDate")
+                    b.Property<DateTime?>("BornDate")
                         .HasColumnName("borndate");
 
                     b.Property<Guid?>("ImageId")
@@ -1844,7 +1788,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("organizationidentities","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPhoneContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPhoneContactItemBridge", b =>
                 {
                     b.Property<Guid>("OrganizationId")
                         .HasColumnName("organizationid");
@@ -1861,7 +1805,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("organizationphonecontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPostalContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPostalContactItemBridge", b =>
                 {
                     b.Property<Guid>("OrganizationId")
                         .HasColumnName("organizationid");
@@ -1878,7 +1822,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("organizationpostalcontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationSocialContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationSocialContactItemBridge", b =>
                 {
                     b.Property<Guid>("OrganizationId")
                         .HasColumnName("organizationid");
@@ -1895,7 +1839,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("organizationsocialcontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationWebSiteContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationWebSiteContactItemBridge", b =>
                 {
                     b.Property<Guid>("OrganizationId")
                         .HasColumnName("organizationid");
@@ -1912,7 +1856,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("organizationwebsitecontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonEmailContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonEmailContactItemBridge", b =>
                 {
                     b.Property<Guid>("PersonId")
                         .HasColumnName("personid");
@@ -1929,7 +1873,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("personemailcontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1941,7 +1885,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("Alias")
                         .HasColumnName("alias");
 
-                    b.Property<DateTime>("BornDate")
+                    b.Property<DateTime?>("BornDate")
                         .HasColumnName("borndate");
 
                     b.Property<int>("CivilStatus")
@@ -1969,7 +1913,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("personidentities","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPhoneContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPhoneContactItemBridge", b =>
                 {
                     b.Property<Guid>("PersonId")
                         .HasColumnName("personid");
@@ -1986,7 +1930,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("personphonecontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPostalContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPostalContactItemBridge", b =>
                 {
                     b.Property<Guid>("PersonId")
                         .HasColumnName("personid");
@@ -2003,7 +1947,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("personpostalcontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonSocialContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonSocialContactItemBridge", b =>
                 {
                     b.Property<Guid>("PersonId")
                         .HasColumnName("personid");
@@ -2020,7 +1964,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("personsocialcontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonWebSiteContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonWebSiteContactItemBridge", b =>
                 {
                     b.Property<Guid>("PersonId")
                         .HasColumnName("personid");
@@ -2037,7 +1981,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("personwebsitecontactitembridges","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PhoneContactItem", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PhoneContactItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2056,7 +2000,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("phonecontactitems","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2084,7 +2028,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("postalcontactitems","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.SocialContactItem", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.SocialContactItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2103,7 +2047,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("socialcontactitems","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.WebSiteContactItem", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.WebSiteContactItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2122,7 +2066,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("websitecontactitems","fcbc-sgi_sapressc_middleware_identity");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2160,7 +2104,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("images","fcbc-sgi_sapressc_middleware_media");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Thumbnail", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Thumbnail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2183,7 +2127,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("thumbnails","fcbc-sgi_sapressc_middleware_media");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Video", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Video", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2241,7 +2185,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("videos","fcbc-sgi_sapressc_middleware_media");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Country", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Country", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2269,7 +2213,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("countries","fcbc-sgi_sapressc_middleware_region");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Locality", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Locality", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2295,7 +2239,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("localities","fcbc-sgi_sapressc_middleware_region");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2321,7 +2265,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("municipalities","fcbc-sgi_sapressc_middleware_region");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Region", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Region", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2339,7 +2283,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Region");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.State", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.State", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2361,9 +2305,68 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("states","fcbc-sgi_sapressc_middleware_region");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.CountryRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities.User", b =>
                 {
-                    b.HasBaseType("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnName("created");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnName("enabled");
+
+                    b.Property<int>("FailAuthenticationCount")
+                        .HasColumnName("failauthenticationcount");
+
+                    b.Property<bool>("HasFullAccess")
+                        .HasColumnName("hasfullaccess");
+
+                    b.Property<DateTime>("LastSessionDate")
+                        .HasColumnName("lastsessiondate");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnName("password");
+
+                    b.Property<bool>("PasswordChangeRequired")
+                        .HasColumnName("passwordchangerequired");
+
+                    b.Property<string>("Signature")
+                        .IsRequired()
+                        .HasColumnName("signature");
+
+                    b.HasKey("Id")
+                        .HasName("pk_users");
+
+                    b.ToTable("users","fcbc-sgi_sapressc_middleware_security_essential");
+                });
+
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities.UserRoleBridge", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnName("userid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnName("roleid");
+
+                    b.Property<string>("Signature")
+                        .IsRequired()
+                        .HasColumnName("signature");
+
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_userrolebridges");
+
+                    b.HasIndex("RoleId")
+                        .HasName("ix_userrolebridges_roleid");
+
+                    b.ToTable("userrolebridges","fcbc-sgi_sapressc_middleware_security_essential");
+                });
+
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.CountryRegion", b =>
+                {
+                    b.HasBaseType("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
 
                     b.Property<Guid?>("CountryId")
                         .HasColumnName("countryid");
@@ -2376,9 +2379,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasDiscriminator().HasValue("CountryRegion");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.LocalityRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.LocalityRegion", b =>
                 {
-                    b.HasBaseType("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
+                    b.HasBaseType("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
 
                     b.Property<Guid?>("LocalityId")
                         .HasColumnName("localityid");
@@ -2391,9 +2394,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasDiscriminator().HasValue("LocalityRegion");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.MunicipalityRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.MunicipalityRegion", b =>
                 {
-                    b.HasBaseType("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
+                    b.HasBaseType("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
 
                     b.Property<Guid?>("MunicipalityId")
                         .HasColumnName("municipalityid");
@@ -2406,9 +2409,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasDiscriminator().HasValue("MunicipalityRegion");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.StateRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.StateRegion", b =>
                 {
-                    b.HasBaseType("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
+                    b.HasBaseType("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Region");
 
                     b.Property<Guid?>("StateId")
                         .HasColumnName("stateid");
@@ -2433,7 +2436,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("DimensionsUnitMeasurementId")
                         .HasConstraintName("fk_artworks_unitmeasurements_dimensionsunitmeasurementid");
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
                         .WithMany()
                         .HasForeignKey("FeatureImageId")
                         .HasConstraintName("fk_artworks_images_featureimageid");
@@ -2511,7 +2514,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkImageBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .HasConstraintName("fk_artworkimagebridges_images_imageid")
@@ -2571,12 +2574,12 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Artist", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "BrandImage")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "BrandImage")
                         .WithMany()
                         .HasForeignKey("BrandImageId")
                         .HasConstraintName("fk_artists_images_brandimageid");
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Artist", "IdentityId")
                         .HasConstraintName("fk_artists_personidentities_identityid")
@@ -2745,7 +2748,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Association", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Association", "IdentityId")
                         .HasConstraintName("fk_associations_organizationidentities_identityid")
@@ -2754,7 +2757,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Award", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
                         .HasConstraintName("fk_awards_countries_countryid")
@@ -2769,7 +2772,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasConstraintName("fk_contractors_contractorkinds_contractorkindid")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", "IdentityId")
                         .HasConstraintName("fk_contractors_organizationidentities_identityid")
@@ -2799,7 +2802,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("CostCurrencyId")
                         .HasConstraintName("fk_craftworks_currencies_costcurrencyid");
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
                         .WithMany()
                         .HasForeignKey("FeatureImageId")
                         .HasConstraintName("fk_craftworks_images_featureimageid");
@@ -2818,7 +2821,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkImageBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .HasConstraintName("fk_craftworkimagebridges_images_imageid")
@@ -2848,7 +2851,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "IdentityId")
                         .HasConstraintName("fk_creationgroups_organizationidentities_identityid")
@@ -2991,7 +2994,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Critic", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
                         .WithMany()
                         .HasForeignKey("IdentityId")
                         .HasConstraintName("fk_critics_personidentities_identityid")
@@ -3021,7 +3024,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("CostCurrencyId")
                         .HasConstraintName("fk_designworks_currencies_costcurrencyid");
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
                         .WithMany()
                         .HasForeignKey("FeatureImageId")
                         .HasConstraintName("fk_designworks_images_featureimageid");
@@ -3040,7 +3043,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkImageBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .HasConstraintName("fk_designworkimagebridges_images_imageid")
@@ -3070,7 +3073,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Employee", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Employee", "IdentityId")
                         .HasConstraintName("fk_employees_personidentities_identityid")
@@ -3120,7 +3123,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("CostCurrencyId")
                         .HasConstraintName("fk_serviceworks_currencies_costcurrencyid");
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
                         .WithMany()
                         .HasForeignKey("FeatureImageId")
                         .HasConstraintName("fk_serviceworks_images_featureimageid");
@@ -3139,7 +3142,7 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkImageBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .HasConstraintName("fk_serviceworkimagebridges_images_imageid")
@@ -3167,304 +3170,304 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.GroupRoleBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities.RolePermissionBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.Group", "Group")
-                        .WithMany("GroupRoleBridges")
-                        .HasForeignKey("GroupId")
-                        .HasConstraintName("fk_grouprolebridges_groups_groupid")
+                    b.HasOne("MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities.Permission", "Permission")
+                        .WithMany("RoleBridges")
+                        .HasForeignKey("PermissionId")
+                        .HasConstraintName("fk_rolepermissionbridges_permissions_permissionid")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.Role", "Role")
-                        .WithMany("GroupRoleBridges")
+                    b.HasOne("MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities.Role", "Role")
+                        .WithMany("PermissionBridges")
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_grouprolebridges_roles_roleid")
+                        .HasConstraintName("fk_rolepermissionbridges_roles_roleid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.UserGroupBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.Membership", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.Group", "Group")
-                        .WithMany("UserGroupBridges")
-                        .HasForeignKey("GroupId")
-                        .HasConstraintName("fk_usergroupbridges_groups_groupid")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.User", "User")
-                        .WithMany("UserGroupBridges")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("fk_usergroupbridges_users_userid")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.Membership", b =>
-                {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
                         .WithMany("Memberships")
                         .HasForeignKey("OrganizationId")
                         .HasConstraintName("fk_memberships_organizationidentities_organizationid")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
                         .WithMany("Memberships")
                         .HasForeignKey("PersonId")
                         .HasConstraintName("fk_memberships_personidentities_personid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationEmailContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationEmailContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.EmailContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.EmailContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_organizationemailcontactitembridges_emailcontactitems_conta~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
                         .WithMany("OrganizationEmailContactItemBridges")
                         .HasForeignKey("OrganizationId")
                         .HasConstraintName("fk_organizationemailcontactitembridges_organizationidentities_~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .HasConstraintName("fk_organizationidentities_images_imageid");
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Owner")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .HasConstraintName("fk_organizationidentities_organizationidentities_ownerid");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPhoneContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPhoneContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PhoneContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PhoneContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_organizationphonecontactitembridges_phonecontactitems_conta~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
                         .WithMany("OrganizationPhoneContactItemBridges")
                         .HasForeignKey("OrganizationId")
                         .HasConstraintName("fk_organizationphonecontactitembridges_organizationidentities_~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPostalContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationPostalContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_organizationpostalcontactitembridges_postalcontactitems_con~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
                         .WithMany("OrganizationPostalContactItemBridges")
                         .HasForeignKey("OrganizationId")
                         .HasConstraintName("fk_organizationpostalcontactitembridges_organizationidentities~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationSocialContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationSocialContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.SocialContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.SocialContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_organizationsocialcontactitembridges_socialcontactitems_con~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
                         .WithMany("OrganizationSocialContactItemBridges")
                         .HasForeignKey("OrganizationId")
                         .HasConstraintName("fk_organizationsocialcontactitembridges_organizationidentities~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationWebSiteContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationWebSiteContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.WebSiteContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.WebSiteContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_organizationwebsitecontactitembridges_websitecontactitems_c~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Organization")
                         .WithMany("OrganizationWebSiteContactItemBridges")
                         .HasForeignKey("OrganizationId")
                         .HasConstraintName("fk_organizationwebsitecontactitembridges_organizationidentitie~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonEmailContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonEmailContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.EmailContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.EmailContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_personemailcontactitembridges_emailcontactitems_contactitem~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
                         .WithMany("PersonEmailContactItemBridges")
                         .HasForeignKey("PersonId")
                         .HasConstraintName("fk_personemailcontactitembridges_personidentities_personid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .HasConstraintName("fk_personidentities_images_imageid");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPhoneContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPhoneContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PhoneContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PhoneContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_personphonecontactitembridges_phonecontactitems_contactitem~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
                         .WithMany("PersonPhoneContactItemBridges")
                         .HasForeignKey("PersonId")
                         .HasConstraintName("fk_personphonecontactitembridges_personidentities_personid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPostalContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonPostalContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_personpostalcontactitembridges_postalcontactitems_contactit~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
                         .WithMany("PersonPostalContactItemBridges")
                         .HasForeignKey("PersonId")
                         .HasConstraintName("fk_personpostalcontactitembridges_personidentities_personid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonSocialContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonSocialContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.SocialContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.SocialContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_personsocialcontactitembridges_socialcontactitems_contactit~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
                         .WithMany("PersonSocialContactItemBridges")
                         .HasForeignKey("PersonId")
                         .HasConstraintName("fk_personsocialcontactitembridges_personidentities_personid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonWebSiteContactItemBridge", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonWebSiteContactItemBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.WebSiteContactItem", "ContactItem")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.WebSiteContactItem", "ContactItem")
                         .WithMany()
                         .HasForeignKey("ContactItemId")
                         .HasConstraintName("fk_personwebsitecontactitembridges_websitecontactitems_contact~")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Person")
                         .WithMany("PersonWebSiteContactItemBridges")
                         .HasForeignKey("PersonId")
                         .HasConstraintName("fk_personwebsitecontactitembridges_personidentities_personid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PostalContactItem", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Region", "Region")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId")
                         .HasConstraintName("fk_postalcontactitems_regions_regionid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Thumbnail", "Thumbnail")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Thumbnail", "Thumbnail")
                         .WithMany()
                         .HasForeignKey("ThumbnailId")
                         .HasConstraintName("fk_images_thumbnails_thumbnailid");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Video", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Video", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Thumbnail", "Thumbnail")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Thumbnail", "Thumbnail")
                         .WithMany()
                         .HasForeignKey("ThumbnailId")
                         .HasConstraintName("fk_videos_thumbnails_thumbnailid");
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Locality", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Locality", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", "Municipality")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", "Municipality")
                         .WithMany()
                         .HasForeignKey("MunicipalityId")
                         .HasConstraintName("fk_localities_municipalities_municipalityid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.State", "State")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
                         .HasConstraintName("fk_municipalities_states_stateid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.State", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.State", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
                         .HasConstraintName("fk_states_countries_countryid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.CountryRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities.UserRoleBridge", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
+                    b.HasOne("MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_userrolebridges_roles_roleid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities.User", "User")
+                        .WithMany("RoleBridges")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_userrolebridges_users_userid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.CountryRegion", b =>
+                {
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
                         .HasConstraintName("fk_regions_countries_countryid")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.LocalityRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.LocalityRegion", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Locality", "Locality")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Locality", "Locality")
                         .WithMany()
                         .HasForeignKey("LocalityId")
                         .HasConstraintName("fk_regions_localities_localityid")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.MunicipalityRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.MunicipalityRegion", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", "Municipality")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Municipality", "Municipality")
                         .WithMany()
                         .HasForeignKey("MunicipalityId")
                         .HasConstraintName("fk_regions_municipalities_municipalityid")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.StateRegion", b =>
+            modelBuilder.Entity("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.StateRegion", b =>
                 {
-                    b.HasOne("SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities.State", "State")
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.State", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
                         .HasConstraintName("fk_regions_states_stateid")

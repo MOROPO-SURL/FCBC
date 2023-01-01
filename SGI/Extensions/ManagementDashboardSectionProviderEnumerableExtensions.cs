@@ -1,18 +1,17 @@
-﻿using MOROPO.FCBC.SGI.Controllers.Backend;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Models.View;
+﻿using MOROPO.SAPRESSC.Core.Web.Backend.Models.View;
 using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Extensions
 {
     public static class ManagementDashboardSectionProviderEnumerableExtensions
     {
-        public static Dictionary<string, ICollection<ManagementDashboardSectionViewModel>> ToManagementDashboardSectionGroups(this IEnumerable<SmartSolucionesCuba.SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> self)
+        public static Dictionary<string, ICollection<ManagementDashboardSectionViewModel>> ToManagementDashboardSectionGroups(this IEnumerable<SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> self)
         {
             var securitySection = new List<ManagementDashboardSectionViewModel>();
 
             foreach (var provider in self)
             {
-                if (provider is SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Providers.LocalSecurityWebManagementDashboardSectionProvider)
+                if (provider is SAPRESSC.Middleware.Security.Essential.Web.Backend.Providers.ManagementDashboardSectionProvider)
                 {
                     securitySection.AddRange(provider.GetManagementDashboardSections());
                 }                
@@ -24,7 +23,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Controller = "traces",
                 Action = "index",
                 Area = "security",
-                Role = Security.Authorization.Roles.TraceViewer
+                Role = Security.Authorization.Permission.TraceViewer
             });
 
             var manifestationsSection = new List<ManagementDashboardSectionViewModel>
@@ -35,7 +34,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "artisticmanifestations",
                     Action = "index",
                     Area = "manifestations",
-                    Role = Security.Authorization.Roles.ArtisticManifestationViewer
+                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -43,7 +42,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "craftmanifestations",
                     Action = "index",
                     Area = "manifestations",
-                    Role = Security.Authorization.Roles.CraftManifestationViewer
+                    Role = Security.Authorization.Permission.CraftManifestationViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -51,7 +50,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "designmanifestations",
                     Action = "index",
                     Area = "manifestations",
-                    Role = Security.Authorization.Roles.DesignManifestationViewer
+                    Role = Security.Authorization.Permission.DesignManifestationViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -59,7 +58,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "servicelines",
                     Action = "index",
                     Area = "manifestations",
-                    Role = Security.Authorization.Roles.ServiceLineViewer
+                    Role = Security.Authorization.Permission.ServiceLineViewer
                 }
             };
 
@@ -71,7 +70,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "awards",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.AwardViewer
+                    Role = Security.Authorization.Permission.AwardViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -80,7 +79,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "distinctions",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.DistinctionViewer
+                    Role = Security.Authorization.Permission.DistinctionViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -89,7 +88,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "recognitions",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.RecognitionViewer
+                    Role = Security.Authorization.Permission.RecognitionViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -98,7 +97,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "contractorkinds",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.ContractorKindViewer
+                    Role = Security.Authorization.Permission.ContractorKindViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -107,7 +106,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "critics",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.CriticViewer
+                    Role = Security.Authorization.Permission.CriticViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -116,7 +115,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "resolutions",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.ResolutionViewer
+                    Role = Security.Authorization.Permission.ResolutionViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -125,7 +124,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "thematics",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.ThematicViewer
+                    Role = Security.Authorization.Permission.ThematicViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -134,7 +133,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "currencies",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.CurrencyViewer
+                    Role = Security.Authorization.Permission.CurrencyViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -143,7 +142,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "administrativeroles",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.AdministrativeRolesViewer
+                    Role = Security.Authorization.Permission.AdministrativeRolesViewer
                 },
 
                  new ManagementDashboardSectionViewModel
@@ -152,7 +151,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "unitmeasurements",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.UnitMeasurementViewer
+                    Role = Security.Authorization.Permission.UnitMeasurementViewer
                 },
                  
 
@@ -162,7 +161,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "materials",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.MaterialViewer
+                    Role = Security.Authorization.Permission.MaterialViewer
                  }
             };
 
@@ -174,7 +173,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "information",
                     Action = "index",
                     Area = "institution",
-                    Role = Security.Authorization.Roles.InstitutionalInformationViewer
+                    Role = Security.Authorization.Permission.InstitutionalInformationViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -183,7 +182,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "services",
                     Action = "index",
                     Area = "institution",
-                    Role = Security.Authorization.Roles.ServiceViewer
+                    Role = Security.Authorization.Permission.ServiceViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -191,7 +190,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "artists",
                     Action = "index",
                     Area = "institution",
-                    Role = Security.Authorization.Roles.ArtistViewer
+                    Role = Security.Authorization.Permission.ArtistViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -199,7 +198,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "creationgroups",
                     Action = "index",
                     Area = "institution",
-                    Role = Security.Authorization.Roles.CreationGroupViewer
+                    Role = Security.Authorization.Permission.CreationGroupViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -207,7 +206,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "contractors",
                     Action = "index",
                     Area = "institution",
-                    Role = Security.Authorization.Roles.ContractorViewer
+                    Role = Security.Authorization.Permission.ContractorViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -215,7 +214,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "associations",
                     Action = "index",
                     Area = "institution",
-                    Role = Security.Authorization.Roles.AssociationViewer
+                    Role = Security.Authorization.Permission.AssociationViewer
                 },
 
                 new ManagementDashboardSectionViewModel
@@ -224,7 +223,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "employees",
                     Action = "index",
                     Area = "institution",
-                    Role = Security.Authorization.Roles.EmployeeViewer
+                    Role = Security.Authorization.Permission.EmployeeViewer
                 }
             };
 
@@ -236,7 +235,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "artworks",
                     Action = "index",
                     Area = "works",
-                    Role = Security.Authorization.Roles.ArtisticManifestationViewer
+                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -244,7 +243,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "craftworks",
                     Action = "index",
                     Area = "works",
-                    Role = Security.Authorization.Roles.ArtisticManifestationViewer
+                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -252,7 +251,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "designworks",
                     Action = "index",
                     Area = "works",
-                    Role = Security.Authorization.Roles.ArtisticManifestationViewer
+                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -260,7 +259,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "serviceworks",
                     Action = "index",
                     Area = "works",
-                    Role = Security.Authorization.Roles.ArtisticManifestationViewer
+                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
                 }
             };
 
@@ -272,7 +271,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "artisticmanifestationgroups",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.ArtisticManifestationGroupViewer
+                    Role = Security.Authorization.Permission.ArtisticManifestationGroupViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -280,7 +279,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "craftmanifestationgroups",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.CraftManifestationGroupViewer
+                    Role = Security.Authorization.Permission.CraftManifestationGroupViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -288,7 +287,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "designmanifestationgroups",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.DesignManifestationGroupViewer
+                    Role = Security.Authorization.Permission.DesignManifestationGroupViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -296,7 +295,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "servicelinegroups",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.ServiceLineGroupViewer
+                    Role = Security.Authorization.Permission.ServiceLineGroupViewer
                 }
             };
 
@@ -308,7 +307,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "artistictechniques",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.ArtisticTechniqueViewer
+                    Role = Security.Authorization.Permission.ArtisticTechniqueViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -316,7 +315,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "crafttechniques",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.CraftTechniqueViewer
+                    Role = Security.Authorization.Permission.CraftTechniqueViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -324,7 +323,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "designtechniques",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.DesignTechniqueViewer
+                    Role = Security.Authorization.Permission.DesignTechniqueViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -332,7 +331,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Controller = "servicetechniques",
                     Action = "index",
                     Area = "complements",
-                    Role = Security.Authorization.Roles.ServiceTechniqueViewer
+                    Role = Security.Authorization.Permission.ServiceTechniqueViewer
                 }
             };
 

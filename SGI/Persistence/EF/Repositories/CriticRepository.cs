@@ -3,7 +3,7 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
-    public class CriticRepository : SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Critic, System.Guid>
+    public class CriticRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Critic, System.Guid>
     {
         public CriticRepository(DbContext dbContext) : base(dbContext)
         {

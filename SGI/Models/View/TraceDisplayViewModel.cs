@@ -2,8 +2,8 @@
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    [Microsoft.AspNetCore.Mvc.ModelMetadataType(typeof(SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace))]
-    public class TraceDisplayViewModel : SmartSolucionesCuba.SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long>
+    [Microsoft.AspNetCore.Mvc.ModelMetadataType(typeof(MOROPO.SAPRESSC.Core.Persistence.EF.Entities.Trace))]
+    public class TraceDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<SAPRESSC.Core.Persistence.EF.Entities.Trace, long>
     {
         [Key]
         public long Id { get; set; }
@@ -28,7 +28,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "AfterData")]
         public string AfterData { get; set; }        
 
-        public void Import(SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace entity)
+        public void Import(MOROPO.SAPRESSC.Core.Persistence.EF.Entities.Trace entity)
         {
             Id = entity.Id;
             Type = entity.Type;

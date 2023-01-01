@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.SGI.Managers
 {
-    public class RelativeImageFileManager : SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade
+    public class RelativeImageFileManager : SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade
     {
         private const string MEDIA_ROOT_DIRECTORY_NAME = "media";
         private const string IMAGES_DIRECTORY_NAME = "images";
@@ -14,17 +14,17 @@ namespace MOROPO.FCBC.SGI.Managers
             this.env = env;
         }
 
-        public void DeleteImageFile(SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
+        public void DeleteImageFile(MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
         {
             System.IO.File.Delete(GetImageAbsoluteFilePath(image));
         }
 
-        public string GetImageAbsoluteFilePath(SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
+        public string GetImageAbsoluteFilePath(MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
         {
             return env.WebRootFileProvider.GetFileInfo(System.IO.Path.Combine(MEDIA_ROOT_DIRECTORY_NAME, IMAGES_DIRECTORY_NAME, string.Format("{0}.{1}", image.Id, image.ContentType.ContentTypeToExtension()))).PhysicalPath;
         }
 
-        public byte[] GetImageFileContent(SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
+        public byte[] GetImageFileContent(MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
         {
             byte[] result;
 
@@ -40,14 +40,14 @@ namespace MOROPO.FCBC.SGI.Managers
             return result;
         }
 
-        public string GetImageRelativeFilePath(SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
+        public string GetImageRelativeFilePath(MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image image)
         {
             return null;
         }
 
         public void SaveImageFileContent(System.Guid imageId, byte[] content, string contentType)
         {
-            System.IO.File.WriteAllBytes(GetImageAbsoluteFilePath(new SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities.Image { Id = imageId, ContentType = contentType }), content);
+            System.IO.File.WriteAllBytes(GetImageAbsoluteFilePath(new SAPRESSC.Middleware.Media.Persistence.Entities.Image { Id = imageId, ContentType = contentType }), content);
         }
     }
 }
