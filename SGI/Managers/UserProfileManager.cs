@@ -6,17 +6,15 @@ namespace MOROPO.FCBC.SGI.Managers
     {
         public IUserProfileViewModel GetUserProfile(string username)
         {
-            throw new System.NotImplementedException();
+            return new Models.View.UserProfileViewModel();
         }
 
         public void PreValidateUserProfile(string username, IUserProfileViewModel profileModel, Microsoft.AspNetCore.Mvc.Controller controller)
         {
-            throw new System.NotImplementedException();
         }
 
         public void UpdateUserProfile(string username, IUserProfileViewModel profileModel)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

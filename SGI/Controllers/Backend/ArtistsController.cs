@@ -267,6 +267,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreCreate(entity, inputViewModel);
 
+            // TODO En ocasiones queda null, hay que buscar inicailizar las regiones en este punto
             var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == inputViewModel.MunicipalityId);
 
             var postalContact = new PostalContactItem
