@@ -4,12 +4,14 @@
     @Html.HiddenFor(model => model.Id)
     @Html.HiddenFor(model => model.Label)
     @Html.HiddenFor(model => model.Description)
-    
+
     <div class="checkbox">
         <label class="h4" style="margin-bottom: 8px;">
             @Html.CheckBoxFor(model => model.Selected)
-            @Model.Label
+            @GlobalViewLocalizationHelper.Localize(Model.Label.ToString(), ViewLocalizer)
         </label>
-        <p class="text-muted">@Model.Description</p>
+        <p class="text-muted">
+            @GlobalViewLocalizationHelper.Localize(Model.Description.ToString(), ViewLocalizer)
+        </p>
     </div>
 </div>

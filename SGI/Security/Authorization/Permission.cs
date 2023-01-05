@@ -163,13 +163,6 @@
         public const string EmployeeRemover = "employee-remover";
         #endregion
 
-        #region EmployeeAdministrativeRoleBridge
-        public const string EmployeeAdministrativeRoleBridgeViewer = "employee-administrative-role-bridge-viewer";
-        public const string EmployeeAdministrativeRoleBridgeCreator = "employee-administrative-role-bridge-creator";
-        public const string EmployeeAdministrativeRoleBridgeEditor = "employee-administrative-role-bridge-editor";
-        public const string EmployeeAdministrativeRoleBridgeRemover = "employee-administrative-role-bridge-remover";
-        #endregion
-
         #region Resolution
         public const string ResolutionViewer = "resolution-viewer";
         public const string ResolutionCreator = "resolution-creator";
@@ -206,31 +199,31 @@
         #endregion
 
         #region ArtWork
-        public const string ArtWorkViewer = "artwork-viewer";
-        public const string ArtWorkCreator = "artwork-creator";
-        public const string ArtWorkEditor = "artwork-editor";
-        public const string ArtWorkRemover = "artwork-remover";
+        public const string ArtWorkViewer = "art-work-viewer";
+        public const string ArtWorkCreator = "art-work-creator";
+        public const string ArtWorkEditor = "art-work-editor";
+        public const string ArtWorkRemover = "art-work-remover";
         #endregion
 
         #region CraftWork
-        public const string CraftWorkViewer = "craftwork-viewer";
-        public const string CraftWorkCreator = "craftwork-creator";
-        public const string CraftWorkEditor = "craftwork-editor";
-        public const string CraftWorkRemover = "craftwork-remover";
+        public const string CraftWorkViewer = "craft-work-viewer";
+        public const string CraftWorkCreator = "craft-work-creator";
+        public const string CraftWorkEditor = "craft-work-editor";
+        public const string CraftWorkRemover = "craft-work-remover";
         #endregion
 
         #region DesignWork
-        public const string DesignWorkViewer = "designwork-viewer";
-        public const string DesignWorkCreator = "designwork-creator";
-        public const string DesignWorkEditor = "designwork-editor";
-        public const string DesignWorkRemover = "designwork-remover";
+        public const string DesignWorkViewer = "design-work-viewer";
+        public const string DesignWorkCreator = "design-work-creator";
+        public const string DesignWorkEditor = "design-work-editor";
+        public const string DesignWorkRemover = "design-work-remover";
         #endregion
 
         #region ServiceWork
-        public const string ServiceWorkViewer = "servicework-viewer";
-        public const string ServiceWorkCreator = "servicework-creator";
-        public const string ServiceWorkEditor = "servicework-editor";
-        public const string ServiceWorkRemover = "servicework-remover";
+        public const string ServiceWorkViewer = "service-work-viewer";
+        public const string ServiceWorkCreator = "service-work-creator";
+        public const string ServiceWorkEditor = "service-work-editor";
+        public const string ServiceWorkRemover = "service-work-remover";
         #endregion
 
         #region UnitMeasurement
