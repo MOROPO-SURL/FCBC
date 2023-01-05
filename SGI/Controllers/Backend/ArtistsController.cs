@@ -468,42 +468,29 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 var municipality = ((MunicipalityRegion)region).Municipality;
                 var state = municipality.State;
 
+                var artist = new ArtistDisplayViewModel();
+                artist.Import(entity);
+                var phoneContacts = entity.Identity.PersonPhoneContactItemBridges.Select(bridge => new ArtistPhoneContactDisplayViewModel
+                {
+                    Id = bridge.ContactItemId,
+                    Label = bridge.ContactItem.Label,
+                    Number = bridge.ContactItem.PhoneNumber,
+                    ArtistId = entity.Id
+                }).ToList();
+
+                var emailContacts = entity.Identity.PersonEmailContactItemBridges.Select(bridge => new ArtistEmailContactDisplayViewModel
+                {
+                    Id = bridge.ContactItemId,
+                    Label = bridge.ContactItem.Label,
+                    Address = bridge.ContactItem.EmailAddress,
+                    ArtistId = entity.Id
+                }).ToList();
+
                 var resultModel = new ArtistContactsManageViewModel
                 {
-                    Artist = new ArtistDisplayViewModel
-                    {
-                        ImageId = (Guid)entity.Identity.ImageId,
-                        ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null,
-                        Name = entity.Identity.Name,
-                        LastName = entity.Identity.LastName,
-                        Municipality = municipality,
-                        State = municipality.State,
-                        CitizenId = entity.CitizenId,
-                        Workplace = entity.Workplace,
-                        SchoolLevel = entity.SchoolLevel,
-                        SpecificEducation = entity.SpecificEducation,
-                        AdmitionMode = entity.AdmitionMode,
-                        AdmitionModeContext = entity.AdmitionModeContext,
-                        ArtistManifestationBridges = entity.ArtisticManifestationBridges,
-                        About = entity.Identity.About,
-                        EmailContactItems = entity.Identity.PersonEmailContactItemBridges.Select(b => b.ContactItem).ToArray(),
-                        PhoneContactItems = entity.Identity.PersonPhoneContactItemBridges.Select(b => b.ContactItem).ToArray(),
-                        AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First(),
-                    },
-                    PhoneContacts = entity.Identity.PersonPhoneContactItemBridges.Select(bridge => new ArtistPhoneContactDisplayViewModel
-                    {
-                        Id = bridge.ContactItemId,
-                        Label = bridge.ContactItem.Label,
-                        Number = bridge.ContactItem.PhoneNumber,
-                        ArtistId = entity.Id
-                    }).ToList(),
-                    EmailContacts = entity.Identity.PersonEmailContactItemBridges.Select(bridge => new ArtistEmailContactDisplayViewModel
-                    {
-                        Id = bridge.ContactItemId,
-                        Label = bridge.ContactItem.Label,
-                        Address = bridge.ContactItem.EmailAddress,
-                        ArtistId = entity.Id
-                    }).ToList()
+                    Artist = artist,
+                    PhoneContacts = phoneContacts,
+                    EmailContacts = emailContacts
                 };
 
                 return new Rotativa.AspNetCore.ViewAsPdf("Print", resultModel)
@@ -512,7 +499,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
                     PageSize = Rotativa.AspNetCore.Options.Size.A4
                 };
-                
             }
             catch (System.Exception e)
             {
