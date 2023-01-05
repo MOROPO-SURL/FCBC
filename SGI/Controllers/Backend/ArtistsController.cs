@@ -1179,8 +1179,38 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var model = new ArtistInputViewModel();
 
-            PopulateAwards(entity, model.AwardsToSelect);
+            PopulateAwards(entity, model.AwardsToSelect);            
+
+            model.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("edit/{key}/artisticRecognitions")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public ActionResult EditArtisticRecognitions(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtistInputViewModel();
+
             PopulateRecognitions(entity, model.RecognitionsToSelect);
+
+            model.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("edit/{key}/artisticDistintions")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public ActionResult EditArtisticDistintions(Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtistInputViewModel();
+
             PopulateDistintions(entity, model.DistintionsToSelect);
 
             model.Import(entity);
@@ -1208,20 +1238,48 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 return (ActionResult)GetDefaultActionResult();
             }
 
-            entity.ArtistAwardBridges.Clear();
-            entity.ArtistRecognitionBridges.Clear();
-            entity.ArtistDistinctionBridges.Clear();
+            entity.ArtistAwards.Clear();           
 
             foreach (var item in modelInput.AwardsToSelect)
             {
                 if (!item.Selected) continue;
 
-                entity.ArtistAwardBridges.Add(new ArtistAwardBridge
+                entity.ArtistAwards.Add(new ArtistAward
                 {
                     ArtistId = entity.Id,
                     AwardId = item.Id
                 });
+            }           
+
+            
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditArtisticAcknowledgments", new { key = entity.Id });
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/artisticRecognitions")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public ActionResult EditArtisticRecognitions(Guid key, ArtistInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
             }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.ArtistRecognitionBridges.Clear();
 
             foreach (var item in modelInput.RecognitionsToSelect)
             {
@@ -1234,6 +1292,35 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 });
             }
 
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditArtisticRecognitions", new { key = entity.Id });
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/artisticDistintions")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public ActionResult EditArtisticDistintions(Guid key, ArtistInputViewModel modelInput)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return (ActionResult)GetDefaultActionResult();
+            }
+
+            entity.ArtistDistinctionBridges.Clear();
+
             foreach (var item in modelInput.DistintionsToSelect)
             {
                 if (!item.Selected) continue;
@@ -1245,11 +1332,153 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 });
             }
 
+
             Repository.Update(entity, User.Identity.Name);
 
             SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
 
-            return RedirectToAction("editartisticacknowledgments", new { key = entity.Id });
+            return RedirectToAction("EditArtisticDistintions", new { key = entity.Id });
+        }
+
+        [Route("edit/{key}/ArtistAwards")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public IActionResult ArtistAwards(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new ArtistAwardManageViewModel
+                {
+                    ArtistDisplay = new ArtistDisplayViewModel()  
+                };
+                PopulateAwards(resultModel);
+                resultModel.ArtistDisplay.Import(entity);                
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+
+        [Route("edit/Awards/add")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddArtistAwards(ArtistAwardManageViewModel modelInput)
+        {
+            Artist entity = null;
+            Award award = null;
+            try
+            {
+                entity = Repository.Get(modelInput.ArtistDisplay.Id);
+                award = awardRepository.Get(modelInput.AwardId);
+                
+                modelInput.ArtistDisplay.Import(entity);
+;                
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.ArtistAwards.Add( new ArtistAward { Artist = entity, Award = award, ArtistId = entity.Id, AwardId = award.Id, Context = modelInput.Context}); 
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("ArtistAwards", new { key = entity.Id });
+        }
+
+        [Route("edit/Awards/delete")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteArtistAwards(ArtistAwardDisplayViewModel modelDisplay)
+        {
+            Artist entity = null;  
+            try
+            {
+                entity = Repository.Get(modelDisplay.ArtistId);                
+                
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var artistAward = entity.ArtistAwards.First(a => a.Id== modelDisplay.Id);
+                entity.ArtistAwards.Remove(artistAward);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("ArtistAwards", new { key = entity.Id });
+        }
+
+        private void PopulateAwards(ArtistAwardManageViewModel modelInput)
+        {
+            var awads = awardRepository.GetAll();
+
+            if (awads.Count() > 0)
+            {
+                modelInput.SelectAwards = awardRepository.GetAll().Select( item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name  }).ToArray();
+            }
         }
 
         private void PopulateAwards(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
@@ -1263,7 +1492,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 {
                     Id = item.Id,
                     Label = item.Name,
-                    Selected = entity.ArtistAwardBridges.Any(a => a.AwardId == item.Id),
+                    Selected = entity.ArtistAwards.Any(a => a.AwardId == item.Id),
                     Description = item.Country.Name
                 }));
             }

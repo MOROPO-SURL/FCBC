@@ -62,6 +62,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public SchoolLevel SchoolLevel { get; set; }
 
         public ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; }
+        public ICollection<ArtistAward> ArtistAwards { get; set; }
 
         [Display(Name = "specify training")]
         public string SpecificEducation { get; set; }
@@ -106,6 +107,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             AdmitionMode = entity.AdmitionMode;
             AdmitionModeContext = entity.AdmitionModeContext;
             ArtistManifestationBridges = entity.ArtisticManifestationBridges;
+            ArtistAwards = entity.ArtistAwards;
         }
     }
 }

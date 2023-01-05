@@ -31,9 +31,7 @@
 
 @using (Html.BeginForm("editartisticacknowledgments", "artists", new { key = Model.Id }, FormMethod.Post, true, null))
 {
-    var selectableAwardsIndex = 0;
-    var selectableRecognitionIndex = 0;
-    var selectableDisctintionIndex = 0;
+    var selectableIndex = 0;
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
@@ -56,59 +54,31 @@
         <div class="card-body">
             <div class="card">
                 <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="true">Premios</a>
+                            <a class="nav-link active" href="#">Premios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#recognitions" role="tab" aria-controls="recognitions" aria-selected="false">Reconocimientos</a>
+                            <a class="nav-link" asp-action="EditArtisticRecognitions" asp-route-key="@Model.Id">Reconocimientos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#distintions" role="tab" aria-controls="distintions" aria-selected="false">Distinciones</a>
+                            <a class="nav-link" asp-action="EditArtisticDistintions" asp-route-key="@Model.Id">Distinciones</a>
                         </li>
                     </ul>
                 </div>
-                <div class="card-body tab-content">
-                    <div class="tab-pane fade show active" id="awards" role="tabpanel" aria-labelledby="awards-tab">
-                        <div class="row">
-                            @if (Model.AwardsToSelect != null || Model.AwardsToSelect.Count() > 0)
+                <div class="card-body">
+                    <div class="row">
+                        @if (Model.AwardsToSelect != null || Model.AwardsToSelect.Count() > 0)
+                        {
+                            @foreach (var item in Model.AwardsToSelect)
                             {
-                                @foreach (var item in Model.AwardsToSelect)
-                                {
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("AwardsToSelect[{0}]", selectableAwardsIndex++))
-                                    </div>
-                                }
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("AwardsToSelect[{0}]", selectableIndex++))
+                                </div>
                             }
-                        </div>
+                        }
                     </div>
-                    <div class="tab-pane fade" id="recognitions" role="tabpanel" ariaa-labelledby="recognitions-tab">
-                        <div class="row">
-                            @if (Model.RecognitionsToSelect != null || Model.RecognitionsToSelect.Count() > 0)
-                            {
-                                @foreach (var item in Model.RecognitionsToSelect)
-                                {
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("RecognitionsToSelect[{0}]", selectableRecognitionIndex++))
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="distintions" role="tabpanel" ariaa-labelledby="distintions-tab">
-                        <div class="row">
-                            @if (Model.DistintionsToSelect != null || Model.DistintionsToSelect.Count() > 0)
-                            {
-                                @foreach (var item in Model.DistintionsToSelect)
-                                {
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("DistintionsToSelect[{0}]", selectableDisctintionIndex++))
-                                    </div>
-                                }
-                            }
-                        </div>
 
-                    </div>
                 </div>
             </div>
         </div>
@@ -118,5 +88,4 @@
         </div>
     </div>
 }
-
 
