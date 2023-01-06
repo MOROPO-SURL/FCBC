@@ -17,6 +17,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string OrganizationIdentityName { get; set; }
 
         public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
+        public ICollection<CreationGroupAward> CreationGroupAwards { get; set; } = new List<CreationGroupAward>();
 
         public void Import(CreationGroup entity)
         {
@@ -25,6 +26,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
             OrganizationIdentityName = entity.Identity.Name;
             CreationGroupArtisticManifestationBrigdes = entity.ArtisticManifestationBrigdes;
+            CreationGroupAwards = entity.CreationGroupAwards;
         }
     }
 }

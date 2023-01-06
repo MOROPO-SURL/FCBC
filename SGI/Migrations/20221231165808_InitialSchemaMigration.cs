@@ -1807,8 +1807,8 @@ namespace MOROPO.FCBC.SGI.Migrations
                 {
                     table.PrimaryKey("pk_creationgroupdistinctionbridges", x => new { x.groupid, x.distinctionid });
                     table.ForeignKey(
-                        name: "fk_creationgroupdistinctionbridges_creationgroups_distinctionid",
-                        column: x => x.distinctionid,
+                        name: "fk_creationgroupdistinctionbridges_creationgroups_groupid",
+                        column: x => x.groupid,
                         principalTable: "creationgroups",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);

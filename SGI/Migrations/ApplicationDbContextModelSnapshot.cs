@@ -960,21 +960,32 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("creationgroupattachments");
                 });
 
-            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupAwardBridge", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupAward", b =>
                 {
-                    b.Property<Guid>("GroupId")
-                        .HasColumnName("groupid");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
                     b.Property<Guid>("AwardId")
                         .HasColumnName("awardid");
 
-                    b.HasKey("GroupId", "AwardId")
-                        .HasName("pk_creationgroupawardbridges");
+                    b.Property<string>("Context")
+                        .IsRequired()
+                        .HasColumnName("context");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnName("groupid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_creationgroupawards");
 
                     b.HasIndex("AwardId")
-                        .HasName("ix_creationgroupawardbridges_awardid");
+                        .HasName("ix_creationgroupawards_awardid");
 
-                    b.ToTable("creationgroupawardbridges");
+                    b.HasIndex("GroupId")
+                        .HasName("ix_creationgroupawards_groupid");
+
+                    b.ToTable("creationgroupawards");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupCraftManifestationBridge", b =>
@@ -1022,8 +1033,8 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasKey("GroupId", "DistinctionId")
                         .HasName("pk_creationgroupdistinctionbridges");
 
-                    b.HasIndex("DistinctionId")
-                        .HasName("ix_creationgroupdistinctionbridges_distinctionid");
+                    b.HasIndex("GroupId")
+                        .HasName("ix_creationgroupdistinctionbridges_groupid");
 
                     b.ToTable("creationgroupdistinctionbridges");
                 });
@@ -2913,18 +2924,18 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupAwardBridge", b =>
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupAward", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Award", "Award")
                         .WithMany()
                         .HasForeignKey("AwardId")
-                        .HasConstraintName("fk_creationgroupawardbridges_awards_awardid")
+                        .HasConstraintName("fk_creationgroupawards_awards_awardid")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
-                        .WithMany("CreationGroupAwardBridges")
+                        .WithMany("CreationGroupAwards")
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("fk_creationgroupawardbridges_creationgroups_groupid")
+                        .HasConstraintName("fk_creationgroupawards_creationgroups_groupid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2962,8 +2973,8 @@ namespace MOROPO.FCBC.SGI.Migrations
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
                         .WithMany("CreationGroupDistinctionBridges")
-                        .HasForeignKey("DistinctionId")
-                        .HasConstraintName("fk_creationgroupdistinctionbridges_creationgroups_distinctionid")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("fk_creationgroupdistinctionbridges_creationgroups_groupid")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Distinction", "Distinction")

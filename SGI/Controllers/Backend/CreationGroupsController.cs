@@ -1161,7 +1161,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var model = new CreationGroupInputViewModel();
 
-            PopulateAwards(entity, model.AwardsToSelect);
+            
 
             model.Import(entity);
 
@@ -1220,18 +1220,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 return (ActionResult)GetDefaultActionResult();
             }
 
-            entity.CreationGroupAwardBridges.Clear();
-
-            foreach (var item in modelInput.AwardsToSelect)
-            {
-                if (!item.Selected) continue;
-
-                entity.CreationGroupAwardBridges.Add(new CreationGroupAwardBridge
-                {
-                    GroupId = entity.Id,
-                    AwardId = item.Id
-                });
-            }
+           
 
             Repository.Update(entity, User.Identity.Name);
 
@@ -1320,7 +1309,148 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return RedirectToAction("EditGroupDistintions", new { key = entity.Id });
         }
 
-        private void PopulateAwards(CreationGroup entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
+        [Route("edit/{key}/CreationGroupAwards")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public IActionResult CreationGroupAwards(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new CreationGroupAwardManageViewModel
+                {
+                    GroupDisplay = new CreationGroupDisplayViewModel()
+                };
+                PopulateAwards(resultModel);
+                resultModel.GroupDisplay.Import(entity);
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+
+        [Route("edit/Awards/add")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCreationGroupAwards(CreationGroupAwardManageViewModel modelInput)
+        {
+            CreationGroup entity = null;
+            Award award = null;
+            try
+            {
+                entity = Repository.Get(modelInput.GroupDisplay.Id);
+                award = awardRepository.Get(modelInput.AwardId);
+
+                modelInput.GroupDisplay.Import(entity);
+                ;
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.CreationGroupAwards.Add(new CreationGroupAward { Group = entity, Award = award, GroupId = entity.Id, AwardId = award.Id, Context = modelInput.Context });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("CreationGroupAwards", new { key = entity.Id });
+        }
+
+        [Route("edit/Awards/delete")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCreationGroupAwards(CreationGroupAwardDisplayViewModel modelDisplay)
+        {
+            CreationGroup entity = null;
+            try
+            {
+                entity = Repository.Get(modelDisplay.GroupId);
+
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var groupAward = entity.CreationGroupAwards.First(a => a.Id == modelDisplay.Id);
+                entity.CreationGroupAwards.Remove(groupAward);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("CreationGroupAwards", new { key = entity.Id });
+        }
+
+        private void PopulateAwards(CreationGroupAwardManageViewModel modelInput)
+        {
+            var awads = awardRepository.GetAll();
+
+            if (awads.Count() > 0)
+            {
+                modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name }).ToArray();
+            }
+        }
+
+        private void PopulateAwards(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
         {
             var awads = awardRepository.GetAll();
 
@@ -1331,12 +1461,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 {
                     Id = item.Id,
                     Label = item.Name,
-                    Selected = entity.CreationGroupAwardBridges.Any(a => a.AwardId == item.Id),
+                    Selected = entity.ArtistAwards.Any(a => a.AwardId == item.Id),
                     Description = item.Country.Name
                 }));
             }
 
         }
+
+        
 
         private void PopulateRecognitions(CreationGroup entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
         {

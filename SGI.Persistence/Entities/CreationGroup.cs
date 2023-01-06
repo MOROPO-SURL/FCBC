@@ -14,7 +14,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             DesignManifestationBridges = new List<CreationGroupDesignManifestationBridge>();
             ServiceLineBridges = new List<CreationGroupServiceLineBridge>();
             ArtistBridges = new List<CreationGroupArtistBridge>();
-            CreationGroupAwardBridges = new List<CreationGroupAwardBridge>();
+            CreationGroupAwards = new List<CreationGroupAward>();
             CreationGroupDistinctionBridges = new List<CreationGroupDistinctionBridge>();
             CreationGroupRecognitionBridges = new List<CreationGroupRecognitionBridge>();
         }
@@ -46,7 +46,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         
         public ICollection<CreationGroupArtistBridge> ArtistBridges { get; set; }
 
-        public System.Collections.Generic.ICollection<CreationGroupAwardBridge> CreationGroupAwardBridges { get; set; }
+        public System.Collections.Generic.ICollection<CreationGroupAward> CreationGroupAwards { get; set; }
         public System.Collections.Generic.ICollection<CreationGroupRecognitionBridge> CreationGroupRecognitionBridges { get; set; }
         public System.Collections.Generic.ICollection<CreationGroupDistinctionBridge> CreationGroupDistinctionBridges { get; set; }
 

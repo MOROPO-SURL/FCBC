@@ -10,7 +10,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
 
             entityTypeBuilder.HasKey(bridge => new { bridge.GroupId, bridge.DistinctionId });
 
-            entityTypeBuilder.HasOne(bridge => bridge.Group).WithMany(entity => entity.CreationGroupDistinctionBridges).HasForeignKey(bridge => bridge.DistinctionId);
+            entityTypeBuilder.HasOne(bridge => bridge.Group).WithMany(entity => entity.CreationGroupDistinctionBridges).HasForeignKey(bridge => bridge.GroupId);
             entityTypeBuilder.HasOne(bridge => bridge.Distinction).WithMany().HasForeignKey(bridge => bridge.DistinctionId);
         }
     }

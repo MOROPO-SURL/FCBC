@@ -29,6 +29,7 @@
 
 @section styles {
     <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-multiselect.css.css" />
+    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         #ImageFile {
             width: 0;
@@ -40,8 +41,9 @@
 
     @section scripts {
     <script src="~/js/Views/CreationGroups/Edit.js"></script>
+    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
     <script type="text/javascript">
-        $('#BornDate').datepicker({
+        $('#CreateDate').datepicker({
             uiLibrary: 'bootstrap4',
             modal: true,
             header: true,
@@ -112,7 +114,7 @@
                     <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("EditGroupAcknowledgments", @Model.Id)">Reconocimientos</a>
+                    <a class="nav-link" href="@Url.Action("CreationGroupAwards", @Model.Id)">Reconocimientos</a>
                 </li>
             </ul>
         </div>
