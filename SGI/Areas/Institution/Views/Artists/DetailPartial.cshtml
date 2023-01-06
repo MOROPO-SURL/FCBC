@@ -41,16 +41,16 @@
                         </div>
                         <div class="col-md-6">
                             <h5>@Html.DisplayNameFor(model => model.AddressPostal)</h5>
-                                <p class="p" style="word-wrap: break-word;">@Html.DisplayName(Model.AddressPostal)</p>
+                            <p class="p" style="word-wrap: break-word;">@Html.DisplayName(Model.AddressPostal)</p>
                         </div>
                     </div>
                     <hr />
                     <h5>@Html.DisplayNameFor(model => model.About)</h5>
-                    <p>@Model.About</p>                    
+                    <p style="word-wrap: break-word;">@Model.About</p>
                     <div class="row">
                         <div class="col-md-4">
                             <h5>@Html.DisplayNameFor(model => model.AdmitionMode)</h5>
-                            <p>@Html.DisplayName(Model.AdmitionMode.ToString())</p>
+                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.AdmitionMode.ToString()))</p>
                         </div>
                         <div class="col-md-8">
                             <h5>Asociación | Resolución</h5>

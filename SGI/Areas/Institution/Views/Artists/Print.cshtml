@@ -15,96 +15,98 @@
             height: 0;
             overflow: hidden;
         }
+        td {
+            border: none !important;
+        }
     </style>
 }
 
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-3" style="margin-bottom: 20px;">
-                    <div class="card">
-                        @if (Model.Artist.ImageId != System.Guid.Empty)
-                        {
-                            <img class="img-thumbnail" src="~/media/images/@Model.Artist.ImageId.@Model.Artist.ImageExtension" />
-                        }
-                        else
-                        {
-                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
-                        }
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <dl style="margin-bottom: 0;">
-                        <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
-                        <dd>@Model.Artist.Name</dd>
-                        <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("LastName", ViewLocalizer)</dt>
-                        <dd>@Model.Artist.LastName</dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-md-6">
+    <div class="p-3" style="margin-bottom: 20px;">
+                <table  class="table">
+                    <tbody>
+                        <tr>
+                            <td style="width:30%;">
+                                <div class="card">
+                                    @if (Model.Artist.ImageId != System.Guid.Empty)
+                                    {
+                                        <img class="img-thumbnail" src="~/media/images/@Model.Artist.ImageId.@Model.Artist.ImageExtension" />
+                                    }
+                                    else
+                                    {
+                                        <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <h5>@Html.DisplayNameFor(model => model.Artist.Name)</h5>
+                                <p>@Html.DisplayName(Model.Artist.Name)</p>
+                                <h5>@Html.DisplayNameFor(model => model.Artist.LastName)</h5>
+                                <p>@Html.DisplayName(Model.Artist.LastName)</p>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
                             <h5>@Html.DisplayNameFor(model => model.Artist.State)</h5>
                             <p>@Html.DisplayName(Model.Artist.State.Name)</p>
-                        </div>
-                        <div class="col-md-6">
+                        </td>
+                        <td>
                             <h5>@Html.DisplayNameFor(model => model.Artist.Municipality)</h5>
                             <p>@Html.DisplayName(Model.Artist.Municipality.Name)</p>
-                        </div>
-                    </div>
-                    
-                        <div>
-                            <h5>@Html.DisplayNameFor(model => model.Artist.AddressPostal)</h5>
-                            <p>@Html.DisplayName(Model.Artist.AddressPostal)</p>
-                        </div>
-                    
-                </div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-6">
+                        </td>
+                        <td>
                             <h5>@Html.DisplayNameFor(model => model.Artist.Sex)</h5>
-                            <p>@Model.Artist.Sex</p>
-                        </div>
-                        <div class="col-6">
+                            <p>@GlobalViewLocalizationHelper.Localize(Model.Artist.Sex.ToString())</p>
+                        </td>
+                        <td>
                             <h5>@Html.DisplayNameFor(model => model.Artist.CivilStatus)</h5>
-                            <p>@Model.Artist.CivilStatus</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            
+                            <p>@GlobalViewLocalizationHelper.Localize(Model.Artist.CivilStatus.ToString())</p>
+                        </td>
+                     </tr>
+                     <tr>
+                         <td colspan="4">
+                            <h5>@Html.DisplayNameFor(model => model.Artist.AddressPostal)</h5>
+                            <p style="margin: 0; word-wrap: break-word;">@Html.DisplayName(Model.Artist.AddressPostal)</p>
+                         </td>
+                     </tr>
+                </tbody>
+            </table>
             <hr />
-            <h5>@Html.DisplayNameFor(model => model.Artist.About)</h5>
-            <p>@Model.Artist.About</p>
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>@Html.DisplayNameFor(model => model.Artist.AdmitionMode)</h5>
-                    <p>@Html.DisplayName(Model.Artist.AdmitionMode.ToString())</p>
-                </div>
-                <div class="col-md-8">
-                    <h5>Asociación | Resolución</h5>
-                    @if (Model.Artist.AdmitionModeContext != null)
-                    {
-                        @if (Model.Artist.AdmitionModeContext.Contains("Resolution|"))
-                        {
-                            <p>@Model.Artist.Resolution.NumberResolution-@Model.Artist.Resolution.Title</p>
-                        }
-                        else if (Model.Artist.AdmitionModeContext.Contains("Association|"))
-                        {
-                            <p>@Model.Artist.Association.OrganizationIdentityName</p>
-                        }
-                    }
-
-                </div>
-            </div>
-            
-            
-
-        </div>
-
+            <table class="table" style="width: 100%; table-layout: fixed;">
+                <tbody>
+                    <tr>
+                        <td style="width:33%">
+                            <h5>@Html.DisplayNameFor(model => model.Artist.AdmitionMode)</h5>
+                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Artist.AdmitionMode.ToString()))</p>
+                        </td>
+                        <td>
+                            <h5>Asociación | Resolución</h5>
+                            @if (Model.Artist.AdmitionModeContext != null)
+                            {
+                                @if (Model.Artist.AdmitionModeContext.Contains("Resolution|"))
+                                {
+                                    <p>@Model.Artist.Resolution.NumberResolution-@Model.Artist.Resolution.Title</p>
+                                }
+                                else if (Model.Artist.AdmitionModeContext.Contains("Association|"))
+                                {
+                                    <p>@Model.Artist.Association.OrganizationIdentityName</p>
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h5>@Html.DisplayNameFor(model => model.Artist.About)</h5>
+                            <p style="word-wrap: break-word;">@Model.Artist.About</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
     </div>
 
 

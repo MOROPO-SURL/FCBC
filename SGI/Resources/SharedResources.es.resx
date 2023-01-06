@@ -1740,4 +1740,10 @@
   <data name="unit-measurement-viewer-description" xml:space="preserve">
     <value>Usuario que puede visualizar unidades de medida</value>
   </data>
+  <data name="Graduate" xml:space="preserve">
+    <value>Graduado de Escuelas de Arte</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>Miembro de Asociación</value>
+  </data>
 </root>
