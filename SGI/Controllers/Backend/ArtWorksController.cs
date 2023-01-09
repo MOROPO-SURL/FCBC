@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
@@ -8,6 +10,8 @@ using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -28,8 +32,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository;
         private readonly IImageFileManagerFacade imageFileManager;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
+        private readonly IEntityRepository<Award, Guid> awardRepository;
 
-        public ArtWorksController(Managers.RelativeAttachmentFileManager attachmentFileManager, IImageFileManagerFacade imageFileManager, IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<UnitMeasurement, System.Guid> unitMeasurementRepository, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository, IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository, IEntityRepository<ArtWork, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ArtWorksController> localizer, ILogger<ArtWorksController> logger) : base(repository, localizer, logger)
+        public ArtWorksController(Managers.RelativeAttachmentFileManager attachmentFileManager, IImageFileManagerFacade imageFileManager, IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<UnitMeasurement, System.Guid> unitMeasurementRepository, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository, IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<ArtWork, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ArtWorksController> localizer, ILogger<ArtWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.techniqueRepository = techniqueRepository;
@@ -42,6 +47,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.attachmentRepository = attachmentRepository;
             this.imageFileManager = imageFileManager;
             this.attachmentFileManager = attachmentFileManager;
+            this.awardRepository = awardRepository;
         }
 
         [RequirePermissions(Permission.ArtWorkViewer)]
@@ -739,6 +745,149 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Awards
+        [Route("edit/{key}/ArtWorkAwards")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public IActionResult ArtWorkAwards(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new ArtWorkAwardManageViewModel
+                {
+                    ArtWorkDisplay = new ArtWorkDisplayViewModel()
+                };
+                PopulateAwards(resultModel);
+                resultModel.ArtWorkDisplay.Import(entity);
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+
+        [Route("edit/Awards/add")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddArtWorkAwards(ArtWorkAwardManageViewModel modelInput)
+        {
+            ArtWork entity = null;
+            Award award = null;
+            try
+            {
+                entity = Repository.Get(modelInput.ArtWorkDisplay.Id);
+                award = awardRepository.Get(modelInput.AwardId);
+
+                modelInput.ArtWorkDisplay.Import(entity);                
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.Awards.Add(new ArtWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, About = modelInput.About, Year = modelInput.Year });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("ArtWorkAwards", new { key = entity.Id });
+        }
+
+        [Route("edit/Awards/delete")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteArtWorkAwards(ArtWorkAwardDisplayViewModel modelDisplay)
+        {
+            ArtWork entity = null;
+            try
+            {
+                entity = Repository.Get(modelDisplay.ArtWorkId);
+
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var artWorkAward = entity.Awards.First(a => a.Id == modelDisplay.Id);
+                entity.Awards.Remove(artWorkAward);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("ArtWorkAwards", new { key = entity.Id });
+        }
+
+        private void PopulateAwards(ArtWorkAwardManageViewModel modelInput)
+        {
+            var awads = awardRepository.GetAll();
+
+            if (awads.Count() > 0)
+            {
+                modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name }).ToArray();
+            }
         }
 
         #endregion
