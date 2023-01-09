@@ -11,7 +11,7 @@
             CreationGroupBridges = new System.Collections.Generic.List<ArtWorkCreationGroupBridge>();
             Valorations = new System.Collections.Generic.List<ArtWorkValoration>();
             Awards = new System.Collections.Generic.List<ArtWorkAward>();
-            Attachments = new System.Collections.Generic.List<ArtWorkAttachment>();
+            Attachments = new System.Collections.Generic.List<ArtWorkAttachment>();            
         }
 
         public string Collection { get; set; }
@@ -50,6 +50,6 @@
 
         public System.Collections.Generic.List<ArtWorkAward> Awards { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkAttachment> Attachments { get; set; }
+        public System.Collections.Generic.List<ArtWorkAttachment> Attachments { get; set; }        
     }
 }
