@@ -362,7 +362,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("AddCraftWorkAwards", new { key = entity.Id });
+            return RedirectToAction("CraftWorkAwards", new { key = entity.Id });
         }
 
         [Route("edit/Awards/delete")]

@@ -82,7 +82,7 @@
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <div class="page-header">
-                        <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-designwork-award-@Model.DesignWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                        <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.DesignWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                     </div>
 
 
@@ -107,7 +107,7 @@
                                     <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
                                     <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
                                     <td style="vertical-align: middle;">
-                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-designwork-award-@item.Id">Eliminar</a>
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
                                         @await Html.PartialAsync("DeleteDesignWorkAwards", new DesignWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, About = item.About, DesignWorkId = item.WorkId })
                                     </td>
                                 </tr>
