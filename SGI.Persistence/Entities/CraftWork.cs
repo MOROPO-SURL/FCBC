@@ -6,6 +6,7 @@
         {
             TechniqueBridges = new System.Collections.Generic.List<CraftWorkTechniqueBridge>();
             ImageBridges = new System.Collections.Generic.List<CraftWorkImageBridge>();
+            Awards = new System.Collections.Generic.List<CraftWorkAward>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ManifestationId")]
@@ -15,5 +16,7 @@
         public System.Collections.Generic.List<CraftWorkTechniqueBridge> TechniqueBridges { get; set; }
 
         public System.Collections.Generic.List<CraftWorkImageBridge> ImageBridges { get; set; }
+
+        public System.Collections.Generic.List<CraftWorkAward> Awards { get; set; }
     }
 }

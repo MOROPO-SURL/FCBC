@@ -10,6 +10,9 @@ using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System.Linq;
 using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -23,13 +26,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Currency, int> currencyRepository;
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IImageFileManagerFacade imageFileManager;
+        private readonly IEntityRepository<Award, System.Guid> awardRepository;
 
-        public DesignWorksController(IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<DesignWork, System.Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
+        public DesignWorksController(IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<DesignWork, System.Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.currencyRepository = currencyRepository;
             this.imageRepository = imageRepository;
             this.imageFileManager = imageFileManager;
+            this.awardRepository = awardRepository;
         }
 
         [RequirePermissions(Permission.DesignWorkViewer)]
@@ -275,6 +280,149 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Awards
+        [Route("edit/{key}/DesignWorkAwards")]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        public IActionResult DesignWorkAwards(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new DesignWorkAwardManageViewModel
+                {
+                    DesignWorkDisplay = new DesignWorkDisplayViewModel()
+                };
+                PopulateAwards(resultModel);
+                resultModel.DesignWorkDisplay.Import(entity);
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+
+        [Route("edit/Awards/add")]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddDesignWorkAwards(DesignWorkAwardManageViewModel modelInput)
+        {
+            DesignWork entity = null;
+            Award award = null;
+            try
+            {
+                entity = Repository.Get(modelInput.DesignWorkDisplay.Id);
+                award = awardRepository.Get(modelInput.AwardId);
+
+                modelInput.DesignWorkDisplay.Import(entity);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.Awards.Add(new DesignWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, About = modelInput.About, Year = modelInput.Year });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("DesignWorkAwards", new { key = entity.Id });
+        }
+
+        [Route("edit/Awards/delete")]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteDesignWorkAwards(DesignWorkAwardDisplayViewModel modelDisplay)
+        {
+            DesignWork entity = null;
+            try
+            {
+                entity = Repository.Get(modelDisplay.DesignWorkId);
+
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var artWorkAward = entity.Awards.First(a => a.Id == modelDisplay.Id);
+                entity.Awards.Remove(artWorkAward);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("DesignWorkAwards", new { key = entity.Id });
+        }
+
+        private void PopulateAwards(DesignWorkAwardManageViewModel modelInput)
+        {
+            var awads = awardRepository.GetAll();
+
+            if (awads.Count() > 0)
+            {
+                modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name }).ToArray();
+            }
         }
 
         #endregion

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
@@ -9,6 +11,8 @@ using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -22,13 +26,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Currency, int> currencyRepository;
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IImageFileManagerFacade imageFileManager;
+        private readonly IEntityRepository<Award, Guid> awardRepository;       
 
-        public CraftWorksController(IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<CraftWork, System.Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
+        public CraftWorksController(IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<CraftWork, System.Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.currencyRepository = currencyRepository;
             this.imageRepository = imageRepository;
             this.imageFileManager = imageFileManager;
+            this.awardRepository = awardRepository;            
         }
 
         [RequirePermissions(Permission.CraftWorkViewer)]
@@ -274,6 +280,149 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Awards
+        [Route("edit/{key}/CraftWorkAwards")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult CraftWorkAwards(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new CraftWorkAwardManageViewModel
+                {
+                    CraftWorkDisplay = new CraftWorkDisplayViewModel()
+                };
+                PopulateAwards(resultModel);
+                resultModel.CraftWorkDisplay.Import(entity);
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+
+        [Route("edit/Awards/add")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCraftWorkAwards(CraftWorkAwardManageViewModel modelInput)
+        {
+            CraftWork entity = null;
+            Award award = null;
+            try
+            {
+                entity = Repository.Get(modelInput.CraftWorkDisplay.Id);
+                award = awardRepository.Get(modelInput.AwardId);
+
+                modelInput.CraftWorkDisplay.Import(entity);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.Awards.Add(new CraftWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, About = modelInput.About, Year = modelInput.Year });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("AddCraftWorkAwards", new { key = entity.Id });
+        }
+
+        [Route("edit/Awards/delete")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCraftWorkAwards(CraftWorkAwardDisplayViewModel modelDisplay)
+        {
+            CraftWork entity = null;
+            try
+            {
+                entity = Repository.Get(modelDisplay.CraftWorkId);
+
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var craftWorkAward = entity.Awards.First(a => a.Id == modelDisplay.Id);
+                entity.Awards.Remove(craftWorkAward);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("CraftWorkAwards", new { key = entity.Id });
+        }
+
+        private void PopulateAwards(CraftWorkAwardManageViewModel modelInput)
+        {
+            var awads = awardRepository.GetAll();
+
+            if (awads.Count() > 0)
+            {
+                modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name }).ToArray();
+            }
         }
 
         #endregion
