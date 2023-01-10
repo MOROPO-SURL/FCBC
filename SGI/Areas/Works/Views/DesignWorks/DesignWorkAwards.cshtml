@@ -1,0 +1,135 @@
+﻿@using MOROPO.FCBC.SGI.Models.View
+@model MOROPO.FCBC.SGI.Models.View.DesignWorkAwardManageViewModel
+
+@{
+    ViewData["Title"] = "Editar Obras";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .social-icon {
+            font-size: 18px;
+            top: 2px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+    </style>
+}
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Obras</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.DesignWorkDisplay.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editauthors" asp-route-key="@Model.DesignWorkDisplay.Id">Autores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.DesignWorkDisplay.Id">Elaboración</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editimages" asp-route-key="@Model.DesignWorkDisplay.Id">Imágenes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editwinings" asp-route-key="@Model.DesignWorkDisplay.Id">Menciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.DesignWorkDisplay.Id">Archivos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active">Reconocimientos</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Premios</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="page-header">
+                        <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.DesignWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
+
+
+                    @await Html.PartialAsync("AddDesignWorkAwards", Model)
+
+                    <table class="table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>@GlobalViewLocalizationHelper.Localize("Nombre")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("País")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("Año")</th>
+                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.DesignWorkDisplay.Awards.Count > 0)
+                        {
+                            @foreach (var item in Model.DesignWorkDisplay.Awards)
+                            {
+                                <tr>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
+                                    <td style="vertical-align: middle;">
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
+                                        @await Html.PartialAsync("DeleteDesignWorkAwards", new DesignWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, About = item.About, DesignWorkId = item.WorkId })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+

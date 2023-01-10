@@ -20,6 +20,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public CraftTechniqueDisplayViewModel[] Techniques { get; set; }
 
+        public System.Collections.Generic.ICollection<CraftWorkAward> Awards { get; set; }
+
         public void Import(CraftWork entity)
         {
             Id = entity.Id;            
@@ -35,6 +37,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
                 return model;
             }).ToArray();
+            Awards = entity.Awards;
 
             Manifestation.Import(entity.Manifestation);
         }

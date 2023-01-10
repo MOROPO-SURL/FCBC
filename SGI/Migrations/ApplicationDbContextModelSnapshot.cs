@@ -826,6 +826,36 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("craftworks");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkAward", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("About")
+                        .HasColumnName("about");
+
+                    b.Property<Guid>("AwardId")
+                        .HasColumnName("awardid");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<int>("Year")
+                        .HasColumnName("year");
+
+                    b.HasKey("Id")
+                        .HasName("pk_craftworkawards");
+
+                    b.HasIndex("AwardId")
+                        .HasName("ix_craftworkawards_awardid");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_craftworkawards_workid");
+
+                    b.ToTable("craftworkawards");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkImageBridge", b =>
                 {
                     b.Property<Guid>("WorkId")
@@ -1033,8 +1063,8 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasKey("GroupId", "DistinctionId")
                         .HasName("pk_creationgroupdistinctionbridges");
 
-                    b.HasIndex("GroupId")
-                        .HasName("ix_creationgroupdistinctionbridges_groupid");
+                    b.HasIndex("DistinctionId")
+                        .HasName("ix_creationgroupdistinctionbridges_distinctionid");
 
                     b.ToTable("creationgroupdistinctionbridges");
                 });
@@ -1234,6 +1264,36 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_designworks_pricecurrencyid");
 
                     b.ToTable("designworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAward", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("About")
+                        .HasColumnName("about");
+
+                    b.Property<Guid>("AwardId")
+                        .HasColumnName("awardid");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<int>("Year")
+                        .HasColumnName("year");
+
+                    b.HasKey("Id")
+                        .HasName("pk_designworkawards");
+
+                    b.HasIndex("AwardId")
+                        .HasName("ix_designworkawards_awardid");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_designworkawards_workid");
+
+                    b.ToTable("designworkawards");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkImageBridge", b =>
@@ -2841,6 +2901,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasConstraintName("fk_craftworks_currencies_pricecurrencyid");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkAward", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Award", "Award")
+                        .WithMany()
+                        .HasForeignKey("AwardId")
+                        .HasConstraintName("fk_craftworkawards_awards_awardid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("Awards")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworkawards_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkImageBridge", b =>
                 {
                     b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "Image")
@@ -2971,16 +3046,16 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupDistinctionBridge", b =>
                 {
-                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
-                        .WithMany("CreationGroupDistinctionBridges")
-                        .HasForeignKey("GroupId")
-                        .HasConstraintName("fk_creationgroupdistinctionbridges_creationgroups_groupid")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Distinction", "Distinction")
                         .WithMany()
                         .HasForeignKey("DistinctionId")
                         .HasConstraintName("fk_creationgroupdistinctionbridges_distinctions_distinctionid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "Group")
+                        .WithMany("CreationGroupDistinctionBridges")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("fk_creationgroupdistinctionbridges_creationgroups_groupid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -3061,6 +3136,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("PriceCurrencyId")
                         .HasConstraintName("fk_designworks_currencies_pricecurrencyid");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAward", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Award", "Award")
+                        .WithMany()
+                        .HasForeignKey("AwardId")
+                        .HasConstraintName("fk_designworkawards_awards_awardid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("Awards")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkawards_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkImageBridge", b =>
