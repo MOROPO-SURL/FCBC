@@ -1,5 +1,4 @@
 ﻿var varScope = $('#js-var-scope-layout');
-debugger;
 const dataSelectOptionArt = JSON.parse(varScope.attr('data-select-option-artisc'));
 
 const options = [];

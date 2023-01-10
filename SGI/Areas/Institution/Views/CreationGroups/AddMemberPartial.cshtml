@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupMembersInputViewModel
 
 <div class="modal fade" id="add-member" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="add-member-title">Agregar Miembros al Grupo de Creación</h5>
@@ -16,9 +16,9 @@
 
                     @if (Model.NotMembers.Count() != 0)
                     {
-                        <div id="show-hide-association" class="col-md-3" style="margin-bottom: 20px;">
+                        <div id="show-hide-association" class="col-md-8" style="margin-bottom: 20px;">
                             @Html.LabelFor(model => model.NotMembers, new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.ArtistId, Model.NotMembers, "", new { @class = "form-control"})
+                            @Html.DropDownListFor(model => model.ArtistId, Model.NotMembers, "", new { @class = "form-control member-select"})
                             @Html.ValidationMessageFor(model => model.ArtistId, null, new { @class = "text-danger" })
                         </div>
                     }else{
