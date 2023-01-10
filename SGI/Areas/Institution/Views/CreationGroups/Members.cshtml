@@ -27,7 +27,7 @@
 }
 
 @section styles {
-
+    <link rel="stylesheet" href="~/lib/bootstrap-combobox/css/bootstrap-combobox.css" />
     <style type="text/css">
         #ImageFile {
             width: 0;
@@ -39,16 +39,31 @@
             width: 85%;
             max-height: 330px;
         }
+
+        .dropdown-toggle {
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: -1px;
+            line-height: 36px;
+        }
+
+        .dropdown-toggle::after {
+            margin: 0 5px;
+        }
+
+        ul.dropdown-menu{
+            width: 100%;
+        }
     </style>
 }
 
     @section scripts {
-    <script type="text/javascript">
-
-        $(function () {
-
-        });
-    </script>
+        <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+        <script type="text/javascript">
+            $('.member-select').combobox();
+        </script>
 
     }
 

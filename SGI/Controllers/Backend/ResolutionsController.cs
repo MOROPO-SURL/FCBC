@@ -6,7 +6,7 @@ using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
-using MOROPO.SAPRESSC.Core.Web.Frontend.Controllers;
+using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System;
 
