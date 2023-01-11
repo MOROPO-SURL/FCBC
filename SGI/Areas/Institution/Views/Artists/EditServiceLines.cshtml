@@ -17,12 +17,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Modificar Creador",
-            Url = Url.Action("edit", "artists", new { key = Model.Artist.Id })
-        },
-        new BreadcrumbViewModel
-        {
-            Caption = "Manifestaciones de Servicio"
+            Caption = ViewData["Title"].ToString()
         }
     };
 
@@ -45,6 +40,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="ArtistAwards" asp-route-key="@Model.Artist.Id">Reconocimientos</a>
                 </li>
             </ul>
         </div>

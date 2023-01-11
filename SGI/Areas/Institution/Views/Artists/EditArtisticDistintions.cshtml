@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.ArtistInputViewModel
 
 @{
-    ViewData["Title"] = "Editar Creador (Manifestaciones Artísticas)";
+    ViewData["Title"] = "Editar Creador (Distinciones)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -17,12 +17,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Modificar Creador",
-            Url = Url.Action("edit", "artists", new { key = Model.Id })
-        },
-        new BreadcrumbViewModel
-        {
-            Caption = "Premios"
+            Caption = ViewData["Title"].ToString()
         }
     };
 

@@ -17,12 +17,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Modificar Creador",
-            Url = Url.Action("edit", "artists", new { key = Model.Id })
-        },
-        new BreadcrumbViewModel
-        {
-            Caption = "Premios"
+            Caption = ViewData["Title"].ToString()
         }
     };
 
