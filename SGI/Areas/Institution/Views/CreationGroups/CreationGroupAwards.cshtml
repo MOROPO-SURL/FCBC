@@ -2,7 +2,7 @@
 @model MOROPO.FCBC.SGI.Models.View.CreationGroupAwardManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Creador";
+    ViewData["Title"] = "Editar Grupos de Creación (Premios)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -13,7 +13,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Grupos",
+            Caption = "Administración de Grupos de Creación",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -44,7 +44,7 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            <h4>Editar Creador</h4>
+            <h4>Editar Grupos de Creación</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("edit", @Model.GroupDisplay.Id)">Información</a>
