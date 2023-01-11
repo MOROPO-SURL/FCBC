@@ -1,5 +1,6 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
@@ -18,6 +19,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ServiceTechniqueDisplayViewModel[] Techniques { get; set; }
 
+        public ICollection<ServiceWorkAward> Awards { get; set; }
+
         public void Import(ServiceWork entity)
         {
             Id = entity.Id;
@@ -33,6 +36,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
                 return model;
             }).ToArray();
+            Awards = entity.Awards;
 
             Line.Import(entity.Line);
         }

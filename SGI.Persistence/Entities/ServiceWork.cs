@@ -6,6 +6,7 @@
         {
             TechniqueBridges = new System.Collections.Generic.List<ServiceWorkTechniqueBridge>();
             ImageBridges = new System.Collections.Generic.List<ServiceWorkImageBridge>();
+            Awards = new System.Collections.Generic.List<ServiceWorkAward>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("LineId")]
@@ -15,5 +16,6 @@
         public System.Collections.Generic.List<ServiceWorkTechniqueBridge> TechniqueBridges { get; set; }
 
         public System.Collections.Generic.List<ServiceWorkImageBridge> ImageBridges { get; set; }
+        public System.Collections.Generic.List<ServiceWorkAward> Awards { get; set; }
     }
 }
