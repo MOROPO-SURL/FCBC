@@ -111,12 +111,10 @@
                 </div>
                 <div class="col-lg-9 col-sm-8">
                     <div class="row">
-                        <div class="col-sm-6" style="margin-bottom: 20px;">
-                            <div style="margin-bottom: 20px;">
-                                @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
-                                @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
-                            </div>
+                        <div class="col-lg-5 col-sm-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
                         </div>
                         <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
                             @Html.LabelFor(model => model.CreateDate, new { @class = "control-label" })
@@ -137,7 +135,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
                             @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
                             @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })
