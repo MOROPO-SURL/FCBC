@@ -16,7 +16,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
                 .Include(entity => entity.PriceCurrency)
                 .Include(entity => entity.ImageBridges).ThenInclude(bridge => bridge.Image)
                 .Include(entity => entity.Line)
-                .Include(entity => entity.TechniqueBridges).ThenInclude(bridge => bridge.Technique);
+                .Include(entity => entity.TechniqueBridges).ThenInclude(bridge => bridge.Technique)
+                .Include(entity => entity.Awards).ThenInclude(award => award.Award).ThenInclude(c => c.Country);
         }
     }
 }
