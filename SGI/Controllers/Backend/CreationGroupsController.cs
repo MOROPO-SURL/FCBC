@@ -846,7 +846,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 {
                     Id = item.Id,
                     Label = item.Name,
-                    Selected = entity.ArtisticManifestationBrigdes.Any(bridge => bridge.ManifestationId == item.Id),
+                    Selected = entity.DesignManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
                     Description = item.Description
                 }).ToArray(),
                 SelectGroups = groups,
