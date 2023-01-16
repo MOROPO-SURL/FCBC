@@ -6,6 +6,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
     {
         protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<CreationGroupCraftManifestationBridge> entityTypeBuilder)
         {
+            
             base.ApplayRules(entityTypeBuilder);
 
             entityTypeBuilder.HasKey(bridge => new { bridge.GroupId, bridge.ManifestationId });
