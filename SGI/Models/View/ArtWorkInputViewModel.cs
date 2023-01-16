@@ -14,7 +14,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Title { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "BornYear")]
+        [Display(Name = "CreationYear")]
         public int? BornYear { get; set; }
 
         [Display(Name = "About")]
@@ -41,7 +41,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvailableCurrencies { get; set; }
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "Manifestation")]
+        [Display(Name = "ArtisticManifestation")]
         public System.Guid? ManifestationId { get; set; }
 
         public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvailableManifestations { get; set; }
@@ -65,7 +65,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "DimensionsUnitMeasurement")]
         public System.Guid? DimensionsUnitMeasurementId { get; set; }
 
-        [Display(Name = "Weight")]
+        [Display(Name = "WorkWeight")]
         public decimal? Weight { get; set; }
 
         [Display(Name = "WeightUnitMeasurement")]

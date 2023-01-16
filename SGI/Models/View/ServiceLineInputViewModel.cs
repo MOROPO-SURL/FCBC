@@ -10,8 +10,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Display(Name = "ServiceLineGroup")]
         public System.Guid? GroupId { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Display(Name = "Description")]
         public string Description { get; set; }
 
         public string SerializedTree { get; set; }

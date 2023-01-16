@@ -77,27 +77,25 @@
                             <a class="nav-link active" href="#">Premios</a>
                         </li>                        
                     </ul>
-                </div>                
-        </div>
-        <div class="row">
-            <div class="col-md-6" style="margin-bottom: 20px;">
-                <div class="page-header">
-                    <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.ArtWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                 </div>
+                <div class="card-body">
+                    <div class="page-header">
+                        <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.ArtWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
 
 
                     @await Html.PartialAsync("AddArtWorkAwards", Model)
 
-                <table class="table" style="margin: 0;">
-                    <thead>
-                        <tr>
-                            <th>@GlobalViewLocalizationHelper.Localize("Nombre")</th>
-                            <th>@GlobalViewLocalizationHelper.Localize("País")</th>
-                            <th>@GlobalViewLocalizationHelper.Localize("Año")</th>
-                            <th style="width: 1px; white-space: nowrap;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <table class="table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>@GlobalViewLocalizationHelper.Localize("Nombre")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("País")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("Año")</th>
+                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         @if (Model.ArtWorkDisplay.Awards.Count > 0)
                         {
                             @foreach (var item in Model.ArtWorkDisplay.Awards)
@@ -121,11 +119,9 @@
                         }
                     </tbody>
                 </table>
+                </div>
             </div>
-
         </div>
-
-    </div>
     <div class="card-footer">
         <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
     </div>

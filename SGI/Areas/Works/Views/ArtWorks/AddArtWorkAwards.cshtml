@@ -15,7 +15,7 @@
                     @Html.HiddenFor(model => model.ArtWorkDisplay.Id)
 
                     <div class="row">
-                        <div>
+                        <div class="col-md-6">
                             @Html.LabelFor(model => model.Year, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.Year, new { @class = "form-control"})
                             @Html.ValidationMessageFor(model => model.Year, null, new { @class = "text-danger" })

@@ -9,7 +9,7 @@
         public string Title { get; set; }
 
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [System.ComponentModel.DataAnnotations.Display(Name = "Line")]
+        [System.ComponentModel.DataAnnotations.Display(Name = "ServiceLine")]
         public System.Guid? LineId { get; set; }
 
         public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvailableLines { get; set; }
