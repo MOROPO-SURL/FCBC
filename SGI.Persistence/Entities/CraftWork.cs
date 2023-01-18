@@ -9,6 +9,7 @@
             Awards = new System.Collections.Generic.List<CraftWorkAward>();
             CreatorBridges = new System.Collections.Generic.List<CraftWorkCreatorBridge>();
             CreationGroupBridges = new System.Collections.Generic.List<CraftWorkCreationGroupBridge>();
+            MaterialBridges = new System.Collections.Generic.List<CraftWorkMaterialBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ManifestationId")]
@@ -24,5 +25,6 @@
         public System.Collections.Generic.List<CraftWorkCreatorBridge> CreatorBridges { get; set; }
 
         public System.Collections.Generic.List<CraftWorkCreationGroupBridge> CreationGroupBridges { get; set; }
+        public System.Collections.Generic.List<CraftWorkMaterialBridge> MaterialBridges { get; set; }
     }
 }

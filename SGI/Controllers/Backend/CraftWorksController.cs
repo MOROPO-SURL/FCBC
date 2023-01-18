@@ -29,8 +29,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Award, Guid> awardRepository;
         private readonly IEntityRepository<Artist, Guid> creatorRepository;
         private readonly IEntityRepository<CreationGroup, Guid> creationGroupRepository;
+        private readonly IEntityRepository<CraftTechnique, Guid> techniqueRepository;
+        private readonly IEntityRepository<Material, Guid> materialRepository;
 
-        public CraftWorksController(IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftWork, System.Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
+        public CraftWorksController(IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
+            IEntityRepository<CraftWork, System.Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.currencyRepository = currencyRepository;
@@ -39,6 +42,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.awardRepository = awardRepository;
             this.creatorRepository = creatorRepository;
             this.creationGroupRepository = creationGroupRepository;
+            this.techniqueRepository = techniqueRepository;
+            this.materialRepository = materialRepository;
         }
 
         [RequirePermissions(Permission.CraftWorkViewer)]
@@ -645,6 +650,95 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Elaboration
+
+        [HttpGet]
+        [Route("edit/{key}/elaboration")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public ActionResult EditElaboration(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new CraftWorkElaborationInputViewModel
+            {
+                TechniqueSelectors = techniqueRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<System.Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.TechniqueBridges.Any(bridge => bridge.TechniqueId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+                MaterialSelectors = materialRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<System.Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.MaterialBridges.Any(bridge => bridge.MaterialId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+                Work = new CraftWorkDisplayViewModel()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/elaboration")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditElaboration(System.Guid key, CraftWorkElaborationInputViewModel modelInput)
+        {
+            CraftWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            entity.TechniqueBridges.Clear();
+
+            foreach (var item in modelInput.TechniqueSelectors)
+            {
+                if (!item.Selected) continue;
+
+                entity.TechniqueBridges.Add(new CraftWorkTechniqueBridge
+                {
+                    WorkId = entity.Id,
+                    TechniqueId = item.Id
+                });
+            }
+
+            entity.MaterialBridges.Clear();
+
+            foreach (var item in modelInput.MaterialSelectors)
+            {
+                if (!item.Selected) continue;
+
+                entity.MaterialBridges.Add(new CraftWorkMaterialBridge
+                {
+                    WorkId = entity.Id,
+                    MaterialId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("editelaboration", new { key = entity.Id });
         }
 
         #endregion

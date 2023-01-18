@@ -907,6 +907,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("craftworkimagebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkMaterialBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnName("materialid");
+
+                    b.HasKey("WorkId", "MaterialId")
+                        .HasName("pk_craftworkmaterialbridges");
+
+                    b.HasIndex("MaterialId")
+                        .HasName("ix_craftworkmaterialbridges_materialid");
+
+                    b.ToTable("craftworkmaterialbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkTechniqueBridge", b =>
                 {
                     b.Property<Guid>("WorkId")
@@ -3022,6 +3039,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("ImageBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_craftworkimagebridges_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkMaterialBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .HasConstraintName("fk_craftworkmaterialbridges_materials_materialid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("MaterialBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworkmaterialbridges_craftworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
