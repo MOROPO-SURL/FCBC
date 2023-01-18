@@ -1347,6 +1347,40 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("designworkawards");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkCreationGroupBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("CreationGroupId")
+                        .HasColumnName("creationgroupid");
+
+                    b.HasKey("WorkId", "CreationGroupId")
+                        .HasName("pk_designworkcreationgroupbridges");
+
+                    b.HasIndex("CreationGroupId")
+                        .HasName("ix_designworkcreationgroupbridges_creationgroupid");
+
+                    b.ToTable("designworkcreationgroupbridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkCreatorBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnName("creatorid");
+
+                    b.HasKey("WorkId", "CreatorId")
+                        .HasName("pk_designworkcreatorbridges");
+
+                    b.HasIndex("CreatorId")
+                        .HasName("ix_designworkcreatorbridges_creatorid");
+
+                    b.ToTable("designworkcreatorbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkImageBridge", b =>
                 {
                     b.Property<Guid>("WorkId")
@@ -3276,6 +3310,36 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Awards")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_designworkawards_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkCreationGroupBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "CreationGroup")
+                        .WithMany()
+                        .HasForeignKey("CreationGroupId")
+                        .HasConstraintName("fk_designworkcreationgroupbridges_creationgroups_creationgroup~")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("CreationGroupBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkcreationgroupbridges_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkCreatorBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Artist", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .HasConstraintName("fk_designworkcreatorbridges_artists_creatorid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("CreatorBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkcreatorbridges_designworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
