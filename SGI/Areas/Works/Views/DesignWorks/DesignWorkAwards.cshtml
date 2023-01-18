@@ -2,7 +2,7 @@
 @model MOROPO.FCBC.SGI.Models.View.DesignWorkAwardManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Obras";
+    ViewData["Title"] = "Editar Obra de Diseño (Premios)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -13,7 +13,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Obras",
+            Caption = "Administración de Obras de Diseño",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -78,9 +78,8 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6" style="margin-bottom: 20px;">
+
+                <div class="card-body">
                     <div class="page-header">
                         <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.DesignWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                     </div>
@@ -119,17 +118,15 @@
                                 <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
                             </tr>
                         }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
         </div>
-
+        <div class="card-footer">
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
     </div>
-    <div class="card-footer">
-        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
-    </div>
-</div>
 
 
 
