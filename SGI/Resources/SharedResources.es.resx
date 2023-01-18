@@ -1746,4 +1746,61 @@
   <data name="Membership" xml:space="preserve">
     <value>Miembro de Asociación</value>
   </data>
+  <data name="ArtisticManifestationGroup" xml:space="preserve">
+    <value>Grupo de manifestación artística</value>
+  </data>
+  <data name="CraftManifestationGroup" xml:space="preserve">
+    <value>Grupo de manifestación de artesanía</value>
+  </data>
+  <data name="DesignManifestationGroup" xml:space="preserve">
+    <value>Grupo de manifestación de diseño</value>
+  </data>
+  <data name="ServiceLineGroup" xml:space="preserve">
+    <value>Grupo de linea de servicio</value>
+  </data>
+  <data name="ArtisticManifestation" xml:space="preserve">
+    <value>Manifestación Artística</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Colección</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Costo</value>
+  </data>
+  <data name="CraftManifestation" xml:space="preserve">
+    <value>Manifestación Artesanal</value>
+  </data>
+  <data name="CreationYear" xml:space="preserve">
+    <value>Año de Creación</value>
+  </data>
+  <data name="DesignManifestation" xml:space="preserve">
+    <value>Manifestación de Diseño</value>
+  </data>
+  <data name="DimensionsUnitMeasurement" xml:space="preserve">
+    <value>Unidad de medida de dimensiones</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Localización</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Precio</value>
+  </data>
+  <data name="Profundity" xml:space="preserve">
+    <value>Profundidad</value>
+  </data>
+  <data name="WeightUnitMeasurement" xml:space="preserve">
+    <value>Unidad de medida del peso</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="WorkWeight" xml:space="preserve">
+    <value>Peso de la obra</value>
+  </data>
+  <data name="ServiceLine" xml:space="preserve">
+    <value>Linea de servicio</value>
+  </data>
 </root>

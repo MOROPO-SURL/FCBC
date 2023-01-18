@@ -7,8 +7,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 {
     public class ArtWorkAwardManageViewModel
     {
-        public ArtWorkDisplayViewModel ArtWorkDisplay { get; set; }        
+        public ArtWorkDisplayViewModel ArtWorkDisplay { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Award")]
         public System.Guid AwardId { get; set; }
 
