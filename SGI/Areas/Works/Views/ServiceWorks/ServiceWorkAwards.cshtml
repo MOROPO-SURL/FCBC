@@ -65,71 +65,55 @@
                     <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.ServiceWorkDisplay.Id">Archivos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active">Reconocimientos</a>
+                    <a class="nav-link active">Premios</a>
                 </li>
             </ul>
         </div>
         <div class="card-body">
-            <div class="card">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Premios</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6" style="margin-bottom: 20px;">
-                    <div class="page-header">
-                        <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.ServiceWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
-                    </div>
-
-
-                    @await Html.PartialAsync("AddServiceWorkAwards", Model)
-
-                    <table class="table" style="margin: 0;">
-                        <thead>
-                            <tr>
-                                <th>@GlobalViewLocalizationHelper.Localize("Nombre")</th>
-                                <th>@GlobalViewLocalizationHelper.Localize("País")</th>
-                                <th>@GlobalViewLocalizationHelper.Localize("Año")</th>
-                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @if (Model.ServiceWorkDisplay.Awards.Count > 0)
-                        {
-                            @foreach (var item in Model.ServiceWorkDisplay.Awards)
-                            {
-                                <tr>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
-                                    <td style="vertical-align: middle;">
-                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-@item.Id">Eliminar</a>
-                                        @await Html.PartialAsync("DeleteServiceWorkAwards", new ServiceWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, About = item.About, ServiceWorkId = Model.ServiceWorkDisplay.Id})
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div class="page-header">
+                <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.ServiceWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
             </div>
 
+            @await Html.PartialAsync("AddServiceWorkAwards", Model)
+
+            <table class="table" style="margin: 0;">
+                <thead>
+                    <tr>
+                        <th>@GlobalViewLocalizationHelper.Localize("Nombre")</th>
+                        <th>@GlobalViewLocalizationHelper.Localize("País")</th>
+                        <th>@GlobalViewLocalizationHelper.Localize("Año")</th>
+                        <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ServiceWorkDisplay.Awards.Count > 0)
+                    {
+                        @foreach (var item in Model.ServiceWorkDisplay.Awards)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
+                                <td style="vertical-align: middle;">
+                                    <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-@item.Id">Eliminar</a>
+                                    @await Html.PartialAsync("DeleteServiceWorkAwards", new ServiceWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, About = item.About, ServiceWorkId = Model.ServiceWorkDisplay.Id})
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-
+        <div class="card-footer">
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
     </div>
-    <div class="card-footer">
-        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
-    </div>
-</div>
 
 
 
