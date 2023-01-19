@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.DesignWorkImagesDisplayViewModel
 
 @{
-    ViewData["Title"] = "Editar Diseño (Imágenes)";
+    ViewData["Title"] = "Editar Obra de Diseño (Imágenes)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -12,17 +12,12 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Diseño",
+            Caption = "Administración de Obras de Diseño",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
         {
-            Caption = "Modificar Diseño",
-            Url = Url.Action("edit", "designworks", new { key = Model.Work.Id })
-        },
-        new BreadcrumbViewModel
-        {
-            Caption = "Imágenes de Diseño"
+            Caption = ViewData["Title"].ToString()
         }
     };
 
@@ -50,6 +45,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="DesignWorkAwards" asp-route-key="@Model.Work.Id">Reconocimientos</a>
             </li>
         </ul>
     </div>
