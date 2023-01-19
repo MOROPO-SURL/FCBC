@@ -78,7 +78,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                            @using (Html.BeginForm("addcreator", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
+                            @using (Html.BeginForm("addcreator", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
                             {
                                 <div class="modal-body">
                                     @Html.DropDownList("creatorId", Model.AvailableCreators, new { @class = "form-control" })
@@ -128,7 +128,7 @@
                                 <div class="modal fade" id="delete-creator-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-creator-@item.Id-lable" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            @using (Html.BeginForm("deletecreator", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                            @using (Html.BeginForm("deletecreator", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
                                             {
                                                 @Html.Hidden("creatorId", item.Id)
 
@@ -166,7 +166,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            @using (Html.BeginForm("addcreationgroup", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
+                            @using (Html.BeginForm("addcreationgroup", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
                             {
                                 <div class="modal-body">
                                     @Html.DropDownList("creationGroupId", Model.AvailableCreationGroups, new { @class = "form-control" })
@@ -209,7 +209,7 @@
                                 <div class="modal fade" id="delete-creationgroup-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-creationgroup-@item.Id-lable" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            @using (Html.BeginForm("deletecreationgroup", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                            @using (Html.BeginForm("deletecreationgroup", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
                                             {
                                                 @Html.Hidden("creationGroupId", item.Id)
 
