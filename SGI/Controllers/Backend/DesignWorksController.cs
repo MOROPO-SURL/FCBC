@@ -29,8 +29,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Award, System.Guid> awardRepository;
         private readonly IEntityRepository<Artist, System.Guid> creatorRepository;
         private readonly IEntityRepository<CreationGroup, System.Guid> creationGroupRepository;
+        private readonly IEntityRepository<DesignTechnique, System.Guid> techniqueRepository;
+        private readonly IEntityRepository<Material, System.Guid> materialRepository;
 
-        public DesignWorksController(IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<DesignWork, System.Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
+        public DesignWorksController(IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<DesignTechnique, System.Guid> techniqueRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<DesignWork, System.Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.currencyRepository = currencyRepository;
@@ -39,6 +41,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.awardRepository = awardRepository;
             this.creatorRepository = creatorRepository;
             this.creationGroupRepository = creationGroupRepository;
+            this.techniqueRepository = techniqueRepository;
+            this.materialRepository = materialRepository;
         }
 
         [RequirePermissions(Permission.DesignWorkViewer)]
@@ -561,7 +565,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.Awards.Add(new DesignWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, About = modelInput.About, Year = modelInput.Year });
+                entity.Awards.Add(new DesignWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, Context = modelInput.Context, Year = modelInput.Year });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -645,6 +649,95 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name }).ToArray();
             }
+        }
+
+        #endregion
+
+        #region Elaboration
+
+        [HttpGet]
+        [Route("edit/{key}/elaboration")]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        public ActionResult EditElaboration(System.Guid key)
+        {
+            var entity = Repository.Get(key);   
+            
+            var model = new DesignWorkElaborationInputViewModel
+            {
+                TechniqueSelectors = techniqueRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<System.Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.TechniqueBridges.Any(bridge => bridge.TechniqueId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+                MaterialSelectors = materialRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<System.Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.MaterialBridges.Any(bridge => bridge.MaterialId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+                Work = new DesignWorkDisplayViewModel()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/elaboration")]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditElaboration(System.Guid key, DesignWorkElaborationInputViewModel modelInput)
+        {
+            DesignWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            entity.TechniqueBridges.Clear();
+
+            foreach (var item in modelInput.TechniqueSelectors)
+            {
+                if (!item.Selected) continue;
+
+                entity.TechniqueBridges.Add(new DesignWorkTechniqueBridge
+                {
+                    WorkId = entity.Id,
+                    TechniqueId = item.Id
+                });
+            }
+
+            entity.MaterialBridges.Clear();
+
+            foreach (var item in modelInput.MaterialSelectors)
+            {
+                if (!item.Selected) continue;
+
+                entity.MaterialBridges.Add(new DesignWorkMaterialBridge
+                {
+                    WorkId = entity.Id,
+                    MaterialId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("editelaboration", new { key = entity.Id });
         }
 
         #endregion

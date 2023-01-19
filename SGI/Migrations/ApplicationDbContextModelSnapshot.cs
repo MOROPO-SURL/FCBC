@@ -867,11 +867,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
-                    b.Property<string>("About")
-                        .HasColumnName("about");
-
                     b.Property<Guid>("AwardId")
                         .HasColumnName("awardid");
+
+                    b.Property<string>("Context")
+                        .HasColumnName("context");
 
                     b.Property<Guid>("WorkId")
                         .HasColumnName("workid");
@@ -1358,11 +1358,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
-                    b.Property<string>("About")
-                        .HasColumnName("about");
-
                     b.Property<Guid>("AwardId")
                         .HasColumnName("awardid");
+
+                    b.Property<string>("Context")
+                        .HasColumnName("context");
 
                     b.Property<Guid>("WorkId")
                         .HasColumnName("workid");
@@ -1431,6 +1431,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_designworkimagebridges_imageid");
 
                     b.ToTable("designworkimagebridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkMaterialBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnName("materialid");
+
+                    b.HasKey("WorkId", "MaterialId")
+                        .HasName("pk_designworkmaterialbridges");
+
+                    b.HasIndex("MaterialId")
+                        .HasName("ix_designworkmaterialbridges_materialid");
+
+                    b.ToTable("designworkmaterialbridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkTechniqueBridge", b =>
@@ -3399,6 +3416,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("ImageBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_designworkimagebridges_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkMaterialBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .HasConstraintName("fk_designworkmaterialbridges_materials_materialid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("MaterialBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkmaterialbridges_designworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

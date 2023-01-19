@@ -17,7 +17,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public Award Award { get; set; }
         public System.Guid AwardId { get; set; }
 
-        public string About { get; set; }
+        public string Context { get; set; }
 
         public int Year { get; set; }
 
