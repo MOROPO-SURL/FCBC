@@ -135,6 +135,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<CraftWorkCreatorBridge> CraftWorkCreatorBridges { get; set; }
         public DbSet<CraftWorkCreationGroupBridge> CraftWorkCreationGroupBridges { get; set; }
         public DbSet<CraftWorkMaterialBridge> CraftWorkMaterialBridges { get; set; }
+        public DbSet<CraftWorkAttachment> CraftWorkAttachments { get; set; }
 
     }
 }
