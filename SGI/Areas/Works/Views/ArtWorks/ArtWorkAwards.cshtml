@@ -106,7 +106,7 @@
                                     <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
                                     <td style="vertical-align: middle;">
                                         <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-@item.Id">Eliminar</a>
-                                        @await Html.PartialAsync("DeleteArtWorkAwards", new ArtWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, About = item.About, ArtWorkId = Model.ArtWorkDisplay.Id})
+                                        @await Html.PartialAsync("DeleteArtWorkAwards", new ArtWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, ArtWorkId = Model.ArtWorkDisplay.Id})
                                     </td>
                                 </tr>
                             }

@@ -804,7 +804,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.Awards.Add(new ArtWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, About = modelInput.About, Year = modelInput.Year });
+                entity.Awards.Add(new ArtWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, Context = modelInput.Context, Year = modelInput.Year });
 
                 Repository.Update(entity, User.Identity.Name);
 

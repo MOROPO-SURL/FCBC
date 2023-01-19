@@ -161,16 +161,16 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
-                    b.Property<string>("About")
-                        .HasColumnName("about");
-
                     b.Property<Guid>("AwardId")
                         .HasColumnName("awardid");
+
+                    b.Property<string>("Context")
+                        .HasColumnName("context");
 
                     b.Property<Guid>("WorkId")
                         .HasColumnName("workid");
 
-                    b.Property<int>("Year")
+                    b.Property<int?>("Year")
                         .HasColumnName("year");
 
                     b.HasKey("Id")
