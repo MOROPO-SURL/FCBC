@@ -11,8 +11,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.Collections.Generic.ICollection<SelectListItem> SelectAwards { get; set; } = new System.Collections.Generic.List<SelectListItem>();
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "About")]
-        public string About { get; set; }
+        [System.ComponentModel.DataAnnotations.Display(Name = "Context")]
+        public string Context { get; set; }
 
         [System.ComponentModel.DataAnnotations.Display(Name = "Year")]
         public int Year { get; set; }

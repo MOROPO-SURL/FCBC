@@ -8,7 +8,7 @@
 
         public string AwardName { get; set; }
 
-        public string About { get; set; }
+        public string Context { get; set; }
 
         public int Year { get; set; }
     }

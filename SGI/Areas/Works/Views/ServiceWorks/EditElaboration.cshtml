@@ -1,0 +1,97 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ServiceWorkElaborationInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Obra de Servicio (Elaboración)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras Servicio",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Modificar Obra Servicio",
+            Url = Url.Action("edit", "serviceworks", new { key = Model.Work.Id })
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Elaboración de Obra Servicio"
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@using (Html.BeginForm("editelaboration", "serviceworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
+{
+    var selectableTechniqueIndex = 0;
+    var selectableMaterialIndex = 0;
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Obra Artística</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editauthors" asp-route-key="@Model.Work.Id">Autores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Elaboración</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="ServiceWorkAwards" asp-route-key="@Model.Work.Id">Premios</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="card mb-4">
+                <div class="card-header"><h4>Técnicas</h4></div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var item in Model.TechniqueSelectors)
+                        {
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("TechniqueSelectors[{0}]", selectableTechniqueIndex++))
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h4>Materiales</h4></div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var item in Model.MaterialSelectors)
+                        {
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("MaterialSelectors[{0}]", selectableMaterialIndex++))
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+    </div>
+}
+
+
+

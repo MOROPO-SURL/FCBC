@@ -1780,17 +1780,52 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("serviceworks");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contenttype");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("ispublic");
+
+                    b.Property<long>("Length")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_serviceworkattachments");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_serviceworkattachments_workid");
+
+                    b.ToTable("serviceworkattachments");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAward", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
-                    b.Property<string>("About")
-                        .HasColumnName("about");
-
                     b.Property<Guid>("AwardId")
                         .HasColumnName("awardid");
+
+                    b.Property<string>("Context")
+                        .HasColumnName("context");
 
                     b.Property<Guid>("WorkId")
                         .HasColumnName("workid");
@@ -1859,6 +1894,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_serviceworkimagebridges_imageid");
 
                     b.ToTable("serviceworkimagebridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkMaterialBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnName("materialid");
+
+                    b.HasKey("WorkId", "MaterialId")
+                        .HasName("pk_serviceworkmaterialbridges");
+
+                    b.HasIndex("MaterialId")
+                        .HasName("ix_serviceworkmaterialbridges_materialid");
+
+                    b.ToTable("serviceworkmaterialbridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkTechniqueBridge", b =>
@@ -3596,6 +3648,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasConstraintName("fk_serviceworks_currencies_pricecurrencyid");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAttachment", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
+                        .WithMany("Attachments")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_serviceworkattachments_serviceworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAward", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Award", "Award")
@@ -3653,6 +3714,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("ImageBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_serviceworkimagebridges_serviceworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkMaterialBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .HasConstraintName("fk_serviceworkmaterialbridges_materials_materialid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
+                        .WithMany("MaterialBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_serviceworkmaterialbridges_serviceworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

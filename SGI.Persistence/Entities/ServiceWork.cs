@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
+﻿using System.Net.Mail;
+
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class ServiceWork : Contract.AbstractWork
     {
@@ -7,6 +9,8 @@
             TechniqueBridges = new System.Collections.Generic.List<ServiceWorkTechniqueBridge>();
             ImageBridges = new System.Collections.Generic.List<ServiceWorkImageBridge>();
             Awards = new System.Collections.Generic.List<ServiceWorkAward>();
+            MaterialBridges = new System.Collections.Generic.List<ServiceWorkMaterialBridge>();
+            Attachments = new System.Collections.Generic.List<ServiceWorkAttachment>();           
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("LineId")]
@@ -21,5 +25,7 @@
         public System.Collections.Generic.List<ServiceWorkCreatorBridge> CreatorBridges { get; set; }
 
         public System.Collections.Generic.List<ServiceWorkCreationGroupBridge> CreationGroupBridges { get; set; }
+        public System.Collections.Generic.List<ServiceWorkMaterialBridge> MaterialBridges { get; set; }
+        public System.Collections.Generic.List<ServiceWorkAttachment> Attachments { get; set; }
     }
 }
