@@ -1352,6 +1352,41 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("designworks");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contenttype");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("ispublic");
+
+                    b.Property<long>("Length")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_designworkattachments");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_designworkattachments_workid");
+
+                    b.ToTable("designworkattachments");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAward", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3357,6 +3392,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("PriceCurrencyId")
                         .HasConstraintName("fk_designworks_currencies_pricecurrencyid");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAttachment", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("Attachments")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkattachments_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAward", b =>

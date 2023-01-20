@@ -31,8 +31,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<CreationGroup, System.Guid> creationGroupRepository;
         private readonly IEntityRepository<DesignTechnique, System.Guid> techniqueRepository;
         private readonly IEntityRepository<Material, System.Guid> materialRepository;
+        private readonly IEntityRepository<DesignWorkAttachment, System.Guid> attachmentRepository;
+        private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
 
-        public DesignWorksController(IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<DesignTechnique, System.Guid> techniqueRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<DesignWork, System.Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
+        public DesignWorksController(IEntityRepository<DesignWorkAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<DesignTechnique, System.Guid> techniqueRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<DesignManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<DesignWork, System.Guid> repository, IStringLocalizer<DesignWorksController> localizer, ILogger<DesignWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.currencyRepository = currencyRepository;
@@ -43,6 +45,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.creationGroupRepository = creationGroupRepository;
             this.techniqueRepository = techniqueRepository;
             this.materialRepository = materialRepository;
+            this.attachmentRepository = attachmentRepository;
+            this.attachmentFileManager = attachmentFileManager;
         }
 
         [RequirePermissions(Permission.DesignWorkViewer)]
@@ -738,6 +742,138 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
 
             return RedirectToAction("editelaboration", new { key = entity.Id });
+        }
+
+        #endregion
+
+        #region Attachments
+
+        [HttpGet]
+        [Route("edit/{key}/attachments")]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        public ActionResult EditAttachments(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new DesignWorkAttachmentsDisplayViewModel
+            {
+                Work = new DesignWorkDisplayViewModel(),
+                Attachments = entity.Attachments.Select(item =>
+                {
+                    var result = new AttachmentDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        public IActionResult AddAttachment(System.Guid key, AttachmentInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var attachment = new DesignWorkAttachment
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                WorkId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(attachment.Id, memoryStream.ToArray(), attachment.ContentType);
+
+                            attachmentRepository.Add(attachment, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editattachments", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        public IActionResult DeleteAttachment(System.Guid key, System.Guid attachmentId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var attachment = entity.Attachments.First(e => e.Id == attachmentId);
+
+                attachmentRepository.Delete(attachment, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(attachment);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editattachments", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
         }
 
         #endregion
