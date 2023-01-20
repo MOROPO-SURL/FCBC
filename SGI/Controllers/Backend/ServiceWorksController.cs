@@ -26,14 +26,18 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IImageFileManagerFacade imageFileManager;
         private readonly IEntityRepository<Award, System.Guid> awardRepository;
+        private readonly IEntityRepository<Artist, System.Guid> creatorRepository;
+        private readonly IEntityRepository<CreationGroup, System.Guid> creationGroupRepository;
 
-        public ServiceWorksController(IEntityRepository<ServiceLine, System.Guid> serviceLineRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<ServiceWork, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ServiceWorksController> localizer, ILogger<ServiceWorksController> logger) : base(repository, localizer, logger)
+        public ServiceWorksController(IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<ServiceLine, System.Guid> serviceLineRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<ServiceWork, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ServiceWorksController> localizer, ILogger<ServiceWorksController> logger) : base(repository, localizer, logger)
         {
             this.serviceLineRepository = serviceLineRepository;
             this.currencyRepository = currencyRepository;
             this.imageRepository = imageRepository;
             this.imageFileManager = imageFileManager;
             this.awardRepository = awardRepository;
+            this.creatorRepository = creatorRepository;
+            this.creationGroupRepository = creationGroupRepository;
         }
 
         [RequirePermissions(Permission.ServiceWorkViewer)]
@@ -143,6 +147,224 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 Value = entity.Id.ToString()
             }).ToList();
         }
+
+        #region Authors
+
+        [HttpGet]
+        [Route("edit/{key}/authors")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public ActionResult EditAuthors(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var creators = entity.CreatorBridges.Select(bridge => bridge.Creator).ToArray();
+            var creationGroups = entity.CreationGroupBridges.Select(bridge => bridge.CreationGroup).ToArray();
+
+            var model = new ServiceWorkAuthorsDisplayViewModel
+            {
+                AvailableCreators = creatorRepository.GetAll().ToArray().Except(creators).ToArray().Select(item => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Value = item.Id.ToString(),
+                    Text = string.IsNullOrEmpty(item.Identity.LastName) ? string.Format("{0} {1}", item.Identity.Name, item.Identity.LastName) : item.Identity.Name
+                }).ToArray(),
+                AvailableCreationGroups = creationGroupRepository.GetAll().ToArray().Except(creationGroups).ToArray().Select(item => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Value = item.Id.ToString(),
+                    Text = item.Identity.Name
+                }).ToArray(),
+                Work = new ServiceWorkDisplayViewModel(),
+                Creators = creators.Select(item =>
+                {
+                    var result = new ArtistDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray(),
+                CreationGroups = creationGroups.Select(item =>
+                {
+                    var result = new CreationGroupDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/authors/addcreator")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public IActionResult AddCreator(System.Guid key, System.Guid creatorId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        entity.CreatorBridges.Add(new ServiceWorkCreatorBridge
+                        {
+                            WorkId = entity.Id,
+                            CreatorId = creatorId
+                        });
+
+                        Repository.Update(entity, User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editauthors", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editauthors", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/authors/addcreationgroup")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public IActionResult AddCreationGroup(System.Guid key, System.Guid creationGroupId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        entity.CreationGroupBridges.Add(new ServiceWorkCreationGroupBridge
+                        {
+                            WorkId = entity.Id,
+                            CreationGroupId = creationGroupId
+                        });
+
+                        Repository.Update(entity, User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editauthors", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editauthors", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/authors/deletecreator")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public IActionResult DeleteCreator(System.Guid key, System.Guid creatorId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var bridge = entity.CreatorBridges.First(b => b.CreatorId == creatorId);
+
+                entity.CreatorBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editauthors", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editauthors", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/authors/deletecreationgroup")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public IActionResult DeleteCreationGroup(System.Guid key, System.Guid creationGroupId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var bridge = entity.CreationGroupBridges.First(b => b.CreationGroupId == creationGroupId);
+
+                entity.CreationGroupBridges.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editauthors", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editauthors", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
 
         #region Images
 

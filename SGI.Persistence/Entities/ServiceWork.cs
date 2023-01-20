@@ -17,5 +17,9 @@
 
         public System.Collections.Generic.List<ServiceWorkImageBridge> ImageBridges { get; set; }
         public System.Collections.Generic.List<ServiceWorkAward> Awards { get; set; }
+
+        public System.Collections.Generic.List<ServiceWorkCreatorBridge> CreatorBridges { get; set; }
+
+        public System.Collections.Generic.List<ServiceWorkCreationGroupBridge> CreationGroupBridges { get; set; }
     }
 }
