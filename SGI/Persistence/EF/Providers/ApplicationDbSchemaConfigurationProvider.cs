@@ -1,4 +1,5 @@
-﻿using MOROPO.SAPRESSC.Core.Persistence.EF.Configurators;
+﻿using MOROPO.FCBC.SGI.Persistence.EF.Configurators;
+using MOROPO.SAPRESSC.Core.Persistence.EF.Configurators;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
 {
@@ -49,6 +50,9 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                     new Configurators.CraftWorkCreationGroupBridgeEntityTypeConfigurator(),
                     new Configurators.CraftWorkMaterialBridgeEntityTypeConfigurator(),
                     new Configurators.DesignWorkCreatorBridgeEntityTypeConfigurator(),
+                    new Configurators.DesignWorkCreationGroupBridgeEntityTypeConfigurator(),
+                    new Configurators.ServiceWorkCreatorBridgeEntityTypeConfigurator(),
+                    new Configurators.ServiceWorkCreationGroupBridgeEntityTypeConfigurator()
                     new Configurators.DesignWorkCreationGroupBridgeEntityTypeConfigurator(),
                     new Configurators.DesignWorkMaterialBridgeEntityTypeConfigurator()
                 };
