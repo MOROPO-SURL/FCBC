@@ -35,10 +35,11 @@
 
     @section scripts {
     <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
-
-    $(document).ready(function(){
-        $('#creatorId').combobox();
-    });
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#creatorId').combobox();
+        });
+    </script>
 }
 
     <div class="card" style="margin-bottom: 20px;">
@@ -151,6 +152,7 @@
                                     </div>
                                 </div>
                             </div>
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_ArtistDetailPartial", @item);
                         }
                     }
                 </div>
@@ -232,6 +234,7 @@
                                     </div>
                                 </div>
                             </div>
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_CreationGroupsDetailPartial", @item);
                         }
                     }
                 </div>
