@@ -129,29 +129,29 @@
         </div>
     }
 
-    <div class="">
-        @foreach (var item in Model.List)
-        {
-            <div class="card border-primary mb-2 d-block d-sm-none">
-                <div class="card-body text-justify">
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Organización:
-                        </span>
-                        @item.OrganizationIdentityName
-                    </div>
-                    <div>
-                        <div class="btn-group btn-group-sm float-right">
-                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
-                            <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
-                            <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
-                        </div>
+
+    @foreach (var item in Model.List)
+    {
+        <div class="card border-primary mb-2 d-block d-sm-none">
+            <div class="card-body text-justify">
+                <div class="mb-2">
+                    <span class="font-weight-bold">
+                        Organización:
+                    </span>
+                    @item.OrganizationIdentityName
+                </div>
+                <div>
+                    <div class="btn-group btn-group-sm float-right">
+                        <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                        <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                        <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                     </div>
                 </div>
             </div>
-            await Html.RenderPartialAsync("DetailPartial", @item);
-        }
-    </div>
+        </div>
+        await Html.RenderPartialAsync("DetailPartial", @item);
+    }
+
 
     <div class="d-none d-sm-block" style="border: 1px solid #DDD; border-radius: 4px;">
         <table class="table" style="margin: 0;">
@@ -178,6 +178,7 @@
             </tbody>
         </table>
     </div>
+
     if (Model.HasNext || Model.HasPrevious)
     {
         var paginationStart = (Model.Page - 1) * Model.Limit + 1;
