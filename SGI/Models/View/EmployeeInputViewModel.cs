@@ -45,10 +45,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Alias { get; set; }
 
         [Display(Name = "About")]
-        public string About { get; set; }  
+        public string About { get; set; }
 
         [Display(Name = "Roles Administrativos")]
-        public List<SelectionDescriptedItemInputViewModel<System.Guid>> SelectableRoles { get; set; }
+        public List<SelectionDescriptedItemInputViewModel<System.Guid>> SelectableRoles { get; set; } = new List<SelectionDescriptedItemInputViewModel<System.Guid>>();
 
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }
