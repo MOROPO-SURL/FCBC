@@ -127,7 +127,7 @@
 
                 @if (Model.HasNext)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
                 }
                 else
                 {
@@ -226,7 +226,7 @@
             <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
-                    <li class="page-item"><a class="page-link" cla href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
