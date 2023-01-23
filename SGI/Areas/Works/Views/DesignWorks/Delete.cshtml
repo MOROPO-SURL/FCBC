@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.DesignWorkDisplayViewModel
 
 @{
-    ViewData["Title"] = "Eliminar Diseño";
+    ViewData["Title"] = "Eliminar Obra de Diseño";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Diseños",
+            Caption = "Administración de Obras de Diseño",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -26,7 +26,7 @@
     Layout = "_BackendLayout";
 }
 
-<h3>Esta seguro que desea eliminar el diseño detallado a continuación?</h3>
+<h3>Esta seguro que desea eliminar la obra de diseño detallado a continuación?</h3>
 <dl>
 
     <dt>@Html.DisplayNameFor(model => model.Title)</dt>
