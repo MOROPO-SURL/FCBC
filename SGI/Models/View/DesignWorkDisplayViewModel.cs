@@ -1,6 +1,8 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -8,6 +10,7 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public Guid Id { get; set; }
 
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
         public DesignManifestationDisplayViewModel Manifestation { get; set; }

@@ -10,6 +10,7 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public Guid Id { get; set; }
 
+        [Display(Name = "Title")]
         public string Title { get; set; }        
         
         public CraftManifestationDisplayViewModel Manifestation { get; set; }
