@@ -39,7 +39,7 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            <h4>Obra Artística</h4>
+            <h4>Editar Obra de Servicio</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
@@ -147,7 +147,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                await Html.RenderPartialAsync("_ArtistDetailPartial", @item);
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_ArtistDetailPartial", @item);
                             }
                         }
                     </div>
@@ -229,7 +229,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            await Html.RenderPartialAsync("_CreationGroupsDetailPartial", @item);
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_CreationGroupsDetailPartial", @item);
                             }
                         }
                     </div>

@@ -30,15 +30,16 @@
 
     @section scripts {
     <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
-
-    $(document).ready(function(){
-        $('#creatorId').combobox();
-    });
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#creatorId').combobox();
+        });
+    </script>
 }
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            <h4>Obra Artística</h4>
+            <h4>Editar Obra de Diseño</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
@@ -146,6 +147,7 @@
                                     </div>
                                 </div>
                             </div>
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_ArtistDetailPartial", @item);
                         }
                     }
                 </div>
@@ -227,6 +229,7 @@
                                     </div>
                                 </div>
                             </div>
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_CreationGroupsDetailPartial", @item);
                         }
                     }
                 </div>

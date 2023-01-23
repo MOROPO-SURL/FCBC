@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.CraftWorkImagesDisplayViewModel
 
 @{
-    ViewData["Title"] = "Editar Artesanía (Imágenes)";
+    ViewData["Title"] = "Editar Obra de Artesanía (Imágenes)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -12,17 +12,12 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Artesanía",
+            Caption = "Administración de Obras de Artesanía",
             Url = Url.Action("index")
         },
-        new BreadcrumbViewModel
+       new BreadcrumbViewModel
         {
-            Caption = "Modificar Artesanía",
-            Url = Url.Action("edit", "craftworks", new { key = Model.Work.Id })
-        },
-        new BreadcrumbViewModel
-        {
-            Caption = "Imágenes de Artesanía"
+            Caption = ViewData["Title"].ToString()
         }
     };
 
@@ -31,7 +26,7 @@
 
 <div class="card" style="margin-bottom: 20px;">
     <div class="card-header">
-        <h4>Obra Artística</h4>
+        <h4>Editar Obra de Artesanía</h4>
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
                 <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
