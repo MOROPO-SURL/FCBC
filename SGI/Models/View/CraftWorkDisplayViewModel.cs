@@ -1,5 +1,6 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Xml.Linq;
@@ -11,8 +12,20 @@ namespace MOROPO.FCBC.SGI.Models.View
         public Guid Id { get; set; }
 
         [Display(Name = "Title")]
-        public string Title { get; set; }        
-        
+        public string Title { get; set; }
+
+        [Display(Name = "Fecha de Creación")]
+        public int BornYear { get; set; }
+
+        public decimal? Price { get; set; }
+        public string PriceSymbol { get; set; }
+
+        public decimal? Cost { get; set; }
+        public string CostSymbol { get; set; }
+
+        [Display(Name = "About")]
+        public string About { get; set; }
+
         public CraftManifestationDisplayViewModel Manifestation { get; set; }
 
         public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
@@ -30,6 +43,11 @@ namespace MOROPO.FCBC.SGI.Models.View
             Manifestation = new CraftManifestationDisplayViewModel();
             FeatureImage = entity.FeatureImage;
             Images = entity.ImageBridges.Select(bridge => bridge.Image).ToArray();
+            Price = entity.Price;
+            Cost = entity.Cost;
+            PriceSymbol = entity.PriceCurrency.Symbol;
+            CostSymbol = entity.CostCurrency.Symbol;
+            BornYear = entity.BornYear;
             Techniques = entity.TechniqueBridges.Select(bridge =>
             {
                 var model = new CraftTechniqueDisplayViewModel();
