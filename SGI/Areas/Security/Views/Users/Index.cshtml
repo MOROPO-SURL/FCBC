@@ -48,10 +48,12 @@
             <ul class="pagination" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", 1}})">Primero</a></li>
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
+                    <li class="disabled page-item"><a class="page-link" href="#">Primero</a></li>
                     <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
             
@@ -121,10 +123,12 @@
                 @if (Model.HasNext)
                 {
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
                 else
                 {
                     <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">Ultimo</a></li>
                 }
             </ul>
             <div class="text-info" style="margin-top: 10px; margin-bottom: 20px;">
@@ -201,10 +205,12 @@
             <ul class="pagination" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", 1}})">Primero</a></li>
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
+                    <li class="disabled page-item"><a class="page-link" href="#">Primero</a></li>
                     <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
             
@@ -274,10 +280,12 @@
                 @if (Model.HasNext)
                 {
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
                 else
                 {
                     <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">Ultimo</a></li>
                 }
             </ul>      
         </div>

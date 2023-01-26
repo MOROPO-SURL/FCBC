@@ -44,10 +44,12 @@
             <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", 1}})">Primero</a></li>
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
+                    <li class="disabled page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", 1}})">Primero</a></li>
                     <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
 
@@ -117,10 +119,12 @@
                 @if (Model.HasNext)
                 {
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
                 else
                 {
                     <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
             </ul>
             <div class="text-info" style="margin-top: 10px; margin-bottom: 20px;">
@@ -129,10 +133,10 @@
         </div>
     }
 
-    <div class="d-block d-sm-none">
+    <div class="">
         @foreach (var item in Model.List)
         {
-            <div class="card border-primary mb-2">
+            <div class="card border-primary mb-2 d-block d-sm-none">
                 <div class="card-body text-justify">
                     <div class="mb-2">
                         <span class="font-weight-bold">
@@ -142,12 +146,14 @@
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
+                        <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
                     </div>
                 </div>
             </div>
+            await Html.RenderPartialAsync("DetailPartial", @item);
         }
     </div>
 
@@ -166,6 +172,7 @@
                         <td style="vertical-align: middle;" title="Premios ">@item.Title</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
@@ -187,10 +194,12 @@
             <ul class="pagination justify-content-center" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet",  1}})">Primero</a></li>
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
+                    <li class="disabled page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet",  1}})">Primero</a></li>
                     <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
 
@@ -260,10 +269,12 @@
                 @if (Model.HasNext)
                 {
                     <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
                 else
                 {
                     <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
             </ul>
         </div>

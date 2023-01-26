@@ -20,6 +20,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string Collection { get; set; }
 
+        [Display(Name = "Location")]
         public string Location { get; set; }
 
         public decimal? Price { get; set; }       
