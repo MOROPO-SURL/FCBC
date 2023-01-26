@@ -11,7 +11,14 @@
             @GlobalViewLocalizationHelper.Localize(Model.Label.ToString(), ViewLocalizer)
         </label>
         <p class="text-muted">
-            @GlobalViewLocalizationHelper.Localize(Model.Description.ToString(), ViewLocalizer)
+            @if (Model.Description != null)
+            {
+                @GlobalViewLocalizationHelper.Localize(Model.Description.ToString(), ViewLocalizer)
+            }
+            else
+            {
+                <span>Descripción no especificada</span>
+            }
         </p>
     </div>
 </div>
