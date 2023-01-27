@@ -71,5 +71,9 @@
         internal const string MaterialManagement = "material-management";
 
         internal const string AgreementManagement = "agreement-management";
+
+        internal const string ActivityKindManagement = "activity-kind-management";
+
+        internal const string ActivityManagement = "activity-management";
     }
 }

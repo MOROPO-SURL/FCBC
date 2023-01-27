@@ -59,7 +59,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                     new Configurators.ArtWorkThematicBridgeEntityTypeConfigurator(),
                     new Configurators.CraftWorkThematicBridgeEntityTypeConfigurator(),
                     new Configurators.DesignWorkThematicBridgeEntityTypeConfigurator(),
-                    new Configurators.ServiceWorkThematicBridgeEntityTypeConfigurator()
+                    new Configurators.ServiceWorkThematicBridgeEntityTypeConfigurator(),
+                    new Configurators.ActivityEntityTypeConfigurator()
                 };
             }
         }

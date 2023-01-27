@@ -19,6 +19,59 @@ namespace MOROPO.FCBC.SGI.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Activity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ActivityKindId")
+                        .HasColumnName("activitykindid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnName("imageid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("PlanedAt")
+                        .HasColumnName("planedat");
+
+                    b.HasKey("Id")
+                        .HasName("pk_activities");
+
+                    b.HasIndex("ActivityKindId")
+                        .HasName("ix_activities_activitykindid");
+
+                    b.HasIndex("ImageId")
+                        .HasName("ix_activities_imageid");
+
+                    b.ToTable("activities");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ActivityKind", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_activitykinds");
+
+                    b.ToTable("activitykinds");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.AdministrativeRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2894,6 +2947,20 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("regions","fcbc-sgi_sapressc_middleware_region");
 
                     b.HasDiscriminator().HasValue("StateRegion");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Activity", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ActivityKind", "ActivityKind")
+                        .WithMany()
+                        .HasForeignKey("ActivityKindId")
+                        .HasConstraintName("fk_activities_activitykinds_activitykindid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .HasConstraintName("fk_activities_images_imageid");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", b =>

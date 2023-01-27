@@ -240,11 +240,25 @@
         public const string MaterialRemover = "material-remover";
         #endregion
 
-        #region Material
+        #region Agreement
         public const string AgreementViewer = "agreement-viewer";
         public const string AgreementCreator = "agreement-creator";
         public const string AgreementEditor = "agreement-editor";
         public const string AgreementRemover = "agreement-remover";
+        #endregion
+
+        #region ActivityKind
+        public const string ActivityKindViewer = "activity-kind-viewer";
+        public const string ActivityKindCreator = "activity-kind-creator";
+        public const string ActivityKindEditor = "activity-kind-editor";
+        public const string ActivityKindRemover = "activity-kind-remover";
+        #endregion
+
+        #region Activity
+        public const string ActivityViewer = "activity-viewer";
+        public const string ActivityCreator = "activity-creator";
+        public const string ActivityEditor = "activity-editor";
+        public const string ActivityRemover = "activity-remover";
         #endregion
     }
 }
