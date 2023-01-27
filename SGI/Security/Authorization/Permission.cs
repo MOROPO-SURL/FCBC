@@ -253,6 +253,13 @@
         public const string ActivityKindEditor = "activity-kind-editor";
         public const string ActivityKindRemover = "activity-kind-remover";
         #endregion
+
+        #region Activity
+        public const string ActivityViewer = "activity-viewer";
+        public const string ActivityCreator = "activity-creator";
+        public const string ActivityEditor = "activity-editor";
+        public const string ActivityRemover = "activity-remover";
+        #endregion
     }
 }
 

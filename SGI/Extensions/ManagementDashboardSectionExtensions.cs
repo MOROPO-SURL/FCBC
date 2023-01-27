@@ -54,6 +54,8 @@
 
             if (target.Controller == "activitykinds") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-tag-text\"></span>");
 
+            if (target.Controller == "activities") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-tag-text\"></span>");
+
             return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-toy-brick-outline\"></span>");
         }
     }
