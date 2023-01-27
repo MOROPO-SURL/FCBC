@@ -8,7 +8,7 @@
 
             entityTypeBuilder.HasKey(bridge => new { bridge.WorkId, bridge.ThematicId });
 
-            entityTypeBuilder.HasOne(bridge => bridge.Work).WithMany(entity => entity.ArtWorkThematicBridges).HasForeignKey(bridge => bridge.WorkId);
+            entityTypeBuilder.HasOne(bridge => bridge.Work).WithMany(entity => entity.ThematicBridges).HasForeignKey(bridge => bridge.WorkId);
             entityTypeBuilder.HasOne(bridge => bridge.Thematic).WithMany().HasForeignKey(bridge => bridge.ThematicId);
         }
     }

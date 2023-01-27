@@ -3038,7 +3038,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "Work")
-                        .WithMany("ArtWorkThematicBridges")
+                        .WithMany("ThematicBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_artworkthematicbridges_artworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -3414,7 +3414,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
-                        .WithMany("CraftWorkThematicBridges")
+                        .WithMany("ThematicBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_craftworkthematicbridges_craftworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -3720,7 +3720,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
-                        .WithMany("DesignWorkThematicBridges")
+                        .WithMany("ThematicBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_designworkthematicbridges_designworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -3903,7 +3903,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
-                        .WithMany("ServiceWorkThematicBridges")
+                        .WithMany("ThematicBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_serviceworkthematicbridges_serviceworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);

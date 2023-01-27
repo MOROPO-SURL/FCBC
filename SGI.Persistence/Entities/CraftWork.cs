@@ -8,7 +8,7 @@
             ImageBridges = new System.Collections.Generic.List<CraftWorkImageBridge>();
             Awards = new System.Collections.Generic.List<CraftWorkAward>();
             CreatorBridges = new System.Collections.Generic.List<CraftWorkCreatorBridge>();
-            CraftWorkThematicBridges = new System.Collections.Generic.List<CraftWorkThematicBridge>();
+            ThematicBridges = new System.Collections.Generic.List<CraftWorkThematicBridge>();
             CreationGroupBridges = new System.Collections.Generic.List<CraftWorkCreationGroupBridge>();
             MaterialBridges = new System.Collections.Generic.List<CraftWorkMaterialBridge>();
             Attachments = new System.Collections.Generic.List<CraftWorkAttachment>();
@@ -25,7 +25,7 @@
         public System.Collections.Generic.List<CraftWorkAward> Awards { get; set; }
 
         public System.Collections.Generic.List<CraftWorkCreatorBridge> CreatorBridges { get; set; }
-        public System.Collections.Generic.List<CraftWorkThematicBridge> CraftWorkThematicBridges { get; set; }
+        public System.Collections.Generic.List<CraftWorkThematicBridge> ThematicBridges { get; set; }
 
         public System.Collections.Generic.List<CraftWorkCreationGroupBridge> CreationGroupBridges { get; set; }
         public System.Collections.Generic.List<CraftWorkMaterialBridge> MaterialBridges { get; set; }

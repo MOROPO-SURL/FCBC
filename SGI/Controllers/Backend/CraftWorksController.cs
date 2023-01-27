@@ -33,8 +33,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Material, Guid> materialRepository;        
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository;
+        private readonly IEntityRepository<Thematic, Guid> thematicRepository;
 
-        public CraftWorksController(IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
+        public CraftWorksController(IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
             IEntityRepository<CraftWork, System.Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
@@ -48,6 +49,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.materialRepository = materialRepository;
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
+            this.thematicRepository = thematicRepository;
         }
 
         [RequirePermissions(Permission.CraftWorkViewer)]
@@ -875,6 +877,76 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Thematic
+
+        [HttpGet]
+        [Route("edit/{key}/thematic")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public ActionResult EditThematic(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new CraftWorkThematicInputViewModel
+            {
+                ThematicSelectors = thematicRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<System.Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ThematicBridges.Any(bridge => bridge.ThematicId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+
+                Work = new CraftWorkDisplayViewModel()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/thematic")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditThematic(System.Guid key, CraftWorkThematicInputViewModel modelInput)
+        {
+            CraftWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            entity.ThematicBridges.Clear();
+
+            foreach (var item in modelInput.ThematicSelectors)
+            {
+                if (!item.Selected) continue;
+
+                entity.ThematicBridges.Add(new CraftWorkThematicBridge
+                {
+                    WorkId = entity.Id,
+                    ThematicId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditThematic", new { key = entity.Id });
         }
 
         #endregion
