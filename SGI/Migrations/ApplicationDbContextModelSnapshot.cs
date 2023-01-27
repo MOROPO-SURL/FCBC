@@ -111,9 +111,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("title");
 
                     b.HasKey("Id")
-                        .HasName("pk_agreement");
+                        .HasName("pk_agreements");
 
-                    b.ToTable("agreement");
+                    b.ToTable("agreements");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", b =>
@@ -3492,7 +3492,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Agreement", "Agreement")
                         .WithMany()
                         .HasForeignKey("AgreementId")
-                        .HasConstraintName("fk_creationgroups_agreement_agreementid");
+                        .HasConstraintName("fk_creationgroups_agreements_agreementid");
 
                     b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
                         .WithOne()
