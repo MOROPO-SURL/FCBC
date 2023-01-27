@@ -30,6 +30,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Brand { get; set; }
 
         [Display(Name = "RegistrationNumber")]
+        [Range(1, 1000000, ErrorMessage = "RangeValidationErrorMessage")]
         public int RegistrationNumber { get; set; }
 
         [Display(Name = "RegistratedAt")]

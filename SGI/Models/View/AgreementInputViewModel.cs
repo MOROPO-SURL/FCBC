@@ -8,9 +8,11 @@ namespace MOROPO.FCBC.SGI.Models.View
         public System.Guid Id { get; set; }
 
         [Display(Name = "Number")]
+        [Range(1, 1000, ErrorMessage = "RangeValidationErrorMessage")]
         public int Number { get; set; }
 
         [Display(Name = "Title")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         public string Title { get; set; }
 
         [Display(Name = "Description")]

@@ -16,9 +16,16 @@
                 <h5>@Html.DisplayNameFor(model => model.Title)</h5>
                 <p>@Model.Title</p>
                 <h5>@Html.DisplayNameFor(model => model.ReleaseAt)</h5>
-                <p>@Model.ReleaseAt</p>
+                <p>@Model.ReleaseAt.ToShortDateString()</p>
                 <h5>@Html.DisplayNameFor(model => model.Description)</h5>
-                <p>@Model.Description</p>                             
+                @if (string.IsNullOrEmpty(Model.Description))
+                {
+                    <p class="mb-0 text-muted font-italic">Descripción no especificada</p>
+                }
+                else
+                {                    
+                    <p class="mb-0">@Model.Description</p>  
+                }                           
             </div>
         </div>
     </div>

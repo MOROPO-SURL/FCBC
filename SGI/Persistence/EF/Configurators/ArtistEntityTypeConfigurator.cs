@@ -8,6 +8,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
         {
             base.ApplayRules(entityTypeBuilder);
 
+            entityTypeBuilder.HasIndex(entity => entity.RegistrationNumber).IsUnique();
+
             entityTypeBuilder.HasOne(e => e.Identity).WithOne().HasForeignKey<Artist>(e => e.IdentityId);
         }
     }

@@ -55,7 +55,6 @@
         <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
 
         <div class="card-body">
-
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.Number, new { @class = "control-label" })
@@ -63,22 +62,21 @@
                     @Html.ValidationMessageFor(model => model.Number, null, new { @class = "text-danger" })
                 </div>
                 <div class="col-md-6" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.Title, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Title, null, new { @class = "text-danger" })
-                </div>
-                <div class="col-md-6" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
-                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
-                </div>
-                <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
                     @Html.LabelFor(model => model.ReleaseAt, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.ReleaseAt, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ReleaseAt, null, new { @class = "text-danger" })
                 </div>
             </div>
-
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title, null, new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Description, 6, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Modificar</button>

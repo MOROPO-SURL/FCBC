@@ -93,6 +93,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string SpecificEducation { get; set; }
 
         [Display(Name = "RegistrationNumber")]
+        [Range(1, 1000000, ErrorMessage = "RangeValidationErrorMessage")]
         public int RegistrationNumber { get; set; }
 
         [Display(Name = "RegistratedAt")]

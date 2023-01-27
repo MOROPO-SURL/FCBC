@@ -8,7 +8,12 @@
 
         public override System.Func<Entities.Agreement, object> GetPagingOrderSelector()
         {
-            return entity => entity.Number;
+            return entity => entity.ReleaseAt;
+        }
+
+        public override bool IsPagingOrderDescending()
+        {
+            return true;
         }
     }
 }

@@ -449,6 +449,10 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .IsUnique()
                         .HasName("ix_artists_identityid");
 
+                    b.HasIndex("RegistrationNumber")
+                        .IsUnique()
+                        .HasName("ix_artists_registrationnumber");
+
                     b.ToTable("artists");
                 });
 
@@ -1124,6 +1128,10 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasIndex("IdentityId")
                         .IsUnique()
                         .HasName("ix_creationgroups_identityid");
+
+                    b.HasIndex("RegistrationNumber")
+                        .IsUnique()
+                        .HasName("ix_creationgroups_registrationnumber");
 
                     b.ToTable("creationgroups");
                 });
