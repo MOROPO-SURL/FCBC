@@ -1803,4 +1803,64 @@
   <data name="ServiceLine" xml:space="preserve">
     <value>Linea de servicio</value>
   </data>
+  <data name="activity-creator" xml:space="preserve">
+    <value>Agregar Actividad</value>
+  </data>
+  <data name="activity-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar actividad</value>
+  </data>
+  <data name="activity-editor" xml:space="preserve">
+    <value>Modificar Actividad</value>
+  </data>
+  <data name="activity-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar actividad</value>
+  </data>
+  <data name="activity-kind-creator" xml:space="preserve">
+    <value>Agregar Tipo de Actividad</value>
+  </data>
+  <data name="activity-kind-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar tipo de actividad</value>
+  </data>
+  <data name="activity-kind-editor" xml:space="preserve">
+    <value>Modificar Tipo de Actividad</value>
+  </data>
+  <data name="activity-kind-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar tipo de actividad</value>
+  </data>
+  <data name="activity-kind-management" xml:space="preserve">
+    <value>Gestionar tipos de Actividades</value>
+  </data>
+  <data name="activity-kind-remover" xml:space="preserve">
+    <value>Eliminar Tipo de Actividad</value>
+  </data>
+  <data name="activity-kind-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar tipo de actividad</value>
+  </data>
+  <data name="activity-kind-viewer" xml:space="preserve">
+    <value>Visualizar Tipos de Actividades</value>
+  </data>
+  <data name="activity-kind-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar tipos de actividades</value>
+  </data>
+  <data name="activity-management" xml:space="preserve">
+    <value>Gestionar Actividades</value>
+  </data>
+  <data name="activity-remover" xml:space="preserve">
+    <value>Eliminar Actividad</value>
+  </data>
+  <data name="activity-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar actividad</value>
+  </data>
+  <data name="activity-viewer" xml:space="preserve">
+    <value>Visualizar Actividades</value>
+  </data>
+  <data name="activity-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar actividades</value>
+  </data>
+  <data name="ActivityKind" xml:space="preserve">
+    <value>Tipo de Actividad</value>
+  </data>
+  <data name="PlanedAt" xml:space="preserve">
+    <value>Fecha a realizar</value>
+  </data>
 </root>
