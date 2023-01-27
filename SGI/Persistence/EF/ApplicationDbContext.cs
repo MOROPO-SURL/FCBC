@@ -144,6 +144,10 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<DesignWorkAttachment> DesignWorkAttachments { get; set; }
         public DbSet<ServiceWorkAttachment> ServiceWorkAttachments { get; set; }
         public DbSet<ServiceWorkMaterialBridge> ServiceWorkMaterialBridges { get; set; }
+        public DbSet<ArtWorkThematicBridge> ArtWorkThematicBridges { get; set; }
+        public DbSet<CraftWorkThematicBridge> CraftWorkThematicBridges { get; set; }
+        public DbSet<DesignWorkThematicBridge> DesignWorkThematicBridges { get; set; }       
+        public DbSet<ServiceWorkThematicBridge> ServiceWorkThematicBridges { get; set; }       
         public DbSet<ActivityKind> ActivityKinds { get; set; }
         public DbSet<Activity> Activities { get; set; }
     }
