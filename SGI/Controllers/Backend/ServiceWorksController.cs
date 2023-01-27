@@ -32,8 +32,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Material, System.Guid> materialRepository;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<ServiceWorkAttachment, Guid> attachmentRepository;
+        private readonly IEntityRepository<Thematic, Guid> thematicRepository;
 
-        public ServiceWorksController(IEntityRepository<ServiceWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ServiceTechnique, System.Guid> techniqueRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<ServiceLine, System.Guid> serviceLineRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<ServiceWork, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ServiceWorksController> localizer, ILogger<ServiceWorksController> logger) : base(repository, localizer, logger)
+        public ServiceWorksController(IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<ServiceWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ServiceTechnique, System.Guid> techniqueRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<ServiceLine, System.Guid> serviceLineRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<ServiceWork, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ServiceWorksController> localizer, ILogger<ServiceWorksController> logger) : base(repository, localizer, logger)
         {
             this.serviceLineRepository = serviceLineRepository;
             this.currencyRepository = currencyRepository;
@@ -46,6 +47,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.materialRepository = materialRepository;
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
+            this.thematicRepository = thematicRepository;
         }
 
         [RequirePermissions(Permission.ServiceWorkViewer)]
@@ -873,6 +875,76 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
+        #region Thematic
+
+        [HttpGet]
+        [Route("edit/{key}/thematic")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public ActionResult EditThematic(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ServiceWorkThematicInputViewModel
+            {
+                ThematicSelectors = thematicRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<System.Guid>
+                {
+                    Id = item.Id,
+                    Label = item.Name,
+                    Selected = entity.ThematicBridges.Any(bridge => bridge.ThematicId == item.Id),
+                    Description = item.Description
+                }).ToArray(),
+
+                Work = new ServiceWorkDisplayViewModel()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/thematic")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditThematic(System.Guid key, ArtWorkThematicInputViewModel modelInput)
+        {
+            ServiceWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(key);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            entity.ThematicBridges.Clear();
+
+            foreach (var item in modelInput.ThematicSelectors)
+            {
+                if (!item.Selected) continue;
+
+                entity.ThematicBridges.Add(new ServiceWorkThematicBridge
+                {
+                    WorkId = entity.Id,
+                    ThematicId = item.Id
+                });
+            }
+
+            Repository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+            return RedirectToAction("EditThematic", new { key = entity.Id });
         }
 
         #endregion

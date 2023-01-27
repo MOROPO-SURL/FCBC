@@ -662,6 +662,44 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region ActivityKind
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityKindViewer)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityKindViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityKindManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityKindCreator)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityKindCreator.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityKindManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityKindEditor)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityKindEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityKindManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityKindRemover)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityKindRemover.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityKindManagement));
+            }
+            #endregion
+
+            #region Activity
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityViewer)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityCreator)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityCreator.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityEditor)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ActivityRemover)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ActivityRemover.ToPermissionEntity(Security.Authorization.PermissionsFamily.ActivityManagement));
+            }
+            #endregion
+
             #region Agreement
             if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AgreementViewer)).Result)
             {

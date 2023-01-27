@@ -10,6 +10,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             ImageBridges = new System.Collections.Generic.List<ServiceWorkImageBridge>();
             Awards = new System.Collections.Generic.List<ServiceWorkAward>();
             MaterialBridges = new System.Collections.Generic.List<ServiceWorkMaterialBridge>();
+            ThematicBridges = new System.Collections.Generic.List<ServiceWorkThematicBridge>();
             Attachments = new System.Collections.Generic.List<ServiceWorkAttachment>();           
         }
 
@@ -26,6 +27,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
 
         public System.Collections.Generic.List<ServiceWorkCreationGroupBridge> CreationGroupBridges { get; set; }
         public System.Collections.Generic.List<ServiceWorkMaterialBridge> MaterialBridges { get; set; }
+        public System.Collections.Generic.List<ServiceWorkThematicBridge> ThematicBridges { get; set; }
+
         public System.Collections.Generic.List<ServiceWorkAttachment> Attachments { get; set; }
     }
 }

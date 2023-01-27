@@ -19,6 +19,59 @@ namespace MOROPO.FCBC.SGI.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Activity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ActivityKindId")
+                        .HasColumnName("activitykindid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnName("imageid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("PlanedAt")
+                        .HasColumnName("planedat");
+
+                    b.HasKey("Id")
+                        .HasName("pk_activities");
+
+                    b.HasIndex("ActivityKindId")
+                        .HasName("ix_activities_activitykindid");
+
+                    b.HasIndex("ImageId")
+                        .HasName("ix_activities_imageid");
+
+                    b.ToTable("activities");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ActivityKind", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_activitykinds");
+
+                    b.ToTable("activitykinds");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.AdministrativeRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -293,6 +346,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_artworktechniquebridges_techniqueid");
 
                     b.ToTable("artworktechniquebridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkThematicBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ThematicId")
+                        .HasColumnName("thematicid");
+
+                    b.HasKey("WorkId", "ThematicId")
+                        .HasName("pk_artworkthematicbridges");
+
+                    b.HasIndex("ThematicId")
+                        .HasName("ix_artworkthematicbridges_thematicid");
+
+                    b.ToTable("artworkthematicbridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkValoration", b =>
@@ -1004,6 +1074,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("craftworktechniquebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkThematicBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ThematicId")
+                        .HasColumnName("thematicid");
+
+                    b.HasKey("WorkId", "ThematicId")
+                        .HasName("pk_craftworkthematicbridges");
+
+                    b.HasIndex("ThematicId")
+                        .HasName("ix_craftworkthematicbridges_thematicid");
+
+                    b.ToTable("craftworkthematicbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1536,6 +1623,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("designworktechniquebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkThematicBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ThematicId")
+                        .HasColumnName("thematicid");
+
+                    b.HasKey("WorkId", "ThematicId")
+                        .HasName("pk_designworkthematicbridges");
+
+                    b.HasIndex("ThematicId")
+                        .HasName("ix_designworkthematicbridges_thematicid");
+
+                    b.ToTable("designworkthematicbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Distinction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1962,6 +2066,23 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_serviceworktechniquebridges_techniqueid");
 
                     b.ToTable("serviceworktechniquebridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkThematicBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("ThematicId")
+                        .HasColumnName("thematicid");
+
+                    b.HasKey("WorkId", "ThematicId")
+                        .HasName("pk_serviceworkthematicbridges");
+
+                    b.HasIndex("ThematicId")
+                        .HasName("ix_serviceworkthematicbridges_thematicid");
+
+                    b.ToTable("serviceworkthematicbridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", b =>
@@ -2828,6 +2949,20 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasDiscriminator().HasValue("StateRegion");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Activity", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ActivityKind", "ActivityKind")
+                        .WithMany()
+                        .HasForeignKey("ActivityKindId")
+                        .HasConstraintName("fk_activities_activitykinds_activitykindid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "FeatureImage")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .HasConstraintName("fk_activities_images_imageid");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Currency", "CostCurrency")
@@ -2958,6 +3093,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("TechniqueBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_artworktechniquebridges_artworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkThematicBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", "Thematic")
+                        .WithMany()
+                        .HasForeignKey("ThematicId")
+                        .HasConstraintName("fk_artworkthematicbridges_thematics_thematicid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "Work")
+                        .WithMany("ThematicBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_artworkthematicbridges_artworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -3322,6 +3472,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkThematicBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", "Thematic")
+                        .WithMany()
+                        .HasForeignKey("ThematicId")
+                        .HasConstraintName("fk_craftworkthematicbridges_thematics_thematicid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("ThematicBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworkthematicbridges_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Agreement", "Agreement")
@@ -3613,6 +3778,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkThematicBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", "Thematic")
+                        .WithMany()
+                        .HasForeignKey("ThematicId")
+                        .HasConstraintName("fk_designworkthematicbridges_thematics_thematicid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("ThematicBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkthematicbridges_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Employee", b =>
                 {
                     b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.PersonIdentity", "Identity")
@@ -3778,6 +3958,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("TechniqueBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_serviceworktechniquebridges_serviceworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkThematicBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", "Thematic")
+                        .WithMany()
+                        .HasForeignKey("ThematicId")
+                        .HasConstraintName("fk_serviceworkthematicbridges_thematics_thematicid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
+                        .WithMany("ThematicBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_serviceworkthematicbridges_serviceworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

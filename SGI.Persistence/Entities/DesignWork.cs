@@ -8,6 +8,7 @@
             ImageBridges = new System.Collections.Generic.List<DesignWorkImageBridge>();
             Awards = new System.Collections.Generic.List<DesignWorkAward>();
             MaterialBridges = new System.Collections.Generic.List<DesignWorkMaterialBridge>();
+            ThematicBridges = new System.Collections.Generic.List<DesignWorkThematicBridge>();
             Attachments = new System.Collections.Generic.List<DesignWorkAttachment>();
         }
 
@@ -25,6 +26,7 @@
         public System.Collections.Generic.List<DesignWorkCreationGroupBridge> CreationGroupBridges { get; set; }
 
         public System.Collections.Generic.List<DesignWorkMaterialBridge> MaterialBridges { get; set; }
+        public System.Collections.Generic.List<DesignWorkThematicBridge> ThematicBridges { get; set; }
 
         public System.Collections.Generic.List<DesignWorkAttachment> Attachments { get; set; }
     }

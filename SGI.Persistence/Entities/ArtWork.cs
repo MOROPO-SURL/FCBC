@@ -9,6 +9,7 @@
             MaterialBridges = new System.Collections.Generic.List<ArtWorkMaterialBridge>();
             CreatorBridges = new System.Collections.Generic.List<ArtWorkCreatorBridge>();
             CreationGroupBridges = new System.Collections.Generic.List<ArtWorkCreationGroupBridge>();
+            ThematicBridges = new System.Collections.Generic.List<ArtWorkThematicBridge>();
             Valorations = new System.Collections.Generic.List<ArtWorkValoration>();
             Awards = new System.Collections.Generic.List<ArtWorkAward>();
             Attachments = new System.Collections.Generic.List<ArtWorkAttachment>();            
@@ -43,6 +44,7 @@
         public System.Collections.Generic.List<ArtWorkImageBridge> ImageBridges { get; set; }
 
         public System.Collections.Generic.List<ArtWorkCreatorBridge> CreatorBridges { get; set; }
+        public System.Collections.Generic.List<ArtWorkThematicBridge> ThematicBridges { get; set; }
 
         public System.Collections.Generic.List<ArtWorkCreationGroupBridge> CreationGroupBridges { get; set; }
 

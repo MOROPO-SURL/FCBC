@@ -28,54 +28,57 @@
     <link rel="stylesheet" href="~/lib/bootstrap-combobox/css/bootstrap-combobox.css" />
 }
 
-@section scripts {
+    @section scripts {
     <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('#creatorId').combobox();
         });
     </script>
 }
 
-<div class="card" style="margin-bottom: 20px;">
-    <div class="card-header">
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
             <h4>Editar Obra de Artesanía</h4>
-        <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-                <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Autores</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
-            </li>            
-            <li class="nav-item">
-                <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
-            </li>
-            <li class="nav-item">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Autores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" asp-action="CraftWorkAwards" asp-route-key="@Model.Work.Id">Premios</a>
-            </li>
-        </ul>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-6" style="margin-bottom: 20px;">
-                <div class="border-bottom mb-3">
-                    <h4>Creadores<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-creator"><span class="mdi mdi-plus"></span> Agregar</a></h4>
-                </div>
-                <div class="modal fade" id="add-creator" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="add-creator-title">Agregar Creador</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="border-bottom mb-3">
+                        <h4>Creadores<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-creator"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
+                    <div class="modal fade" id="add-creator" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="add-creator-title">Agregar Creador</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
                             @using (Html.BeginForm("addcreator", "craftworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
                             {
                                 <div class="modal-body">
