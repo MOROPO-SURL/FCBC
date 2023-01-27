@@ -144,6 +144,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<DesignWorkAttachment> DesignWorkAttachments { get; set; }
         public DbSet<ServiceWorkAttachment> ServiceWorkAttachments { get; set; }
         public DbSet<ServiceWorkMaterialBridge> ServiceWorkMaterialBridges { get; set; }
-
+        public DbSet<Agreement> Agreements { get; set; }
     }
 }

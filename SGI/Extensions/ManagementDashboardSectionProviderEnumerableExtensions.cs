@@ -120,6 +120,15 @@ namespace MOROPO.FCBC.SGI.Extensions
 
                 new ManagementDashboardSectionViewModel
                 {
+                    Title = "Acuerdos del CA",
+                    Controller = "agreements",
+                    Action = "index",
+                    Area = "complements",
+                    Role = Security.Authorization.Permission.AgreementViewer
+                },
+
+                new ManagementDashboardSectionViewModel
+                {
                     Title = "Temáticas",
                     Controller = "thematics",
                     Action = "index",
