@@ -38,6 +38,31 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("administrativeroles");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Agreement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<int>("Number")
+                        .HasColumnName("number");
+
+                    b.Property<DateTime>("ReleaseAt")
+                        .HasColumnName("releaseat");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("pk_agreement");
+
+                    b.ToTable("agreement");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", b =>
                 {
                     b.Property<Guid>("Id")
@@ -313,11 +338,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("AdmitionModeContext")
                         .HasColumnName("admitionmodecontext");
 
+                    b.Property<string>("Brand")
+                        .HasColumnName("brand");
+
                     b.Property<Guid?>("BrandImageId")
                         .HasColumnName("brandimageid");
-
-                    b.Property<string>("BrandName")
-                        .HasColumnName("brandname");
 
                     b.Property<string>("CitizenId")
                         .IsRequired()
@@ -326,7 +351,10 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("IdentityId")
                         .HasColumnName("identityid");
 
-                    b.Property<DateTime?>("RegistrationEndAt")
+                    b.Property<DateTime>("RegistratedAt")
+                        .HasColumnName("registratedat");
+
+                    b.Property<DateTime>("RegistrationEndAt")
                         .HasColumnName("registrationendat");
 
                     b.Property<int>("RegistrationNumber")
@@ -982,27 +1010,33 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<Guid?>("AgreementId")
+                        .HasColumnName("agreementid");
+
+                    b.Property<string>("Brand")
+                        .HasColumnName("brand");
+
                     b.Property<Guid>("IdentityId")
                         .HasColumnName("identityid");
 
-                    b.Property<DateTime?>("RegistrationEndAt")
+                    b.Property<DateTime>("RegistratedAt")
+                        .HasColumnName("registratedat");
+
+                    b.Property<DateTime>("RegistrationEndAt")
                         .HasColumnName("registrationendat");
 
                     b.Property<int>("RegistrationNumber")
                         .HasColumnName("registrationnumber");
 
-                    b.Property<Guid?>("ResolutionId")
-                        .HasColumnName("resolutionid");
-
                     b.HasKey("Id")
                         .HasName("pk_creationgroups");
+
+                    b.HasIndex("AgreementId")
+                        .HasName("ix_creationgroups_agreementid");
 
                     b.HasIndex("IdentityId")
                         .IsUnique()
                         .HasName("ix_creationgroups_identityid");
-
-                    b.HasIndex("ResolutionId")
-                        .HasName("ix_creationgroups_resolutionid");
 
                     b.ToTable("creationgroups");
                 });
@@ -3290,16 +3324,16 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Agreement", "Agreement")
+                        .WithMany()
+                        .HasForeignKey("AgreementId")
+                        .HasConstraintName("fk_creationgroups_agreement_agreementid");
+
                     b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "IdentityId")
                         .HasConstraintName("fk_creationgroups_organizationidentities_identityid")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Resolution", "Resolution")
-                        .WithMany()
-                        .HasForeignKey("ResolutionId")
-                        .HasConstraintName("fk_creationgroups_resolutions_resolutionid");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupArtistBridge", b =>

@@ -70,5 +70,6 @@
 
         internal const string MaterialManagement = "material-management";
 
+        internal const string AgreementManagement = "agreement-management";
     }
 }

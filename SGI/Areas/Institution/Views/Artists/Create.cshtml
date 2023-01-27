@@ -47,8 +47,16 @@
             modal: true,
             header: true,
             footer: true,
+            format: 'dd/mm/yyyy'
+        });        
+
+        $('#RegistratedAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.BornDate?.ToShortDateString()'
+            value: null
         });
 
         $('#RegistrationEndAt').datepicker({
@@ -57,7 +65,7 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.RegistrationEndAt?.ToShortDateString()'
+            value: null
         });
 
         $(document).ready(function(){
@@ -188,9 +196,9 @@
                             @Html.ValidationMessageFor(model => model.Alias, null, new { @class = "text-danger" })
                         </div>
                         <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.BornDate, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.BornDate, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.BornDate, null, new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.Brand, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Brand, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SchoolLevel, null, new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row">
@@ -200,21 +208,9 @@
                             @Html.ValidationMessageFor(model => model.CitizenId, null, new { @class = "text-danger" })
                         </div>
                         <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.Workplace, new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.Workplace, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("House", ViewLocalizer), WorkPlace.House.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Workshop", ViewLocalizer), WorkPlace.Workshop.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Gallery", ViewLocalizer), WorkPlace.Gallery.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("HouseWorkshop", ViewLocalizer), WorkPlace.HouseWorkshop.ToString()) }, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Workplace, null, new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class=row>
-                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
-                        </div>
-                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.BornDate, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.BornDate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BornDate, null, new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row">
@@ -227,6 +223,13 @@
                             @Html.LabelFor(model => model.CivilStatus, new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.CivilStatus, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Single", ViewLocalizer), CivilStatus.Single.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Married", ViewLocalizer), CivilStatus.Married.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Divorced", ViewLocalizer), CivilStatus.Divorced.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Widower", ViewLocalizer), CivilStatus.Widower.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Unknow", ViewLocalizer), CivilStatus.Unknow.ToString())  }, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.CivilStatus, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">                
+                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.Workplace, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Workplace, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("House", ViewLocalizer), WorkPlace.House.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Workshop", ViewLocalizer), WorkPlace.Workshop.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Gallery", ViewLocalizer), WorkPlace.Gallery.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("HouseWorkshop", ViewLocalizer), WorkPlace.HouseWorkshop.ToString()) }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Workplace, null, new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -266,7 +269,29 @@
                 </div>                
             </div>
             <fieldset>
-                <legend>Dirección completa</legend>
+                <legend class="border-bottom">Registro del Creador</legend>                
+                <div class=row>
+                    <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class=row>
+                    <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistratedAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistratedAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistratedAt, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="border-bottom">Dirección Postal</legend>
                 <div class="row">
                     <div class="col-md-4" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.StateId, new { @class = "control-label" })
@@ -279,10 +304,8 @@
                         @Html.DropDownListFor(model => model.MunicipalityId, Model.Municipalities, new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.MunicipalityId, null, new { @class = "text-danger" })
                     </div>
-
                 </div>
-
-                <div style="margin-bottom: 20px;">
+                <div>
                     @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
                     @Html.TextAreaFor(model => model.AddressPostal, 3, 0, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })

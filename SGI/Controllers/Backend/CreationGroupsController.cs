@@ -36,12 +36,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository;
         private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
         private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
-        private readonly IEntityRepository<Resolution, Guid> resolutionRepository;
+        private readonly IEntityRepository<Agreement, Guid> agreementRepository;
         private readonly IEntityRepository<Award, Guid> awardRepository;
         private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
         private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
         public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IEntityRepository<Award, Guid> awardRepository,
-            IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Resolution, Guid> resolutionRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
+            IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Agreement, Guid> agreementRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
@@ -55,7 +55,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.designManifestationGroupRepository = designManifestationGroupRepository;
             this.serviceLineRepository = serviceLineRepository;
             this.serviceLineGroupRepository = serviceLineGroupRepository;
-            this.resolutionRepository = resolutionRepository;
+            this.agreementRepository = agreementRepository;
             this.awardRepository = awardRepository;
             this.distintionsRepository = distintionsRepository;
             this.recognitionRepository = recognitionRepository;
@@ -124,10 +124,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreCreate(entity, modelInput);
 
-            if (modelInput.ResolutionId != null)
+            if (modelInput.AgreementId != null)
             {
-                entity.Resolution = resolutionRepository.Get(modelInput.ResolutionId.Value);
-                entity.ResolutionId = modelInput.ResolutionId;
+                entity.Agreement = agreementRepository.Get(modelInput.AgreementId.Value);
+                entity.AgreementId = modelInput.AgreementId;
             }
 
             if (modelInput.ImageFile == null) return;
@@ -148,19 +148,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreEdit(entity, modelInput);
 
-            if (modelInput.ResolutionId != null)
-            {
-                if (modelInput.ResolutionId != entity.ResolutionId)
-                {
-                    entity.Resolution = resolutionRepository.Get(modelInput.ResolutionId.Value);
-                    entity.ResolutionId = modelInput.ResolutionId;
-                }
-            }
-            else
-            {
-                entity.Resolution = null;
-                entity.ResolutionId = null;
-            }
+            entity.Agreement = agreementRepository.Get(modelInput.AgreementId.Value);
+            entity.AgreementId = modelInput.AgreementId;
 
             if (modelInput.ImageFile == null)
             {
@@ -751,7 +740,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateAvailableResolutions(CreationGroupInputViewModel modelInput)
         {
-            modelInput.Resolutions = resolutionRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = string.Format("{0} - {1} - {2}", entity.Number, entity.ReleaseAt.ToShortDateString(), entity.Title) }).ToArray();
+            modelInput.AvailableAgreements = agreementRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = string.Format("{0} - {1} - {2}", entity.Number, entity.ReleaseAt.ToShortDateString(), entity.Title) }).ToArray();
         }
 
         #region Manifestations

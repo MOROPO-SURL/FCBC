@@ -239,6 +239,13 @@
         public const string MaterialEditor = "material-editor";
         public const string MaterialRemover = "material-remover";
         #endregion
+
+        #region Material
+        public const string AgreementViewer = "agreement-viewer";
+        public const string AgreementCreator = "agreement-creator";
+        public const string AgreementEditor = "agreement-editor";
+        public const string AgreementRemover = "agreement-remover";
+        #endregion
     }
 }
 

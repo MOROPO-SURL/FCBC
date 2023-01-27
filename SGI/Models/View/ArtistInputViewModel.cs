@@ -89,25 +89,27 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "SchoolLevel")]
         public Persistence.Enumerations.SchoolLevel SchoolLevel { get; set; }
 
-        [Display(Name = "specify training")]
+        [Display(Name = "SpecificEducation")]
         public string SpecificEducation { get; set; }
 
-        [Display(Name = "Número de registro del creador")]
+        [Display(Name = "RegistrationNumber")]
         public int RegistrationNumber { get; set; }
 
-        [Display(Name = "Fecha en que expira")]
+        [Display(Name = "RegistratedAt")]
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        public System.DateTime? RegistrationEndAt { get; set; }
+        public System.DateTime RegistratedAt { get; set; }
 
-        public List< SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List< SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List< SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        [Display(Name = "RegistrationEndAt")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.DateTime RegistrationEndAt { get; set; }
 
-        public ArtistInputViewModel()
-        {
-            BornDate = System.DateTime.Now.AddYears(-16);
-        }
-        
+        [Display(Name = "Brand")]
+        public string Brand { get; set; }
+
+        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
+
         public Persistence.Entities.Artist Export()
         {
             var entity = new Persistence.Entities.Artist();
@@ -132,6 +134,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
             RegistrationNumber = entity.RegistrationNumber;
             RegistrationEndAt = entity.RegistrationEndAt;
+            Brand = entity.Brand;
             
             var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             
@@ -161,6 +164,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.AdmitionModeContext = Context;
             entity.RegistrationNumber = RegistrationNumber;
             entity.RegistrationEndAt = RegistrationEndAt;
+            entity.Brand = Brand;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         [System.ComponentModel.DataAnnotations.RegularExpression("[0-9]{11}")]
         public string CitizenId { get; set; }
 
-        public string BrandName { get; set; }
+        public string Brand { get; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("BrandImageId")]
         public SAPRESSC.Middleware.Media.Persistence.Entities.Image BrandImage { get; set; }
@@ -49,7 +49,9 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
 
         public int RegistrationNumber { get; set; }
 
-        public System.DateTime? RegistrationEndAt { get; set; }
+        public System.DateTime RegistratedAt { get; set; }
+
+        public System.DateTime RegistrationEndAt { get; set; }
 
         public ICollection<ArtistArtisticManifestationBridge> ArtisticManifestationBridges { get; set; }
 
@@ -64,11 +66,13 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ICollection<ArtistResolutionLock> ResolutionLocks { get; set; }
 
         public ICollection<ArtistAttachment> Attachments { get; set; }
-        //public System.Collections.Generic.ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; }
 
-        public System.Collections.Generic.ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
-        public System.Collections.Generic.ICollection<ArtistAward> ArtistAwards { get; set; }
-        public System.Collections.Generic.ICollection<ArtistRecognitionBridge> ArtistRecognitionBridges { get; set; }
-        public System.Collections.Generic.ICollection<ArtistDistinctionBridge> ArtistDistinctionBridges { get; set; }
+        public ICollection<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
+        
+        public ICollection<ArtistAward> ArtistAwards { get; set; }
+        
+        public ICollection<ArtistRecognitionBridge> ArtistRecognitionBridges { get; set; }
+        
+        public ICollection<ArtistDistinctionBridge> ArtistDistinctionBridges { get; set; }
     }
 }

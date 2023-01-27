@@ -26,13 +26,17 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity Identity { get; set; }
         public System.Guid IdentityId { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ResolutionId")]
-        public Resolution Resolution { get; set; }
-        public System.Guid? ResolutionId { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("AgreementId")]
+        public Agreement Agreement { get; set; }
+        public System.Guid? AgreementId { get; set; }
+
+        public string Brand { get; set; }
 
         public int RegistrationNumber { get; set; }
 
-        public System.DateTime? RegistrationEndAt { get; set; }
+        public System.DateTime RegistratedAt { get; set; }
+
+        public System.DateTime RegistrationEndAt { get; set; }
 
         public ICollection<CreationGroupAttachment> Attachments { get; set; }
 
@@ -46,9 +50,11 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         
         public ICollection<CreationGroupArtistBridge> ArtistBridges { get; set; }
 
-        public System.Collections.Generic.ICollection<CreationGroupAward> CreationGroupAwards { get; set; }
-        public System.Collections.Generic.ICollection<CreationGroupRecognitionBridge> CreationGroupRecognitionBridges { get; set; }
-        public System.Collections.Generic.ICollection<CreationGroupDistinctionBridge> CreationGroupDistinctionBridges { get; set; }
+        public ICollection<CreationGroupAward> CreationGroupAwards { get; set; }
+
+        public ICollection<CreationGroupRecognitionBridge> CreationGroupRecognitionBridges { get; set; }
+
+        public ICollection<CreationGroupDistinctionBridge> CreationGroupDistinctionBridges { get; set; }
 
 
     }

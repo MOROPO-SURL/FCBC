@@ -45,8 +45,7 @@
             modal: true,
             header: true,
             footer: true,
-            format: 'dd/mm/yyyy',
-            value: '@Model.CreateDate?.ToShortDateString()'
+            format: 'dd/mm/yyyy'
         });
 
         $('#RegistrationEndAt').datepicker({
@@ -54,8 +53,7 @@
             modal: true,
             header: true,
             footer: true,
-            format: 'dd/mm/yyyy',
-            value: '@Model.RegistrationEndAt?.ToShortDateString()'
+            format: 'dd/mm/yyyy'
         });
 
         $(function () {
@@ -112,14 +110,14 @@
                 <div class="col-lg-9 col-sm-8">
                     <div class="row">
                         <div class="col-lg-5 col-sm-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.OrganizationIdentityName, null, new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                         </div>
                         <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.CreateDate, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.CreateDate, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.CreateDate, null, new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.CreatedAt, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.CreatedAt, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CreatedAt, null, new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row">
@@ -136,9 +134,9 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
-                            @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.AgreementId, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.AgreementId, Model.AvailableAgreements, "", new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.AgreementId, null, new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
