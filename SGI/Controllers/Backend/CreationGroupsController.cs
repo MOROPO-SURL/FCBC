@@ -104,6 +104,23 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequirePermissions(Permission.CreationGroupEditor)]
         public override IActionResult Edit(CreationGroupInputViewModel inputModel)
         {
+            ModelState.ClearValidationState("ImageFile");
+            ModelState.MarkFieldValid("ImageFile");
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var formFile = Request.Form.Files[0];
+
+                if (formFile.Length > 0)
+                {
+                    inputModel.ImageFile = formFile;
+
+                    var updateModelTask = TryUpdateModelAsync(inputModel);
+
+                    updateModelTask.Wait();
+                }
+            }
+
             return base.Edit(inputModel);
         }
 
@@ -225,21 +242,27 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [Route("edit/{key}/members")]
         [RequirePermissions(Permission.CreationGroupEditor)]
-        public IActionResult Members(System.Guid key)
+        public IActionResult Members(Guid key)
         {
             try
             {
                 var entity = Repository.Get(key);
+                
                 var members = entity.ArtistBridges.Select(b => b.Artist).ToArray();
+                
                 var notMemberArtist = artistRepository.GetAll().ToArray();
+                
                 if (members.Count() != 0)
                 {
                     notMemberArtist = notMemberArtist.Except(members).ToArray();
                 }
                 
-                var resultModel = new CreationGroupInputViewModel ();
+                var resultModel = new CreationGroupMemberManageViewModel
+                {
+                    Group = new CreationGroupDisplayViewModel()
+                };
                 
-                resultModel.Import(entity);
+                resultModel.Group.Import(entity);
                 
                 resultModel.NotMembers = notMemberArtist.Select(n => new SelectListItem { Value = n.Id.ToString(), Text = n.Identity.Name+" "+n.Identity.LastName }).ToArray();
                 
@@ -262,12 +285,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 return View(resultModel);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
@@ -299,11 +322,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
-                var messages = new System.Collections.Generic.List<string>();
+                var messages = new List<string>();
 
                 foreach (var item in ModelState)
                 {
@@ -315,7 +338,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("members", new { key = entity.Id });
@@ -361,7 +384,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -374,13 +397,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
             catch (System.Exception e)
             {
@@ -392,7 +415,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [Route("edit/{key}/contacts")]
         [RequirePermissions(Permission.CreationGroupEditor)]
-        public IActionResult Contacts(System.Guid key)
+        public IActionResult Contacts(Guid key)
         {
             try
             {
@@ -400,7 +423,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 var resultModel = new CreationGroupContactsManageViewModel
                 {
-                    CreationGroup = new CreationGroupDisplayViewModel(),
+                    Group = new CreationGroupDisplayViewModel(),
                     PhoneContacts = entity.Identity.OrganizationPhoneContactItemBridges.Select(bridge => new CreationGroupPhoneContactDisplayViewModel
                     {
                         Id = bridge.ContactItemId,
@@ -425,11 +448,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }).ToList()
                 };
 
-                resultModel.CreationGroup.Import(entity);
+                resultModel.Group.Import(entity);
 
                 return View(resultModel);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
@@ -470,7 +493,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
             else
             {
-                var messages = new System.Collections.Generic.List<string>();
+                var messages = new List<string>();
 
                 foreach (var item in ModelState)
                 {
@@ -482,7 +505,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(NotificationType.Danger, "Agregar Contacto (Teléfono)", messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
@@ -504,7 +527,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -517,15 +540,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
@@ -549,7 +572,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -560,11 +583,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
-                var messages = new System.Collections.Generic.List<string>();
+                var messages = new List<string>();
 
                 foreach (var item in ModelState)
                 {
@@ -576,7 +599,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(NotificationType.Danger, "Agregar Contacto (Correo Electrónico)", messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
@@ -598,7 +621,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -611,15 +634,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
@@ -643,7 +666,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -654,7 +677,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -670,7 +693,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(NotificationType.Danger, "Agregar Contacto (Redes Sociales)", messages.ToArray());
             }
 
             return RedirectToAction("contacts", new { key = entity.Id });
@@ -692,7 +715,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -705,13 +728,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
             }
             catch (System.Exception e)
             {
@@ -1158,33 +1181,39 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [HttpGet]
-        [Route("edit/{key}/groupRecognitions")]
+        [Route("edit/{key}/recognitions")]
         [RequirePermissions(Permission.CreationGroupEditor)]
         public ActionResult EditGroupRecognitions(Guid key)
         {
             var entity = Repository.Get(key);
 
-            var model = new CreationGroupInputViewModel();
+            var model = new CreationGroupRecognitionManageViewModel
+            {
+                Group = new CreationGroupDisplayViewModel()
+            };
 
             PopulateRecognitions(entity, model.RecognitionsToSelect);
 
-            model.Import(entity);
+            model.Group.Import(entity);
 
             return View(model);
         }
 
         [HttpGet]
-        [Route("edit/{key}/groupDistintions")]
+        [Route("edit/{key}/distintions")]
         [RequirePermissions(Permission.CreationGroupEditor)]
         public ActionResult EditGroupDistintions(Guid key)
         {
             var entity = Repository.Get(key);
 
-            var model = new CreationGroupInputViewModel();
+            var model = new CreationGroupDistintionManageViewModel
+            {
+                Group = new CreationGroupDisplayViewModel()
+            };
 
             PopulateDistintions(entity, model.DistintionsToSelect);
 
-            model.Import(entity);
+            model.Group.Import(entity);
 
             return View(model);
         }
@@ -1207,9 +1236,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return (ActionResult)GetDefaultActionResult();
-            }
-
-           
+            }           
 
             Repository.Update(entity, User.Identity.Name);
 
@@ -1219,9 +1246,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [HttpPost]
-        [Route("edit/{key}/groupRecognitions")]
+        [Route("edit/{key}/recognitions")]
         [RequirePermissions(Permission.CreationGroupEditor)]
-        public ActionResult EditGroupRecognitions(Guid key, CreationGroupInputViewModel modelInput)
+        public ActionResult EditGroupRecognitions(Guid key, List<SelectionDescriptedItemInputViewModel<Guid>> modelInput)
         {
             CreationGroup entity = null;
 
@@ -1240,7 +1267,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.CreationGroupRecognitionBridges.Clear();
 
-            foreach (var item in modelInput.RecognitionsToSelect)
+            foreach (var item in modelInput)
             {
                 if (!item.Selected) continue;
 
@@ -1255,13 +1282,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
 
-            return RedirectToAction("EditGroupRecognitions", new { key = entity.Id });
+            return RedirectToAction("editgrouprecognitions", new { key = entity.Id });
         }
 
         [HttpPost]
-        [Route("edit/{key}/groupDistintions")]
+        [Route("edit/{key}/distintions")]
         [RequirePermissions(Permission.CreationGroupEditor)]
-        public ActionResult EditGroupDistintions(Guid key, CreationGroupInputViewModel modelInput)
+        public ActionResult EditGroupDistintions(Guid key, List<SelectionDescriptedItemInputViewModel<Guid>> modelInput)
         {
             CreationGroup entity = null;
 
@@ -1280,7 +1307,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.CreationGroupDistinctionBridges.Clear();
 
-            foreach (var item in modelInput.DistintionsToSelect)
+            foreach (var item in modelInput)
             {
                 if (!item.Selected) continue;
 
@@ -1295,12 +1322,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
 
-            return RedirectToAction("EditGroupDistintions", new { key = entity.Id });
+            return RedirectToAction("editgroupdistintions", new { key = entity.Id });
         }
 
-        [Route("edit/{key}/CreationGroupAwards")]
+        [Route("edit/{key}/awards")]
         [RequirePermissions(Permission.ArtistEditor)]
-        public IActionResult CreationGroupAwards(System.Guid key)
+        public IActionResult CreationGroupAwards(Guid key)
         {
             try
             {
@@ -1308,25 +1335,25 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 var resultModel = new CreationGroupAwardManageViewModel
                 {
-                    GroupDisplay = new CreationGroupDisplayViewModel()
+                    Group = new CreationGroupDisplayViewModel()
                 };
                 PopulateAwards(resultModel);
-                resultModel.GroupDisplay.Import(entity);
+                resultModel.Group.Import(entity);
 
                 return View(resultModel);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
 
 
-        [Route("edit/Awards/add")]
+        [Route("edit/awards/add")]
         [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1336,17 +1363,17 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             Award award = null;
             try
             {
-                entity = Repository.Get(modelInput.GroupDisplay.Id);
+                entity = Repository.Get(modelInput.Group.Id);
                 award = awardRepository.Get(modelInput.AwardId);
 
-                modelInput.GroupDisplay.Import(entity);
+                modelInput.Group.Import(entity);
                 ;
             }
             catch { }
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -1357,7 +1384,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -1373,13 +1400,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("CreationGroupAwards", new { key = entity.Id });
+            return RedirectToAction("creationgroupawards", new { key = entity.Id });
         }
 
-        [Route("edit/Awards/delete")]
+        [Route("edit/awards/delete")]
         [RequirePermissions(Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1395,7 +1422,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -1407,7 +1434,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -1423,10 +1450,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("CreationGroupAwards", new { key = entity.Id });
+            return RedirectToAction("creationgroupawards", new { key = entity.Id });
         }
 
         private void PopulateAwards(CreationGroupAwardManageViewModel modelInput)
@@ -1455,9 +1482,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 }));
             }
 
-        }
-
-        
+        }        
 
         private void PopulateRecognitions(CreationGroup entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
         {

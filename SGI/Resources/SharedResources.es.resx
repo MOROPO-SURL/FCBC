@@ -1866,4 +1866,22 @@
   <data name="ReleaseAt" xml:space="preserve">
     <value>Fecha de Emisión</value>
   </data>
+  <data name="Agreement" xml:space="preserve">
+    <value>Acuerdo</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Marca</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Fecha de Creación</value>
+  </data>
+  <data name="RegistratedAt" xml:space="preserve">
+    <value>Fecha de Registro</value>
+  </data>
+  <data name="RegistrationEndAt" xml:space="preserve">
+    <value>Fecha de Expiración</value>
+  </data>
+  <data name="RegistrationNumber" xml:space="preserve">
+    <value>Número de Registro</value>
+  </data>
 </root>

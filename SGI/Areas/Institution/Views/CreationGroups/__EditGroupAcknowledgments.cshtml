@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupInputViewModel
 
 @{
-    ViewData["Title"] = "Editar Grupos de Creación ";
+    ViewData["Title"] = "Editar Grupos de Creación";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -29,7 +29,7 @@
     Layout = "_BackendLayout";
 }
 
-@using (Html.BeginForm("EditGroupAcknowledgments", "creationgroups", new { key = Model.Id }, FormMethod.Post, true, null))
+@using (Html.BeginForm("editgroupacknowledgments", "creationgroups", new { key = Model.Id }, FormMethod.Post, true, null))
 {
     var selectableIndex = 0;
 
@@ -44,10 +44,10 @@
                         <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Id">Contactos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="EditArtisticManifestations">Manifestaciones</a>
+                        <a class="nav-link" asp-action="editartisticmanifestations">Manifestaciones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Reconocimientos</a>
+                        <a class="nav-link active" href="#">Trayectoria</a>
                     </li>
                 </ul>
             </div>
@@ -59,26 +59,12 @@
                                 <a class="nav-link active" href="#">Premios</a>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" asp-action="EditGroupRecognitions" asp-route-key="@Model.Id">Reconocimientos</a>
+                            <a class="nav-link" asp-action="editgrouprecognitions" asp-route-key="@Model.Id">Reconocimientos</a>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link" asp-action="EditGroupDistintions" asp-route-key="@Model.Id">Distinciones</a>
+                            <a class="nav-link" asp-action="editgroupdistintions" asp-route-key="@Model.Id">Distinciones</a>
                             </li>                        
                         </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                        @if (Model.AwardsToSelect != null || Model.AwardsToSelect.Count() > 0)
-                        { 
-                            @foreach (var item in Model.AwardsToSelect)
-                            {
-                                            <div class="col-md-4">
-                                    @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("AwardsToSelect[{0}]", selectableIndex++))
-                                            </div>
-                            }
-                        }
-                        </div>
-
                     </div>
                 </div>
             </div>

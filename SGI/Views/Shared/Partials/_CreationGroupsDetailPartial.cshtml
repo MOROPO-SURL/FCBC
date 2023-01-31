@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div class="card-body">
                     <h5>Grupo</h5>                    
-                    <p>@Model.OrganizationIdentityName</p>
+                    <p>@Model.Name</p>
                     <hr />
                     <h5>@Html.DisplayNameFor(model => model.RegistrationNumber)</h5>
                     <p>@Model.RegistrationNumber</p>
@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h5>Fecha de Creación</h5>
-                            @Model.CreateDate
+                            @Model.CreatedAt
                         </div>
                         <div class="col-md-6">
                             <h5>Fecha en que expira</h5>

@@ -49,18 +49,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<SelectListItem> AvailableAgreements { get; set; } = new List<SelectListItem>();
 
-        public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
-        public ICollection<ArtistDisplayViewModel> Members { get; set; }
-
-        public ICollection<SelectListItem> NotMembers { get; set; } = new List<SelectListItem>();
-
         [Display(Name = "About")]
         public string About { get; set; }
-
-        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> AwardsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-        public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
-
 
         public CreationGroup Export()
         {
@@ -79,7 +69,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             Name = entity.Identity.Name;
             Brand = entity.Brand;
             About = entity.Identity.About;
-            CreationGroupArtisticManifestationBrigdes = entity.ArtisticManifestationBrigdes;
             CreatedAt = entity.Identity.BornDate;
             RegistrationNumber = entity.RegistrationNumber;
             RegistratedAt = entity.RegistratedAt;
@@ -92,7 +81,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.Identity.Name = Name;
             entity.Identity.About = About;
             entity.Brand = Brand;
-            entity.ArtisticManifestationBrigdes = CreationGroupArtisticManifestationBrigdes;
             entity.RegistrationNumber = RegistrationNumber;
             entity.RegistratedAt = RegistratedAt;
             entity.RegistrationEndAt = RegistrationEndAt;

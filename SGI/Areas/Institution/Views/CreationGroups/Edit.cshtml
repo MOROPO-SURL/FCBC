@@ -123,7 +123,7 @@
                     <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("CreationGroupAwards", @Model.Id)">Reconocimientos</a>
+                    <a class="nav-link" href="@Url.Action("creationgroupawards", @Model.Id)">Trayectoria</a>
                 </li>
             </ul>
         </div>
@@ -131,7 +131,14 @@
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-4" style="margin-bottom: 20px;">
                     <div class="card">
-                        <img src="~/img/default-person-picture.jpg" class="card-img-top" id="ImageFilePreview" />
+                        @if (Model.ImageId != null)
+                        {
+                            <img class="img-thumbnail" src="~/media/images/@Model.ImageId.@Model.ImageExtension" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                        }
                         <label class="btn btn-light" style="border-top-left-radius: 0; border-top-right-radius: 0; margin-bottom: 0;">
                             @GlobalViewLocalizationHelper.Localize("Upload", ViewLocalizer) ...
                             @Html.EditorFor(model => model.ImageFile)

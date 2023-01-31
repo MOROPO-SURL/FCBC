@@ -24,74 +24,97 @@
     Layout = "_BackendLayout";
 }
 
-@section styles {
-    <style type="text/css">
-        #ImageFile {
-            width: 0;
-            height: 0;
-            overflow: hidden;
-        }
-        .social-icon {
-            font-size: 18px;
-            top: 2px;
-            margin-left: 8px;
-            margin-right: 8px;
-        }
-    </style>
-}
-
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">
-            <h4>Editar Grupos de Creación</h4>
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("edit", @Model.CreationGroup.Id)">Información</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.CreationGroup.Id)">Manifestaciones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("members", @Model.CreationGroup.Id)">Miembros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Contactos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="CreationGroupAwards" asp-route-key="@Model.CreationGroup.Id">Reconocimientos</a>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
-                    <div class="card">
-                    @if (Model.CreationGroup.ImageId != System.Guid.Empty)
-                    {
-                        <img class="img-thumbnail" src="~/media/images/@Model.CreationGroup.ImageId.@Model.CreationGroup.ImageExtension" />
-                    }
-                    else
-                    {
-                        <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
-                    }
-
-                    <div class="col-lg-10 col-md-9 col-sm-9">
-                        <dl style="margin-bottom: 0;">
-                            <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
-                            <dd>@Model.CreationGroup.OrganizationIdentityName</dd>
-                        </dl>
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>Editar Grupos de Creación</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Group.Id)">Manifestaciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("members", @Model.Group.Id)">Miembros</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="creationgroupawards" asp-route-key="@Model.Group.Id">Trayectoria</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">        
+        <div class="alert alert-dark mb-4">
+            <details>
+                <summary class="h4 mb-0">@Model.Group.Name</summary>
+                <hr />
+                <div class="row no-gutters">
+                    <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                        @if (Model.Group.ImageId != null)
+                        {
+                            <img class="img-thumbnail" src="~/media/images/@Model.Group.ImageId.@Model.Group.ImageExtension" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                        }
+                    </div>
+                    <div class="col-lg-10 col-md-8 col-sm-6">
+                        <div class="card-block pl-3">
+                            <div class="row">
+                                <dl class="col-md-6">
+                                    <dt>Fecha de Creación</dt>                                        
+                                    @if (Model.Group.CreatedAt == null)
+                                    {
+                                        <dd>-</dd>
+                                    }
+                                    else 
+                                    {
+                                        <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
+                                    }
+                                </dl>
+                                <dl class="col-md-6">
+                                    <dt>Marca</dt>                                        
+                                    @if (Model.Group.Brand == null)
+                                    {
+                                        <dd>-</dd>
+                                    }
+                                    else 
+                                    {
+                                        <dd>@Model.Group.Brand</dd>
+                                    }
+                                </dl>
+                            </div>
+                            <div class="row">
+                                <dl class="col-md-6">
+                                    <dt>Número de Registro del Creador</dt>
+                                    <dd>@Model.Group.RegistrationNumber</dd>
+                                </dl>
+                                <dl class="col-md-6">
+                                    <dt>Fecha de Registro</dt>
+                                    <dd>@Model.Group.RegistratedAt.ToShortDateString()</dd>
+                                </dl>
+                                <dl class="col-md-6 mb-0">
+                                    <dt>Fecha de Expiración</dt>
+                                    <dd>@Model.Group.RegistrationEndAt.ToShortDateString()</dd>
+                                </dl>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </details>                
         </div>
         <div class="row">
-            <div class="col-md-6" style="margin-bottom: 20px;">
+            <div class="col-md-6 mb-3">
                 <div class="page-header">
                     <h4>Teléfonos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                 </div>
 
                 @await Html.PartialAsync("_AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupPhoneContactInputViewModel
                 {
-                CreationGroupId = Model.CreationGroup.Id
+                CreationGroupId = Model.Group.Id
                 })
 
                 <table class="table" style="margin: 0;">
@@ -126,13 +149,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6" style="margin-bottom: 20px;">
+            <div class="col-md-6 mb-3">
                 <div class="page-header">
                     <h4>Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                 </div>
                 @await Html.PartialAsync("_AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupEmailContactInputViewModel
                 {
-                CreationGroupId = Model.CreationGroup.Id
+                CreationGroupId = Model.Group.Id
                 })
                 <table class="table" style="margin: 0;">
                     <thead>
@@ -167,8 +190,7 @@
                 </table>
             </div>
         </div>
-
-        <div style="margin-bottom: 20px;">
+        <div>
             <div class="page-header">
                 <h4>Redes Sociales<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-socialcontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
             </div>
@@ -176,7 +198,7 @@
 
             @await Html.PartialAsync("_AddSocialContactPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupSocialContactInputViewModel
             {
-            CreationGroupId = Model.CreationGroup.Id
+            CreationGroupId = Model.Group.Id
             })
 
             <table class="table" style="margin: 0;">

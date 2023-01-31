@@ -45,11 +45,71 @@
                     <a class="nav-link" href="@Url.Action("contacts", @Model.Group.Id)">Contactos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("CreationGroupAwards", @Model.Group.Id)">Reconocimientos</a>
+                    <a class="nav-link" href="@Url.Action("creationgroupawards", @Model.Group.Id)">Trayectoria</a>
                 </li>
             </ul>
         </div>
         <div class="card-body">
+            <div class="alert alert-dark">
+                <details>
+                    <summary class="h4 mb-0">@Model.Group.Name</summary>
+                    <hr />
+                    <div class="row no-gutters">
+                        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                            @if (Model.Group.ImageId != null)
+                            {
+                                <img class="img-thumbnail" src="~/media/images/@Model.Group.ImageId.@Model.Group.ImageExtension" />
+                            }
+                            else
+                            {
+                                <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                            }
+                        </div>
+                        <div class="col-lg-10 col-md-8 col-sm-6">
+                            <div class="card-block pl-3">
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>Fecha de Creación</dt>                                        
+                                        @if (Model.Group.CreatedAt == null)
+                                        {
+                                            <dd>-</dd>
+                                        }
+                                        else 
+                                        {
+                                            <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
+                                        }
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>Marca</dt>                                        
+                                        @if (Model.Group.Brand == null)
+                                        {
+                                            <dd>-</dd>
+                                        }
+                                        else 
+                                        {
+                                            <dd>@Model.Group.Brand</dd>
+                                        }
+                                    </dl>
+                                </div>
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>Número de Registro del Creador</dt>
+                                        <dd>@Model.Group.RegistrationNumber</dd>
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>Fecha de Registro</dt>
+                                        <dd>@Model.Group.RegistratedAt.ToShortDateString()</dd>
+                                    </dl>
+                                    <dl class="col-md-6 mb-0">
+                                        <dt>Fecha de Expiración</dt>
+                                        <dd>@Model.Group.RegistrationEndAt.ToShortDateString()</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>                
+            </div>
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
