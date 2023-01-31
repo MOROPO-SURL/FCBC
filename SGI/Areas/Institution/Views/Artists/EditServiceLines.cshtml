@@ -47,6 +47,7 @@
             </ul>
         </div>
         <div class="card-body">
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Artist)
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">

@@ -28,60 +28,119 @@
 {
     var selectableIndex = 0;
 
-        <div class="card" style="margin-bottom: 20px;">
-            <div class="card-header">
-                <h4>Editar Creador</h4>
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="edit" asp-route-key="@Model.Id">Generales</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Id">Contactos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="EditArtisticManifestations">Manifestaciones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Reconocimientos</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-body">
-                <div class="card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs">
-                            <li class="nav-item">
-                            <a class="nav-link" asp-action="artistawards">Premios</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="EditArtisticRecognitions" asp-route-key="@Model.Id">Reconocimientos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active"  asp-route-key="@Model.Id">Distinciones</a>
-                            </li>
-                        </ul>
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Creador</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="contacts" asp-route-key="@Model.Id">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="EditArtisticManifestations">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Reconocimientos</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-dark">
+                <details>
+                    <summary class="h4 mb-0">@Model.Name</summary>
+                    <hr />
+                    <div class="row no-gutters">
+                        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                            @if (Model.ImageId != System.Guid.Empty)
+                            {
+                                <img class="img-thumbnail" src="~/media/images/@Model.ImageId.@Model.ImageExtension" />
+                            }
+                            else
+                            {
+                                <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                            }
+                        </div>
+                        <div class="col-lg-10 col-md-8 col-sm-6">
+                            <div class="card-block pl-3">
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                                        <dd>@Html.DisplayFor(model => model.Name)</dd>
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
+                                        <dd>@Html.DisplayFor(model => model.LastName)</dd>
+                                    </dl>
+                                </div>
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>Fecha de Creación</dt>
+                                        @if (Model.BornDate == null)
+                                        {
+                                            <dd>-</dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>@Model.BornDate.Value.ToShortDateString()</dd>
+                                        }
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>Nombre Artístico</dt>
+                                        <dd>@Model.Alias</dd>
+                                    </dl>
+                                </div>
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>@Html.DisplayNameFor(model => model.Sex)</dt>
+                                        <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</dd>
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>@Html.DisplayNameFor(model => model.CivilStatus)</dt>
+                                        <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.CivilStatus.ToString(), ViewLocalizer))</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
+                </details>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="artistawards">Premios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="EditArtisticRecognitions" asp-route-key="@Model.Id">Reconocimientos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-route-key="@Model.Id">Distinciones</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="row">
                         @if (Model.DistintionsToSelect != null || Model.DistintionsToSelect.Count() > 0)
                         {
                             @foreach (var item in Model.DistintionsToSelect)
                             {
-                                            <div class="col-md-4">
+                                <div class="col-md-4">
                                     @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("DistintionsToSelect[{0}]", selectableIndex++))
-                                            </div>
+                                </div>
                             }
                         }
-                        </div>
-
                     </div>
+
                 </div>
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Modificar</button>
-                <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
-            </div>
         </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+    </div>
 }
 
 

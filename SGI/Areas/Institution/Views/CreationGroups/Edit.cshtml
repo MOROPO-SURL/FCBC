@@ -131,7 +131,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-4" style="margin-bottom: 20px;">
                     <div class="card">
-                        @if (Model.ImageId != null)
+                        @if (Model.ImageId != System.Guid.Empty)
                         {
                             <img class="img-thumbnail" src="~/media/images/@Model.ImageId.@Model.ImageExtension" />
                         }

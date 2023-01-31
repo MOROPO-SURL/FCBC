@@ -61,6 +61,7 @@
             </ul>
         </div>
         <div class="card-body">
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.ArtistDisplay)
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
@@ -76,29 +77,6 @@
                     </ul>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
-                            <div class="card">
-                                @if (Model.ArtistDisplay.ImageId != System.Guid.Empty)
-                                {
-                                    <img class="img-thumbnail" src="~/media/images/@Model.ArtistDisplay.ImageId.@Model.ArtistDisplay.ImageExtension" />
-                                }
-                                else
-                                {
-                                    <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
-                                }
-
-                                <div class="col-lg-10 col-md-9 col-sm-9">
-                                    <dl style="margin-bottom: 0;">
-                                        <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
-                                        <dd>@Model.ArtistDisplay.Name</dd>
-                                        <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("LastName", ViewLocalizer)</dt>
-                                        <dd>@Model.ArtistDisplay.LastName</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 <div style="margin-bottom: 20px;">
                     <div class="page-header">
                         <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.ArtistDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
