@@ -13,16 +13,22 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string ImageExtension { get; set; }
 
-        [Display(Name = "Organization")]
-        public string OrganizationIdentityName { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
-        [Display(Name = "Fecha en que expira")]
-        public System.DateTime? RegistrationEndAt { get; set; }
+        [Display(Name = "Brand")]
+        public string Brand { get; set; }
+
+        [Display(Name = "RegistratedAt")]
+        public System.DateTime RegistratedAt { get; set; }
+
+        [Display(Name = "RegistrationEndAt")]
+        public System.DateTime RegistrationEndAt { get; set; }
 
         [Display(Name = "Fecha de Creación")]
-        public System.DateTime? CreateDate { get; set; } = System.DateTime.Now.Date.AddYears(-16);
+        public System.DateTime? CreatedAt { get; set; }
 
-        [Display(Name = "Número de registro del creador")]
+        [Display(Name = "RegistrationNumber")]
         public int RegistrationNumber { get; set; }
 
         public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
@@ -33,14 +39,17 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(CreationGroup entity)
         {
             Id = entity.Id;
-            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageId = entity.Identity.ImageId;
             ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            OrganizationIdentityName = entity.Identity.Name;
+            Name = entity.Identity.Name;
+            Brand = entity.Brand;
             CreationGroupArtisticManifestationBrigdes = entity.ArtisticManifestationBrigdes;
             CreationGroupAwards = entity.CreationGroupAwards;
             DesignManifestationBridges = entity.DesignManifestationBridges;
             CraftManifestationBridges = entity.CraftManifestationBridges;
-            CreateDate = entity.Identity.BornDate;
+            CreatedAt = entity.Identity.BornDate;
+            RegistrationNumber = entity.RegistrationNumber;
+            RegistratedAt = entity.RegistratedAt;
             RegistrationEndAt = entity.RegistrationEndAt;
         }
     }

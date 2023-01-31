@@ -28,8 +28,8 @@
 
 <h3>Esta seguro que desea eliminar el grupo de creación detallado a continuación?</h3>
 <dl>
-    <dt>@Html.DisplayNameFor(model => model.OrganizationIdentityName)</dt>
-    <dd>@Html.DisplayFor(model => model.OrganizationIdentityName)</dd> 
+    <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.Name)</dd> 
 </dl>
 @using (Html.BeginForm("delete", "creationgroups", new { Area = "institution", key = string.Empty }, FormMethod.Post, true, null))
 {

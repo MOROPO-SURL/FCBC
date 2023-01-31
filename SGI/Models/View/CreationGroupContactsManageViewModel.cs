@@ -11,7 +11,7 @@
             EmailContacts = new System.Collections.Generic.List<CreationGroupEmailContactDisplayViewModel>();
         }
 
-        public CreationGroupDisplayViewModel CreationGroup { get; set; }
+        public CreationGroupDisplayViewModel Group { get; set; }
 
         public System.Collections.Generic.List<CreationGroupSocialContactDisplayViewModel> SocialContacts { get; set; }
 
