@@ -48,6 +48,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             PriceSymbol = entity.PriceCurrency.Symbol;
             CostSymbol = entity.CostCurrency.Symbol;
             BornYear = entity.BornYear;
+            About = entity.About;
             Techniques = entity.TechniqueBridges.Select(bridge =>
             {
                 var model = new CraftTechniqueDisplayViewModel();

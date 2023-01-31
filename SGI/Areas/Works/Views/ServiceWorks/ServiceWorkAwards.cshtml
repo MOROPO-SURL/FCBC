@@ -70,6 +70,40 @@
             </ul>
         </div>
         <div class="card-body">
+            <div class="alert alert-dark">
+                <details>
+                    <summary class="h4 mb-0">@Model.ServiceWorkDisplay.Title</summary>
+                    <hr />
+                    <div class="row no-gutters">
+
+                        <div class="col-lg-10 col-md-8 col-sm-6">
+                            <div class="card-block pl-3">
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>Línea de Servicio</dt>
+                                        <dd>@Model.ServiceWorkDisplay.Line.Name</dd>
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>Acerca de</dt>
+                                        <dd>@Model.ServiceWorkDisplay.About</dd>
+
+                                    </dl>
+                                </div>
+                                <div class="row">
+                                    <dl class="col-md-6 mb-0">
+                                        <dt>Precio</dt>
+                                        <dd>@Model.ServiceWorkDisplay.PriceSymbol@Model.ServiceWorkDisplay.Price</dd>
+                                    </dl>
+                                    <dl class="col-md-6 mb-0">
+                                        <dt>Costo</dt>
+                                        <dd>@Model.ServiceWorkDisplay.CostSymbol@Model.ServiceWorkDisplay.Cost</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </div>
             <div class="page-header">
                 <h4>Trayectoría<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.ServiceWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
             </div>
