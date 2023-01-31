@@ -1875,4 +1875,13 @@
   <data name="RegistrationNumber" xml:space="preserve">
     <value>Número de Registro</value>
   </data>
+  <data name="Agreement" xml:space="preserve">
+    <value>Acuerdos</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Marca o Sello</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Creado en</value>
+  </data>
 </root>
