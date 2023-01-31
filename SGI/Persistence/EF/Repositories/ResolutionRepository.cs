@@ -10,5 +10,10 @@
         {
             return entity => entity.ReleaseAt;
         }
+
+        public override bool IsPagingOrderDescending()
+        {
+            return true;
+        }
     }
 }

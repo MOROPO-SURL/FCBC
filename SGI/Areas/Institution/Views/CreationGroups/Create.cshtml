@@ -46,6 +46,15 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy'
+        });        
+
+        $('#RegistratedAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: null
         });
 
         $('#RegistrationEndAt').datepicker({
@@ -53,7 +62,8 @@
             modal: true,
             header: true,
             footer: true,
-            format: 'dd/mm/yyyy'
+            format: 'dd/mm/yyyy',
+            value: null
         });
 
         $(function () {
@@ -109,35 +119,28 @@
                 </div>
                 <div class="col-lg-9 col-sm-8">
                     <div class="row">
-                        <div class="col-lg-5 col-sm-6" style="margin-bottom: 20px;">
+                        <div class="col-sm-6" style="margin-bottom: 20px;">
                             @Html.LabelFor(model => model.Name, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                         </div>
-                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-md-6" style="margin-bottom: 20px;">
                             @Html.LabelFor(model => model.CreatedAt, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.CreatedAt, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.CreatedAt, null, new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
-                        </div>
-                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.Brand, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Brand, new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.Brand, null, new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-5 col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.AgreementId, new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.AgreementId, Model.AvailableAgreements, "", new { @class = "form-control"})
-                            @Html.ValidationMessageFor(model => model.AgreementId, null, new { @class = "text-danger" })
-                        </div>
+                    <div style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.AgreementId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.AgreementId, Model.AvailableAgreements, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.AgreementId, null, new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -146,6 +149,28 @@
                 @Html.TextAreaFor(model => model.About, 4, 0, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
             </div>
+            <fieldset>
+                <legend class="border-bottom">Registro del Creador</legend>                
+                <div class=row>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class=row>
+                    <div class="col-md-6 mb-3 mb-md-0" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistratedAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistratedAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistratedAt, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Agregar</button>

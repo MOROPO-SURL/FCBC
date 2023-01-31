@@ -182,6 +182,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     updateModelTask.Wait();
                 }
             }
+
             return base.Edit(inputViewModel);
         }
 

@@ -142,7 +142,7 @@
                     <span class="font-weight-bold">
                         Organización:
                     </span>
-                    @item.OrganizationIdentityName
+                    @item.Name
                 </div>
                 <div>
                     <div class="btn-group btn-group-sm float-right">
@@ -169,7 +169,7 @@
                 @foreach (var item in Model.List)
                 {
                     <tr>
-                        <td style="vertical-align: middle;" title="Contratista ">@item.OrganizationIdentityName</td>
+                        <td style="vertical-align: middle;" title="Contratista ">@item.Name</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>

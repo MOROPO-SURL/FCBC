@@ -57,12 +57,15 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="editimages" asp-route-key="@Model.CraftWorkDisplay.Id">Imágenes</a>
-                </li>                
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.CraftWorkDisplay.Id">Archivos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active">Premios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.CraftWorkDisplay.Id">Temáticas</a>
                 </li>
             </ul>
         </div>
@@ -83,35 +86,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.CraftWorkDisplay.Awards.Count > 0)
-                    {
-                        @foreach (var item in Model.CraftWorkDisplay.Awards)
-                        {
-                            <tr>
-                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
-                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
-                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
-                                <td style="vertical-align: middle;">
-                                    <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
-                                    @await Html.PartialAsync("DeleteCraftWorkAwards", new CraftWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, CraftWorkId = Model.CraftWorkDisplay.Id})
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
+                @if (Model.CraftWorkDisplay.Awards.Count > 0)
+                {
+                    @foreach (var item in Model.CraftWorkDisplay.Awards)
                     {
                         <tr>
-                            <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                            <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
+                            <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
+                            <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
+                            <td style="vertical-align: middle;">
+                                <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
+                                @await Html.PartialAsync("DeleteCraftWorkAwards", new CraftWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, CraftWorkId = Model.CraftWorkDisplay.Id})
+                            </td>
                         </tr>
                     }
-                </tbody>
-            </table>
-            
-        </div>
-        <div class="card-footer">
-            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
-        </div>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
     </div>
+    <div class="card-footer">
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
 
 
 

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
     public class CreationGroupAwardManageViewModel
     {
-        public CreationGroupDisplayViewModel GroupDisplay { get; set; }
+        public CreationGroupDisplayViewModel Group { get; set; }
 
         [Display(Name = "Award")]
         public System.Guid AwardId { get; set; }

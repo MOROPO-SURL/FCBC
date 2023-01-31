@@ -1,0 +1,32 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.AgreementDisplayViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>@Html.DisplayNameFor(model => model.Number)</h5>
+                <p>@Model.Number</p>
+                <h5>@Html.DisplayNameFor(model => model.Title)</h5>
+                <p>@Model.Title</p>
+                <h5>@Html.DisplayNameFor(model => model.ReleaseAt)</h5>
+                <p>@Model.ReleaseAt.ToShortDateString()</p>
+                <h5>@Html.DisplayNameFor(model => model.Description)</h5>
+                @if (string.IsNullOrEmpty(Model.Description))
+                {
+                    <p class="mb-0 text-muted font-italic">Descripción no especificada</p>
+                }
+                else
+                {                    
+                    <p class="mb-0">@Model.Description</p>  
+                }                           
+            </div>
+        </div>
+    </div>
+</div>

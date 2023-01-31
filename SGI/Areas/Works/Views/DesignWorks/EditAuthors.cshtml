@@ -59,6 +59,9 @@
                 <li class="nav-item">
                         <a class="nav-link" asp-action="DesignWorkAwards" asp-route-key="@Model.Work.Id">Premios</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
@@ -197,7 +200,7 @@
                                     <img src="~/img/default-person-picture.jpg" class="img-fluid img-thumbnail rounded" />
                                 }
                                 <div class="text-center mt-2">
-                                    <div>@item.OrganizationIdentityName</div>
+                                    <div>@item.Name</div>
                                     <div class="mt-2">
                                         <div class="btn-group btn-group-sm">
                                             <button class="btn btn-light" data-toggle="modal" data-target="#detail-creationgroup-@item.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detalles</span></button>

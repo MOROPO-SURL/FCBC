@@ -9,6 +9,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
         {
             base.ApplayRules(entityTypeBuilder);
 
+            entityTypeBuilder.HasIndex(entity => entity.RegistrationNumber).IsUnique();
+
             entityTypeBuilder.HasOne(o => o.Identity).WithOne().HasForeignKey<CreationGroup>(a => a.IdentityId);
         }
     }

@@ -700,6 +700,25 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region Agreement
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AgreementViewer)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.AgreementViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.AgreementManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AgreementCreator)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.AgreementCreator.ToPermissionEntity(Security.Authorization.PermissionsFamily.AgreementManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AgreementEditor)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.AgreementEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.AgreementManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.AgreementRemover)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.AgreementRemover.ToPermissionEntity(Security.Authorization.PermissionsFamily.AgreementManagement));
+            }
+            #endregion
+
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();
             var municipalitiesDbSet = dbContext.Set<Municipality>();

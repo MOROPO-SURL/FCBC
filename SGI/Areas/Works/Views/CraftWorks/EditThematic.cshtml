@@ -1,0 +1,76 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CraftWorkThematicInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Obra de Artesanía (Temáticas)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras de Artesanía",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@using (Html.BeginForm("EditThematic", "craftworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
+{
+    var selectableThematicIndex = 0;
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Obras de Artesanía</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editauthors" asp-route-key="@Model.Work.Id">Autores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="CraftWorkAwards" asp-route-key="@Model.Work.Id">Premios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Temática</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach (var item in Model.ThematicSelectors)
+                {
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("ThematicSelectors[{0}]", selectableThematicIndex++))
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+    </div>
+}
+
+
+

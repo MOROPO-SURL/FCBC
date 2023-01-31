@@ -1863,4 +1863,16 @@
   <data name="PlanedAt" xml:space="preserve">
     <value>Fecha a realizar</value>
   </data>
+  <data name="ReleaseAt" xml:space="preserve">
+    <value>Fecha de Emisión</value>
+  </data>
+  <data name="RegistratedAt" xml:space="preserve">
+    <value>Fecha de Registro</value>
+  </data>
+  <data name="RegistrationEndAt" xml:space="preserve">
+    <value>Fecha que Vence</value>
+  </data>
+  <data name="RegistrationNumber" xml:space="preserve">
+    <value>Número de Registro</value>
+  </data>
 </root>

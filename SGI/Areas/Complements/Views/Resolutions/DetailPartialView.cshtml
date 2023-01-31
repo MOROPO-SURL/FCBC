@@ -18,7 +18,14 @@
                 <h5>@Html.DisplayNameFor(model => model.ResolutionDate)</h5>
                 <p>@Model.ResolutionDate</p>
                 <h5>@Html.DisplayNameFor(model => model.Description)</h5>
-                <p>@Model.Description</p>                             
+                @if (string.IsNullOrEmpty(Model.Description))
+                {
+                    <p class="mb-0 text-muted font-italic">Descripción no especificada</p>
+                }
+                else
+                {                    
+                    <p class="mb-0">@Model.Description</p>  
+                }                            
             </div>
         </div>
     </div>

@@ -13,18 +13,22 @@
             <div class="modal-body">
                 <div class="card-body">
                     <h5>Grupo</h5>                    
-                    <p>@Model.OrganizationIdentityName</p>
+                    <p>@Model.Name</p>
                     <hr />
-                    <h5>@Html.DisplayNameFor(model => model.RegistrationNumber)</h5>
-                    <p>@Model.RegistrationNumber</p>
+                    <h5>Fecha de Creación</h5>
+                    @Model.CreatedAt
                     <hr />
                     <div class="row">
-                        <div class="col-md-6">
-                            <h5>Fecha de Creación</h5>
-                            @Model.CreateDate
+                        <div class="col-lg-4 col-md-6">                            
+                            <h5>Número de Registro del Creador</h5>
+                            <p>@Model.RegistrationNumber</p>
                         </div>
-                        <div class="col-md-6">
-                            <h5>Fecha en que expira</h5>
+                        <div class="col-lg-4 col-md-6">
+                            <h5>Fecha de Registro</h5>
+                            @Model.RegistratedAt
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <h5>Fecha en que Expira</h5>
                             @Model.RegistrationEndAt
                         </div>                        
                     </div>

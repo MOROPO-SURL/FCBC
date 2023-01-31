@@ -1,6 +1,6 @@
 ﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
 
-@model MOROPO.FCBC.SGI.Models.View.CreationGroupInputViewModel
+@model MOROPO.FCBC.SGI.Models.View.CreationGroupMemberManageViewModel
 
 @{
     ViewData["Title"] = "Editar Grupos de Creación";
@@ -59,86 +59,144 @@
     </style>
 }
 
-    @section scripts {
-        <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
-        <script type="text/javascript">
-            $('.member-select').combobox();
-        </script>
+@section scripts {
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+    <script type="text/javascript">
+        $('.member-select').combobox();
+    </script>
 
-    }
+}
 
-    @Html.HiddenFor(model => model.Id)
-
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">
-            <h4>@ViewData["Title"]</h4>
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("edit", @Model.Id)">Información</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Id)">Manifestaciones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Miembros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("CreationGroupAwards", @Model.Id)">Reconocimientos</a>
-                </li>
-            </ul>
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>@ViewData["Title"]</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Group.Id)">Manifestaciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Miembros</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("contacts", @Model.Group.Id)">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("creationgroupawards", @Model.Group.Id)">Trayectoria</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">        
+        <div class="alert alert-dark mb-4">
+            <details>
+                <summary class="h4 mb-0">@Model.Group.Name</summary>
+                <hr />
+                <div class="row no-gutters">
+                    <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                        @if (Model.Group.ImageId != null)
+                        {
+                            <img class="img-thumbnail" src="~/media/images/@Model.Group.ImageId.@Model.Group.ImageExtension" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                        }
+                    </div>
+                    <div class="col-lg-10 col-md-8 col-sm-6">
+                        <div class="card-block pl-3">
+                            <div class="row">
+                                <dl class="col-md-6">
+                                    <dt>Fecha de Creación</dt>                                        
+                                    @if (Model.Group.CreatedAt == null)
+                                    {
+                                        <dd>-</dd>
+                                    }
+                                    else 
+                                    {
+                                        <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
+                                    }
+                                </dl>
+                                <dl class="col-md-6">
+                                    <dt>Marca</dt>                                        
+                                    @if (Model.Group.Brand == null)
+                                    {
+                                        <dd>-</dd>
+                                    }
+                                    else 
+                                    {
+                                        <dd>@Model.Group.Brand</dd>
+                                    }
+                                </dl>
+                            </div>
+                            <div class="row">
+                                <dl class="col-md-6">
+                                    <dt>Número de Registro del Creador</dt>
+                                    <dd>@Model.Group.RegistrationNumber</dd>
+                                </dl>
+                                <dl class="col-md-6">
+                                    <dt>Fecha de Registro</dt>
+                                    <dd>@Model.Group.RegistratedAt.ToShortDateString()</dd>
+                                </dl>
+                                <dl class="col-md-6 mb-0">
+                                    <dt>Fecha de Expiración</dt>
+                                    <dd>@Model.Group.RegistrationEndAt.ToShortDateString()</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>                
         </div>
-        <div class="card-body">
-            @if (Model.Members.Count() != 0)
-            {
-                <div class="row">
-                    @foreach (var item in Model.Members)
-                    {
-                        <div class="col-lg-2 col-md-3 col-sm-4" style="margin-bottom: 20px;">
-                            @if (item.ImageId != System.Guid.Empty)
+        @if (Model.Members.Count() != 0)
+        {
+            <div class="row">
+                @foreach (var item in Model.Members)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4" style="margin-bottom: 20px;">
+                        @if (item.ImageId != System.Guid.Empty)
+                        {
+                            <img src="~/media/images/@item.ImageId.@item.ImageExtension" class="img-fluid img-thumbnail rounded-circle" />
+                        }
+                        else
+                        {
+                            <img src="~/img/default-person-picture.jpg" class="img-fluid img-thumbnail rounded-circle" />
+                        }
+                        <div class="text-center mt-2">
+                            @if (string.IsNullOrEmpty(item.LastName))
                             {
-                                <img src="~/media/images/@item.ImageId.@item.ImageExtension" class="img-fluid img-thumbnail rounded-circle" />
+                                <div>@item.Name</div>
                             }
                             else
                             {
-                                <img src="~/img/default-person-picture.jpg" class="img-fluid img-thumbnail rounded-circle" />
+                                <div>@item.Name @item.LastName</div>
                             }
-                            <div class="text-center mt-2">
-                                @if (string.IsNullOrEmpty(item.LastName))
-                                {
-                                    <div>@item.Name</div>
-                                }
-                                else
-                                {
-                                    <div>@item.Name @item.LastName</div>
-                                }
-                                <div class="mt-2">
-                                    <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-light" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detail</span></button>
-                                        <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-member-@item.Id"><span class="mdi mdi-trash-can-outline"></span>Eliminar</button>
-                                    </div>
+                            <div class="mt-2">
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-light" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detail</span></button>
+                                    <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-member-@item.Id"><span class="mdi mdi-trash-can-outline"></span>Eliminar</button>
                                 </div>
                             </div>
                         </div>
-                        await Html.RenderPartialAsync("_MemberDetailPartial", @item);
-                        await Html.RenderPartialAsync("_DeleteMemberPartial", @item.CreationGroupMember);
-                    }
-                </div>
-            }
-            else
-            {
-                <div>Este Grupo de Creación aun no tiene miembros, haga clic en el boton agregar para comenzar ...</div>
-            }
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-member">Agregar</button>
-            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
-        </div>
+                    </div>
+                    await Html.RenderPartialAsync("_MemberDetailPartial", @item);
+                    await Html.RenderPartialAsync("_DeleteMemberPartial", @item.CreationGroupMember);
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-muted font-italic">Este Grupo de Creación aun no tiene miembros, haga clic en el boton agregar para comenzar ...</div>
+        }
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-member">Agregar</button>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
     @await Html.PartialAsync("AddMemberPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupMembersInputViewModel
     {
-        CreationGroupId = Model.Id,
+        CreationGroupId = Model.Group.Id,
         NotMembers = Model.NotMembers
     })
 </div>
