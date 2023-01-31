@@ -26,7 +26,7 @@
 
 @using (Html.BeginForm("EditThematic", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
 {
-    var selectableThematicIndex = 0;    
+    var selectableThematicIndex = 0;
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
@@ -52,23 +52,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Temática</a>
-                </li>                
+                </li>
             </ul>
         </div>
         <div class="card-body">
-            <div class="card mb-4">
-                <div class="card-header"><h4>Temáticas</h4></div>
-                <div class="card-body">
-                    <div class="row">
-                        @foreach (var item in Model.ThematicSelectors)
-                        {
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("ThematicSelectors[{0}]", selectableThematicIndex++))
-                            </div>
-                        }
+            <div class="row">
+                @foreach (var item in Model.ThematicSelectors)
+                {
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("ThematicSelectors[{0}]", selectableThematicIndex++))
                     </div>
-                </div>
-            </div>           
+                }
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Modificar</button>
