@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Frontend\Api\" />
-    <Folder Include="wwwroot\media\" />
+    <Folder Include="wwwroot\media\attachments\" />
   </ItemGroup>
 
   <ItemGroup>

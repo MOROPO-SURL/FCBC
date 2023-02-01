@@ -48,6 +48,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Award, Guid> awardRepository;
         private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
         private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
+        private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
+        private readonly IEntityRepository<ArtistAttachment, System.Guid> attachmentRepository;
 
         public ArtistsController(
             IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository,
@@ -69,6 +71,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             IEntityRepository<Award, Guid> awardRepository,
             IEntityRepository<Recognition, Guid> recognitionRepository,
             IEntityRepository<Distinction, Guid> distintionsRepository,
+            Managers.RelativeAttachmentFileManager attachmentFileManager,
+            IEntityRepository<ArtistAttachment, System.Guid> attachmentRepository,
             IStringLocalizer<ArtistsController> localizer, 
             ILogger<ArtistsController> logger) : base(repository, localizer, logger)
         {
@@ -91,6 +95,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.awardRepository = awardRepository;
             this.recognitionRepository = recognitionRepository;
             this.distintionsRepository = distintionsRepository;
+            this.attachmentFileManager = attachmentFileManager;
+            this.attachmentRepository = attachmentRepository;
         }
 
         [RequirePermissions(Permission.ArtistViewer)]
@@ -1532,6 +1538,138 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 }));
             }
 
+        }
+
+        #endregion
+
+        #region Attachments
+
+        [HttpGet]
+        [Route("edit/{key}/attachments")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public ActionResult EditAttachments(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtistAttachmentsDisplayViewModel
+            {
+                ArtistDisplay = new ArtistDisplayViewModel(),
+                Attachments = entity.Attachments.Select(item =>
+                {
+                    var result = new AttachmentDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.ArtistDisplay.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public IActionResult AddAttachment(System.Guid key, AttachmentInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var attachment = new ArtistAttachment
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                ArtistId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(attachment.Id, memoryStream.ToArray(), attachment.ContentType);
+
+                            attachmentRepository.Add(attachment, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editattachments", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public IActionResult DeleteAttachment(System.Guid key, System.Guid attachmentId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var attachment = entity.Attachments.First(e => e.Id == attachmentId);
+
+                attachmentRepository.Delete(attachment, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(attachment);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editattachments", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
         }
 
         #endregion
