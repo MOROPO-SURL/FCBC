@@ -29,7 +29,7 @@
         <h4>Editar Grupos de Creación</h4>
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Información</a>
+                <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Generales</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Group.Id)">Manifestaciones</a>
@@ -43,9 +43,12 @@
             <li class="nav-item">
                 <a class="nav-link" asp-action="creationgroupawards" asp-route-key="@Model.Group.Id">Trayectoria</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editattachments", @Model.Group.Id)">Archivos</a>
+            </li>
         </ul>
     </div>
-    <div class="card-body">        
+    <div class="card-body">
         <div class="alert alert-dark mb-4">
             <details>
                 <summary class="h4 mb-0">@Model.Group.Name</summary>
@@ -65,23 +68,23 @@
                         <div class="card-block pl-3">
                             <div class="row">
                                 <dl class="col-md-6">
-                                    <dt>Fecha de Creación</dt>                                        
+                                    <dt>Fecha de Creación</dt>
                                     @if (Model.Group.CreatedAt == null)
                                     {
                                         <dd>-</dd>
                                     }
-                                    else 
+                                    else
                                     {
                                         <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
                                     }
                                 </dl>
                                 <dl class="col-md-6">
-                                    <dt>Marca</dt>                                        
+                                    <dt>Marca</dt>
                                     @if (Model.Group.Brand == null)
                                     {
                                         <dd>-</dd>
                                     }
-                                    else 
+                                    else
                                     {
                                         <dd>@Model.Group.Brand</dd>
                                     }
@@ -104,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-            </details>                
+            </details>
         </div>
         <div class="row">
             <div class="col-md-6 mb-3">

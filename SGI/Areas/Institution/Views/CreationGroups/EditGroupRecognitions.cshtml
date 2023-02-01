@@ -33,7 +33,7 @@
             <h4>Editar Grupos de Creación</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Información</a>
+                    <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Generales</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Group.Id)">Manifestaciones</a>
@@ -46,6 +46,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active">Trayectoria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("editattachments", @Model.Group.Id)">Archivos</a>
                 </li>
             </ul>
         </div>

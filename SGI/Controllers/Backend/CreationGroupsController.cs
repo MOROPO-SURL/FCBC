@@ -40,7 +40,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Award, Guid> awardRepository;
         private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
         private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
-        public CreationGroupsController(IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IEntityRepository<Award, Guid> awardRepository,
+        private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
+        private readonly IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository;
+        public CreationGroupsController(IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IEntityRepository<Award, Guid> awardRepository,
             IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Agreement, Guid> agreementRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
@@ -59,6 +61,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.awardRepository = awardRepository;
             this.distintionsRepository = distintionsRepository;
             this.recognitionRepository = recognitionRepository;
+            this.attachmentFileManager = attachmentFileManager;
+            this.attachmentRepository = attachmentRepository;
         }
 
         [RequirePermissions(Permission.CreationGroupViewer)]
@@ -1519,5 +1523,138 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         #endregion
+
+        #region Attachments
+
+        [HttpGet]
+        [Route("edit/{key}/attachments")]
+        [RequirePermissions(Permission.CreationGroupEditor)]
+        public ActionResult EditAttachments(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new CreationGroupAttachmentsDisplayViewModel
+            {
+                CreationGroupDisplay = new CreationGroupDisplayViewModel(),
+                Attachments = entity.Attachments.Select(item =>
+                {
+                    var result = new AttachmentDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.CreationGroupDisplay.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CreationGroupEditor)]
+        public IActionResult AddAttachment(System.Guid key, AttachmentInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var attachment = new CreationGroupAttachment
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                GroupId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(attachment.Id, memoryStream.ToArray(), attachment.ContentType);
+
+                            attachmentRepository.Add(attachment, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editattachments", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CreationGroupEditor)]
+        public IActionResult DeleteAttachment(System.Guid key, System.Guid attachmentId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var attachment = entity.Attachments.First(e => e.Id == attachmentId);
+
+                attachmentRepository.Delete(attachment, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(attachment);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editattachments", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+        #endregion
+
     }
 }
