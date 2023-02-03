@@ -877,6 +877,24 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return GetSuccessDeleteActionResult();
         }
 
+        [HttpPost]
+        [Route("edit/{key}/{attachmentId}/attachments/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public FileResult DownloadAttachment(System.Guid key, System.Guid attachmentId)
+        {
+
+            var entity = Repository.Get(key);
+            var attachment = entity.Attachments.FirstOrDefault(att => att.Id == attachmentId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(attachment);
+            var extension = attachment.ContentType.Split('/');
+            var fileName = attachment.Name + "." + extension[1];
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+        }
+
         #endregion
 
         #region Thematic

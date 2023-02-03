@@ -150,7 +150,10 @@
                             }
                             <div class="mt-3">
                                 <div class="btn-group btn-group-sm">
-                                    <a class="btn btn-light" href="#">Descargar</a>
+                                    @using (Html.BeginForm("DownloadAttachment", "designworks", new { key = Model.Work.Id, attachmentId = item.Id }, FormMethod.Post))
+                                    {
+                                        <button class="btn btn-light" type="submit">Descargar</button>
+                                    }
                                     <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-attachment-@item.Id">Eliminar</a>
                                 </div>
                             </div>
