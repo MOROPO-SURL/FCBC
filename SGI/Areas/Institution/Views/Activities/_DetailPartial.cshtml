@@ -1,0 +1,46 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ActivityDisplayViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>@Html.DisplayNameFor(model => model.Name)</h5>
+                            <p>@Model.Name</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>@Html.DisplayNameFor(model => model.ActivityKindName)</h5>
+                            <p>@Model.ActivityKindName</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>@Html.DisplayNameFor(model => model.PlanedAt)</h5>
+                            <p>@Html.DisplayName(Model.PlanedAt.ToString())</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>@Html.DisplayNameFor(model => model.Description)</h5>
+                            @if (Model.Description != null)
+                            {
+                                <p>@Html.DisplayName(Model.Description)</p>
+                            }else{
+                                <p>-</p>
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

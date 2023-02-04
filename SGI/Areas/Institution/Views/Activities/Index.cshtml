@@ -27,6 +27,9 @@
             margin-left: 8px;
             margin-right: 8px;
         }
+        p {
+            word-wrap: break-word;
+        }
     </style>
 }
 
@@ -157,12 +160,14 @@
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
+                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
                     </div>
                 </div>
             </div>
+        await Html.RenderPartialAsync("_DetailPartial", @item);
         }
 
     <div class="d-none d-sm-block" style="border: 1px solid #DDD; border-radius: 4px;">
@@ -184,6 +189,7 @@
                         <td style="vertical-align: middle;" title="Contratista ">@item.ActivityKindName</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>

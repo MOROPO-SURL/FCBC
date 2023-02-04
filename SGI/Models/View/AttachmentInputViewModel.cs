@@ -9,7 +9,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [FormFileContentTypes(ContentTypes = new string[] { "application/pdf" }, ErrorMessage = "DOCs_FileAllowedOnlyMessage")]
+        [FormFileContentTypes(ContentTypes = new string[] { "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg" }, ErrorMessage = "DOCs_FileAllowedOnlyMessage")]
         [Display(Name = "File")]
         public Microsoft.AspNetCore.Http.IFormFile File { get; set; }
 
