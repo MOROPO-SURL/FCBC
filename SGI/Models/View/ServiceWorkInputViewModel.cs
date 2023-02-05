@@ -24,7 +24,7 @@
         public int? PriceCurrencyId { get; set; }
 
         [System.ComponentModel.DataAnnotations.Display(Name = "Cost")]
-        public decimal? Cost { get; set; }
+        public decimal? Cost { get; set; } 
 
         [System.ComponentModel.DataAnnotations.Display(Name = "CostCurrencyId")]
         public int? CostCurrencyId { get; set; }

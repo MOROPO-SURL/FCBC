@@ -52,40 +52,7 @@
         </ul>
     </div>
     <div class="card-body">
-        <div class="alert alert-dark">
-            <details>
-                <summary class="h4 mb-0">@Model.Work.Title</summary>
-                <hr />
-                <div class="row no-gutters">
-
-                    <div class="col-lg-10 col-md-8 col-sm-6">
-                        <div class="card-block pl-3">
-                            <div class="row">
-                                <dl class="col-md-6">
-                                    <dt>Manifestación Artística</dt>
-                                    <dd>@Model.Work.Manifestation.Name</dd>
-                                </dl>
-                                <dl class="col-md-6">
-                                    <dt>Acerca de</dt>
-                                    <dd>@Model.Work.About</dd>
-
-                                </dl>
-                            </div>
-                            <div class="row">
-                                <dl class="col-md-6 mb-0">
-                                    <dt>Precio</dt>
-                                    <dd>@Model.Work.PriceSymbol@Model.Work.Price</dd>
-                                </dl>
-                                <dl class="col-md-6 mb-0">
-                                    <dt>Costo</dt>
-                                    <dd>@Model.Work.CostSymbol@Model.Work.Cost</dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </details>
-        </div>
+        @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Work)
         <div class="modal fade" id="add-attachment" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
