@@ -22,19 +22,51 @@
                     <div class="row">
                         <dl class="col-md-6">
                             <dt>Colección</dt>
-                            <dd>@Model.Collection</dd>
+                            @if (Model.Collection != null)
+                            {
+                                <dd>@Model.Collection</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
                         </dl>
                         <dl class="col-md-6">
                             <dt>Localización</dt>
-                            <dd>@Model.Location</dd>
+                            @if (!String.IsNullOrEmpty(Model.Location))
+                            {
+                                <dd>@Model.Location</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
                         </dl>
                         <dl class="col-md-6 mb-0">
                             <dt>Precio</dt>
-                            <dd>@Model.PriceSymbol@Model.Price</dd>
+                            @if (Model.Price != null)
+                            {
+                                <dd>@Model.PriceSymbol@Model.Price</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
                         </dl>
                         <dl class="col-md-6 mb-0">
                             <dt>Costo</dt>
-                            <dd>@Model.CostSymbol@Model.Cost</dd>
+                            @if (Model.Cost != null)
+                            {
+                                <dd>@Model.CostSymbol@Model.Cost</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
                         </dl>
                     </div>
                 </div>

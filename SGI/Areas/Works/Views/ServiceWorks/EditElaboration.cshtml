@@ -57,40 +57,7 @@
             </ul>
         </div>
         <div class="card-body">
-            <div class="alert alert-dark">
-                <details>
-                    <summary class="h4 mb-0">@Model.Work.Title</summary>
-                    <hr />
-                    <div class="row no-gutters">
-
-                        <div class="col-lg-10 col-md-8 col-sm-6">
-                            <div class="card-block pl-3">
-                                <div class="row">
-                                    <dl class="col-md-6">
-                                        <dt>Línea de Servicio</dt>
-                                        <dd>@Model.Work.Line.Name</dd>
-                                    </dl>
-                                    <dl class="col-md-6">
-                                        <dt>Acerca de</dt>
-                                        <dd>@Model.Work.About</dd>
-
-                                    </dl>
-                                </div>
-                                <div class="row">
-                                    <dl class="col-md-6 mb-0">
-                                        <dt>Precio</dt>
-                                        <dd>@Model.Work.PriceSymbol@Model.Work.Price</dd>
-                                    </dl>
-                                    <dl class="col-md-6 mb-0">
-                                        <dt>Costo</dt>
-                                        <dd>@Model.Work.CostSymbol@Model.Work.Cost</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </details>
-            </div>
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Work)
             <div class="card mb-4">
                 <div class="card-header"><h4>Técnicas</h4></div>
                 <div class="card-body">

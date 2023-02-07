@@ -880,6 +880,24 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [HttpPost]
+        [Route("edit/{key}/{attachmentId}/attachments/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.DesignWorkEditor)]
+        public FileResult DownloadAttachment(System.Guid key, System.Guid attachmentId)
+        {
+
+            var entity = Repository.Get(key);
+            var attachment = entity.Attachments.FirstOrDefault(att => att.Id == attachmentId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(attachment);
+            var extension = attachment.ContentType.Split('/');
+            var fileName = attachment.Name + "." + extension[1];
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+        }
+
+        [HttpPost]
         [Route("edit/{key}/attachments/edit")]
         [ValidateAntiForgeryToken]
         [RequirePermissions(Permission.DesignWorkEditor)]

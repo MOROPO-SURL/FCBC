@@ -31,7 +31,7 @@
     @section scripts {
     <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('#creatorId').combobox();
         });
     </script>
@@ -52,12 +52,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
-                </li>                
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
                 </li>
                 <li class="nav-item">
-                        <a class="nav-link" asp-action="DesignWorkAwards" asp-route-key="@Model.Work.Id">Premios</a>
+                    <a class="nav-link" asp-action="DesignWorkAwards" asp-route-key="@Model.Work.Id">Premios</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
@@ -65,40 +65,7 @@
             </ul>
         </div>
         <div class="card-body">
-        <div class="alert alert-dark">
-                <details>
-                    <summary class="h4 mb-0">@Model.Work.Title</summary>
-                    <hr />
-                    <div class="row no-gutters">
-
-                        <div class="col-lg-10 col-md-8 col-sm-6">
-                            <div class="card-block pl-3">
-                                <div class="row">
-                                    <dl class="col-md-6">
-                                        <dt>Manifestación Artística</dt>
-                                        <dd>@Model.Work.Manifestation.Name</dd>
-                                    </dl>
-                                    <dl class="col-md-6">
-                                        <dt>Acerca de</dt>
-                                        <dd>@Model.Work.About</dd>
-
-                                    </dl>
-                                </div>
-                                <div class="row">
-                                    <dl class="col-md-6 mb-0">
-                                        <dt>Precio</dt>
-                                        <dd>@Model.Work.PriceSymbol@Model.Work.Price</dd>
-                                    </dl>
-                                    <dl class="col-md-6 mb-0">
-                                        <dt>Costo</dt>
-                                        <dd>@Model.Work.CostSymbol@Model.Work.Cost</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </details>
-            </div>
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Work)
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <div class="border-bottom mb-3">
