@@ -151,7 +151,7 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Esta seguro que desea eliminar el archivo seleccionada?</p>
+                                            <p>Esta seguro que desea eliminar el archivo seleccionado?</p>
                                         </div>
                                         <div class="modal-footer" style="margin-top: 0;">
                                             <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -162,6 +162,7 @@
                             </div>
                         </div>
                         <div class="text-center mt-2">
+                            @item.Icon
                             <h4>@item.Name</h4>
                             @if (item.Description == null)
                             {
@@ -169,7 +170,7 @@
                             }
                             else
                             {
-                                <span>@item.Description</span>
+                                <p style="color: #6c757d; word-wrap: break-word;">@item.Description</p>
                             }
                             <div class="mt-3">
                                 <div class="btn-group btn-group-sm">

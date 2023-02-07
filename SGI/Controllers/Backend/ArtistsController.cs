@@ -21,6 +21,10 @@ using System.Linq;
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Core.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Web.Frontend;
+using System.Net.Mail;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -1670,6 +1674,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetSuccessDeleteActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public IActionResult EditAttachment(System.Guid key, AttachmentInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ArtistAttachment val = attachmentRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        attachmentRepository.Update(val, base.User.Identity.Name);
+                        
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("editattachments", new { key });
+                    }
+                    catch (Exception ex2)
+                    { 
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("editattachments", new { key }); 
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
         }
 
         #endregion
