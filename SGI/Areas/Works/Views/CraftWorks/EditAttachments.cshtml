@@ -97,7 +97,7 @@
                     </div>
                     @using (Html.BeginForm("addattachment", "craftworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
                     {
-                        @await Html.PartialAsync("_AddAttachmentModalBodyPartial", new MOROPO.FCBC.SGI.Models.View.AttachmentInputViewModel())
+                        @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddAttachmentModalBodyPartial", new MOROPO.FCBC.SGI.Models.View.AttachmentInputViewModel())
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Agregar</button>
                             <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
@@ -152,8 +152,29 @@
                             <div class="mt-3">
                                 <div class="btn-group btn-group-sm">
                                     <a class="btn btn-light" href="#">Descargar</a>
+                                    <a class="btn btn-light" href="#" data-toggle="modal" data-target="#edit-attachment-@item.Id">Modificar</a>
                                     <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-attachment-@item.Id">Eliminar</a>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="edit-attachment-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="edit-attachment-title">Modificar datos de adjunto</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @using (Html.BeginForm("editattachment", "craftworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                                {
+                                    @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddAttachmentModalBodyPartial", @item.MergeViewModels())
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Modificar</button>
+                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
