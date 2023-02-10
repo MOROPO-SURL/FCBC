@@ -5,11 +5,13 @@ namespace MOROPO.FCBC.SGI.Models.View
 {
     public class AttachmentInputViewModel
     {
+        public System.Guid Id { get; set; }
+
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [FormFileContentTypes(ContentTypes = new string[] { "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg", "image/png" }, ErrorMessage = "DOCs_FileAllowedOnlyMessage")]
+        [FormFileContentTypes(ContentTypes = new string[] { "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg", "image/png", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }, ErrorMessage = "DOCs_FileAllowedOnlyMessage")]
         [Display(Name = "File")]
         public Microsoft.AspNetCore.Http.IFormFile File { get; set; }
 
@@ -18,5 +20,12 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Display(Name = "Description")]
         public string Description { get; set; }
+
+        public void Mergue(Persistence.Entities.Contract.AbstractAttachment entity)
+        {
+            entity.Name = Name;
+            entity.IsPublic = IsPublic;
+            entity.Description = Description;
+        }
     }
 }

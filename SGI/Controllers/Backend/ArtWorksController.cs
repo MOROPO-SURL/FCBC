@@ -768,6 +768,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     
         }
 
+        [HttpPost]
+        [Route("edit/{key}/attachments/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public IActionResult EditAttachment(System.Guid key, AttachmentInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ArtWorkAttachment val = attachmentRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        attachmentRepository.Update(val, base.User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("editattachments", new { key });
+                    }
+                    catch (Exception ex2)
+                    {
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("editattachments", new { key });
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
         #endregion
 
         #region Awards
