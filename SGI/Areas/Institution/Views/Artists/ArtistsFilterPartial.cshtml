@@ -2,15 +2,40 @@
 
 @using (Html.BeginForm("filter", "artists", new { Area = "institution" }, FormMethod.Post, true, null))
 {
-        <fieldset>
-            <legend>Filtro de Creadores</legend>
-            <div style="margin-bottom: 20px;">
-            @Html.Label("Id", "Nombre", new { @class = "control-label" })
-            @Html.TextBoxFor(model => model.Id, new { @class = "form-control" })
+    <fieldset>
+        <legend>Filtro de Creadores</legend>
+        <div style="margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.Label("Nombre", "Nombre", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.Label("Apellidos", "Apellidos", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.Label("Alias", "Nombre Artístico", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.Label("No", "No de registro del Creador", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.Label("Municipios", "Municipios", new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
+                </div>
+                <div class="col-sm-3">
+                    @Html.Label("Manifestaciones", "Manifestaciones", new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.ManisfestationId, Model.Manisfestations,"Buscar Manifestación ...", new { @class = "selectpicker", data_live_search = "true"})
+                </div>
+                
             </div>
+        </div>
 
-            <div>
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
-            </div>
-        </fieldset>
+        <div>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+        </div>
+    </fieldset>
 }

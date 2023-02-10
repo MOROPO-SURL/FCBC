@@ -1,5 +1,6 @@
 ﻿@model MOROPO.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.FCBC.SGI.Persistence.Entities.Artist, System.Guid, MOROPO.FCBC.SGI.Models.View.ArtistDisplayViewModel>
-
+@using MOROPO.FCBC.SGI.Models.Filter
+@using MOROPO.SAPRESSC.Middleware.Region.Persistence.EF.Repositories
 @{
     ViewData["Title"] = "Administración de Creadores";
 
@@ -20,6 +21,7 @@
 }
 
 @section styles {
+    <link rel="stylesheet" href="~/lib/bootstrap-combobox/css/bootstrap-select.css" />
     <style type="text/css">
         .integrity-icon {
             font-size: 18px;
@@ -31,14 +33,40 @@
         dd {
             word-wrap: break-word;
         }
+
+        .dropdown-toggle {
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: -1px;
+            line-height: 36px;
+        }
+
+            .dropdown-toggle::after {
+                margin: 0 5px;
+            }
+
+        ul.dropdown-menu {
+            width: 100%;
+        }
     </style>
+}
+
+@section scripts {
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+        $('.member-select').combobox();
+    </script>
+
 }
     @{
     <div class="row" style="margin-bottom: 20px;">
-        <div class="col-sm-4">
+        <div class="col-sm-10">
             @await Html.PartialAsync("ArtistsFilterPartial", Model.Filter)
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-2">
             <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
         </div>
     </div>
@@ -168,9 +196,74 @@
                     </div>
                     <div class="mb-2">
                         <span class="font-weight-bold">
-                            Estado civil:
+                            Nombre Artístico:
                         </span>
-                        @Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.CivilStatus.ToString(), ViewLocalizer))
+                        @item.Alias
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            No. de Registro del Creador:
+                        </span>
+                        @item.RegistrationNumber
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Municipio
+                        </span>
+                        @item.Municipality.Name
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Manifestaciones
+                        </span>
+                        @{
+                            string manifestations = null;
+                        }
+                        @if (item.ArtistManifestationBridges.Any())
+                        {
+                            if (string.IsNullOrEmpty(manifestations))
+                            {
+                                manifestations = "Artística";
+                                <p>@manifestations</p>
+                            }
+
+                        }
+                        @if (item.CraftManifestationBridges.Any())
+                        {
+                            if (!string.IsNullOrEmpty(manifestations))
+                            {
+                                manifestations = manifestations + ", " + "Artesanía";
+                            }
+                            else
+                            {
+                                manifestations = "Artesanía";
+                            }
+                            <p>@manifestations</p>
+                        }
+                        @if (item.DesignManifestationBridges.Any())
+                        {
+                            if (!string.IsNullOrEmpty(manifestations))
+                            {
+                                manifestations = manifestations + ", " + "Diseño";
+                            }
+                            else
+                            {
+                                manifestations = "Diseño";
+                            }
+                            <p>@manifestations</p>
+                        }
+                        @if (item.ServiceLineBridges.Any())
+                        {
+                            if (!string.IsNullOrEmpty(manifestations))
+                            {
+                                manifestations = manifestations + ", " + "Servicio";
+                            }
+                            else
+                            {
+                                manifestations = "Servicio";
+                            }
+                            <p>@manifestations</p>
+                        }
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
@@ -194,7 +287,10 @@
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Sexo</th>
-                    <th>Estado civil</th>
+                    <th>Nombre Artístico</th>
+                    <th>No. de Registro del Creador:</th>
+                    <th>Municipio</th>
+                    <th>Manifestaciones</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
@@ -205,7 +301,92 @@
                         <td style="vertical-align: middle;">@item.Name</td>
                         <td style="vertical-align: middle;">@item.LastName</td>
                         <td style="vertical-align: middle;">@Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.Sex.ToString(), ViewLocalizer))</td>
-                        <td style="vertical-align: middle;">@Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.CivilStatus.ToString(), ViewLocalizer))</td>
+                        <td style="vertical-align: middle;">@item.Alias</td>
+                        <td style="vertical-align: middle;">@item.RegistrationNumber</td>
+                        <td style="vertical-align: middle;">@item.State.Name</td>
+                        <td style="vertical-align: middle;">
+                            @{
+                                var artManifestations = "";
+                                var craftManifestations = "";
+                                var designManifestations = "";
+                                var serviceManifestations = "";
+                            }
+                            @if (item.ArtistManifestationBridges.Any())
+                            {
+                                if (string.IsNullOrEmpty(artManifestations))
+                                {
+                                    foreach (var art in item.ArtistManifestationBridges)
+                                    {
+                                        if (item.ArtistManifestationBridges.Count() == 1)
+                                        {
+                                            artManifestations = art.Manifestation.Name;
+                                        }
+                                        else
+                                        {
+                                            artManifestations = art.Manifestation.Name + "," + artManifestations;
+                                        }
+
+                                    }
+                                    <p>@artManifestations</p>
+                                }
+                            }
+                            @if (item.CraftManifestationBridges.Any())
+                            {
+                                if (string.IsNullOrEmpty(craftManifestations))
+                                {
+                                    foreach (var craft in item.CraftManifestationBridges)
+                                    {
+                                        if (item.CraftManifestationBridges.Count() == 1)
+                                        {
+                                            craftManifestations = craft.Manifestation.Name;
+                                        }
+                                        else
+                                        {
+                                            craftManifestations = craft.Manifestation.Name + "," + craftManifestations;
+                                        }
+
+                                    }
+                                    <p>@craftManifestations</p>
+                                }
+
+                            }
+                            @if (item.DesignManifestationBridges.Any())
+                            {
+                                if (string.IsNullOrEmpty(designManifestations))
+                                {
+                                    foreach (var design in item.DesignManifestationBridges)
+                                    {
+                                        if (item.DesignManifestationBridges.Count() == 1)
+                                        {
+                                            designManifestations = design.Manifestation.Name;
+                                        }
+                                        else
+                                        {
+                                            designManifestations = design.Manifestation.Name + "," + designManifestations;
+                                        }
+                                    }
+                                    <p>@designManifestations</p>
+                                }
+                            }
+                            @if (item.ServiceLineBridges.Any())
+                            {
+                                if (string.IsNullOrEmpty(serviceManifestations))
+                                {
+                                    foreach (var ser in item.ServiceLineBridges)
+                                    {
+                                        if (item.ServiceLineBridges.Count() == 1)
+                                        {
+                                            serviceManifestations = ser.Line.Name;
+                                        }
+                                        else
+                                        {
+                                            serviceManifestations = ser.Line.Name + "," + serviceManifestations;
+                                        }
+                                    }
+                                    <p>@serviceManifestations</p>
+                                }
+                            }
+                        </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>

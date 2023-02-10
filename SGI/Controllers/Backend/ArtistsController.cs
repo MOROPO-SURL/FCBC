@@ -21,6 +21,8 @@ using System.Linq;
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Core.Persistence.Entities;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -96,19 +98,44 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.recognitionRepository = recognitionRepository;
             this.distintionsRepository = distintionsRepository;
             this.attachmentFileManager = attachmentFileManager;
-            this.attachmentRepository = attachmentRepository;
+            this.attachmentRepository = attachmentRepository;       
         }
 
         [RequirePermissions(Permission.ArtistViewer)]
         public IActionResult Index()
-        {
+        { 
             return View();
         }
 
         [RequirePermissions(Permission.ArtistViewer)]
         public override IActionResult Filter(ArtistFilterModel filterModel)
-        {
+        {           
             return base.Filter(filterModel);
+        }
+
+        protected override ArtistFilterModel GetFilterModel()
+        {
+            var filterModel = base.GetFilterModel();
+
+            if (filterModel == null)
+            {
+                filterModel = new ArtistFilterModel();
+            }
+
+            filterModel.States = new List<SelectListItem>
+            {
+                new SelectListItem("-", "0")
+            };
+
+            filterModel.Manisfestations = new List<SelectListItem>
+            {
+                new SelectListItem("-", "0")
+            };
+
+            PopulateDropDownStateWithMunicipality(filterModel);
+            PopulateManifestations(filterModel);
+
+            return filterModel;
         }
 
         protected override string GetFilterSessionID()
@@ -227,6 +254,62 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.States = stateRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Name == RegionInitConstant.CMG_STATE_NAME }).OrderByDescending(en => en.Selected).ToArray();
 
             modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+        }
+
+        private void PopulateDropDownStateWithMunicipality(ArtistFilterModel filter)
+        {
+           
+            var states = stateRepository.GetAll();
+            var municipalities = municipalityRepository.GetAll();
+
+            foreach (var state in states)
+            {
+                filter.States.Add(new SelectListItem { Value = state.Id.ToString(), Text = state.Name });
+                foreach (var municipality in municipalities)
+                {
+                    if (municipality.StateId == state.Id)
+                    {
+                        filter.States.Add(new SelectListItem { Value = municipality.Id.ToString(), Text =" |____" + municipality.Name });
+                    }
+                }
+            }            
+        }
+
+        private void PopulateManifestations(ArtistFilterModel filter)
+        {
+            var artistManifestations = artisticManifestationRepository.GetAll();
+            var ArtistGroup = new SelectListGroup { Name = "Artística"};
+
+            var craftManifestations = craftManifestationRepository.GetAll();
+            var CraftGroup = new SelectListGroup { Name = "Artesanía" };
+
+            var designManifestations = designManifestationRepository.GetAll();
+            var DesignGroup = new SelectListGroup { Name = "Diseño" };
+
+            var serviceManifestations = serviceLineRepository.GetAll();
+            var ServiceGroup = new SelectListGroup { Name = "Servico" };
+
+            foreach (var artisticManifestation in artistManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = artisticManifestation.Id.ToString(), Text = artisticManifestation.Name, Group = ArtistGroup });
+            }
+
+            foreach (var craftManifestation in craftManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = craftManifestation.Id.ToString(), Text = craftManifestation.Name, Group = CraftGroup });
+            }
+
+            foreach (var designManifestation in designManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = designManifestation.Id.ToString(), Text = designManifestation.Name, Group = DesignGroup });
+            }
+
+            foreach (var serviceManifestation in serviceManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = serviceManifestation.Id.ToString(), Text = serviceManifestation.Name, Group = ServiceGroup });
+            }
+
+
         }
 
         private void PopulateWithAssociation(ArtistInputViewModel modelInput)
@@ -383,7 +466,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             PopulateWithCountries(modelInput);
             PopulateWithAssociation(modelInput);
-            PopulateWithResolution(modelInput);
+            PopulateWithResolution(modelInput);            
 
             if (modelInput.AssociationId != null)
             {

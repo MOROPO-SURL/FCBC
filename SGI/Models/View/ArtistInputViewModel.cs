@@ -5,6 +5,7 @@ using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -111,6 +112,11 @@ namespace MOROPO.FCBC.SGI.Models.View
         public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> RecognitionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
         public List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>> DistintionsToSelect { get; set; } = new List<SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>>();
 
+        public ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; }
+        public ICollection<ArtistCraftManifestationBridge> CraftManifestationBridges { get; set; }
+        public ICollection<ArtistDesignManifestationBridge> DesignManifestationBridges { get; set; }
+        public ICollection<ArtistServiceLineBridge> ServiceLineBridges { get; set; }
+
         public Persistence.Entities.Artist Export()
         {
             var entity = new Persistence.Entities.Artist();
@@ -145,7 +151,11 @@ namespace MOROPO.FCBC.SGI.Models.View
             SchoolLevel = entity.SchoolLevel;
             SpecificEducation = entity.SpecificEducation;
             AdmitionModel = entity.AdmitionMode;
-            Context = entity.AdmitionModeContext;            
+            Context = entity.AdmitionModeContext;
+            ArtistManifestationBridges = entity.ArtisticManifestationBridges;
+            CraftManifestationBridges = entity.CraftManifestationBridges;
+            DesignManifestationBridges = entity.DesignManifestationBridges;
+            ServiceLineBridges = entity.ServiceLineBridges;
         }
 
         public void Mergue(Persistence.Entities.Artist entity)

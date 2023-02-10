@@ -62,6 +62,10 @@ namespace MOROPO.FCBC.SGI.Models.View
         public SchoolLevel SchoolLevel { get; set; }
 
         public ICollection<ArtistArtisticManifestationBridge> ArtistManifestationBridges { get; set; }
+        public ICollection<ArtistCraftManifestationBridge> CraftManifestationBridges { get; set; }
+        public ICollection<ArtistDesignManifestationBridge> DesignManifestationBridges { get; set; }
+        public ICollection<ArtistServiceLineBridge> ServiceLineBridges { get; set; }
+
         public ICollection<ArtistAward> ArtistAwards { get; set; }
 
         [Display(Name = "specify training")]
@@ -81,6 +85,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ResolutionDisplayViewModel Resolution { get; set; }
 
         public CreationGroupMemberDisplayViewModel CreationGroupMember { get; set; }
+
+        [Display(Name = "RegistrationNumber")]        
+        public int RegistrationNumber { get; set; }
 
         public void Import(Artist entity)
         {
@@ -107,7 +114,11 @@ namespace MOROPO.FCBC.SGI.Models.View
             AdmitionMode = entity.AdmitionMode;
             AdmitionModeContext = entity.AdmitionModeContext;
             ArtistManifestationBridges = entity.ArtisticManifestationBridges;
+            CraftManifestationBridges = entity.CraftManifestationBridges;
+            DesignManifestationBridges = entity.DesignManifestationBridges;
+            ServiceLineBridges = entity.ServiceLineBridges;
             ArtistAwards = entity.ArtistAwards;
+            RegistrationNumber = entity.RegistrationNumber;
         }
     }
 }
