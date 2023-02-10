@@ -28,34 +28,7 @@
 
 @section scripts {
     <script type="text/javascript">
-        $(document).ready(function () {
-            var lengthPrice = $('#PriceCurrencyId').children('option').length;
-            var lengthCost = $('#CostCurrencyId').children('option').length;
-
-            if (lengthPrice > 0) {
-                $('#Price').val(0);
-            } else {
-                $('#Price').val(null);
-            }
-
-            if (lengthCost > 0) {
-                $('#Cost').val(0);
-            } else {
-                $('#Cost').val(null);
-            }
-
-        });
-
-        $(function () {
-
-            $('#PriceCurrencyId').on('change', function () {
-                $('#Price').val(0);
-            });
-            $('#CostCurrencyId').on('change', function () {
-                $('#Cost').val(0);
-            });
-        });
-
+        
     </script>
 }
 

@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.Models.View
+﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+
+namespace MOROPO.FCBC.SGI.Models.View
 {
     public class ServiceWorkInputViewModel: SAPRESSC.Core.Persistence.Models.IEntityInputModel<MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork, System.Guid>
     {
@@ -45,10 +47,8 @@
             Id = entity.Id;
             Title = entity.Title;
             LineId = entity.LineId;
-            Price = entity.Price;
-            PriceCurrencyId = entity.PriceCurrencyId;
-            Cost = entity.Cost;
-            CostCurrencyId = entity.CostCurrencyId;
+            DefaultValueForCost(entity);
+            DefaultValueForPrice(entity);
             About = entity.About;
         }
        
@@ -64,6 +64,45 @@
             entity.CostCurrencyId = CostCurrencyId;
             entity.About = About;
         }
-        
+
+        private void DefaultValueForCost(ServiceWork entity)
+        {
+            if (entity.CostCurrencyId != null)
+            {
+                if (entity.Cost == null)
+                {
+                    this.Cost = 0;
+                }
+                else
+                {
+                    this.Cost = entity.Cost;
+                }
+            }
+            else
+            {
+                Cost = entity.Cost;
+                CostCurrencyId = entity.CostCurrencyId;
+            }
+        }
+
+        private void DefaultValueForPrice(ServiceWork entity)
+        {
+            if (entity.PriceCurrencyId != null)
+            {
+                if (entity.Price == null)
+                {
+                    this.Price = 0;
+                }
+                else
+                {
+                    Price = entity.Price;
+                }
+            }
+            else
+            {
+                Price = entity.Price;
+                PriceCurrencyId = entity.PriceCurrencyId;
+            }
+        }
     }
 }

@@ -94,10 +94,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             AvailableImages = entity.ImageBridges.Select(bridge => bridge.Image).ToArray();
             Collection = entity.Collection;
             Location = entity.Location;
-            Price = entity.Price;
-            PriceCurrencyId = entity.PriceCurrencyId;
-            Cost = entity.Cost;
-            CostCurrencyId = entity.CostCurrencyId;
+            DefaultValueForCost(entity);
+            DefaultValueForPrice(entity);
             Height = entity.Height;
             Width = entity.Width;
             Profundity = entity.Profundity;
@@ -125,6 +123,46 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.DimensionsUnitMeasurementId = DimensionsUnitMeasurementId;
             entity.Weight = Weight;
             entity.WeightUnitMeasurementId = WeightUnitMeasurementId;
+        }
+
+        private void DefaultValueForCost(ArtWork entity)
+        {
+            if (entity.CostCurrencyId != null)
+            {
+                if (entity.Cost == null)
+                {
+                    this.Cost = 0;
+                }
+                else
+                {
+                    this.Cost = entity.Cost;
+                }
+            }
+            else
+            {
+                Cost = entity.Cost;
+                CostCurrencyId = entity.CostCurrencyId;
+            }
+        }
+
+        private void DefaultValueForPrice(ArtWork entity)
+        {
+            if (entity.PriceCurrencyId != null)
+            {
+                if (entity.Price == null)
+                {
+                    this.Price = 0;
+                }
+                else
+                {
+                    Price = entity.Price;
+                }
+            }
+            else
+            {
+                Price = entity.Price;
+                PriceCurrencyId = entity.PriceCurrencyId;
+            }
         }
     }
 }

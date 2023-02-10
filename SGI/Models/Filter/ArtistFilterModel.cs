@@ -41,17 +41,16 @@ namespace MOROPO.FCBC.SGI.Models.Filter
             else if (!string.IsNullOrEmpty(LastName))
             {
                 expression = OrCondition.Combine(expression, entity => entity.Identity.LastName.ToLower().Contains(LastName.ToLower()));
-            }
+            }            
             else if (!string.IsNullOrEmpty(Alias))
             {
                 expression = OrCondition.Combine(expression, entity => entity.Identity.Name.ToLower().Contains(Alias.ToLower()));
             }
-
-
-            if (!string.IsNullOrEmpty(LastName))
+            else if (!string.IsNullOrEmpty(RegistrationNumber))
             {
-                expression = OrCondition.Combine(expression, entity => entity.Identity.LastName.ToLower().Contains(LastName.ToLower()));
-            }            
+                expression = OrCondition.Combine(expression, entity => entity.RegistrationNumber.ToString().Contains(RegistrationNumber));
+            }
+                      
 
             if (StateId != null)
             {

@@ -265,15 +265,18 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
            
             var states = stateRepository.GetAll();
             var municipalities = municipalityRepository.GetAll();
+            var stateGroups = states.Select(s => new SelectListGroup { Name = s.Name});
 
             foreach (var state in states)
             {
-                filter.States.Add(new SelectListItem { Value = state.Id.ToString(), Text = state.Name });
+                var stateGroup = stateGroups.FirstOrDefault(s => s.Name == state.Name);
+
+                
                 foreach (var municipality in municipalities)
                 {
                     if (municipality.StateId == state.Id)
                     {
-                        filter.States.Add(new SelectListItem { Value = municipality.Id.ToString(), Text =" |____" + municipality.Name });
+                        filter.States.Add(new SelectListItem { Value = municipality.Id.ToString(), Text = municipality.Name, Group = stateGroup });
                     }
                 }
             }            

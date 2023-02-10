@@ -32,33 +32,12 @@
 
         dd {
             word-wrap: break-word;
-        }
-
-        .dropdown-toggle {
-            border-radius: 0.25rem;
-            border: 1px solid #ced4da;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            margin-left: -1px;
-            line-height: 36px;
-        }
-
-            .dropdown-toggle::after {
-                margin: 0 5px;
-            }
-
-        ul.dropdown-menu {
-            width: 100%;
-        }
+        }        
     </style>
 }
 
-@section scripts {
-    <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
-    <script src="~/lib/bootstrap-combobox/js/bootstrap-select.js"></script>
-    <script type="text/javascript">
-        $('.member-select').combobox();
-    </script>
+@section scripts {    
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-select.js"></script>    
 
 }
     @{

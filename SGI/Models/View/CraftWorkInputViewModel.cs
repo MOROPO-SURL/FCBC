@@ -49,10 +49,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Id = entity.Id;
             Title = entity.Title;
             ManifestationId = entity.ManifestationId;
-            Price = entity.Price;
-            PriceCurrencyId = entity.PriceCurrencyId;
-            Cost = entity.Cost;
-            CostCurrencyId = entity.CostCurrencyId;
+            DefaultValueForCost(entity);
+            DefaultValueForPrice(entity);
             About = entity.About;
         }
 
@@ -66,6 +64,46 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.Cost = Cost;
             entity.CostCurrencyId = CostCurrencyId;
             entity.About = About;
+        }
+
+        private void DefaultValueForCost(CraftWork entity)
+        {
+            if (entity.CostCurrencyId != null)
+            {
+                if (entity.Cost == null)
+                {
+                    this.Cost = 0;
+                }
+                else
+                {
+                    this.Cost = entity.Cost;
+                }
+            }
+            else
+            {
+                Cost = entity.Cost;
+                CostCurrencyId = entity.CostCurrencyId;
+            }
+        }
+
+        private void DefaultValueForPrice(CraftWork entity)
+        {
+            if (entity.PriceCurrencyId != null)
+            {
+                if (entity.Price == null)
+                {
+                    this.Price = 0;
+                }
+                else
+                {
+                    Price = entity.Price;
+                }
+            }
+            else
+            {
+                Price = entity.Price;
+                PriceCurrencyId = entity.PriceCurrencyId;
+            }
         }
     }
 }

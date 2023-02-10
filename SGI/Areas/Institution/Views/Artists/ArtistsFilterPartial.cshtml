@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-sm-3">
                     @Html.Label("Municipios", "Municipios", new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
+                    @Html.DropDownListFor(model => model.StateId, Model.States, "Buscar Manifestación ...", new { @class = "selectpicker", data_live_search = "true"})
                 </div>
                 <div class="col-sm-3">
                     @Html.Label("Manifestaciones", "Manifestaciones", new { @class = "control-label" })
