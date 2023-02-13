@@ -19,9 +19,11 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public decimal? Price { get; set; }
         public string PriceSymbol { get; set; }
+        public Currency PriceCurrency { get; set; }
 
         public decimal? Cost { get; set; }
         public string CostSymbol { get; set; }
+        public Currency CostCurrency { get; set; }
 
         [Display(Name = "About")]
         public string About { get; set; }
@@ -47,6 +49,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Cost = entity.Cost;
             PriceSymbol = entity.PriceCurrency.Symbol;
             CostSymbol = entity.CostCurrency.Symbol;
+            CostCurrency = entity.CostCurrency;
+            PriceCurrency = entity.PriceCurrency;
             BornYear = entity.BornYear;
             About = entity.About;
             Techniques = entity.TechniqueBridges.Select(bridge =>
