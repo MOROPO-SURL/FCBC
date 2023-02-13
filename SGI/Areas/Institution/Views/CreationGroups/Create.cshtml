@@ -102,7 +102,36 @@
                     li: '<li><a href="javascript:void(0);"><label class="pl-2"></label></a></li>'
                 }
             });
+
+            $('#StateId').on("change", function () {
+                debugger;
+                var stateId = $('#StateId').val();
+                var state = $('#StateId option:selected').text();
+                var obj = { state: stateId };
+                AjaxCall('PopulateStateToMunicipality/' + stateId, stateId, 'GET').done(function (response) {
+                    if (response.length > 0) {
+                        $('#MunicipalityId').html('');
+                        var options = '';
+                        $('#AddressPostal').html('');
+                        for (var i = 0; i < response.length; i++) {
+                            console.log(response[i]);
+                            options += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
+                        }
+                        $('#MunicipalityId').append(options);
+                    }
+                });
+            });
         });
+
+        function AjaxCall(url, data, type) {
+            console.log(url);
+            return $.ajax({
+                url: url,
+                type: type ? type : 'GET',
+                data: data,
+                contentType: 'application/json'
+            });
+        }
     </script>
     }
 
@@ -176,6 +205,19 @@
                         @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.StateId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.StateId, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.MunicipalityId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.MunicipalityId, Model.Municipalities, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.MunicipalityId, null, new { @class = "text-danger" })
                     </div>
                 </div>
             </fieldset>

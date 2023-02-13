@@ -117,6 +117,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return base.Filter(filterModel);
         }
 
+        [RequirePermissions(Permission.ArtistViewer)]
         protected override ArtistFilterModel GetFilterModel()
         {
             var filterModel = base.GetFilterModel();
@@ -128,12 +129,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             filterModel.States = new List<SelectListItem>
             {
-                new SelectListItem("-", "0")
+                new SelectListItem("Cualquiera", "0")
             };
 
             filterModel.Manisfestations = new List<SelectListItem>
             {
-                new SelectListItem("-", "0")
+                new SelectListItem("Cualquiera", "0")
             };
 
             PopulateDropDownStateWithMunicipality(filterModel);

@@ -16,13 +16,17 @@ using System.Collections.Generic;
 using System.Linq;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.FCBC.SGI.Models.Filter;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.FCBC.SGI.RegionConst;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Authorize]
     [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("institution")]
-    public class CreationGroupsController : AbstractEntityManagementController<CreationGroup, Guid, CreationGroupInputViewModel, CreationGroupDisplayViewModel>
+    public class CreationGroupsController : AbstractEntityManagementFilteredController<CreationGroup, Guid, CreationGroupInputViewModel, CreationGroupDisplayViewModel, CreationGroupFilterModel>
     {
         private readonly IImageFileManagerFacade imageFileManagerFacade;
         private readonly IEntityRepository<Image, Guid> imageRepository;
@@ -42,7 +46,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository;
-        public CreationGroupsController(IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IEntityRepository<Award, Guid> awardRepository,
+        private readonly IEntityRepository<State, Guid> stateRepository;
+        private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
+        private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
+
+        public CreationGroupsController(IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IEntityRepository<Award, Guid> awardRepository,
             IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Agreement, Guid> agreementRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
@@ -63,12 +71,52 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.recognitionRepository = recognitionRepository;
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
+            this.stateRepository = stateRepository;
+            this.municipalityRepository = municipalityRepository;
+            this.municipalityRegionRepository = municipalityRegionRepository;
         }
 
         [RequirePermissions(Permission.CreationGroupViewer)]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [RequirePermissions(Permission.ArtistViewer)]
+        public override IActionResult Filter(CreationGroupFilterModel filterModel)
+        {
+            return base.Filter(filterModel);
+        }
+
+        [RequirePermissions(Permission.ArtistViewer)]
+        protected override CreationGroupFilterModel GetFilterModel()
+        {
+            var filterModel = base.GetFilterModel();
+
+            if (filterModel == null)
+            {
+                filterModel = new CreationGroupFilterModel();
+            }
+
+            filterModel.States = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            filterModel.Manisfestations = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            PopulateDropDownStateWithMunicipality(filterModel);
+            PopulateManifestations(filterModel);
+
+            return filterModel;
+        }
+
+        protected override string GetFilterSessionID()
+        {
+            return "creation-group-management-filter";
         }
 
         [RequirePermissions(Permission.CreationGroupCreator)]
@@ -139,11 +187,61 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             return base.Delete(displayModel);
         }
-             
+
+        [HttpGet("PopulateStateToMunicipality/{stateId}")]
+        public IActionResult PopulateStateToMunicipality(string stateId)
+        {
+            var stateIdParse = Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        [HttpGet("edit/PopulateStateToMunicipalityEdit/{stateId}")]
+        public IActionResult PopulateStateToMunicipalityEdit(string stateId)
+        {
+            var stateIdParse = Guid.Parse(stateId);
+
+            var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
+            return Ok(municipalities);
+        }
+
+        private void PopulateWithCountries(CreationGroupInputViewModel modelInput)
+        {
+            modelInput.States = stateRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Name == RegionInitConstant.CMG_STATE_NAME }).OrderByDescending(en => en.Selected).ToArray();
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+        }
+
 
         protected override void PreCreate(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
-            base.PreCreate(entity, modelInput);
+            
+
+            // TODO En ocasiones queda null, hay que buscar inicailizar las regiones en este punto
+            var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == modelInput.MunicipalityId);
+
+            var postalContact = new PostalContactItem
+            {
+                Address = "",
+                RegionId = region.Id,
+                Region = region
+            };
+
+            var organizationPostalContactItemBridge = new OrganizationPostalContactItemBridge
+            {
+                OrganizationId = modelInput.Export().Identity.Id,
+                Organization = modelInput.Export().Identity,
+                ContactItemId = postalContact.Id,
+                ContactItem = postalContact
+            };
+
+            entity.Identity.OrganizationPostalContactItemBridges.Add(organizationPostalContactItemBridge);
+
+            var getRegionRegister = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+
+            modelInput.Municipality = ((MunicipalityRegion)getRegionRegister).Municipality;
+            modelInput.State = modelInput.Municipality.State;
 
             if (modelInput.AgreementId != null)
             {
@@ -163,6 +261,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 entity.Identity.Image = image;
             }
+
+            base.PreCreate(entity, modelInput);
         }
 
         protected override void PreEdit(CreationGroup entity, CreationGroupInputViewModel modelInput)
@@ -208,6 +308,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.ConfigureCreate(modelInput);
 
             PopulateAvailableResolutions(modelInput);
+            PopulateWithCountries(modelInput);
         }
 
         protected override void ConfigureEdit(CreationGroup entity, CreationGroupInputViewModel modelInput)
@@ -215,6 +316,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.ConfigureEdit(entity, modelInput);
 
             PopulateAvailableResolutions(modelInput);
+            PopulateWithCountries(modelInput);
         }
 
         protected override void ConfigurePostFailCreateValidation(CreationGroupInputViewModel modelInput)
@@ -222,6 +324,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.ConfigurePostFailCreateValidation(modelInput);
 
             PopulateAvailableResolutions(modelInput);
+            PopulateWithCountries(modelInput);
         }
 
         protected override void ConfigurePostFailEditValidation(CreationGroupInputViewModel modelInput)
@@ -229,6 +332,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.ConfigurePostFailEditValidation(modelInput);
 
             PopulateAvailableResolutions(modelInput);
+            PopulateWithCountries(modelInput);
         }
 
         protected override void PostDelete(CreationGroup entity)
@@ -769,6 +873,66 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             modelInput.AvailableAgreements = agreementRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = string.Format("{0} - {1} - {2}", entity.Number, entity.ReleaseAt.ToShortDateString(), entity.Title) }).ToArray();
         }
+
+        private void PopulateDropDownStateWithMunicipality(CreationGroupFilterModel filter)
+        {
+
+            var states = stateRepository.GetAll();
+            var municipalities = municipalityRepository.GetAll();
+            var stateGroups = states.Select(s => new SelectListGroup { Name = s.Name });
+
+            foreach (var state in states)
+            {
+                var stateGroup = stateGroups.FirstOrDefault(s => s.Name == state.Name);
+
+
+                foreach (var municipality in municipalities)
+                {
+                    if (municipality.StateId == state.Id)
+                    {
+                        filter.States.Add(new SelectListItem { Value = municipality.Id.ToString(), Text = municipality.Name, Group = stateGroup });
+                    }
+                }
+            }
+        }
+
+        private void PopulateManifestations(CreationGroupFilterModel filter)
+        {
+            var artistManifestations = artisticManifestationRepository.GetAll();
+            var ArtistGroup = new SelectListGroup { Name = "Artística" };
+
+            var craftManifestations = craftManifestationRepository.GetAll();
+            var CraftGroup = new SelectListGroup { Name = "Artesanía" };
+
+            var designManifestations = designManifestationRepository.GetAll();
+            var DesignGroup = new SelectListGroup { Name = "Diseño" };
+
+            var serviceManifestations = serviceLineRepository.GetAll();
+            var ServiceGroup = new SelectListGroup { Name = "Servico" };
+
+            foreach (var artisticManifestation in artistManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = artisticManifestation.Id.ToString(), Text = artisticManifestation.Name, Group = ArtistGroup });
+            }
+
+            foreach (var craftManifestation in craftManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = craftManifestation.Id.ToString(), Text = craftManifestation.Name, Group = CraftGroup });
+            }
+
+            foreach (var designManifestation in designManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = designManifestation.Id.ToString(), Text = designManifestation.Name, Group = DesignGroup });
+            }
+
+            foreach (var serviceManifestation in serviceManifestations)
+            {
+                filter.Manisfestations.Add(new SelectListItem { Value = serviceManifestation.Id.ToString(), Text = serviceManifestation.Name, Group = ServiceGroup });
+            }
+
+
+        }
+
 
         #region Manifestations
 
@@ -1689,7 +1853,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
-        }
+        }        
 
         #endregion
 

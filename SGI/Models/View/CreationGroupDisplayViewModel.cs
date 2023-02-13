@@ -1,7 +1,9 @@
 ﻿using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -31,10 +33,20 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "RegistrationNumber")]
         public int RegistrationNumber { get; set; }
 
+        [Display(Name = "State")]
+        public State State { get; set; }
+
+        [Display(Name = "Municipality")]
+        public Municipality Municipality { get; set; }
+
+        [Display(Name = "Agreement")]
+        public Agreement Agreement { get; set; }
+
         public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
         public ICollection<CreationGroupAward> CreationGroupAwards { get; set; } = new List<CreationGroupAward>();
         public ICollection<CreationGroupDesignManifestationBridge> DesignManifestationBridges { get; set; } = new List<CreationGroupDesignManifestationBridge>();
         public ICollection<CreationGroupCraftManifestationBridge> CraftManifestationBridges { get; set; } = new List<CreationGroupCraftManifestationBridge>();
+        public ICollection<CreationGroupServiceLineBridge> ServiceManifestationBridges { get; set; } = new List<CreationGroupServiceLineBridge>();
 
         public void Import(CreationGroup entity)
         {
@@ -47,10 +59,15 @@ namespace MOROPO.FCBC.SGI.Models.View
             CreationGroupAwards = entity.CreationGroupAwards;
             DesignManifestationBridges = entity.DesignManifestationBridges;
             CraftManifestationBridges = entity.CraftManifestationBridges;
+            ServiceManifestationBridges = entity.ServiceLineBridges;
             CreatedAt = entity.Identity.BornDate;
             RegistrationNumber = entity.RegistrationNumber;
             RegistratedAt = entity.RegistratedAt;
             RegistrationEndAt = entity.RegistrationEndAt;
+            var region = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            Municipality = ((MunicipalityRegion)region).Municipality;
+            State = Municipality.State;
+            Agreement = entity.Agreement;
         }
     }
 }

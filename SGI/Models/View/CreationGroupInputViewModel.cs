@@ -2,8 +2,10 @@
 using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -52,6 +54,21 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "About")]
         public string About { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "State")]
+        public System.Guid StateId { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Municipality")]
+        public System.Guid MunicipalityId { get; set; }
+
+        public State State { get; set; }
+
+        public Municipality Municipality { get; set; }
+
+        public ICollection<SelectListItem> States { get; set; } = new List<SelectListItem>();
+        public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
+
         public CreationGroup Export()
         {
             var entity = new CreationGroup();
@@ -74,6 +91,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             RegistratedAt = entity.RegistratedAt;
             RegistrationEndAt = entity.RegistrationEndAt;
             AgreementId = entity.AgreementId;
+            var region = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
         }
 
         public void Mergue(CreationGroup entity)
