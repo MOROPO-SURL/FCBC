@@ -83,7 +83,7 @@
                                         }
                                     </dl>
                                     <dl class="col-md-6">
-                                        <dt>Marca</dt>                                        
+                                        <dt>Marca o Sello</dt>                                        
                                         @if (Model.Group.Brand == null)
                                         {
                                             <dd>-</dd>
@@ -98,6 +98,10 @@
                                     <dl class="col-md-6">
                                         <dt>Número de Registro del Creador</dt>
                                         <dd>@Model.Group.RegistrationNumber</dd>
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>Acuerdos</dt>
+                                        <dd>@Model.Group.Agreement.Title - @Model.Group.Agreement.Description - @Model.Group.Agreement.ReleaseAt</dd>
                                     </dl>
                                     <dl class="col-md-6">
                                         <dt>Fecha de Registro</dt>

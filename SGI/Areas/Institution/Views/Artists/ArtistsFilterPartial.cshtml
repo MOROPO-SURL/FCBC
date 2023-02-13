@@ -24,11 +24,11 @@
                 </div>
                 <div class="col-sm-3">
                     @Html.Label("Municipios", "Municipios", new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.StateId, Model.States, "Buscar Manifestación ...", new { @class = "selectpicker", data_live_search = "true"})
+                    @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "selectpicker", data_live_search = "true"})
                 </div>
                 <div class="col-sm-3">
                     @Html.Label("Manifestaciones", "Manifestaciones", new { @class = "control-label" })
-                    @Html.DropDownListFor(model => model.ManisfestationId, Model.Manisfestations,"Buscar Manifestación ...", new { @class = "selectpicker", data_live_search = "true"})
+                    @Html.DropDownListFor(model => model.ManisfestationId, Model.Manisfestations, new { @class = "selectpicker", data_live_search = "true"})
                 </div>
                 
             </div>
