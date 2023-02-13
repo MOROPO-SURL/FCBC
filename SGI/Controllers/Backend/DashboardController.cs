@@ -106,6 +106,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 PopulateManifestationsDictionary(manifestations, work.Manifestation.Name);
             }
 
+            foreach (ServiceWork work in serviceWorkRepository.GetAll())
+            {
+                PopulateManifestationsDictionary(manifestations, work.Line.Name);
+            }
+
             var OrderManifestationsStatistics = manifestations.OrderByDescending(f => f.Value).ToList().Take(8);
 
             model.manifestationsNames = OrderManifestationsStatistics.Select(r => r.Key).ToList();
