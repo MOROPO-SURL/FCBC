@@ -39,6 +39,26 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<ArtWorkAward> Awards { get; set; }
 
+        [Display(Name = "Height")]
+        public decimal? Height { get; set; }
+
+        [Display(Name = "Width")]
+        public decimal? Width { get; set; }
+
+        [Display(Name = "Profundity")]
+        public decimal? Profundity { get; set; }
+
+        [Display(Name = "DimensionsUnitMeasurement")]
+        public System.Guid? DimensionsUnitMeasurementId { get; set; }
+
+        public UnitMeasurement UnitMeasurement { get; set; }
+
+        [Display(Name = "WorkWeight")]
+        public decimal? Weight { get; set; }
+
+        [Display(Name = "WeightUnitMeasurement")]
+        public System.Guid? WeightUnitMeasurementId { get; set; }
+
         public void Import(Persistence.Entities.ArtWork entity)
         {
             Id = entity.Id;
@@ -63,7 +83,11 @@ namespace MOROPO.FCBC.SGI.Models.View
                 return model;
             }).ToArray();
             Awards = entity.Awards;
-
+            Height = entity.Height;
+            Width = entity.Width;
+            Profundity = entity.Profundity;
+            Weight = entity.Weight;
+            UnitMeasurement = entity.DimensionsUnitMeasurement;
             Manifestation.Import(entity.Manifestation);
         }
     }

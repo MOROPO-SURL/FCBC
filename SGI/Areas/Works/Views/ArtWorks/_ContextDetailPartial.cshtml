@@ -69,6 +69,51 @@
 
                         </dl>
                     </div>
+                    <div class=row>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Altura</dt>
+                            @if(Model.Height != null)
+                            {
+                                <dd>@Model.Height</dd>
+                            }else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Ancho</dt>
+                            @if (Model.Width != null)
+                            {
+                                <dd>@Model.Width</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Profundidad</dt>
+                            @if (Model.Profundity != null)
+                            {
+                                <dd>@Model.Profundity</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Peso</dt>
+                            @if (Model.Weight != null)
+                            {
+                                <dd>@Model.Weight @Model.UnitMeasurement.Name</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>
