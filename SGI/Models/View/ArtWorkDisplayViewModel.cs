@@ -18,17 +18,23 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "About")]
         public string About { get; set; }
 
+        [Display(Name = "Collection")]
         public string Collection { get; set; }
 
         [Display(Name = "Location")]
         public string Location { get; set; }
 
+        [Display(Name = "Price")]
         public decimal? Price { get; set; }       
-        public string PriceSymbol { get; set; }       
+        public string PriceSymbol { get; set; }   
+        public Currency PriceCurrency { get; set; }
 
+        [Display(Name = "Cost")]
         public decimal? Cost { get; set; }        
-        public string CostSymbol { get; set; }        
+        public string CostSymbol { get; set; }  
+        public Currency CostCurrency { get; set; }
 
+        [Display(Name = "ArtisticManifestation")]
         public ArtisticManifestationDisplayViewModel Manifestation { get; set; }
 
         public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
@@ -71,6 +77,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Cost = entity.Cost;
             CostSymbol = entity.CostCurrency.Symbol;
             PriceSymbol = entity.PriceCurrency.Symbol;
+            CostCurrency = entity.CostCurrency;
+            PriceCurrency = entity.PriceCurrency;
             Manifestation = new ArtisticManifestationDisplayViewModel();
             FeatureImage = entity.FeatureImage;
             Images = entity.ImageBridges.Select(bridge => bridge.Image).ToArray();

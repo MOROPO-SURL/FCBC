@@ -50,6 +50,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             DefaultValueForCost(entity);
             DefaultValueForPrice(entity);
             About = entity.About;
+            PriceCurrencyId = entity.PriceCurrencyId;
+            CostCurrencyId = entity.CostCurrencyId;
         }
 
         public void Mergue(DesignWork entity)

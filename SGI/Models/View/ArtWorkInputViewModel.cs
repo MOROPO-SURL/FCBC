@@ -102,6 +102,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             DimensionsUnitMeasurementId = entity.DimensionsUnitMeasurementId;
             Weight = entity.Weight;
             WeightUnitMeasurementId = entity.WeightUnitMeasurementId;
+            PriceCurrencyId = entity.PriceCurrencyId;
+            CostCurrencyId = entity.CostCurrencyId;
         }
 
         public void Mergue(ArtWork entity)

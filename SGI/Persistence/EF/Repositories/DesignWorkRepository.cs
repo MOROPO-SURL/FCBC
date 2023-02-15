@@ -14,6 +14,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
         {
             return base.GetQueryableDbSet()
                 .Include(entity => entity.PriceCurrency)
+                .Include(entity => entity.CostCurrency)
                 .Include(entity => entity.ImageBridges).ThenInclude(bridge => bridge.Image)
                 .Include(entity => entity.Manifestation)
                 .Include(entity => entity.TechniqueBridges).ThenInclude(bridge => bridge.Technique)

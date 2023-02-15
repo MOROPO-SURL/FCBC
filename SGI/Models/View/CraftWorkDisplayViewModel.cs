@@ -17,15 +17,20 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Fecha de Creación")]
         public int BornYear { get; set; }
 
+        [Display(Name = "Price")]
         public decimal? Price { get; set; }
         public string PriceSymbol { get; set; }
+        public Currency PriceCurrency { get; set; }
 
+        [Display(Name = "Cost")]
         public decimal? Cost { get; set; }
         public string CostSymbol { get; set; }
+        public Currency CostCurrency { get; set; }
 
         [Display(Name = "About")]
         public string About { get; set; }
 
+        [Display(Name = "CraftManifestation")]
         public CraftManifestationDisplayViewModel Manifestation { get; set; }
 
         public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
@@ -47,6 +52,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             Cost = entity.Cost;
             PriceSymbol = entity.PriceCurrency.Symbol;
             CostSymbol = entity.CostCurrency.Symbol;
+            CostCurrency = entity.CostCurrency;
+            PriceCurrency = entity.PriceCurrency;
             BornYear = entity.BornYear;
             About = entity.About;
             Techniques = entity.TechniqueBridges.Select(bridge =>
