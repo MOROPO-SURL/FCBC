@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
@@ -19,7 +20,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Microsoft.AspNetCore.Authorization.Authorize]
     [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("works")]
-    public class ArtWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<ArtWork, System.Guid, ArtWorkInputViewModel, ArtWorkDisplayViewModel>
+    public class ArtWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementFilteredController<ArtWork, System.Guid, ArtWorkInputViewModel, ArtWorkDisplayViewModel, ArtWorkFilterModel>
     {
         private readonly IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository;
         private readonly IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository;
@@ -56,6 +57,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         public IActionResult Index()
         {
             return View();
+        }
+
+        [RequirePermissions(Permission.ArtWorkViewer)]
+        public override IActionResult Filter(ArtWorkFilterModel filterModel)
+        {
+            return base.Filter(filterModel);
+        }
+
+        [RequirePermissions(Permission.ArtWorkViewer)]
+        protected override ArtWorkFilterModel GetFilterModel()
+        {
+            var filterModel = base.GetFilterModel();
+
+            if (filterModel == null)
+            {
+                filterModel = new ArtWorkFilterModel();
+            }
+
+            filterModel.Manifestation = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            filterModel.Author = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            PopulateManifestations(filterModel);
+            PopulateDropDownAuthorWithCreatorsAndCreationGroup(filterModel);
+
+            return filterModel;
+        }
+
+        protected override string GetFilterSessionID()
+        {
+            return "art-work-management-filter";
         }
 
         [RequirePermissions(Permission.ArtWorkCreator)]
@@ -171,6 +209,48 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 Text = entity.Name,
                 Value = entity.Id.ToString()
             }).ToList();
+        }
+
+        private void PopulateManifestations(ArtWorkFilterModel filter)
+        {
+            var artManifestations = manifestationRepository.GetAll();
+            var artManifestationGroupsList = artManifestations.Select(c => c.Group).Distinct();
+
+            foreach (var item in artManifestationGroupsList)
+            {
+                var artManifestationsGroup = new SelectListGroup { Name = "-" };
+                if (item != null)
+                {
+                    artManifestationsGroup = new SelectListGroup { Name = item.Name };
+                }
+
+                foreach (var artManifestation in artManifestations)
+                {
+                    if (item == artManifestation.Group)
+                    {
+                        filter.Manifestation.Add(new SelectListItem { Value = artManifestation.Id.ToString(), Text = artManifestation.Name, Group = artManifestationsGroup });
+                    }
+
+                }
+
+            }
+        }
+
+        private void PopulateDropDownAuthorWithCreatorsAndCreationGroup(ArtWorkFilterModel filter)
+        {
+            var creators = creatorRepository.GetAll();
+            var creationGroups = creationGroupRepository.GetAll();
+            var creatorsGroup = new SelectListGroup { Name = "Creadores" };
+            var creationGroupsGroup = new SelectListGroup { Name = "Grupos de Ceación" };
+
+            foreach (var creator in creators)
+            {
+                filter.Author.Add(new SelectListItem { Value = creator.Id.ToString(), Text = creator.Identity.Name, Group = creatorsGroup });
+            }
+            foreach (var creationGroup in creationGroups)
+            {
+                filter.Author.Add(new SelectListItem { Value = creationGroup.Id.ToString(), Text = creationGroup.Identity.Name, Group = creationGroupsGroup });
+            }
         }
 
         #region Elaboration

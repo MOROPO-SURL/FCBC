@@ -20,6 +20,7 @@
 }
 
 @section styles {
+    <link rel="stylesheet" href="~/lib/bootstrap-combobox/css/bootstrap-select.css" />
     <style type="text/css">
         .integrity-icon {
             font-size: 18px;
@@ -27,11 +28,27 @@
             margin-left: 8px;
             margin-right: 8px;
         }
+
+        dd {
+            word-wrap: break-word;
+        }
     </style>
 }
 
-    <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
-    <div class="clearfix" style="margin-bottom: 20px;"></div>
+@section scripts {
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-select.js"></script>
+}
+
+@{
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-sm-10">
+            @await Html.PartialAsync("_FilterPartial", Model.Filter)
+        </div>
+        <div class="col-sm-2">
+            <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+        </div>
+    </div>
+}
 
 @if (Model.MaxPageCount > 0)
 {
