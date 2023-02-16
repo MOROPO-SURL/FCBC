@@ -1625,7 +1625,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.AssessmentBridges.Add(new AssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
+                entity.ArtistAssessmentBridges.Add(new ArtistAssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -1674,8 +1674,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                var artistCriterion = entity.AssessmentBridges.First(a => a.ArtistId == modelDisplay.ArtistId && a.CriticId == modelDisplay.CriticId);
-                entity.AssessmentBridges.Remove(artistCriterion);
+                var artistCriterion = entity.ArtistAssessmentBridges.First(a => a.ArtistId == modelDisplay.ArtistId && a.CriticId == modelDisplay.CriticId);
+                entity.ArtistAssessmentBridges.Remove(artistCriterion);
 
                 Repository.Update(entity, User.Identity.Name);
 

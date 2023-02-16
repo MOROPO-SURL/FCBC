@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
-    public class AssessmentBridge
+    public class ArtistAssessmentBridge
     {
         public System.Guid ArtistId { get; set; }
 

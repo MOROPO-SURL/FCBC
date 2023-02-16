@@ -115,9 +115,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @if (Model.ArtistDisplay.AssessmentBridges.Count > 0)
+                            @if (Model.ArtistDisplay.ArtistAssessmentBridges.Count > 0)
                             {
-                                @foreach (var item in Model.ArtistDisplay.AssessmentBridges)
+                                @foreach (var item in Model.ArtistDisplay.ArtistAssessmentBridges)
                                 {
                                     <tr>
                                         <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.DateOfAssessment</td>
