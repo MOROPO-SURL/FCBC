@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
-using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
@@ -20,7 +20,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Microsoft.AspNetCore.Authorization.Authorize]
     [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("works")]
-    public class CraftWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<CraftWork, System.Guid, CraftWorkInputViewModel, CraftWorkDisplayViewModel>
+    public class CraftWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementFilteredController<CraftWork, System.Guid, CraftWorkInputViewModel, CraftWorkDisplayViewModel, CraftWorkFilterModel>
     {
         private readonly IEntityRepository<CraftManifestation, System.Guid> manifestationRepository;
         private readonly IEntityRepository<Currency, int> currencyRepository;
@@ -34,8 +34,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository;
         private readonly IEntityRepository<Thematic, Guid> thematicRepository;
+        private readonly IEntityRepository<CraftManifestationGroup, System.Guid> manifestationGroupRepository;
 
-        public CraftWorksController(IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
+        public CraftWorksController(IEntityRepository<CraftManifestationGroup, System.Guid> manifestationGroupRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
             IEntityRepository<CraftWork, System.Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
@@ -50,12 +51,50 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
             this.thematicRepository = thematicRepository;
+            this.manifestationGroupRepository = manifestationGroupRepository;
         }
 
         [RequirePermissions(Permission.CraftWorkViewer)]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [RequirePermissions(Permission.CraftWorkViewer)]
+        public override IActionResult Filter(CraftWorkFilterModel filterModel)
+        {
+            return base.Filter(filterModel);
+        }
+
+        [RequirePermissions(Permission.CraftWorkViewer)]
+        protected override CraftWorkFilterModel GetFilterModel()
+        {
+            var filterModel = base.GetFilterModel();
+
+            if (filterModel == null)
+            {
+                filterModel = new CraftWorkFilterModel();
+            }
+
+            filterModel.Manifestation = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            filterModel.Author = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            PopulateManifestations(filterModel);
+            PopulateDropDownAuthorWithCreatorsAndCreationGroup(filterModel);
+
+            return filterModel;
+        }
+
+        protected override string GetFilterSessionID()
+        {
+            return "craft-work-management-filter";
         }
 
         [RequirePermissions(Permission.CraftWorkCreator)]
@@ -158,6 +197,46 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 Text = entity.Name,
                 Value = entity.Id.ToString()
             }).ToList();
+        }
+
+        private void PopulateManifestations(CraftWorkFilterModel filter)
+        {
+            var craftManifestations = manifestationRepository.GetAll();
+            var craftManifestationGroupsList = craftManifestations.Select(c => c.Group).Distinct();
+
+            foreach (var item in craftManifestationGroupsList)
+            {
+                var craftManifestationsGroup = new SelectListGroup { Name = "-" };
+                if (item != null){
+                    craftManifestationsGroup = new SelectListGroup { Name = item.Name };
+                }
+                
+                foreach (var craftManifestation in craftManifestations)
+                {
+                    if (item == craftManifestation.Group) {
+                        filter.Manifestation.Add(new SelectListItem { Value = craftManifestation.Id.ToString(), Text = craftManifestation.Name, Group = craftManifestationsGroup });
+                    }
+                        
+                }
+                
+            }
+        }
+
+        private void PopulateDropDownAuthorWithCreatorsAndCreationGroup(CraftWorkFilterModel filter)
+        {
+            var creators = creatorRepository.GetAll();
+            var creationGroups = creationGroupRepository.GetAll();
+            var creatorsGroup = new SelectListGroup { Name = "Creadores" };
+            var creationGroupsGroup = new SelectListGroup { Name = "Grupos de Ceación" };
+
+            foreach (var creator in creators)
+            {
+                filter.Author.Add(new SelectListItem { Value = creator.Id.ToString(), Text = creator.Identity.Name, Group = creatorsGroup });
+            }
+            foreach (var creationGroup in creationGroups)
+            {
+                filter.Author.Add(new SelectListItem { Value = creationGroup.Id.ToString(), Text = creationGroup.Identity.Name, Group = creationGroupsGroup });
+            }
         }
 
         #region Images
