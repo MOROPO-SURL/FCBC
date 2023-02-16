@@ -42,7 +42,7 @@
                     <a class="nav-link" asp-action="EditArtisticManifestations">Manifestaciones</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Reconocimientos</a>
+                    <a class="nav-link active" href="#">Trayectoria</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Id">Archivos</a>
@@ -120,6 +120,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="EditArtisticDistintions" asp-route-key="@Model.Id">Distinciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="EditArtisticCriterion" asp-route-key="@Model.Id">Valoraciones</a>
                         </li>
                     </ul>
                 </div>
