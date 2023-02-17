@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using System.Collections.Generic;
+using System.Net.Mail;
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
@@ -11,7 +12,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             Awards = new System.Collections.Generic.List<ServiceWorkAward>();
             MaterialBridges = new System.Collections.Generic.List<ServiceWorkMaterialBridge>();
             ThematicBridges = new System.Collections.Generic.List<ServiceWorkThematicBridge>();
-            Attachments = new System.Collections.Generic.List<ServiceWorkAttachment>();           
+            Attachments = new System.Collections.Generic.List<ServiceWorkAttachment>();
+            WorkAssessmentBridges = new List<ServiceWorkAssessmentBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("LineId")]
@@ -30,5 +32,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public System.Collections.Generic.List<ServiceWorkThematicBridge> ThematicBridges { get; set; }
 
         public System.Collections.Generic.List<ServiceWorkAttachment> Attachments { get; set; }
+        public System.Collections.Generic.List<ServiceWorkAssessmentBridge> WorkAssessmentBridges { get; set; }
     }
 }

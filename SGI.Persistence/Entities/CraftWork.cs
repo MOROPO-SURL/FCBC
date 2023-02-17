@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
+﻿using System.Collections.Generic;
+
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class CraftWork : Contract.AbstractWork
     {
@@ -12,6 +14,7 @@
             CreationGroupBridges = new System.Collections.Generic.List<CraftWorkCreationGroupBridge>();
             MaterialBridges = new System.Collections.Generic.List<CraftWorkMaterialBridge>();
             Attachments = new System.Collections.Generic.List<CraftWorkAttachment>();
+            WorkAssessmentBridges = new List<CraftWorkAssessmentBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ManifestationId")]
@@ -30,5 +33,6 @@
         public System.Collections.Generic.List<CraftWorkCreationGroupBridge> CreationGroupBridges { get; set; }
         public System.Collections.Generic.List<CraftWorkMaterialBridge> MaterialBridges { get; set; }
         public System.Collections.Generic.List<CraftWorkAttachment> Attachments { get; set; }
+        public System.Collections.Generic.List<CraftWorkAssessmentBridge> WorkAssessmentBridges { get; set; }
     }
 }

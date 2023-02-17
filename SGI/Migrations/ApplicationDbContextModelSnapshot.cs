@@ -198,6 +198,29 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artworks");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkAssessmentBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("CriticId")
+                        .HasColumnName("criticid");
+
+                    b.Property<string>("Criterion")
+                        .HasColumnName("criterion");
+
+                    b.Property<DateTime>("DateOfAssessment")
+                        .HasColumnName("dateofassessment");
+
+                    b.HasKey("WorkId", "CriticId")
+                        .HasName("pk_artworkassessmentbridges");
+
+                    b.HasIndex("CriticId")
+                        .HasName("ix_artworkassessmentbridges_criticid");
+
+                    b.ToTable("artworkassessmentbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkAttachment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -951,6 +974,29 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("craftworks");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkAssessmentBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("CriticId")
+                        .HasColumnName("criticid");
+
+                    b.Property<string>("Criterion")
+                        .HasColumnName("criterion");
+
+                    b.Property<DateTime>("DateOfAssessment")
+                        .HasColumnName("dateofassessment");
+
+                    b.HasKey("WorkId", "CriticId")
+                        .HasName("pk_craftworkassessmentbridges");
+
+                    b.HasIndex("CriticId")
+                        .HasName("ix_craftworkassessmentbridges_criticid");
+
+                    b.ToTable("craftworkassessmentbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkAttachment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1504,6 +1550,29 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("designworks");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAssessmentBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("CriticId")
+                        .HasColumnName("criticid");
+
+                    b.Property<string>("Criterion")
+                        .HasColumnName("criterion");
+
+                    b.Property<DateTime>("DateOfAssessment")
+                        .HasColumnName("dateofassessment");
+
+                    b.HasKey("WorkId", "CriticId")
+                        .HasName("pk_designworkassessmentbridges");
+
+                    b.HasIndex("CriticId")
+                        .HasName("ix_designworkassessmentbridges_criticid");
+
+                    b.ToTable("designworkassessmentbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAttachment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1970,6 +2039,29 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_serviceworks_pricecurrencyid");
 
                     b.ToTable("serviceworks");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAssessmentBridge", b =>
+                {
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.Property<Guid>("CriticId")
+                        .HasColumnName("criticid");
+
+                    b.Property<string>("Criterion")
+                        .HasColumnName("criterion");
+
+                    b.Property<DateTime>("DateOfAssessment")
+                        .HasColumnName("dateofassessment");
+
+                    b.HasKey("WorkId", "CriticId")
+                        .HasName("pk_serviceworkassessmentbridges");
+
+                    b.HasIndex("CriticId")
+                        .HasName("ix_serviceworkassessmentbridges_criticid");
+
+                    b.ToTable("serviceworkassessmentbridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAttachment", b =>
@@ -3051,6 +3143,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasConstraintName("fk_artworks_unitmeasurements_weightunitmeasurementid");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkAssessmentBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Critic", "Critic")
+                        .WithMany()
+                        .HasForeignKey("CriticId")
+                        .HasConstraintName("fk_artworkassessmentbridges_critics_criticid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "Work")
+                        .WithMany("WorkAssessmentBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_artworkassessmentbridges_artworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkAttachment", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "Work")
@@ -3442,6 +3549,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasConstraintName("fk_craftworks_currencies_pricecurrencyid");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkAssessmentBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Critic", "Critic")
+                        .WithMany()
+                        .HasForeignKey("CriticId")
+                        .HasConstraintName("fk_craftworkassessmentbridges_critics_criticid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("WorkAssessmentBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworkassessmentbridges_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkAttachment", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
@@ -3748,6 +3870,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasConstraintName("fk_designworks_currencies_pricecurrencyid");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAssessmentBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Critic", "Critic")
+                        .WithMany()
+                        .HasForeignKey("CriticId")
+                        .HasConstraintName("fk_designworkassessmentbridges_critics_criticid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
+                        .WithMany("WorkAssessmentBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_designworkassessmentbridges_designworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWorkAttachment", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", "Work")
@@ -3944,6 +4081,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("PriceCurrencyId")
                         .HasConstraintName("fk_serviceworks_currencies_pricecurrencyid");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAssessmentBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Critic", "Critic")
+                        .WithMany()
+                        .HasForeignKey("CriticId")
+                        .HasConstraintName("fk_serviceworkassessmentbridges_critics_criticid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
+                        .WithMany("WorkAssessmentBridges")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_serviceworkassessmentbridges_serviceworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkAttachment", b =>
