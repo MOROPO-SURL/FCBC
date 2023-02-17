@@ -1,0 +1,66 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupDisplayViewModel
+
+<div class="alert alert-dark">
+    <details>
+        <summary class="h4 mb-0">@Model.Name</summary>
+        <hr />
+        <div class="row no-gutters">
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                @if (Model.ImageId != null)
+                {
+                    <img class="img-thumbnail" src="~/media/images/@Model.ImageId.@Model.ImageExtension" />
+                }
+                else
+                {
+                    <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                }
+            </div>
+            <div class="col-lg-10 col-md-8 col-sm-6">
+                <div class="card-block pl-3">
+                    <div class="row">
+                        <dl class="col-md-6">
+                            <dt>Fecha de Creación</dt>
+                            @if (Model.CreatedAt == null)
+                            {
+                                <dd>-</dd>
+                            }
+                            else
+                            {
+                                <dd>@Model.CreatedAt.Value.ToShortDateString()</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Marca o Sello</dt>
+                            @if (Model.Brand == null)
+                            {
+                                <dd>-</dd>
+                            }
+                            else
+                            {
+                                <dd>@Model.Brand</dd>
+                            }
+                        </dl>
+                    </div>
+                    <div class="row">
+                        <dl class="col-md-6">
+                            <dt>Número de Registro del Creador</dt>
+                            <dd>@Model.RegistrationNumber</dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Acuerdos</dt>
+                            <dd>@Model.Agreement.Title - @Model.Agreement.Description - @Model.Agreement.ReleaseAt</dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Fecha de Registro</dt>
+                            <dd>@Model.RegistratedAt.ToShortDateString()</dd>
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Fecha de Expiración</dt>
+                            <dd>@Model.RegistrationEndAt.ToShortDateString()</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+</div>

@@ -1732,6 +1732,29 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("administrativerolebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.GroupAssessmentBridge", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnName("groupid");
+
+                    b.Property<Guid>("CriticId")
+                        .HasColumnName("criticid");
+
+                    b.Property<string>("Criterion")
+                        .HasColumnName("criterion");
+
+                    b.Property<DateTime>("DateOfAssessment")
+                        .HasColumnName("dateofassessment");
+
+                    b.HasKey("GroupId", "CriticId")
+                        .HasName("pk_groupassessmentbridges");
+
+                    b.HasIndex("CriticId")
+                        .HasName("ix_groupassessmentbridges_criticid");
+
+                    b.ToTable("groupassessmentbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalInformation", b =>
                 {
                     b.Property<int>("Id")
@@ -3865,6 +3888,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_administrativerolebridges_administrativeroles_roleid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.GroupAssessmentBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Critic", "Critic")
+                        .WithMany()
+                        .HasForeignKey("CriticId")
+                        .HasConstraintName("fk_groupassessmentbridges_critics_criticid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "CreationGroup")
+                        .WithMany("GroupAssessmentBridges")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("fk_groupassessmentbridges_creationgroups_groupid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

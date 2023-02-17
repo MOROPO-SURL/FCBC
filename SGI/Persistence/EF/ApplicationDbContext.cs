@@ -152,5 +152,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Agreement> Agreements { get; set; }
         public DbSet<ArtistAssessmentBridge> ArtistAssessmentBridges { get; set; }
+        public DbSet<GroupAssessmentBridge> GroupAssessmentBridges { get; set; }
     }
 }

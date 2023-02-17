@@ -31,7 +31,7 @@
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Generales</a>
-            </li>                
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Group.Id)">Manifestaciones</a>
             </li>
@@ -69,23 +69,23 @@
                         <div class="card-block pl-3">
                             <div class="row">
                                 <dl class="col-md-6">
-                                    <dt>Fecha de Creación</dt>                                        
+                                    <dt>Fecha de Creación</dt>
                                     @if (Model.Group.CreatedAt == null)
                                     {
                                         <dd>-</dd>
                                     }
-                                    else 
+                                    else
                                     {
                                         <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
                                     }
                                 </dl>
                                 <dl class="col-md-6">
-                                    <dt>Marca</dt>                                        
+                                    <dt>Marca</dt>
                                     @if (Model.Group.Brand == null)
                                     {
                                         <dd>-</dd>
                                     }
-                                    else 
+                                    else
                                     {
                                         <dd>@Model.Group.Brand</dd>
                                     }
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-            </details>                
+            </details>
         </div>
         <div class="card">
             <div class="card-header">
@@ -122,44 +122,47 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-action="EditGroupDistintions" asp-route-key="@Model.Group.Id">Distinciones</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="EditGroupCriterion" asp-route-key="@Model.Group.Id">Valoraciones</a>
+                    </li>
                 </ul>
             </div>
-                @await Html.PartialAsync("AddAwardsPartial", Model)
+            @await Html.PartialAsync("AddAwardsPartial", Model)
 
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Nombre")</th>
-                            <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("País")</th>
-                            <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Descripción")</th>
-                            <th class="border-top-0" style="width: 1px; white-space: nowrap;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Group.CreationGroupAwards.Count > 0)
-                        {
-                            @foreach (var item in Model.Group.CreationGroupAwards)
-                            {
-                                <tr>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Context</td>
-                                    <td style="vertical-align: middle;">
-                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
-                                        @await Html.PartialAsync("DeleteAwardPartial", new CreationGroupAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, GroupId = Model.Group.Id})
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Nombre")</th>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("País")</th>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Descripción")</th>
+                        <th class="border-top-0" style="width: 1px; white-space: nowrap;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Group.CreationGroupAwards.Count > 0)
+                    {
+                        @foreach (var item in Model.Group.CreationGroupAwards)
                         {
                             <tr>
-                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Context</td>
+                                <td style="vertical-align: middle;">
+                                    <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
+                                    @await Html.PartialAsync("DeleteAwardPartial", new CreationGroupAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, GroupId = Model.Group.Id})
+                                </td>
                             </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="card-footer">
         <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-award-@Model.Group.Id">Agregar</a>

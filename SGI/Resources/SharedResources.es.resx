@@ -1884,4 +1884,13 @@
   <data name="CreatedAt" xml:space="preserve">
     <value>Creado en</value>
   </data>
+  <data name="Criterion" xml:space="preserve">
+    <value>Criterio</value>
+  </data>
+  <data name="Critic" xml:space="preserve">
+    <value>Crítico</value>
+  </data>
+  <data name="Day of Criterion" xml:space="preserve">
+    <value>Fecha del Criterio</value>
+  </data>
 </root>

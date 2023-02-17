@@ -47,6 +47,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ICollection<CreationGroupDesignManifestationBridge> DesignManifestationBridges { get; set; } = new List<CreationGroupDesignManifestationBridge>();
         public ICollection<CreationGroupCraftManifestationBridge> CraftManifestationBridges { get; set; } = new List<CreationGroupCraftManifestationBridge>();
         public ICollection<CreationGroupServiceLineBridge> ServiceManifestationBridges { get; set; } = new List<CreationGroupServiceLineBridge>();
+        public ICollection<GroupAssessmentBridge> GroupAssessmentBridges { get; set; } = new List<GroupAssessmentBridge>();
 
         public void Import(CreationGroup entity)
         {
@@ -68,6 +69,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             Municipality = ((MunicipalityRegion)region).Municipality;
             State = Municipality.State;
             Agreement = entity.Agreement;
+            GroupAssessmentBridges = entity.GroupAssessmentBridges;
         }
     }
 }
