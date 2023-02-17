@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
@@ -19,7 +20,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Microsoft.AspNetCore.Authorization.Authorize]
     [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("works")]
-    public class ServiceWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<ServiceWork, System.Guid, ServiceWorkInputViewModel, ServiceWorkDisplayViewModel>
+    public class ServiceWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementFilteredController<ServiceWork, System.Guid, ServiceWorkInputViewModel, ServiceWorkDisplayViewModel, ServiceWorkFilterModel>
     {
         private readonly IEntityRepository<ServiceLine, System.Guid> serviceLineRepository;
         private readonly IEntityRepository<Currency, int> currencyRepository;
@@ -54,6 +55,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         public IActionResult Index()
         {
             return View();
+        }
+
+        [RequirePermissions(Permission.ServiceWorkViewer)]
+        public override IActionResult Filter(ServiceWorkFilterModel filterModel)
+        {
+            return base.Filter(filterModel);
+        }
+
+        [RequirePermissions(Permission.ServiceWorkViewer)]
+        protected override ServiceWorkFilterModel GetFilterModel()
+        {
+            var filterModel = base.GetFilterModel();
+
+            if (filterModel == null)
+            {
+                filterModel = new ServiceWorkFilterModel();
+            }
+
+            filterModel.Manifestation = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            filterModel.Author = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            PopulateManifestations(filterModel);
+            PopulateDropDownAuthorWithCreatorsAndCreationGroup(filterModel);
+
+            return filterModel;
+        }
+
+        protected override string GetFilterSessionID()
+        {
+            return "service-work-management-filter";
         }
 
         [RequirePermissions(Permission.CraftWorkCreator)]
@@ -156,6 +194,33 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 Text = entity.Name,
                 Value = entity.Id.ToString()
             }).ToList();
+        }
+
+        private void PopulateManifestations(ServiceWorkFilterModel filter)
+        {
+            var serviceManifestations = serviceLineRepository.GetAll();
+
+            foreach (var serviceManifestation in serviceManifestations)
+            {
+                filter.Manifestation.Add(new SelectListItem { Value = serviceManifestation.Id.ToString(), Text = serviceManifestation.Name });
+            }
+        }
+
+        private void PopulateDropDownAuthorWithCreatorsAndCreationGroup(ServiceWorkFilterModel filter)
+        {
+            var creators = creatorRepository.GetAll();
+            var creationGroups = creationGroupRepository.GetAll();
+            var creatorsGroup = new SelectListGroup { Name = "Creadores" };
+            var creationGroupsGroup = new SelectListGroup { Name = "Grupos de Ceación" };
+
+            foreach (var creator in creators)
+            {
+                filter.Author.Add(new SelectListItem { Value = creator.Id.ToString(), Text = creator.Identity.Name, Group = creatorsGroup });
+            }
+            foreach (var creationGroup in creationGroups)
+            {
+                filter.Author.Add(new SelectListItem { Value = creationGroup.Id.ToString(), Text = creationGroup.Identity.Name, Group = creationGroupsGroup });
+            }
         }
 
         #region Authors
