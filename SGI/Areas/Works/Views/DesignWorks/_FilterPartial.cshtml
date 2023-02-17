@@ -1,0 +1,28 @@
+﻿@model MOROPO.FCBC.SGI.Models.Filter.DesignWorkFilterModel
+
+@using (Html.BeginForm("filter", "designworks", new { Area = "works" }, FormMethod.Post, true, null))
+{
+    <fieldset>
+        <legend>Filtro de Obras de diseño</legend>
+        <div style="margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.Title, new { @class = "control-label w-100" })
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.ManifestationId, new { @class = "control-label w-100" })
+                    @Html.DropDownListFor(model => model.ManifestationId, Model.Manifestation, new { @class = "selectpicker", data_live_search = "true"})
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.AuthorId, new { @class = "control-label w-100" })
+                    @Html.DropDownListFor(model => model.AuthorId, Model.Author, new { @class = "selectpicker", data_live_search = "true"})
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+        </div>
+    </fieldset>
+}
