@@ -65,6 +65,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "WeightUnitMeasurement")]
         public System.Guid? WeightUnitMeasurementId { get; set; }
 
+        public ICollection<ArtWorkAssessmentBridge> ArtWorkAssessmentBridges { get; set; }
+
         public void Import(Persistence.Entities.ArtWork entity)
         {
             Id = entity.Id;
@@ -91,12 +93,13 @@ namespace MOROPO.FCBC.SGI.Models.View
                 return model;
             }).ToArray();
             Awards = entity.Awards;
+            ArtWorkAssessmentBridges = entity.WorkAssessmentBridges;
             Height = entity.Height;
             Width = entity.Width;
             Profundity = entity.Profundity;
             Weight = entity.Weight;
             UnitMeasurement = entity.DimensionsUnitMeasurement;
-            Manifestation.Import(entity.Manifestation);
+            Manifestation.Import(entity.Manifestation);            
         }
     }
 }

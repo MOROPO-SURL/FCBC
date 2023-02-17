@@ -40,6 +40,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ServiceTechniqueDisplayViewModel[] Techniques { get; set; }
 
         public ICollection<ServiceWorkAward> Awards { get; set; }
+        public ICollection<ServiceWorkAssessmentBridge> ServiceWorkAssessmentBridges { get; set; }
 
         public void Import(ServiceWork entity)
         {
@@ -65,7 +66,7 @@ namespace MOROPO.FCBC.SGI.Models.View
                 return model;
             }).ToArray();
             Awards = entity.Awards;
-
+            ServiceWorkAssessmentBridges = entity.WorkAssessmentBridges;
             Line.Import(entity.Line);
         }
     }

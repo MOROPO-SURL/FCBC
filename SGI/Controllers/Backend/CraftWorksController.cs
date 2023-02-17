@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
@@ -34,8 +35,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository;
         private readonly IEntityRepository<Thematic, Guid> thematicRepository;
+        private readonly IEntityRepository<Critic, Guid> criticRepository;
 
-        public CraftWorksController(IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
+        public CraftWorksController(IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
             IEntityRepository<CraftWork, System.Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
@@ -50,6 +52,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
             this.thematicRepository = thematicRepository;
+            this.criticRepository = criticRepository;
         }
 
         [RequirePermissions(Permission.CraftWorkViewer)]
@@ -1069,5 +1072,147 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         #endregion
+
+        #region Criterion
+        [Route("edit/{key}/EditWorkCriterion")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult EditWorkCriterion(System.Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var resultModel = new CraftWorkCriterionManageViewModel
+                {
+                    WorkDisplay = new CraftWorkDisplayViewModel()
+                };
+                PopulateCritics(resultModel);
+                resultModel.WorkDisplay.Import(entity);
+
+                return View(resultModel);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("edit/Criterion/add")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddWorkCriterion(CraftWorkCriterionManageViewModel modelInput)
+        {
+            CraftWork entity = null;
+            Critic critic = null;
+            try
+            {
+                entity = Repository.Get(modelInput.WorkDisplay.Id);
+                critic = criticRepository.Get(modelInput.CriticId);
+
+                modelInput.WorkDisplay.Import(entity);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                entity.WorkAssessmentBridges.Add(new CraftWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
+        }
+
+        [Route("edit/Criterion/delete")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteWorkCriterion(WorkCriterionDisplayViewModel modelDisplay)
+        {
+            CraftWork entity = null;
+            try
+            {
+                entity = Repository.Get(modelDisplay.WorkId);
+
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var workCriterion = entity.WorkAssessmentBridges.First(a => a.WorkId == modelDisplay.WorkId && a.CriticId == modelDisplay.CriticId);
+                entity.WorkAssessmentBridges.Remove(workCriterion);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
+        }
+
+        #endregion
+
+        private void PopulateCritics(CraftWorkCriterionManageViewModel modelInput)
+        {
+            var awads = criticRepository.GetAll();
+
+            if (awads.Count() > 0)
+            {
+                modelInput.SelectCritics = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName }).ToArray();
+            }
+        }
     }
 }

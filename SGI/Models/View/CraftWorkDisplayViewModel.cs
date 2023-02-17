@@ -1,5 +1,6 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -40,6 +41,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public CraftTechniqueDisplayViewModel[] Techniques { get; set; }
 
         public System.Collections.Generic.ICollection<CraftWorkAward> Awards { get; set; }
+        public ICollection<CraftWorkAssessmentBridge> CraftWorkAssessmentBridges { get; set; }
 
         public void Import(CraftWork entity)
         {
@@ -65,7 +67,7 @@ namespace MOROPO.FCBC.SGI.Models.View
                 return model;
             }).ToArray();
             Awards = entity.Awards;
-
+            CraftWorkAssessmentBridges = entity.WorkAssessmentBridges;
             Manifestation.Import(entity.Manifestation);
         }
     }
