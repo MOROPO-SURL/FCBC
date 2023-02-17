@@ -214,25 +214,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private void PopulateManifestations(ArtWorkFilterModel filter)
         {
             var artManifestations = manifestationRepository.GetAll();
-            var artManifestationGroupsList = artManifestations.Select(c => c.Group).Distinct();
 
-            foreach (var item in artManifestationGroupsList)
+            foreach (var artManifestation in artManifestations)
             {
-                var artManifestationsGroup = new SelectListGroup { Name = "-" };
-                if (item != null)
-                {
-                    artManifestationsGroup = new SelectListGroup { Name = item.Name };
-                }
-
-                foreach (var artManifestation in artManifestations)
-                {
-                    if (item == artManifestation.Group)
-                    {
-                        filter.Manifestation.Add(new SelectListItem { Value = artManifestation.Id.ToString(), Text = artManifestation.Name, Group = artManifestationsGroup });
-                    }
-
-                }
-
+                filter.Manifestation.Add(new SelectListItem { Value = artManifestation.Id.ToString(), Text = artManifestation.Name });
             }
         }
 
@@ -752,12 +737,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                         {
                             model.File.CopyTo(memoryStream);
 
-                            var attachment = new ArtWorkAttachment 
+                            var attachment = new ArtWorkAttachment
                             {
                                 Name = model.Name,
                                 IsPublic = model.IsPublic,
                                 Description = model.Description,
-                                ContentType = model.File.ContentType, 
+                                ContentType = model.File.ContentType,
                                 Length = model.File.Length,
                                 WorkId = entity.Id
                             };
@@ -828,24 +813,24 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             return GetSuccessDeleteActionResult();
         }
-        
+
 
         [HttpPost]
         [Route("edit/{key}/{attachmentId}/attachments/download")]
         [ValidateAntiForgeryToken]
         [RequirePermissions(Permission.ArtWorkEditor)]
-        public FileResult DownloadAttachment( System.Guid key,System.Guid attachmentId)
+        public FileResult DownloadAttachment(System.Guid key, System.Guid attachmentId)
         {
-          
-                var entity = Repository.Get(key);
-                var attachment = entity.Attachments.FirstOrDefault(att => att.Id == attachmentId);
 
-                var fileBytes = attachmentFileManager.GetFileContent(attachment);
-                var extension = attachment.ContentType.Split('/');
-                var fileName = attachment.Name + "." + extension[1];
+            var entity = Repository.Get(key);
+            var attachment = entity.Attachments.FirstOrDefault(att => att.Id == attachmentId);
 
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-                    
+            var fileBytes = attachmentFileManager.GetFileContent(attachment);
+            var extension = attachment.ContentType.Split('/');
+            var fileName = attachment.Name + "." + extension[1];
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
         }
 
         [HttpPost]
@@ -929,7 +914,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 entity = Repository.Get(modelInput.ArtWorkDisplay.Id);
                 award = awardRepository.Get(modelInput.AwardId);
 
-                modelInput.ArtWorkDisplay.Import(entity);                
+                modelInput.ArtWorkDisplay.Import(entity);
             }
             catch { }
 
@@ -1048,7 +1033,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Selected = entity.ThematicBridges.Any(bridge => bridge.ThematicId == item.Id),
                     Description = item.Description
                 }).ToArray(),
-                
+
                 Work = new ArtWorkDisplayViewModel()
             };
 
@@ -1089,7 +1074,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     WorkId = entity.Id,
                     ThematicId = item.Id
                 });
-            }            
+            }
 
             Repository.Update(entity, User.Identity.Name);
 

@@ -201,25 +201,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private void PopulateManifestations(DesignWorkFilterModel filter)
         {
             var designManifestations = manifestationRepository.GetAll();
-            var designManifestationGroupsList = designManifestations.Select(c => c.Group).Distinct();
 
-            foreach (var item in designManifestationGroupsList)
+            foreach (var designManifestation in designManifestations)
             {
-                var designManifestationsGroup = new SelectListGroup { Name = "-" };
-                if (item != null)
-                {
-                    designManifestationsGroup = new SelectListGroup { Name = item.Name };
-                }
-
-                foreach (var designManifestation in designManifestations)
-                {
-                    if (item == designManifestation.Group)
-                    {
-                        filter.Manifestation.Add(new SelectListItem { Value = designManifestation.Id.ToString(), Text = designManifestation.Name, Group = designManifestationsGroup });
-                    }
-
-                }
-
+                filter.Manifestation.Add(new SelectListItem { Value = designManifestation.Id.ToString(), Text = designManifestation.Name });
             }
         }
 
@@ -747,8 +732,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequirePermissions(Permission.DesignWorkEditor)]
         public ActionResult EditElaboration(System.Guid key)
         {
-            var entity = Repository.Get(key);   
-            
+            var entity = Repository.Get(key);
+
             var model = new DesignWorkElaborationInputViewModel
             {
                 TechniqueSelectors = techniqueRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<System.Guid>
