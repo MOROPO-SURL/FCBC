@@ -473,6 +473,29 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artistartisticmanifestationbridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistAssessmentBridge", b =>
+                {
+                    b.Property<Guid>("ArtistId")
+                        .HasColumnName("artistid");
+
+                    b.Property<Guid>("CriticId")
+                        .HasColumnName("criticid");
+
+                    b.Property<string>("Criterion")
+                        .HasColumnName("criterion");
+
+                    b.Property<DateTime>("DateOfAssessment")
+                        .HasColumnName("dateofassessment");
+
+                    b.HasKey("ArtistId", "CriticId")
+                        .HasName("pk_artistassessmentbridges");
+
+                    b.HasIndex("CriticId")
+                        .HasName("ix_artistassessmentbridges_criticid");
+
+                    b.ToTable("artistassessmentbridges");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistAssociationLock", b =>
                 {
                     b.Property<Guid>("ArtistId")
@@ -3160,6 +3183,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("ManifestationId")
                         .HasConstraintName("fk_artistartisticmanifestationbridges_artisticmanifestations_m~")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistAssessmentBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Artist", "Artist")
+                        .WithMany("ArtistAssessmentBridges")
+                        .HasForeignKey("ArtistId")
+                        .HasConstraintName("fk_artistassessmentbridges_artists_artistid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Critic", "Critic")
+                        .WithMany()
+                        .HasForeignKey("CriticId")
+                        .HasConstraintName("fk_artistassessmentbridges_critics_criticid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -151,5 +151,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ActivityKind> ActivityKinds { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Agreement> Agreements { get; set; }
+        public DbSet<ArtistAssessmentBridge> ArtistAssessmentBridges { get; set; }
     }
 }
