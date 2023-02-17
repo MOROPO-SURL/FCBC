@@ -14,13 +14,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using System.Collections.Generic;
 using System;
+using MOROPO.FCBC.SGI.Models.Filter;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
     [RequirePermissions(SAPRESSC.Core.Security.Common.Web.Backend.Constants.Permission.ShellManager)]
     [Area("works")]
-    public class DesignWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementController<DesignWork, System.Guid, DesignWorkInputViewModel, DesignWorkDisplayViewModel>
+    public class DesignWorksController : SAPRESSC.Core.Web.Backend.Controllers.AbstractEntityManagementFilteredController<DesignWork, System.Guid, DesignWorkInputViewModel, DesignWorkDisplayViewModel, DesignWorkFilterModel>
     {
 
         private readonly IEntityRepository<DesignManifestation, System.Guid> manifestationRepository;
@@ -56,6 +57,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         public IActionResult Index()
         {
             return View();
+        }
+
+        [RequirePermissions(Permission.DesignWorkViewer)]
+        public override IActionResult Filter(DesignWorkFilterModel filterModel)
+        {
+            return base.Filter(filterModel);
+        }
+
+        [RequirePermissions(Permission.DesignWorkViewer)]
+        protected override DesignWorkFilterModel GetFilterModel()
+        {
+            var filterModel = base.GetFilterModel();
+
+            if (filterModel == null)
+            {
+                filterModel = new DesignWorkFilterModel();
+            }
+
+            filterModel.Manifestation = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            filterModel.Author = new List<SelectListItem>
+            {
+                new SelectListItem("Cualquiera", "0")
+            };
+
+            PopulateManifestations(filterModel);
+            PopulateDropDownAuthorWithCreatorsAndCreationGroup(filterModel);
+
+            return filterModel;
+        }
+
+        protected override string GetFilterSessionID()
+        {
+            return "Design-work-management-filter";
         }
 
         [RequirePermissions(Permission.DesignWorkCreator)]
@@ -158,6 +196,48 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 Text = entity.Name,
                 Value = entity.Id.ToString()
             }).ToList();
+        }
+
+        private void PopulateManifestations(DesignWorkFilterModel filter)
+        {
+            var designManifestations = manifestationRepository.GetAll();
+            var designManifestationGroupsList = designManifestations.Select(c => c.Group).Distinct();
+
+            foreach (var item in designManifestationGroupsList)
+            {
+                var designManifestationsGroup = new SelectListGroup { Name = "-" };
+                if (item != null)
+                {
+                    designManifestationsGroup = new SelectListGroup { Name = item.Name };
+                }
+
+                foreach (var designManifestation in designManifestations)
+                {
+                    if (item == designManifestation.Group)
+                    {
+                        filter.Manifestation.Add(new SelectListItem { Value = designManifestation.Id.ToString(), Text = designManifestation.Name, Group = designManifestationsGroup });
+                    }
+
+                }
+
+            }
+        }
+
+        private void PopulateDropDownAuthorWithCreatorsAndCreationGroup(DesignWorkFilterModel filter)
+        {
+            var creators = creatorRepository.GetAll();
+            var creationGroups = creationGroupRepository.GetAll();
+            var creatorsGroup = new SelectListGroup { Name = "Creadores" };
+            var creationGroupsGroup = new SelectListGroup { Name = "Grupos de Ceación" };
+
+            foreach (var creator in creators)
+            {
+                filter.Author.Add(new SelectListItem { Value = creator.Id.ToString(), Text = creator.Identity.Name, Group = creatorsGroup });
+            }
+            foreach (var creationGroup in creationGroups)
+            {
+                filter.Author.Add(new SelectListItem { Value = creationGroup.Id.ToString(), Text = creationGroup.Identity.Name, Group = creationGroupsGroup });
+            }
         }
 
         #region Authors
@@ -430,7 +510,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                         {
                             imageFile.CopyTo(memoryStream);
 
-                            var image = new Image { ContentType = imageFile.ContentType, Length = imageFile.Length, About = "For CraftWork " + entity.Id };
+                            var image = new Image { ContentType = imageFile.ContentType, Length = imageFile.Length, About = "For DesignWork " + entity.Id };
 
                             imageFileManager.SaveImageFileContent(image.Id, memoryStream.ToArray(), imageFile.ContentType);
 
