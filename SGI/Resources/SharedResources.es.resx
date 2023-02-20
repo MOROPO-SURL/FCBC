@@ -1893,4 +1893,31 @@
   <data name="Day of Criterion" xml:space="preserve">
     <value>Fecha del Criterio</value>
   </data>
+  <data name="agreement-creator" xml:space="preserve">
+    <value>Agregar Acuerdo del CA</value>
+  </data>
+  <data name="agreement-creator-description" xml:space="preserve">
+    <value>Usuario que puede adicionar acuerdo del CA</value>
+  </data>
+  <data name="agreement-editor" xml:space="preserve">
+    <value>Modificar Acuerdo del CA</value>
+  </data>
+  <data name="agreement-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar acuerdo del CA</value>
+  </data>
+  <data name="agreement-management" xml:space="preserve">
+    <value>Gestionar Acuerdos del CA</value>
+  </data>
+  <data name="agreement-remover" xml:space="preserve">
+    <value>Eliminar Acuerdo del CA</value>
+  </data>
+  <data name="agreement-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar acuerdo del CA</value>
+  </data>
+  <data name="agreement-viewer" xml:space="preserve">
+    <value>Visualizar Acuerdos del CA</value>
+  </data>
+  <data name="agreement-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar acuerdos del CA</value>
+  </data>
 </root>
