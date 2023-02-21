@@ -33,6 +33,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<PhoneContactItem> PhoneContactItems { get; set; }
 
+        [Display(Name = "Brand")]
+        public string Brand { get; set; }
+
         public void Import(Contractor entity)
         {
             Id = entity.Id;
@@ -45,6 +48,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             PostalContactItem = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem).FirstOrDefault();
             EmailContactItems = entity.Identity.OrganizationEmailContactItemBridges.Select(e => e.ContactItem).ToArray();
             PhoneContactItems = entity.Identity.OrganizationPhoneContactItemBridges.Select(p => p.ContactItem).ToArray();
+            Brand = entity.Brand;
         }
     }
 }

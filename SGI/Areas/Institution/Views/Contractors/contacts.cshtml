@@ -50,55 +50,140 @@
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
                     <div class="card">
-                    @if (Model.Contractor.ImageId != System.Guid.Empty)
-                    {
-                        <img class="img-thumbnail" src="~/media/images/@Model.Contractor.ImageId.@Model.Contractor.ImageExtension" />
-                    }
-                    else
-                    {
-                        <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
-                    }
+                        @if (Model.Contractor.ImageId != System.Guid.Empty)
+                        {
+                            <img class="img-thumbnail" src="~/media/images/@Model.Contractor.ImageId.@Model.Contractor.ImageExtension" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                        }
 
-                    <div class="col-lg-10 col-md-9 col-sm-9">
-                        <dl style="margin-bottom: 0;">
-                            <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
-                            <dd>@Model.Contractor.OrganizationIdentityName</dd>
-                        </dl>
+                        <div class="col-lg-10 col-md-9 col-sm-9">
+                            <dl style="margin-bottom: 0;">
+                                <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
+                                <dd>@Model.Contractor.OrganizationIdentityName</dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6" style="margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="page-header">
+                        <h4>Teléfonos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
+
+
+                    @await Html.PartialAsync("AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.ContractorPhoneContactInputViewModel
+                    {
+                    ContractorId = Model.Contractor.Id
+                    })
+
+                    <table class="table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>@GlobalViewLocalizationHelper.Localize("Number")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PhoneContacts.Count > 0)
+                            {
+                                @foreach (var item in Model.PhoneContacts)
+                                {
+                                    <tr>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Number")">@item.Number</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                        <td style="vertical-align: middle;">
+                                            <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-phonecontact-@item.Id">Eliminar</a>
+                                            @await Html.PartialAsync("DeletePhoneContactPartial", item)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="page-header">
+                        <h4>Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
+                    @await Html.PartialAsync("AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.ContractorEmailContactInputViewModel
+                    {
+                    ContractorId = Model.Contractor.Id
+                    })
+                    <table class="table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>@GlobalViewLocalizationHelper.Localize("Email")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.EmailContacts.Count > 0)
+                            {
+                                @foreach (var item in Model.EmailContacts)
+                                {
+                                    <tr>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Email")">@item.Address</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                        <td style="vertical-align: middle;">
+                                            <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-emailcontact-@item.Id">Eliminar</a>
+                                            @await Html.PartialAsync("DeleteEmailContactPartial", item)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="margin-bottom: 20px;">
                 <div class="page-header">
-                    <h4>Teléfonos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    <h4>Redes Sociales<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-socialcontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                 </div>
 
-
-                @await Html.PartialAsync("AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.ContractorPhoneContactInputViewModel
+                @await Html.PartialAsync("_AddSocialContactPartial", new MOROPO.FCBC.SGI.Models.View.ContractorSocialContactInputViewModel
                 {
-                ContractorId = Model.Contractor.Id
+                    ContractorId = Model.Contractor.Id
                 })
 
                 <table class="table" style="margin: 0;">
                     <thead>
                         <tr>
-                            <th>@GlobalViewLocalizationHelper.Localize("Number")</th>
+                            <th>@GlobalViewLocalizationHelper.Localize("Icon")</th>
+                            <th>@GlobalViewLocalizationHelper.Localize("SocialMedia")</th>
                             <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
                             <th style="width: 1px; white-space: nowrap;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.PhoneContacts.Count > 0)
+                        @if (Model.SocialContacts.Count > 0)
                         {
-                            @foreach (var item in Model.PhoneContacts)
+                            @foreach (var item in Model.SocialContacts)
                             {
                                 <tr>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Number")">@item.Number</td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Icon")">@item.Icon</td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("SocialMedia")"><a href="@item.SocialId" target="_blank">@item.SocialId</a></td>
                                     <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
                                     <td style="vertical-align: middle;">
-                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-phonecontact-@item.Id">Eliminar</a>
-                                        @await Html.PartialAsync("DeletePhoneContactPartial", item)
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-socialcontact-@item.Id">Eliminar</a>
+                                        @await Html.PartialAsync("_DeleteSocialContactPartial", item)
                                     </td>
                                 </tr>
                             }
@@ -112,52 +197,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6" style="margin-bottom: 20px;">
-                <div class="page-header">
-                    <h4>Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
-                </div>
-                @await Html.PartialAsync("AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.ContractorEmailContactInputViewModel
-                {
-                ContractorId = Model.Contractor.Id
-                })
-                <table class="table" style="margin: 0;">
-                    <thead>
-                        <tr>
-                            <th>@GlobalViewLocalizationHelper.Localize("Email")</th>
-                            <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
-                            <th style="width: 1px; white-space: nowrap;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.EmailContacts.Count > 0)
-                        {
-                            @foreach (var item in Model.EmailContacts)
-                            {
-                                <tr>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Email")">@item.Address</td>
-                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
-                                    <td style="vertical-align: middle;">
-                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-emailcontact-@item.Id">Eliminar</a>
-                                        @await Html.PartialAsync("DeleteEmailContactPartial", item)
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
         </div>
-
+        <div class="card-footer">
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
     </div>
-    <div class="card-footer">
-        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
-    </div>
-</div>
 
 

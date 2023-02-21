@@ -140,7 +140,7 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-lg-9 col-md-6 col-sm-8" style="margin-bottom: 20px;">
+                <div class="col-md-6 col-sm-8" style="margin-bottom: 20px;">
                     <div style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.OrganizationIdentityName, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.OrganizationIdentityName, new { @class = "form-control" })
@@ -156,6 +156,11 @@
                             @Html.LabelFor(model => model.BornDate, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.BornDate, new { @class = "form-control", @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.BornDate, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.Brand, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Brand, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Brand, null, new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
