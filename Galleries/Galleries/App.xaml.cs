@@ -6,7 +6,7 @@
         {
             InitializeComponent();
 
-            MainPage = new Pages.MainPage();
+            MainPage = new Pages.VirtualGalleryRoomPage();
         }
 
         protected override void OnStart()

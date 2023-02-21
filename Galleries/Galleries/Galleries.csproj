@@ -12,8 +12,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Materials\Stone.xml" />
+    <None Remove="Assets\Models\Box.mdl" />
+    <None Remove="Assets\Textures\StoneDiffuse.dds" />
+    <None Remove="Assets\Textures\StoneNormal.dds" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Materials\Stone.xml" />
+    <Content Include="Assets\Models\Box.mdl" />
+    <Content Include="Assets\Textures\StoneDiffuse.dds" />
+    <Content Include="Assets\Textures\StoneNormal.dds" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="UrhoSharp.Forms" Version="1.9.67" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Pages\VirtualGalleryRoomPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
