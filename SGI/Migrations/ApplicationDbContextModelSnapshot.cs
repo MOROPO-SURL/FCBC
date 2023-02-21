@@ -816,6 +816,12 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<string>("Brand")
+                        .HasColumnName("brand");
+
+                    b.Property<Guid?>("BrandImageId")
+                        .HasColumnName("brandimageid");
+
                     b.Property<int>("ContractorKindId")
                         .HasColumnName("contractorkindid");
 
@@ -824,6 +830,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_contractors");
+
+                    b.HasIndex("BrandImageId")
+                        .HasName("ix_contractors_brandimageid");
 
                     b.HasIndex("ContractorKindId")
                         .HasName("ix_contractors_contractorkindid");
@@ -3496,6 +3505,11 @@ namespace MOROPO.FCBC.SGI.Migrations
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", b =>
                 {
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities.Image", "BrandImage")
+                        .WithMany()
+                        .HasForeignKey("BrandImageId")
+                        .HasConstraintName("fk_contractors_images_brandimageid");
+
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ContractorKind", "ContractorKind")
                         .WithMany()
                         .HasForeignKey("ContractorKindId")

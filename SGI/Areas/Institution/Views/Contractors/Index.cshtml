@@ -133,33 +133,40 @@
         </div>
     }
 
-    <div class="d-block d-sm-none">
-        @foreach (var item in Model.List)
-        {
-            <div class="card border-primary mb-2">
-                <div class="card-body text-justify">
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Organización:
-                        </span>
-                        @item.OrganizationIdentityName
+    @foreach (var item in Model.List)
+    {
+        <div class="card border-primary mb-2 d-block d-sm-none">
+            <div class="card-body text-justify">
+                <div class="mb-2">
+                    <span class="font-weight-bold">
+                        Organización:
+                    </span>
+                    @item.OrganizationIdentityName
+                </div>
+                <div class="mb-2">
+                    <span class="font-weight-bold">
+                        Tipo De Contrato:
+                    </span>
+                    @item.ContractKindName
+                </div>
+                <div class="mb-2">
+                    <span class="font-weight-bold">
+                        Marca o Sello:
+                    </span>
+                    @item.Brand
+                </div>
+                <div>
+                    <div class="btn-group btn-group-sm float-right">
+                        <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                        <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                        <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                     </div>
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Tipo De Contrato:
-                        </span>
-                        @item.ContractKindName
-                    </div>
-                    <div>
-                        <div class="btn-group btn-group-sm float-right">
-                            <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
-                            <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
-                        </div>
-                    </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+        await Html.RenderPartialAsync("_DetailPartial", @item);
+    }
 
     <div class="d-none d-sm-block" style="border: 1px solid #DDD; border-radius: 4px;">
         <table class="table" style="margin: 0;">
@@ -167,6 +174,7 @@
                 <tr>
                     <th>Organización</th>
                     <th>Tipo De Contrato</th>
+                    <th>Marca o Sello</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
@@ -175,10 +183,11 @@
                 {
                     <tr>
                         <td style="vertical-align: middle;" title="Contratista ">@item.OrganizationIdentityName</td>
-                        <td style="vertical-align: middle;" title="Contratista ">@item.ContractKindName
-                        </td>
+                        <td style="vertical-align: middle;" title="Contratista ">@item.ContractKindName</td>
+                        <td style="vertical-align: middle;" title="brand">@item.Brand</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
@@ -294,6 +303,7 @@ else
                 <tr>
                     <th>Organización</th>
                     <th>Tipo de Contrato</th>
+                    <th>Marca o Sello</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>

@@ -19,5 +19,10 @@
         public ContractorKind ContractorKind { get; set; }
         public int ContractorKindId { get; set; }
 
+        public string Brand { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("BrandImageId")]
+        public SAPRESSC.Middleware.Media.Persistence.Entities.Image BrandImage { get; set; }
+        public System.Guid? BrandImageId { get; set; }
     }
 }

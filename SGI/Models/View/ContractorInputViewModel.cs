@@ -55,6 +55,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Municipalities { get; set; }
 
+        [Display(Name = "Brand")]
+        public string Brand { get; set; }
 
         public ContractorInputViewModel()
         {
@@ -82,6 +84,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).FirstOrDefault();
             var region = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
             MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
+            Brand = entity.Brand;
         }
 
         public void Mergue(Contractor entity)
@@ -89,6 +92,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.Identity.Name = OrganizationIdentityName;
             entity.Identity.BornDate = BornDate;
             entity.Identity.About = About;
+            entity.Brand = Brand;
         }
     }
 }
