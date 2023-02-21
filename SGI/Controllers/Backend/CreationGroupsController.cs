@@ -20,6 +20,7 @@ using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
 using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using MOROPO.FCBC.SGI.RegionConst;
+using Microsoft.EntityFrameworkCore;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -213,19 +214,31 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             modelInput.States = stateRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Name == RegionInitConstant.CMG_STATE_NAME }).OrderByDescending(en => en.Selected).ToArray();
 
             modelInput.Municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == RegionInitConstant.MY_OWN_SATE).Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();
+            //modelInput.States = stateRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name }).ToArray();            
+        }
+
+        private void PopulateWithCountriesEdit(CreationGroupInputViewModel modelInput)
+        {           
+            modelInput.StateId = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId).StateId;
+
+            modelInput.Municipalities = municipalityRepository.GetAll().Where(s => s.StateId == modelInput.StateId).Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.MunicipalityId }).ToArray();
+
+            modelInput.States = stateRepository.GetAll().Select(entity => new SelectListItem { Value = entity.Id.ToString(), Text = entity.Name, Selected = entity.Id == modelInput.StateId }).ToArray();
         }
 
 
-        protected override void PreCreate(CreationGroup entity, CreationGroupInputViewModel modelInput)
+        protected override async void PreCreate(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
-            
+
 
             // TODO En ocasiones queda null, hay que buscar inicailizar las regiones en este punto
-            var region = municipalityRegionRepository.FindOneBy(r => r.MunicipalityId == modelInput.MunicipalityId);
+            var regions = municipalityRegionRepository.GetAll();
+            var region = await regions.FirstOrDefaultAsync(b => b.MunicipalityId == modelInput.MunicipalityId);
+            
 
             var postalContact = new PostalContactItem
             {
-                Address = "",
+                Address = modelInput.AddressPostal,
                 RegionId = region.Id,
                 Region = region
             };
@@ -271,8 +284,22 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             base.PreEdit(entity, modelInput);
 
-            entity.Agreement = agreementRepository.Get(modelInput.AgreementId.Value);
-            entity.AgreementId = modelInput.AgreementId;
+            var contact = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem;
+
+            contact.Address = modelInput.AddressPostal;
+
+            var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == modelInput.MunicipalityId);
+
+            var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == modelInput.MunicipalityId);
+
+            modelInput.StateId = municipality.StateId;
+
+            if (region.Id != entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
+            {
+                entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
+                entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId = region.Id;
+
+            }
 
             if (modelInput.ImageFile == null)
             {
@@ -302,7 +329,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 imageFileManagerFacade.SaveImageFileContent(image.Id, memoryStream.ToArray(), modelInput.ImageFile.ContentType);
 
                 entity.Identity.Image = image;
-            }
+            }            
+           
         }
 
         protected override void ConfigureCreate(CreationGroupInputViewModel modelInput)
@@ -318,7 +346,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.ConfigureEdit(entity, modelInput);
 
             PopulateAvailableResolutions(modelInput);
-            PopulateWithCountries(modelInput);
+            PopulateWithCountriesEdit(modelInput);
         }
 
         protected override void ConfigurePostFailCreateValidation(CreationGroupInputViewModel modelInput)
@@ -334,7 +362,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             base.ConfigurePostFailEditValidation(modelInput);
 
             PopulateAvailableResolutions(modelInput);
-            PopulateWithCountries(modelInput);
+            PopulateWithCountriesEdit(modelInput);
         }
 
         protected override void PostDelete(CreationGroup entity)

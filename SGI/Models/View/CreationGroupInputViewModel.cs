@@ -66,6 +66,10 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public Municipality Municipality { get; set; }
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Address")]
+        public string AddressPostal { get; set; }
+
         public ICollection<SelectListItem> States { get; set; } = new List<SelectListItem>();
         public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
 
@@ -90,9 +94,9 @@ namespace MOROPO.FCBC.SGI.Models.View
             RegistrationNumber = entity.RegistrationNumber;
             RegistratedAt = entity.RegistratedAt;
             RegistrationEndAt = entity.RegistrationEndAt;
-            AgreementId = entity.AgreementId;
-            var region = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
-            MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;
+            AgreementId = entity.AgreementId;            
+            MunicipalityId = ((MunicipalityRegion)entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region).Municipality.Id;            
+            AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
         }
 
         public void Mergue(CreationGroup entity)
@@ -104,11 +108,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.RegistratedAt = RegistratedAt;
             entity.RegistrationEndAt = RegistrationEndAt;
             entity.Identity.BornDate = CreatedAt;
+            entity.AgreementId = AgreementId;   
         }
-
-        //public string GetExtension(Artist artist)
-        //{
-        //    return artist.Identity.Image.ContentType.ContentTypeToExtension();
-        //}
+       
     }
 }
