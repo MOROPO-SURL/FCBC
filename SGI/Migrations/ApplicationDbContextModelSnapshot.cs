@@ -844,6 +844,41 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("contractors");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ContractorAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contenttype");
+
+                    b.Property<Guid>("ContractorId")
+                        .HasColumnName("contractorid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("ispublic");
+
+                    b.Property<long>("Length")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_contractorattachments");
+
+                    b.HasIndex("ContractorId")
+                        .HasName("ix_contractorattachments_contractorid");
+
+                    b.ToTable("contractorattachments");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ContractorKind", b =>
                 {
                     b.Property<int>("Id")
@@ -3520,6 +3555,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", "IdentityId")
                         .HasConstraintName("fk_contractors_organizationidentities_identityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ContractorAttachment", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", "Contractor")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ContractorId")
+                        .HasConstraintName("fk_contractorattachments_contractors_contractorid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

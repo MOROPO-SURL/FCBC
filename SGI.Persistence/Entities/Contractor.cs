@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
+﻿using System.Collections.Generic;
+
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class Contractor : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
@@ -6,6 +8,7 @@
         {
             Id = System.Guid.NewGuid();
             Identity = new SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity();
+            Attachments = new List<ContractorAttachment>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -24,5 +27,7 @@
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("BrandImageId")]
         public SAPRESSC.Middleware.Media.Persistence.Entities.Image BrandImage { get; set; }
         public System.Guid? BrandImageId { get; set; }
+
+        public ICollection<ContractorAttachment> Attachments { get; set; }
     }
 }
