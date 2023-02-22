@@ -134,11 +134,14 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+    <PackageReference Include="UrhoSharp">
+      <Version>1.9.67</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Galleries\Galleries.csproj">
-      <Project>{9EA94C4B-EA43-49B6-ABD7-36A9413CD1EE}</Project>
+      <Project>{F6DC946D-3E89-4E50-97BD-87D0F0FF4163}</Project>
       <Name>Galleries</Name>
     </ProjectReference>
   </ItemGroup>
