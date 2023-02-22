@@ -7,6 +7,7 @@ using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
+using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
@@ -32,7 +33,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<State, Guid> stateRepository;
         private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
-        public ContractorsController(IEntityRepository<Contractor, Guid> repository, IStringLocalizer<ContractorsController> localizer, ILogger<ContractorsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IEntityRepository<ContractorKind, int> contractKindRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository,
+        private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
+        private readonly IEntityRepository<ContractorAttachment, System.Guid> attachmentRepository;
+
+        public ContractorsController(IEntityRepository<ContractorAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Contractor, Guid> repository, IStringLocalizer<ContractorsController> localizer, ILogger<ContractorsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IEntityRepository<ContractorKind, int> contractKindRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository,
              IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
@@ -42,6 +46,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.municipalityRegionRepository = municipalityRegionRepository;
             this.stateRepository = stateRepository;
             this.municipalityRepository = municipalityRepository;
+            this.attachmentFileManager = attachmentFileManager;
+            this.attachmentRepository = attachmentRepository;
         }
 
         [RequirePermissions(Permission.ContractorViewer)]
@@ -610,5 +616,193 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-cloud-question\"></span>");
             }
         }
+
+        #region Attachments
+
+        [HttpGet]
+        [Route("edit/{key}/attachments")]
+        [RequirePermissions(Permission.ContractorEditor)]
+        public ActionResult EditAttachments(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ContractorAttachmentsDisplayViewModel
+            {
+                ContractorDisplay = new ContractorDisplayViewModel(),
+                Attachments = entity.Attachments.Select(item =>
+                {
+                    var result = new AttachmentDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.ContractorDisplay.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ContractorEditor)]
+        public IActionResult AddAttachment(System.Guid key, AttachmentInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var attachment = new ContractorAttachment
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                ContractorId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(attachment.Id, memoryStream.ToArray(), attachment.ContentType);
+
+                            attachmentRepository.Add(attachment, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("editattachments", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ContractorEditor)]
+        public IActionResult DeleteAttachment(System.Guid key, System.Guid attachmentId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var attachment = entity.Attachments.First(e => e.Id == attachmentId);
+
+                attachmentRepository.Delete(attachment, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(attachment);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("editattachments", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("editattachments", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/attachments/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ContractorEditor)]
+        public IActionResult EditAttachment(System.Guid key, AttachmentInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ContractorAttachment val = attachmentRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        attachmentRepository.Update(val, base.User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("editattachments", new { key });
+                    }
+                    catch (Exception ex2)
+                    {
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("editattachments", new { key });
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/{attachmentId}/attachments/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ContractorEditor)]
+        public FileResult DownloadAttachment(System.Guid key, System.Guid attachmentId)
+        {
+
+            var entity = Repository.Get(key);
+            var attachment = entity.Attachments.FirstOrDefault(att => att.Id == attachmentId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(attachment);
+            var extension = attachment.ContentType.Split('/');
+            var fileName = attachment.Name + "." + extension[1];
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+        }
+
+        #endregion
+
     }
 }

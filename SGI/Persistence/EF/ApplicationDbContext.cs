@@ -157,5 +157,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<CraftWorkAssessmentBridge> CraftWorkAssessmentBridges { get; set; }
         public DbSet<DesignWorkAssessmentBridge> DesignWorkAssessmentBridges { get; set; }
         public DbSet<ServiceWorkAssessmentBridge> ServiceWorkAssessmentBridges { get; set; }
+        public DbSet<ContractorAttachment> ContractorAttachments { get; set; }
     }
 }
