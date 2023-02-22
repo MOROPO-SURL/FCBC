@@ -24,7 +24,7 @@
             }
 
             Input.Enabled = true;
-            Input.KeyDown += Input_KeyDown; ;
+            Input.KeyDown += Input_KeyDown;
 
             #endregion
 
@@ -64,17 +64,15 @@
                 
                 if (state.TouchedElement != null) continue;
 
-                if (state.Delta.X != 0 || state.Delta.Y != 0)
+                if (!state.Delta.IsEmpty)
                 {
                     var camera = cameraNode.GetComponent<Urho.Camera>();
                     
                     if (camera == null) return;
 
-                    var graphics = Graphics;
+                    yaw += TOUCH_SENSITIVITY * camera.Fov / Graphics.Height * state.Delta.X;
                     
-                    yaw += TOUCH_SENSITIVITY * camera.Fov / graphics.Height * state.Delta.X;
-                    
-                    pitch += TOUCH_SENSITIVITY * camera.Fov / graphics.Height * state.Delta.Y;
+                    pitch += TOUCH_SENSITIVITY * camera.Fov / Graphics.Height * state.Delta.Y;
                     
                     cameraNode.Rotation = new Urho.Quaternion(pitch, yaw, 0);
                 }
