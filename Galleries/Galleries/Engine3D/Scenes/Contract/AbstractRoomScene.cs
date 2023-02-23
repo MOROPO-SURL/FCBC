@@ -12,5 +12,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes.Contract
         }
 
         public abstract Camera MainCamera { get; }
+
+        public abstract void SceneInput_TouchEnd(TouchEndEventArgs eventArgs);
     }
 }

@@ -6,6 +6,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
     {
 		private const float FLOOR_TILE_SIZE = 40.0f;
 		private const float FLOOR_TILE_SPACING = 0.25f;
+		private const float WALL_WEIGTH = 4f;
 
 		private Node mainCameraNode;
 		private Camera mainCamera;
@@ -31,24 +32,42 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			// Pictures
 			var pictureFrameNode = CreateChild("PictureFrame");
 
-			pictureFrameNode.Position = new Vector3(0.0f, 40.0f, -5f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
-			pictureFrameNode.Scale = new Vector3(81.0f, 66.0f, 5.5f);
+			pictureFrameNode.Position = new Vector3(0.0f, 40.0f, AbsoluteWallDistance - 0.5f);
+			pictureFrameNode.Scale = new Vector3(80.0f, 36.0f, 1.0f);
 			
 			var boxObject = pictureFrameNode.CreateComponent<StaticModel>();
 			
 			boxObject.Model = CoreAssets.Models.Box;
-			boxObject.Material = Material.FromColor(Color.White);
+			boxObject.Material = Material.FromColor(Color.Red);
 
 			// Camera
 			mainCameraNode = CreateChild(name: "camera");
 
-			mainCameraNode.Position = new Vector3(0.0f, 50.0f, 0.0f);
-			//cameraNode.Rotation = new Urho.Quaternion(-0.121f, 0.878f, -0.305f, -0.35f);
+			mainCameraNode.Position = new Vector3(0.0f, 60.0f, 0.0f);
 
 			mainCamera = mainCameraNode.CreateComponent<Camera>();
 		}
 
+		private float AbsoluteWallDistance => 5.5f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING);
+
         public override Camera MainCamera => mainCamera;
+
+        public override void SceneInput_TouchEnd(TouchEndEventArgs eventArgs)
+        {
+            var cameraRay = mainCamera.GetScreenRay((float)eventArgs.X / Application.Current.Graphics.Width, (float)eventArgs.Y / Application.Current.Graphics.Height);
+
+			var result = octree.RaycastSingle(cameraRay);
+
+			if (result != null)
+            {
+                var movementFloorTile = result.Value.Drawable as MovementFloorTile;
+
+				if (movementFloorTile != null)
+                {
+					mainCameraNode.Position = new Vector3(movementFloorTile.Node.Position.X, mainCameraNode.Position.Y, movementFloorTile.Node.Position.Z);
+                }
+            }
+        }
 
         private void SetupLights()
         {
@@ -84,18 +103,19 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 					floorNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), -1 * FLOOR_TILE_SPACING, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 					floorNode.Scale = new Vector3(FLOOR_TILE_SIZE, 1.0f, FLOOR_TILE_SIZE);
 
-					var floorObject = floorNode.CreateComponent<StaticModel>();
-
-					floorObject.Model = CoreAssets.Models.Box;
-
-					if ((x == 0 && y == 0) || (System.Math.Abs(x) == 3 && System.Math.Abs(y) == 3))
+					if ((x == 0 && y == 0) || (System.Math.Abs(x) == 3 && System.Math.Abs(y) == 3) || (System.Math.Abs(x) == 5 && System.Math.Abs(y) == 5))
 					{
-						floorObject.Material = Material.FromColor(Color.Green);
-						//floorObject.SubscribeToEvent();
+						var movementFloorTile = floorNode.CreateComponent<MovementFloorTile>();
+
+                        movementFloorTile.Model = CoreAssets.Models.Box;
+                        movementFloorTile.Material = Material.FromColor(Color.Green);
 					}
 					else
 					{
-						floorObject.Material = CoreAssets.Materials.DefaultGrey;
+                        var floorTile = floorNode.CreateComponent<StaticModel>();
+
+                        floorTile.Model = CoreAssets.Models.Box;
+                        floorTile.Material = CoreAssets.Materials.DefaultGrey;
 					}
 				}
 			}
@@ -103,10 +123,13 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
 		private void SetupWalls()
         {
-			var northWallNode = CreateChild("NorthWall");
+			var centerWallDistance = AbsoluteWallDistance + (WALL_WEIGTH / 2);
+			var centerWallHeight = 3f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING);
 
-			northWallNode.Position = new Vector3(0f, 0f, 5.5f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
-			northWallNode.Scale = new Vector3(11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 4f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 2f);
+            var northWallNode = CreateChild("NorthWall");
+
+			northWallNode.Position = new Vector3(0f, centerWallHeight / 2, centerWallDistance);
+			northWallNode.Scale = new Vector3(11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), centerWallHeight, WALL_WEIGTH);
 
 			var northWallObject = northWallNode.CreateComponent<StaticModel>();
 
@@ -115,8 +138,8 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
 			var southWallNode = CreateChild("SouthWall");
 
-			southWallNode.Position = new Vector3(0f, 0f, -5.5f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
-			southWallNode.Scale = new Vector3(11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 4f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 2f);
+			southWallNode.Position = new Vector3(0f, centerWallHeight / 2, -1 * centerWallDistance);
+			southWallNode.Scale = new Vector3(11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), centerWallHeight, WALL_WEIGTH);
 
 			var southWallObject = southWallNode.CreateComponent<StaticModel>();
 
@@ -125,8 +148,8 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
 			var westWallNode = CreateChild("WestWall");
 
-			westWallNode.Position = new Vector3(-5.5f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 0f, 0f);
-			westWallNode.Scale = new Vector3(2f, 4f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+			westWallNode.Position = new Vector3(-1 * centerWallDistance, centerWallHeight / 2, 0f);
+			westWallNode.Scale = new Vector3(WALL_WEIGTH, centerWallHeight, 11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 
 			var westWallObject = westWallNode.CreateComponent<StaticModel>();
 
@@ -135,13 +158,17 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
 			var eastWallNode = CreateChild("EastWall");
 
-			eastWallNode.Position = new Vector3(5.5f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 0f, 0f);
-			eastWallNode.Scale = new Vector3(2f, 4f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+			eastWallNode.Position = new Vector3(centerWallDistance, centerWallHeight / 2, 0f);
+			eastWallNode.Scale = new Vector3(WALL_WEIGTH, centerWallHeight, 11f * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 
 			var eastWallObject = eastWallNode.CreateComponent<StaticModel>();
 
 			eastWallObject.Model = CoreAssets.Models.Box;
 			eastWallObject.Material = CoreAssets.Materials.DefaultGrey;
 		}
+    }
+
+	internal class MovementFloorTile : StaticModel
+    {
     }
 }

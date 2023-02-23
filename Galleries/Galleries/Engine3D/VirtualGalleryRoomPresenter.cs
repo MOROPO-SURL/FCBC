@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.Galleries.Engine3D
+﻿using Urho;
+
+namespace MOROPO.FCBC.Galleries.Engine3D
 {
     internal class VirtualGalleryRoomPresenter : Urho.Application
     {
@@ -17,19 +19,20 @@
         {
             base.Start();
 
+            scene = new Scenes.RectangleRoomScene(ResourceCache);
+
             #region Interaction initialize
-            
+
             if (Platform == Urho.Platforms.Android || Platform == Urho.Platforms.iOS || Options.TouchEmulation)
             {
                 //InitTouchInput();
             }
 
             Input.Enabled = true;
+            Input.TouchEnd += scene.SceneInput_TouchEnd;
             Input.KeyDown += Input_KeyDown;
 
             #endregion
-
-            scene = new Scenes.RectangleRoomScene(ResourceCache);
 
             // Viewport
             Renderer.SetViewport(0, new Urho.Viewport(Context, scene, scene.MainCamera, null));
