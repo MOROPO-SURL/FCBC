@@ -1663,7 +1663,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             try
             {
                 entity = Repository.Get(modelInput.ArtistId);
-                critic = criticRepository.Get(modelInput.CriticId);
+                critic = criticRepository.Get(modelInput.CriticUpdateId);
                
             }
             catch { }

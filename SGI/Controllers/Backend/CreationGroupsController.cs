@@ -1346,6 +1346,60 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
         }
 
+        [Route("edit/Criterion/update")]
+        [RequirePermissions(Permission.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateGroupCriterion(GroupAssessmentBridgeDisplayViewModel modelInput)
+        {
+            CreationGroup entity = null;
+            Critic critic = null;
+            try
+            {
+                entity = Repository.Get(modelInput.GroupId);
+                critic = criticRepository.Get(modelInput.CriticUpdateId);
+
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var groupAssessmentBridge = entity.GroupAssessmentBridges.FirstOrDefault(a => a.GroupId == modelInput.GroupId && a.CriticId == modelInput.CriticId);
+                entity.GroupAssessmentBridges.Remove(groupAssessmentBridge);
+
+                entity.GroupAssessmentBridges.Add(new GroupAssessmentBridge { CreationGroup = entity, Critic = critic, GroupId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
+        }
+
         [Route("edit/Criterion/delete")]
         [RequirePermissions(Permission.CreationGroupEditor)]
         [HttpPost]
@@ -1399,6 +1453,16 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         #endregion
 
         private void PopulateCritics(GroupCriterionManageViewModel modelInput)
+        {
+            var awads = criticRepository.GetAll();
+
+            if (awads.Count() > 0)
+            {
+                modelInput.SelectCritics = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName, Selected = item.Id == modelInput.CriticId }).ToArray();
+            }
+        }
+
+        private void PopulateCriticsEditModal(GroupCriterionManageViewModel modelInput)
         {
             var awads = criticRepository.GetAll();
 

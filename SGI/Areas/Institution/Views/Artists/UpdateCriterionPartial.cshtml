@@ -10,6 +10,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            @{
+                var critis = new List<SelectListItem>();
+                var asign = @Model.AsignIdUtility(Model.CriticId);
+                foreach (var cri in Model.SelectCritics)
+                {
+                    critis.Add(new SelectListItem { Value = cri.Value, Text = cri.Text, Selected = cri.Value == Model.CriticId.ToString() });
+                }
+            }
             @using (Html.BeginForm("UpdateArtistCriterion", "artists", null, FormMethod.Post, true, null))
             {
                 <div class="modal-body">
@@ -23,9 +31,9 @@
                             @Html.ValidationMessageFor(model => model.DateOfAssessment, null, new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.CriticId, new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.CriticId, Model.SelectCritics, new { @class = "form-control"})
-                            @Html.ValidationMessageFor(model => model.CriticId, null, new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.CriticUpdateId, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.CriticUpdateId, Model.SelectCritics, new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.CriticUpdateId, null, new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row">
