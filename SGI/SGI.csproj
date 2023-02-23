@@ -6,6 +6,8 @@
     <AssemblyName>MOROPO.FCBC.SGI</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'SGI' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Staging' " />
   <ItemGroup>
     <Compile Remove="dpkeys\**" />
     <Compile Remove="logs\**" />
