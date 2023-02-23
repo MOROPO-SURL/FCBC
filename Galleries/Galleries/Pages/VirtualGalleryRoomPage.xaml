@@ -7,6 +7,11 @@
     <ContentPage.Content>
         <Grid>
             <urho:UrhoSurface x:Name="MainUrhoSurface" VerticalOptions="FillAndExpand" />
+            <StackLayout VerticalOptions="Center">
+                <ActivityIndicator 
+                    x:Name="MainActivityIndicator"
+                    IsRunning="True" />
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

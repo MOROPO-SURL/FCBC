@@ -10,5 +10,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes.Contract
         {
             octree = CreateComponent<Octree>();
         }
+
+        public abstract Camera MainCamera { get; }
     }
 }

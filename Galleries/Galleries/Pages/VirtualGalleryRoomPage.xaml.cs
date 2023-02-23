@@ -7,13 +7,22 @@
             InitializeComponent();
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            await MainUrhoSurface.Show<Engine3D.VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions()
+            System.Threading.Tasks.Task.Delay(System.TimeSpan.FromSeconds(1)).ContinueWith(task =>
             {
-                Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                {
+                    MainActivityIndicator.IsRunning = false;
+                    MainActivityIndicator.IsVisible = false;
+
+                    await MainUrhoSurface.Show<Engine3D.VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions()
+                    {
+                        Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                    });
+                });
             });
         }
     }
