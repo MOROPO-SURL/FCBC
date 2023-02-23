@@ -1151,6 +1151,60 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
         }
 
+        [Route("edit/Criterion/update")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateWorkCriterion(ServiceWorkAssessmentBridgeDisplayViewModel modelInput)
+        {
+            ServiceWork entity = null;
+            Critic critic = null;
+            try
+            {
+                entity = Repository.Get(modelInput.WorkId);
+                critic = criticRepository.Get(modelInput.CriticUpdateId);
+
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var workAssessmentBridge = entity.WorkAssessmentBridges.FirstOrDefault(a => a.WorkId == modelInput.WorkId && a.CriticId == modelInput.CriticId);
+                entity.WorkAssessmentBridges.Remove(workAssessmentBridge);
+
+                entity.WorkAssessmentBridges.Add(new ServiceWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
+        }
+
         [Route("edit/Criterion/delete")]
         [RequirePermissions(Permission.ServiceWorkEditor)]
         [HttpPost]
