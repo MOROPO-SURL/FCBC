@@ -70,7 +70,7 @@
             value: '@Model.RegistrationEndAt.ToShortDateString()'
         });
 
-        $(function () {
+        $(function () { 
             $(document).on("change", "#ImageFile", function () {
                 var files = !!this.files ? this.files : [];
 
@@ -88,7 +88,7 @@
 
             });
 
-             $('#StateId').on("change", function () {
+            $('#StateId').on("change", function () {               
                 var stateId = $('#StateId').val();
                 var state = $('#StateId option:selected').text();
                 var obj = { state: stateId };
@@ -116,17 +116,6 @@
                 contentType: 'application/json'
             });
         }
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $('.listbox').multiselect({
-                includeSelectAllOption: true,
-                templates: {
-                    li: '<li><a href="javascript:void(0);"><label class="pl-2"></label></a></li>'
-                }
-
-            });
-        });
     </script>
     }
 
@@ -210,7 +199,7 @@
                 @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
             </div>
             <fieldset>
-                <legend class="border-bottom">Registro del Creador</legend>                
+                <legend class="border-bottom">Registro del Creador</legend>
                 <div class=row>
                     <div class="col-md-6" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
@@ -231,7 +220,7 @@
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-md-4" style="margin-bottom: 20px;">
+                    <div class="col-md-4" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.StateId, new { @class = "control-label" })
                         @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.StateId, null, new { @class = "text-danger" })
@@ -242,6 +231,11 @@
                         @Html.DropDownListFor(model => model.MunicipalityId, Model.Municipalities, new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.MunicipalityId, null, new { @class = "text-danger" })
                     </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.AddressPostal, 3, 0, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
                 </div>
             </fieldset>
         </div>

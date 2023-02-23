@@ -42,6 +42,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Agreement")]
         public Agreement Agreement { get; set; }
 
+        [Display(Name = "Address")]
+        public string AddressPostal { get; set; }
+
         public ICollection<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBrigdes { get; set; } = new List<CreationGroupArtisticManifestationBridge>();
         public ICollection<CreationGroupAward> CreationGroupAwards { get; set; } = new List<CreationGroupAward>();
         public ICollection<CreationGroupDesignManifestationBridge> DesignManifestationBridges { get; set; } = new List<CreationGroupDesignManifestationBridge>();
@@ -66,10 +69,10 @@ namespace MOROPO.FCBC.SGI.Models.View
             RegistratedAt = entity.RegistratedAt;
             RegistrationEndAt = entity.RegistrationEndAt;
             var region = entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
-            Municipality = ((MunicipalityRegion)region).Municipality;
-            State = Municipality.State;
+            Municipality = ((MunicipalityRegion)region).Municipality;            
             Agreement = entity.Agreement;
             GroupAssessmentBridges = entity.GroupAssessmentBridges;
+            AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
         }
     }
 }

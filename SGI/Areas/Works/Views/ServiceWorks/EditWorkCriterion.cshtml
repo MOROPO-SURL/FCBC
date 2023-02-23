@@ -54,6 +54,14 @@
             format: 'dd/mm/yyyy',
             value: '@Model.DateOfCriterion.ToShortDateString()'
         });
+
+        $('#DateOfAssessment').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy'
+        });
     </script>
 }
 
@@ -120,12 +128,16 @@
                                 @foreach (var item in Model.WorkDisplay.ServiceWorkAssessmentBridges)
                                 {
                                     <tr>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.DateOfAssessment</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.DateOfAssessment.ToShortDateString()</td>
                                         <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Critic.Identity.Name @item.Critic.Identity.LastName</td>
                                         <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Criterion</td>
                                         <td style="vertical-align: middle;">
-                                            <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-criterion-@item.WorkId@item.CriticId">Eliminar</a>
-                                            @await Html.PartialAsync("DeleteCriterionPartial", new WorkCriterionDisplayViewModel { WorkId = item.WorkId, CriticId = item.CriticId, WorkName = item.Work.Title, CriticName =  item.Critic.Identity.Name+" "+item.Critic.Identity.LastName, Criterion = item.Criterion})
+                                            <div class="btn-group btn-group-sm">
+                                                <a role="button" href="#" class="btn btn-sm btn-light" data-toggle="modal" data-target="#update-criterion-@item.WorkId@item.CriticId">Modificar</a>
+                                                <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-criterion-@item.WorkId@item.CriticId">Eliminar</a>
+                                                @await Html.PartialAsync("DeleteCriterionPartial", new WorkCriterionDisplayViewModel { WorkId = item.WorkId, CriticId = item.CriticId, WorkName = item.Work.Title, CriticName =  item.Critic.Identity.Name+" "+item.Critic.Identity.LastName, Criterion = item.Criterion})
+                                                @await Html.PartialAsync("UpdateCriterionPartial", new ServiceWorkAssessmentBridgeDisplayViewModel{ WorkId = item.WorkId, CriticId = item.CriticId, SelectCritics = Model.SelectCritics, Criterion = item.Criterion, DateOfAssessment = item.DateOfAssessment})
+                                            </div>
                                         </td>
                                     </tr>
                                 }
