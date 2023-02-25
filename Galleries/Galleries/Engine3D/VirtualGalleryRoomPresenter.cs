@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.Galleries.Engine3D
 {
-    internal class VirtualGalleryRoomPresenter : Urho.Application
+    internal class VirtualGalleryRoomPresenter : Application
     {
         protected const float TOUCH_SENSITIVITY = 2;
         
@@ -11,7 +11,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D
 
         private Scenes.Contract.AbstractRoomScene scene;
 
-        public VirtualGalleryRoomPresenter(Urho.ApplicationOptions options) : base(options)
+        public VirtualGalleryRoomPresenter(ApplicationOptions options) : base(options)
         {
         }
 
@@ -35,7 +35,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D
             #endregion
 
             // Viewport
-            Renderer.SetViewport(0, new Urho.Viewport(Context, scene, scene.MainCamera, null));
+            Renderer.SetViewport(0, new Viewport(Context, scene, scene.MainCamera, null));
         }
 
         protected override void OnUpdate(float timeStep)
@@ -45,7 +45,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D
             base.OnUpdate(timeStep);
         }
 
-        private void Input_KeyDown(Urho.KeyDownEventArgs eventArgs)
+        private void Input_KeyDown(KeyDownEventArgs eventArgs)
         {
             // TODO Implement expected behavior!!
         }
@@ -66,7 +66,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D
 
                     pitch += TOUCH_SENSITIVITY * scene.MainCamera.Fov / Graphics.Height * state.Delta.Y;
 
-                    scene.MainCamera.Node.Rotation = new Urho.Quaternion(pitch, yaw, 0);
+                    scene.MainCamera.Node.Rotation = new Quaternion(pitch, yaw, 0);
                 }
                 else
                 {

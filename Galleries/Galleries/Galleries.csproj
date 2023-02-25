@@ -14,15 +14,31 @@
   <ItemGroup>
     <None Remove="Assets\Materials\Stone.xml" />
     <None Remove="Assets\Models\Box.mdl" />
-    <None Remove="Assets\Textures\StoneDiffuse.dds" />
-    <None Remove="Assets\Textures\StoneNormal.dds" />
+    <None Remove="Assets\Textures\DarkGrungeWall.jpg" />
+    <None Remove="Assets\Textures\ListoneWoodFloor.jpg" />
+    <None Remove="Assets\Textures\PlayboWood.jpg" />
+    <None Remove="Assets\Textures\WhiteWallGrungePlaster.jpg" />
+    <None Remove="Assets\Textures\WhiteWallUneven.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\Materials\Stone.xml" />
     <Content Include="Assets\Models\Box.mdl" />
-    <Content Include="Assets\Textures\StoneDiffuse.dds" />
-    <Content Include="Assets\Textures\StoneNormal.dds" />
+    <Content Include="Assets\Textures\DarkGrungeWall.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\ListoneWoodFloor.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\PlayboWood.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\WhiteWallGrungePlaster.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\WhiteWallUneven.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

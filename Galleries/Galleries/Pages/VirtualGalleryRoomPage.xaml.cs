@@ -18,7 +18,7 @@
                     MainActivityIndicator.IsRunning = false;
                     MainActivityIndicator.IsVisible = false;
 
-                    await MainUrhoSurface.Show<Engine3D.VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions()
+                    await MainUrhoSurface.Show<Engine3D.VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                     {
                         Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
                     });
