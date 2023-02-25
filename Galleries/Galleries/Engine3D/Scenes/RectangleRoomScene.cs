@@ -35,6 +35,8 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			SetupMoveMarks();
 
 			SetupArtworkFrames();
+
+			SetupIdentyFrames();
 		}
 
         public override Camera MainCamera => mainCamera;
@@ -125,7 +127,8 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 					if ((x == 0 && y == 0) ||
 						(System.Math.Abs(x) == 6 && System.Math.Abs(y) == 6) ||
 						(x == 0 && System.Math.Abs(y) == 6) ||
-						(System.Math.Abs(x) == 6 && y == 0))
+						(System.Math.Abs(x) == 6 && y == 0) ||
+						(System.Math.Abs(x) == 10 && System.Math.Abs(y) == 10))
 					{
 						var moveMarkNode = CreateChild();
 
@@ -188,6 +191,43 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			eastWallObject.Material = material;
 		}
 
+		private void SetupIdentyFrames()
+        {
+			var material = Material.FromImage("Textures/IdentidadFCBC.jpg");
+
+			var identityFrameWight = 2.0f;
+
+            var northIdentityFrameNode = CreateChild();
+
+            northIdentityFrameNode.Position = new Vector3(0.0f, WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - identityFrameWight);
+            northIdentityFrameNode.Scale = new Vector3(50.0f, 100.0f, identityFrameWight);
+
+            var northIdentityObject = northIdentityFrameNode.CreateComponent<StaticModel>();
+
+            northIdentityObject.Model = CoreAssets.Models.Box;
+			northIdentityObject.Material = material;
+
+			var eastIdentityFrameNode = CreateChild();
+
+			eastIdentityFrameNode.Position = new Vector3(-1 * (FLOOR_FULL_SIZE / 2 - identityFrameWight), WALL_HEIGHT / 2, 0.0f);
+			eastIdentityFrameNode.Scale = new Vector3(identityFrameWight, 100.0f, 50.0f);
+
+			var eastIdentityObject = eastIdentityFrameNode.CreateComponent<StaticModel>();
+
+			eastIdentityObject.Model = CoreAssets.Models.Box;
+			eastIdentityObject.Material = material;
+
+			var westIdentityFrameNode = CreateChild();
+
+			westIdentityFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - identityFrameWight, WALL_HEIGHT / 2, 0.0f);
+			westIdentityFrameNode.Scale = new Vector3(identityFrameWight, 100.0f, 50.0f);
+
+			var westIdentityObject = westIdentityFrameNode.CreateComponent<StaticModel>();
+
+			westIdentityObject.Model = CoreAssets.Models.Box;
+			westIdentityObject.Material = material;
+		}
+
 		private void SetupArtworkFrames()
         {
 			var material = Material.FromImage("Textures/PlayboWood.jpg");
@@ -198,7 +238,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			// North Wall
 			for (int x = pivotNegative; x <= pivotPositive; ++x)
 			{
-				if (x % 4 != 0) continue;
+				if (x == 0 || x % 4 != 0) continue;
 
 				var pictureFrameNode = CreateChild();
 
@@ -214,7 +254,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			// South Wall
 			for (int x = pivotNegative; x <= pivotPositive; ++x)
 			{
-				if (x % 4 != 0) continue;
+				if (x == 0 || x % 4 != 0) continue;
 
 				var pictureFrameNode = CreateChild();
 
@@ -230,7 +270,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			// East Wall
 			for (int x = pivotNegative; x <= pivotPositive; ++x)
 			{
-				if (x % 4 != 0) continue;
+				if (x == 0 || x % 4 != 0) continue;
 
 				var pictureFrameNode = CreateChild();
 
@@ -246,7 +286,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			// West Wall
 			for (int x = pivotNegative; x <= pivotPositive; ++x)
 			{
-				if (x % 4 != 0) continue;
+				if (x == 0 || x % 4 != 0) continue;
 
 				var pictureFrameNode = CreateChild();
 

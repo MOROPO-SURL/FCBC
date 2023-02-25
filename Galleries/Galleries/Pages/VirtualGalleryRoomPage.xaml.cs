@@ -20,7 +20,8 @@
 
                     await MainUrhoSurface.Show<Engine3D.VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                     {
-                        Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                        Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
+                        TouchEmulation = true
                     });
                 });
             });

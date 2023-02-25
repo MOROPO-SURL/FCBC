@@ -35,6 +35,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D
             #endregion
 
             // Viewport
+            Renderer.TextureQuality = 4;
             Renderer.SetViewport(0, new Viewport(Context, scene, scene.MainCamera, null));
         }
 
