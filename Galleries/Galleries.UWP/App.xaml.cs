@@ -46,7 +46,10 @@ namespace MOROPO.FCBC.Galleries.UWP
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
+
                 Xamarin.Forms.Forms.Init(e);
+
+                FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

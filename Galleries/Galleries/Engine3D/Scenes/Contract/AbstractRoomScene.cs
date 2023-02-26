@@ -6,12 +6,14 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes.Contract
     {
         protected Octree octree;
 
-        public AbstractRoomScene(Urho.Resources.ResourceCache resourceCache)
+        public AbstractRoomScene()
         {
             octree = CreateComponent<Octree>();
         }
 
         public abstract Camera MainCamera { get; }
+
+        public abstract void SceneInput_TouchBegin(TouchBeginEventArgs eventArgs);
 
         public abstract void SceneInput_TouchEnd(TouchEndEventArgs eventArgs);
     }

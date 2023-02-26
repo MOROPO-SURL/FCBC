@@ -19,16 +19,12 @@ namespace MOROPO.FCBC.Galleries.Engine3D
         {
             base.Start();
 
-            scene = new Scenes.RectangleRoomScene(ResourceCache);
+            scene = new Scenes.SquareRoomScene();
 
             #region Interaction initialize
 
-            if (Platform == Urho.Platforms.Android || Platform == Urho.Platforms.iOS || Options.TouchEmulation)
-            {
-                //InitTouchInput();
-            }
-
             Input.Enabled = true;
+            Input.TouchBegin += scene.SceneInput_TouchBegin;
             Input.TouchEnd += scene.SceneInput_TouchEnd;
             Input.KeyDown += Input_KeyDown;
 

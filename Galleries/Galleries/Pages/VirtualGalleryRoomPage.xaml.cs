@@ -11,8 +11,10 @@
         {
             base.OnAppearing();
 
-            System.Threading.Tasks.Task.Delay(System.TimeSpan.FromSeconds(1)).ContinueWith(task =>
+            System.Threading.Tasks.Task.Delay(System.TimeSpan.FromSeconds(1)).ContinueWith(async task =>
             {
+                await Providers.ArtworkModelProvider.Instance.LoadAsync();
+
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                 {
                     MainActivityIndicator.IsRunning = false;

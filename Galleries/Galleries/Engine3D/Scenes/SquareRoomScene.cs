@@ -2,7 +2,7 @@
 
 namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 {
-    internal class RectangleRoomScene : Contract.AbstractRoomScene
+    internal class SquareRoomScene : Contract.AbstractRoomScene
     {
 		private const float FLOOR_TILE_SIZE = 40.0f;
 		private const float FLOOR_TILE_SPACING = 0.25f;
@@ -15,8 +15,14 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 		private readonly Node mainCameraNode;
 		private readonly Camera mainCamera;
 
-        public RectangleRoomScene(Urho.Resources.ResourceCache resourceCache) : base(resourceCache)
+		private bool isTouchBegin;
+		private float touchBeginX;
+		private float touchBeginY;
+
+		public SquareRoomScene() : base()
 		{
+			isTouchBegin = false;
+
 			// Camera
 			mainCameraNode = CreateChild("Camera");
 
@@ -34,26 +40,57 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
 			SetupMoveMarks();
 
-			SetupArtworkFrames();
+			SetupArtworkFrames(Providers.ArtworkModelProvider.Instance.GetImageRawModels());
 
 			SetupIdentyFrames();
+
+
+
+			//var doorNode = CreateChild();
+
+			//doorNode.Position = new Vector3(0.0f, 0.0f, 30.0f);
+			//doorNode.Scale = new Vector3(30.0f, 50.0f, 15.0f);
+
+			//var doorComponent = doorNode.CreateComponent<StaticModel>();
+
+			//doorComponent.Model = resourceCache.GetModel("Models/Door.fbx");
 		}
 
         public override Camera MainCamera => mainCamera;
 
-        public override void SceneInput_TouchEnd(TouchEndEventArgs eventArgs)
+		public override void SceneInput_TouchBegin(TouchBeginEventArgs eventArgs)
         {
-            var cameraRay = mainCamera.GetScreenRay((float)eventArgs.X / Application.Current.Graphics.Width, (float)eventArgs.Y / Application.Current.Graphics.Height);
+			touchBeginX = eventArgs.X;
+			touchBeginY = eventArgs.Y;
+
+			isTouchBegin = true;
+		}
+
+		public override void SceneInput_TouchEnd(TouchEndEventArgs eventArgs)
+        {
+			if (isTouchBegin)
+            {
+				if (touchBeginX != eventArgs.X || touchBeginY != eventArgs.Y)
+                {
+					isTouchBegin = false;
+
+					return;
+				}
+            }
+
+			isTouchBegin = false;
+
+			var cameraRay = mainCamera.GetScreenRay((float)eventArgs.X / Application.Current.Graphics.Width, (float)eventArgs.Y / Application.Current.Graphics.Height);
 
 			var result = octree.RaycastSingle(cameraRay);
 
 			if (result != null)
             {
-                var movementFloorTile = result.Value.Drawable as MovementFloorTile;
+				var movementFloorTile = result.Value.Drawable as MovementFloorTile;
 
 				if (movementFloorTile != null)
                 {
-					mainCameraNode.Position = new Vector3(movementFloorTile.Node.Position.X, mainCameraNode.Position.Y, movementFloorTile.Node.Position.Z);
+					mainCameraNode.RunActions(new Urho.Actions.EaseElastic(new Urho.Actions.MoveTo(1f ,new Vector3(movementFloorTile.Node.Position.X, mainCameraNode.Position.Y, movementFloorTile.Node.Position.Z))));
                 }
             }
         }
@@ -77,8 +114,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
             {
                 for (int x = pivotNegative; x <= pivotPositive; ++x)
                 {
-                    if ((x == 0 && y == 0) ||
-                        (System.Math.Abs(x) % 4 == 0 && System.Math.Abs(y) % 4 == 0))
+                    if ((x == 0 && y == 0) || (System.Math.Abs(x) % 4 == 0 && System.Math.Abs(y) % 4 == 0))
                     {
                         var roofPointLightNode = CreateChild();
 
@@ -92,6 +128,23 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
                         roofPointLightComponent.Color = Color.White;
                         roofPointLightComponent.Range = 275.0f;
                         roofPointLightComponent.Radius = 180;
+
+						//var roofLightLampNode = CreateChild();
+
+						//roofLightLampNode.Position = new Vector3(roofPointLightNode.Position.X, WALL_HEIGHT / 2, roofPointLightNode.Position.Z);
+						//roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 4, 4.0f, FLOOR_TILE_SIZE / 4);
+
+						//var roofLightLampComponent = roofLightLampNode.CreateComponent<StaticModel>();
+
+						//var glowMaterial = new Material();
+
+						//glowMaterial.SetTechnique(0u, CoreAssets.Techniques.DiffEmissive);
+
+						//glowMaterial.SetShaderParameter("MatDiffColor", Color.White);
+						//glowMaterial.SetShaderParameter("MatEmissiveColor", Color.White);
+
+						//roofLightLampComponent.Model = CoreAssets.Models.Cylinder;
+						//roofLightLampComponent.Material = glowMaterial;
                     }
                 }
             }
@@ -237,27 +290,34 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			northIdentityObject.Material = material;
 		}
 
-		private void SetupArtworkFrames()
+		private void SetupArtworkFrames(Models.Raw.ImageRawModel[] imageRawModels)
         {
-			var material = Material.FromImage("Textures/PlayboWood.jpg");
-
 			var pivotPositive = FLOOR_TILE_COUNT / 2;
 			var pivotNegative = pivotPositive * -1;
+
+			int index = 0;
 
 			// North Wall
 			for (int x = pivotNegative; x <= pivotPositive; ++x)
 			{
 				if (x == 0 || x % 4 != 0) continue;
 
+				var item = imageRawModels[index++];
+
 				var pictureFrameNode = CreateChild();
 
 				pictureFrameNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f);
 				pictureFrameNode.Scale = new Vector3(100.0f, 75.0f, 1.0f);
 
-				var boxObject = pictureFrameNode.CreateComponent<StaticModel>();
+				var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
 
-				boxObject.Model = CoreAssets.Models.Box;
-				boxObject.Material = material;
+                var urhoResourceImage = new Urho.Resources.Image();
+
+				using (var urhoBuffer = new MemoryBuffer(item.Data))
+					urhoResourceImage.Load(urhoBuffer);
+
+                boxObject.Model = CoreAssets.Models.Box;
+				boxObject.Material = Material.FromImage(urhoResourceImage);
 			}
 
 			// South Wall
@@ -265,15 +325,22 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			{
 				if (x == 0 || x % 4 != 0) continue;
 
+				var item = imageRawModels[index++];
+
 				var pictureFrameNode = CreateChild();
 
 				pictureFrameNode.Position = new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f);
 				pictureFrameNode.Scale = new Vector3(100.0f, 75.0f, 1.0f);
 
-				var boxObject = pictureFrameNode.CreateComponent<StaticModel>();
+				var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+
+				var urhoResourceImage = new Urho.Resources.Image();
+
+				using (var urhoBuffer = new MemoryBuffer(item.Data))
+					urhoResourceImage.Load(urhoBuffer);
 
 				boxObject.Model = CoreAssets.Models.Box;
-				boxObject.Material = material;
+				boxObject.Material = Material.FromImage(urhoResourceImage);
 			}
 
 			// East Wall
@@ -281,15 +348,22 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			{
 				if (x % 4 != 0) continue;
 
+				var item = imageRawModels[index++];
+
 				var pictureFrameNode = CreateChild();
 
 				pictureFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 				pictureFrameNode.Scale = new Vector3(1.0f, 75.0f, 100.0f);
 
-				var boxObject = pictureFrameNode.CreateComponent<StaticModel>();
+				var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+
+				var urhoResourceImage = new Urho.Resources.Image();
+
+				using (var urhoBuffer = new MemoryBuffer(item.Data))
+					urhoResourceImage.Load(urhoBuffer);
 
 				boxObject.Model = CoreAssets.Models.Box;
-				boxObject.Material = material;
+				boxObject.Material = Material.FromImage(urhoResourceImage);
 			}
 
 			// West Wall
@@ -297,20 +371,37 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			{
 				if (x % 4 != 0) continue;
 
+				var item = imageRawModels[index++];
+
 				var pictureFrameNode = CreateChild();
 
 				pictureFrameNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING) );
 				pictureFrameNode.Scale = new Vector3(1.0f, 75.0f, 100.0f);
 
-				var boxObject = pictureFrameNode.CreateComponent<StaticModel>();
+				var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+
+				var urhoResourceImage = new Urho.Resources.Image();
+
+				using (var urhoBuffer = new MemoryBuffer(item.Data))
+					urhoResourceImage.Load(urhoBuffer);
 
 				boxObject.Model = CoreAssets.Models.Box;
-				boxObject.Material = material;
+				boxObject.Material = Material.FromImage(urhoResourceImage);
 			}
 		}
     }
 
 	internal class MovementFloorTile : StaticModel
     {
+    }
+
+	internal class ArtworkFrame : StaticModel
+    {
+        public ArtworkFrame()
+        {
+			ArtworkId = System.Guid.NewGuid();
+        }
+
+		public System.Guid ArtworkId  { get; private set; }
     }
 }
