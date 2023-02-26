@@ -6,7 +6,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
     {
 		private const float FLOOR_TILE_SIZE = 40.0f;
 		private const float FLOOR_TILE_SPACING = 0.25f;
-		private const float WALL_WEIGTH = 4f;
+		private const float WALL_WEIGTH = 5f;
 		private const int FLOOR_TILE_COUNT = 20;
 
 		private static readonly float FLOOR_FULL_SIZE = (FLOOR_TILE_COUNT + 1) * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING);
@@ -60,34 +60,42 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
         private void SetupLights()
         {
+            var mainLightNode = CreateChild();
+
+            mainLightNode.SetDirection(new Vector3(-0.3f, 1.0f, -0.3f));
+
+            var mainLightComponent = mainLightNode.CreateComponent<Light>();
+
+            mainLightComponent.LightType = LightType.Directional;
+            mainLightComponent.Color = Color.White;
+			mainLightComponent.Brightness = 0.75f;
+
 			var pivotPositive = FLOOR_TILE_COUNT / 2;
-			var pivotNegative = pivotPositive * -1;
+            var pivotNegative = pivotPositive * -1;
 
-			for (int y = pivotNegative; y <= pivotPositive; ++y)
-			{
-				for (int x = pivotNegative; x <= pivotPositive; ++x)
-				{
-					if ((x == 0 && y == 0) ||
-						(System.Math.Abs(x) == 4 && System.Math.Abs(y) == 4) ||
-						(System.Math.Abs(x) == 8 && System.Math.Abs(y) == 8) ||
-						(x == 0 && System.Math.Abs(y) == 8) ||
-						(System.Math.Abs(x) == 8 && y == 0))
-					{
-						var roofLightNode = CreateChild();
+            for (int y = pivotNegative; y <= pivotPositive; ++y)
+            {
+                for (int x = pivotNegative; x <= pivotPositive; ++x)
+                {
+                    if ((x == 0 && y == 0) ||
+                        (System.Math.Abs(x) % 4 == 0 && System.Math.Abs(y) % 4 == 0))
+                    {
+                        var roofPointLightNode = CreateChild();
 
-						roofLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 5.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+                        roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 5.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 
-						var roofLightComponent = roofLightNode.CreateComponent<Light>();
+                        var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
-						roofLightComponent.LightType = LightType.Point;
-						roofLightComponent.CastShadows = true;
-						roofLightComponent.Brightness = 0.75f;
-						roofLightComponent.Color = Color.White;
-						roofLightComponent.Range = 350.0f;
-					}
-				}
-			}
-		}
+                        roofPointLightComponent.LightType = LightType.Point;
+                        roofPointLightComponent.CastShadows = true;
+                        roofPointLightComponent.Brightness = 0.75f;
+                        roofPointLightComponent.Color = Color.White;
+                        roofPointLightComponent.Range = 275.0f;
+                        roofPointLightComponent.Radius = 180;
+                    }
+                }
+            }
+        }
 
 		private void SetupRoof()
         {
@@ -98,8 +106,16 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
 			var roofComponent = roofNode.CreateComponent<StaticModel>();
 
+			var texture2D = Application.Current.ResourceCache.GetTexture2D("Textures/Roof.jpg");
+
+			var material = new Material();
+
+			material.SetTexture(TextureUnit.Diffuse, texture2D);
+			material.SetTechnique(0u, CoreAssets.Techniques.Diff);
+			material.SetUVTransform(Vector2.Zero, 0f, new Vector2(5f, 5f));
+
 			roofComponent.Model = CoreAssets.Models.Box;
-			roofComponent.Material = Material.FromImage("Textures/WhiteWallGrungePlaster.jpg");
+			roofComponent.Material = material;
 		}
 
 		private void SetupFloor()
@@ -110,9 +126,17 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			floorNode.Scale = new Vector3(FLOOR_FULL_SIZE, 1.0f, FLOOR_FULL_SIZE);
 
 			var floorComponent = floorNode.CreateComponent<StaticModel>();
+			
+			var texture2D = Application.Current.ResourceCache.GetTexture2D("Textures/Floor.jpg");
+
+			var material = new Material();
+
+			material.SetTexture(TextureUnit.Diffuse, texture2D);
+			material.SetTechnique(0u, CoreAssets.Techniques.Diff);
+			material.SetUVTransform(Vector2.Zero, 0f, new Vector2(5f, 5f));
 
 			floorComponent.Model = CoreAssets.Models.Plane;
-			floorComponent.Material = Material.FromImage("Textures/ListoneWoodFloor.jpg");
+			floorComponent.Material = material;
 		}
 
 		private void SetupMoveMarks()
@@ -127,8 +151,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 					if ((x == 0 && y == 0) ||
 						(System.Math.Abs(x) == 6 && System.Math.Abs(y) == 6) ||
 						(x == 0 && System.Math.Abs(y) == 6) ||
-						(System.Math.Abs(x) == 6 && y == 0) ||
-						(System.Math.Abs(x) == 10 && System.Math.Abs(y) == 10))
+						(System.Math.Abs(x) == 6 && y == 0))
 					{
 						var moveMarkNode = CreateChild();
 
@@ -146,7 +169,13 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
 		private void SetupWalls()
         {
-			var material = Material.FromImage("Textures/DarkGrungeWall.jpg");
+			var texture2D = Application.Current.ResourceCache.GetTexture2D("Textures/Wall.jpg");
+
+			var material = new Material();
+
+			material.SetTexture(TextureUnit.Diffuse, texture2D);
+			material.SetTechnique(0u, CoreAssets.Techniques.Diff);
+			material.SetUVTransform(Vector2.Zero, 0f, new Vector2(5f, 5f));
 
 			var centerWallDistance = (FLOOR_FULL_SIZE / 2) + (WALL_WEIGTH / 2);
 
@@ -206,26 +235,6 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 
             northIdentityObject.Model = CoreAssets.Models.Box;
 			northIdentityObject.Material = material;
-
-			var eastIdentityFrameNode = CreateChild();
-
-			eastIdentityFrameNode.Position = new Vector3(-1 * (FLOOR_FULL_SIZE / 2 - identityFrameWight), WALL_HEIGHT / 2, 0.0f);
-			eastIdentityFrameNode.Scale = new Vector3(identityFrameWight, 100.0f, 50.0f);
-
-			var eastIdentityObject = eastIdentityFrameNode.CreateComponent<StaticModel>();
-
-			eastIdentityObject.Model = CoreAssets.Models.Box;
-			eastIdentityObject.Material = material;
-
-			var westIdentityFrameNode = CreateChild();
-
-			westIdentityFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - identityFrameWight, WALL_HEIGHT / 2, 0.0f);
-			westIdentityFrameNode.Scale = new Vector3(identityFrameWight, 100.0f, 50.0f);
-
-			var westIdentityObject = westIdentityFrameNode.CreateComponent<StaticModel>();
-
-			westIdentityObject.Model = CoreAssets.Models.Box;
-			westIdentityObject.Material = material;
 		}
 
 		private void SetupArtworkFrames()
@@ -270,7 +279,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			// East Wall
 			for (int x = pivotNegative; x <= pivotPositive; ++x)
 			{
-				if (x == 0 || x % 4 != 0) continue;
+				if (x % 4 != 0) continue;
 
 				var pictureFrameNode = CreateChild();
 
@@ -286,7 +295,7 @@ namespace MOROPO.FCBC.Galleries.Engine3D.Scenes
 			// West Wall
 			for (int x = pivotNegative; x <= pivotPositive; ++x)
 			{
-				if (x == 0 || x % 4 != 0) continue;
+				if (x % 4 != 0) continue;
 
 				var pictureFrameNode = CreateChild();
 
