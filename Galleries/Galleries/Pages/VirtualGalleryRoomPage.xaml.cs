@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.Galleries.Pages
+﻿using MOROPO.FCBC.Galleries.Presenters;
+
+namespace MOROPO.FCBC.Galleries.Pages
 {
     public partial class VirtualGalleryRoomPage : Xamarin.Forms.ContentPage
     {
@@ -20,7 +22,7 @@
                     MainActivityIndicator.IsRunning = false;
                     MainActivityIndicator.IsVisible = false;
 
-                    await MainUrhoSurface.Show<Engine3D.VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
+                    await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                     {
                         Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
                         TouchEmulation = true

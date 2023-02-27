@@ -1,13 +1,17 @@
 ﻿using Urho;
 
-namespace MOROPO.FCBC.Galleries.Engine3D.Scenes.Contract
+namespace MOROPO.FCBC.Galleries.Scenes.Contract
 {
     internal abstract class AbstractRoomScene : Scene
     {
+        protected Presenters.VirtualGalleryRoomPresenter presenter;
+
         protected Octree octree;
 
-        public AbstractRoomScene()
+        public AbstractRoomScene(Presenters.VirtualGalleryRoomPresenter presenter)
         {
+            this.presenter = presenter;
+
             octree = CreateComponent<Octree>();
         }
 

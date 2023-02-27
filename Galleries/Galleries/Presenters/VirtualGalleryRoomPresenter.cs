@@ -1,11 +1,11 @@
 ﻿using Urho;
 
-namespace MOROPO.FCBC.Galleries.Engine3D
+namespace MOROPO.FCBC.Galleries.Presenters
 {
     internal class VirtualGalleryRoomPresenter : Application
     {
         protected const float TOUCH_SENSITIVITY = 2;
-        
+
         private float yaw { get; set; }
         private float pitch { get; set; }
 
@@ -19,19 +19,17 @@ namespace MOROPO.FCBC.Galleries.Engine3D
         {
             base.Start();
 
-            scene = new Scenes.SquareRoomScene();
+            scene = new Scenes.SquareRoomScene(this);
 
             #region Interaction initialize
 
             Input.Enabled = true;
-            Input.TouchBegin += scene.SceneInput_TouchBegin;
-            Input.TouchEnd += scene.SceneInput_TouchEnd;
-            Input.KeyDown += Input_KeyDown;
+            
+            BindSceneToucEvents();
 
             #endregion
 
             // Viewport
-            Renderer.TextureQuality = 4;
             Renderer.SetViewport(0, new Viewport(Context, scene, scene.MainCamera, null));
         }
 
@@ -42,12 +40,32 @@ namespace MOROPO.FCBC.Galleries.Engine3D
             base.OnUpdate(timeStep);
         }
 
-        private void Input_KeyDown(KeyDownEventArgs eventArgs)
+        public void PresentArtworkDetailById(System.Guid artWorkId)
         {
-            // TODO Implement expected behavior!!
+            UnbindSceneToucEvents();
+
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Aviso", string.Format("Mediante esta acción se mostrará una ventana flotante detallando la obra con el identifcador {0}.", artWorkId), "Aceptar").ContinueWith(_ => 
+                {
+                    BindSceneToucEvents();
+                });
+            });
         }
 
-        protected void MoveCameraByTouches(float timeStep)
+        private void BindSceneToucEvents()
+        {
+            Input.TouchBegin += scene.SceneInput_TouchBegin;
+            Input.TouchEnd += scene.SceneInput_TouchEnd;
+        }
+
+        private void UnbindSceneToucEvents()
+        {
+            Input.TouchBegin -= scene.SceneInput_TouchBegin;
+            Input.TouchEnd -= scene.SceneInput_TouchEnd;
+        }
+
+        private void MoveCameraByTouches(float timeStep)
         {
             if (scene.MainCamera == null) return;
 

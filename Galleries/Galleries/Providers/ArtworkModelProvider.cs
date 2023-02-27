@@ -33,7 +33,7 @@ namespace MOROPO.FCBC.Galleries.Providers
 
                 var cacheStream = await ImageService.Instance.Config.DownloadCache.DownloadAndCacheIfNeededAsync(
                     model.Url, 
-                    ImageService.Instance.LoadUrl(model.Url).Success(LoadSuccess_Callback), 
+                    ImageService.Instance.LoadUrl(model.Url), 
                     ImageService.Instance.Config, 
                     System.Threading.CancellationToken.None);
 
@@ -45,6 +45,12 @@ namespace MOROPO.FCBC.Galleries.Providers
                     model.Data = memoryStream.ToArray();
                 }
 
+                await ImageService.Instance.LoadUrl(model.Url).Success((info, result) =>
+                {
+                    model.Width = info.CurrentWidth;
+                    model.Height = info.CurrentHeight;
+                }).PreloadAsync();
+
                 imageRawModels.Add(model);
             }
         }
@@ -52,14 +58,6 @@ namespace MOROPO.FCBC.Galleries.Providers
         public Models.Raw.ImageRawModel[] GetImageRawModels()
         {
             return imageRawModels.ToArray();
-        }
-
-        private void LoadSuccess_Callback(FFImageLoading.Work.ImageInformation info, FFImageLoading.Work.LoadingResult result)
-        {
-            var model = imageRawModels.FirstOrDefault(item => item.Url.Equals(info.CacheKey));
-
-            model.Width = info.CurrentWidth;
-            model.Height = info.CurrentHeight;
         }
     }
 }
