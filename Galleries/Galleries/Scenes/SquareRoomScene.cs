@@ -30,6 +30,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             mainCamera = mainCameraNode.CreateComponent<Camera>();
 
+            mainCamera.Zoom = 1.2f;
+
             SetupLights();
 
             SetupFloor();
@@ -106,7 +108,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
         {
             var mainLightNode = CreateChild();
 
-            mainLightNode.SetDirection(new Vector3(-0.3f, 1.0f, -0.3f));
+            mainLightNode.SetDirection(new Vector3(0.0f, 1.0f, 0.0f));
 
             var mainLightComponent = mainLightNode.CreateComponent<Light>();
 
@@ -176,19 +178,19 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var floorNode = CreateChild("Floor");
 
             floorNode.Position = new Vector3(0.0f, 0.0f, 0.0f);
-            floorNode.Scale = new Vector3(FLOOR_FULL_SIZE, 1.0f, FLOOR_FULL_SIZE);
+            floorNode.Scale = new Vector3(FLOOR_FULL_SIZE, 0.5f, FLOOR_FULL_SIZE);
 
             var floorComponent = floorNode.CreateComponent<StaticModel>();
 
-            var texture2D = Application.Current.ResourceCache.GetTexture2D("Textures/Floor.jpg");
-
             var material = new Material();
 
-            material.SetTexture(TextureUnit.Diffuse, texture2D);
-            material.SetTechnique(0u, CoreAssets.Techniques.Diff);
-            material.SetUVTransform(Vector2.Zero, 0f, new Vector2(5f, 5f));
+            material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_Floor_007_COLOR.jpg"));
+            material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_Floor_007_NORM.jpg"));
+            material.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_Floor_007_ROUGH.jpg"));
+            material.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
+            material.SetUVTransform(Vector2.Zero, 1f, new Vector2(5f, 5f));
 
-            floorComponent.Model = CoreAssets.Models.Plane;
+            floorComponent.Model = CoreAssets.Models.Box;
             floorComponent.Material = material;
         }
 

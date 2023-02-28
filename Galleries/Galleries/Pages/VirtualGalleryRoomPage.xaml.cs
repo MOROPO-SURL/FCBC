@@ -24,8 +24,7 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                     await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                     {
-                        Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
-                        TouchEmulation = true
+                        Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
                     });
                 });
             });

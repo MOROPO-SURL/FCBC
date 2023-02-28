@@ -15,7 +15,6 @@
     <None Remove="Assets\Materials\Stone.xml" />
     <None Remove="Assets\Models\Door.fbx" />
     <None Remove="Assets\Textures\DarkGrungeWall.jpg" />
-    <None Remove="Assets\Textures\Floor.jpg" />
     <None Remove="Assets\Textures\Identity_Primary_FCBC.jpg" />
     <None Remove="Assets\Textures\ListoneWoodFloor.jpg" />
     <None Remove="Assets\Textures\PlayboWood.jpg" />
@@ -23,14 +22,14 @@
     <None Remove="Assets\Textures\Wall.jpg" />
     <None Remove="Assets\Textures\WhiteWallGrungePlaster.jpg" />
     <None Remove="Assets\Textures\WhiteWallUneven.jpg" />
+    <None Remove="Assets\Textures\Wood_Floor_007_COLOR.jpg" />
+    <None Remove="Assets\Textures\Wood_Floor_007_NORM.jpg" />
+    <None Remove="Assets\Textures\Wood_Floor_007_ROUGH.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\Materials\Stone.xml" />
     <Content Include="Assets\Models\Door.fbx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Textures\Floor.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\Identity_Primary_FCBC.jpg">
@@ -44,6 +43,15 @@
     </Content>
     <Content Include="Assets\Textures\Wall.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_Floor_007_COLOR.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_Floor_007_NORM.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_Floor_007_ROUGH.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

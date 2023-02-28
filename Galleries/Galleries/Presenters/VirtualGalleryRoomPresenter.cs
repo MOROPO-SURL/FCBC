@@ -30,7 +30,13 @@ namespace MOROPO.FCBC.Galleries.Presenters
             #endregion
 
             // Viewport
-            Renderer.SetViewport(0, new Viewport(Context, scene, scene.MainCamera, null));
+            var viewport = new Viewport(Context, scene, scene.MainCamera, null);
+
+            viewport.RenderPath.Append(CoreAssets.PostProcess.FXAA3);
+
+            Renderer.HDRRendering = true;
+
+            Renderer.SetViewport(0, viewport);
         }
 
         protected override void OnUpdate(float timeStep)
