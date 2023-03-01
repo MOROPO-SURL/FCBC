@@ -48,14 +48,16 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
 
 
-            //var doorNode = CreateChild();
+            var doorNode = CreateChild();
 
-            //doorNode.Position = new Vector3(0.0f, 0.0f, 30.0f);
-            //doorNode.Scale = new Vector3(30.0f, 50.0f, 15.0f);
+            doorNode.Position = new Vector3(0.0f, 0.0f, -1 * FLOOR_FULL_SIZE / 2 + 5.0f);
+            doorNode.Rotation = new Quaternion(0.0f, 270.0f, 0.0f);
+            doorNode.Scale = new Vector3(0.12f, 0.12f, 0.12f);
 
-            //var doorComponent = doorNode.CreateComponent<StaticModel>();
+            var doorComponent = doorNode.CreateComponent<StaticModel>();
 
-            //doorComponent.Model = resourceCache.GetModel("Models/Door.fbx");
+            doorComponent.Model = Application.Current.ResourceCache.GetModel("Models/Door.mdl");
+            doorComponent.Material = Material.FromImage("Textures/PlayboWood.jpg");
         }
 
         public override Camera MainCamera => mainCamera;
