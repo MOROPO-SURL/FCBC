@@ -46,18 +46,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             SetupIdentyFrames();
 
-
-
-            var doorNode = CreateChild();
-
-            doorNode.Position = new Vector3(0.0f, 0.0f, -1 * FLOOR_FULL_SIZE / 2 + 5.0f);
-            doorNode.Rotation = new Quaternion(0.0f, 270.0f, 0.0f);
-            doorNode.Scale = new Vector3(0.12f, 0.12f, 0.12f);
-
-            var doorComponent = doorNode.CreateComponent<StaticModel>();
-
-            doorComponent.Model = Application.Current.ResourceCache.GetModel("Models/Door.mdl");
-            doorComponent.Material = Material.FromImage("Textures/PlayboWood.jpg");
+            SetupDoor();
         }
 
         public override Camera MainCamera => mainCamera;
@@ -106,6 +95,31 @@ namespace MOROPO.FCBC.Galleries.Scenes
             }
         }
 
+        private void SetupDoor()
+        {
+            var doorFrameNode = CreateChild();
+
+            doorFrameNode.Position = new Vector3(10.0f, 0.0f, -1 * FLOOR_FULL_SIZE / 2 + 5.0f);
+            doorFrameNode.Rotation = new Quaternion(0.0f, 90.0f, 0.0f);
+            doorFrameNode.Scale = new Vector3(0.10f, 0.10f, 0.10f);
+
+            var doorFrameComponent = doorFrameNode.CreateComponent<StaticModel>();
+
+            doorFrameComponent.Model = Application.Current.ResourceCache.GetModel("Models/Door/Frame.mdl");
+            doorFrameComponent.Material = Material.FromColor(Color.White);
+
+            var doorLeafNode = CreateChild();
+
+            doorLeafNode.Position = new Vector3(0.0f, 0.0f, -1 * FLOOR_FULL_SIZE / 2 + 5.0f);
+            doorLeafNode.Rotation = new Quaternion(0.0f, 90.0f, 0.0f);
+            doorLeafNode.Scale = new Vector3(0.10f, 0.10f, 0.10f);
+
+            var doorLeafComponent = doorLeafNode.CreateComponent<StaticModel>();
+
+            doorLeafComponent.Model = Application.Current.ResourceCache.GetModel("Models/Door/Leaf.mdl");
+            doorLeafComponent.Material = Material.FromColor(Color.White);
+        }
+        
         private void SetupLights()
         {
             var mainLightNode = CreateChild();

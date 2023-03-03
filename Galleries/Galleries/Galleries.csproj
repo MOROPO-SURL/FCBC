@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <None Remove="Assets\Materials\Stone.xml" />
-    <None Remove="Assets\Models\Door.mdl" />
+    <None Remove="Assets\Models\Door\Frame.mdl" />
+    <None Remove="Assets\Models\Door\Leaf.mdl" />
+    <None Remove="Assets\Models\Door\VintageLeft.mdl" />
+    <None Remove="Assets\Models\Door\VintageRight.mdl" />
     <None Remove="Assets\Textures\DarkGrungeWall.jpg" />
     <None Remove="Assets\Textures\Identity_Primary_FCBC.jpg" />
     <None Remove="Assets\Textures\ListoneWoodFloor.jpg" />
@@ -29,7 +32,16 @@
 
   <ItemGroup>
     <Content Include="Assets\Materials\Stone.xml" />
-    <Content Include="Assets\Models\Door.mdl">
+    <Content Include="Assets\Models\Door\Frame.mdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Models\Door\Leaf.mdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Models\Door\VintageLeft.mdl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Models\Door\VintageRight.mdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\Identity_Primary_FCBC.jpg">
@@ -69,7 +81,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Engine3D\" />
     <Folder Include="Models\View\" />
   </ItemGroup>
 </Project>
