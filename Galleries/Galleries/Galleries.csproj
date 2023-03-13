@@ -25,6 +25,10 @@
     <None Remove="Assets\Textures\Wall.jpg" />
     <None Remove="Assets\Textures\WhiteWallGrungePlaster.jpg" />
     <None Remove="Assets\Textures\WhiteWallUneven.jpg" />
+    <None Remove="Assets\Textures\Wood_023_ambientOcclusion.jpg" />
+    <None Remove="Assets\Textures\Wood_023_basecolor.jpg" />
+    <None Remove="Assets\Textures\Wood_023_normal.jpg" />
+    <None Remove="Assets\Textures\Wood_023_roughness.jpg" />
     <None Remove="Assets\Textures\Wood_Floor_007_COLOR.jpg" />
     <None Remove="Assets\Textures\Wood_Floor_007_NORM.jpg" />
     <None Remove="Assets\Textures\Wood_Floor_007_ROUGH.jpg" />
@@ -55,6 +59,18 @@
     </Content>
     <Content Include="Assets\Textures\Wall.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_023_ambientOcclusion.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_023_basecolor.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_023_normal.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_023_roughness.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\Wood_Floor_007_COLOR.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
