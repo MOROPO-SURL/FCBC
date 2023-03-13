@@ -298,7 +298,6 @@
                         @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.StateId, null, new { @class = "text-danger" })
                     </div>
-
                     <div class="col-md-4" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.MunicipalityId, new { @class = "control-label" })
                         @Html.DropDownListFor(model => model.MunicipalityId, Model.Municipalities, new { @class = "form-control"})
