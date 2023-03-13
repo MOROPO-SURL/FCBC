@@ -13,7 +13,7 @@ namespace MOROPO.FCBC.SGI.Models.Filter
         [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [Display(Name = "ServiceManifestation")]
+        [Display(Name = "ServiceLine")]
         public string ManifestationId { get; set; }
         public ICollection<SelectListItem> Manifestation { get; set; }
 

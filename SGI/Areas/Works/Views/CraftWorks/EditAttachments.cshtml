@@ -120,7 +120,7 @@
                                 <div class="btn-group btn-group-sm">
                                     @using (Html.BeginForm("DownloadAttachment", "craftworks", new { key = Model.Work.Id, attachmentId = item.Id }, FormMethod.Post))
                                     {
-                                        <button class="btn btn-light" type="submit">Descargar</button>
+                                        <button class="btn btn-light" type="submit" style="padding: 0.25rem 0.5rem; font-size: .875rem; line-height: 1.5;">Descargar</button>
                                     }
                                     <a class="btn btn-light" href="#" data-toggle="modal" data-target="#edit-attachment-@item.Id">Modificar</a>
                                     <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-attachment-@item.Id">Eliminar</a>
