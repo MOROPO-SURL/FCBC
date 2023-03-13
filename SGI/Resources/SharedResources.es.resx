@@ -1930,9 +1930,12 @@
     <value />
   </data>
   <data name="ArtManifestation" xml:space="preserve">
-    <value>Manifestación</value>
+    <value>Manifestación de Artes Pláticas</value>
   </data>
   <data name="Context" xml:space="preserve">
     <value>Contexto</value>
+  </data>
+  <data name="ServiceManifestation" xml:space="preserve">
+    <value>Manifestación de Servicio</value>
   </data>
 </root>
