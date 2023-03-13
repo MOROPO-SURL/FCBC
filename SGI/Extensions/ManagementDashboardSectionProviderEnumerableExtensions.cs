@@ -147,7 +147,7 @@ namespace MOROPO.FCBC.SGI.Extensions
 
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Rol Administartivos",
+                    Title = "Roles Administartivos",
                     Controller = "administrativeroles",
                     Action = "index",
                     Area = "complements",
