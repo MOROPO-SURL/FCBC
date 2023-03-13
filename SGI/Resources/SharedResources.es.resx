@@ -1920,4 +1920,19 @@
   <data name="agreement-viewer-description" xml:space="preserve">
     <value>Usuario que puede visualizar acuerdos del CA</value>
   </data>
+  <data name="CriticUpdateId" xml:space="preserve">
+    <value>Crítico</value>
+  </data>
+  <data name="DateOfAssessment" xml:space="preserve">
+    <value>Fecha del Criterio</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ArtManifestation" xml:space="preserve">
+    <value>Manifestación</value>
+  </data>
+  <data name="Context" xml:space="preserve">
+    <value>Contexto</value>
+  </data>
 </root>

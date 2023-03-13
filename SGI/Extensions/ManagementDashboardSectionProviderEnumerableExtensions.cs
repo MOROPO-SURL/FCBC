@@ -102,7 +102,7 @@ namespace MOROPO.FCBC.SGI.Extensions
 
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Critico",
+                    Title = "Crítico",
                     Controller = "critics",
                     Action = "index",
                     Area = "complements",

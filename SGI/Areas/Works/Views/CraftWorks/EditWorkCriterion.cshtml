@@ -128,7 +128,7 @@
                                 @foreach (var item in Model.WorkDisplay.CraftWorkAssessmentBridges)
                                 {
                                     <tr>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.DateOfAssessment</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.DateOfAssessment.ToShortDateString()</td>
                                         <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Critic.Identity.Name @item.Critic.Identity.LastName</td>
                                         <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Criterion</td>
                                         <td style="vertical-align: middle;">
