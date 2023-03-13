@@ -1,0 +1,51 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ContractorDisplayViewModel
+
+<div class="alert alert-dark">
+    <details>
+        <summary class="h4 mb-0">@Model.OrganizationIdentityName</summary>
+        <hr />
+        <div class="row no-gutters">
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                @if (Model.ImageId != System.Guid.Empty)
+                {
+                    <img class="img-thumbnail" src="~/media/images/@Model.ImageId.@Model.ImageExtension" />
+                }
+                else
+                {
+                    <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                }
+            </div>
+            <div class="col-lg-10 col-md-8 col-sm-6">
+                <div class="card-block pl-3">
+                    <div class="row">
+                        <dl class="col-md-6">
+                            <dt>@Html.DisplayNameFor(model => model.OrganizationIdentityName)</dt>
+                            <dd>@Html.DisplayFor(model => model.OrganizationIdentityName)</dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>@Html.DisplayNameFor(model => model.ContractKindName)</dt>
+                            <dd>@Html.DisplayFor(model => model.ContractKindName)</dd>
+                        </dl>
+                    </div>
+                    <div class="row">
+                        <dl class="col-md-6">
+                            <dt>Fecha de Fundada</dt>
+                            @if (Model.BornDate == null)
+                            {
+                                <dd>-</dd>
+                            }
+                            else
+                            {
+                                <dd>@Model.BornDate.Value.ToShortDateString()</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>@Html.DisplayNameFor(model => model.Brand)</dt>
+                            <dd>@Html.DisplayFor(model => model.Brand)</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+</div>            

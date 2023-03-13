@@ -50,27 +50,7 @@
             </ul>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
-                    <div class="card">
-                        @if (Model.Contractor.ImageId != System.Guid.Empty)
-                        {
-                            <img class="img-thumbnail" src="~/media/images/@Model.Contractor.ImageId.@Model.Contractor.ImageExtension" />
-                        }
-                        else
-                        {
-                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
-                        }
-
-                        <div class="col-lg-10 col-md-9 col-sm-9">
-                            <dl style="margin-bottom: 0;">
-                                <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
-                                <dd>@Model.Contractor.OrganizationIdentityName</dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Contractor)
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">
                     <div class="page-header">
