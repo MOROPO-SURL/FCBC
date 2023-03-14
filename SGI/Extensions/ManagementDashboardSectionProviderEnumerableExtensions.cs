@@ -193,7 +193,6 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Area = "institution",
                     Role = Security.Authorization.Permission.InstitutionalInformationViewer
                 },
-
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Servicios",
@@ -201,6 +200,14 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Action = "index",
                     Area = "institution",
                     Role = Security.Authorization.Permission.ServiceViewer
+                },
+                new ManagementDashboardSectionViewModel
+                {
+                    Title = "Actividades",
+                    Controller = "activities",
+                    Action = "index",
+                    Area = "institution",
+                    Role = Security.Authorization.Permission.ActivityViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
@@ -234,7 +241,6 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Area = "institution",
                     Role = Security.Authorization.Permission.AssociationViewer
                 },
-
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Trabajadores",
@@ -242,15 +248,6 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Action = "index",
                     Area = "institution",
                     Role = Security.Authorization.Permission.EmployeeViewer
-                },
-
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Actividades",
-                    Controller = "activities",
-                    Action = "index",
-                    Area = "institution",
-                    Role = Security.Authorization.Permission.ActivityViewer
                 }
             };
 
