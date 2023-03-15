@@ -30,11 +30,13 @@
     </style>
 }
 
-<div class="row" style="margin-bottom: 20px;">
-    <div class="col-sm-4">
+<div class="row mb-5">
+    <div class="col-lg-4 col-md-6 col-sm-10">
         @await Html.PartialAsync("_UsersFilterPartial", Model.Filter)
     </div>
-    <div class="col-sm-8"><a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a></div>
+    <div class="col-lg-8 col-md-6 col-sm-2">
+        <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+    </div>
 </div>
 
 @if (Model.MaxPageCount > 0)
