@@ -73,13 +73,15 @@
 @using (Html.BeginForm("edit", "activities", new { Area = "institution", key = string.Empty }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.ImageId);
+    @Html.HiddenFor(model => model.ImageExtension);
 
-    <div class="card" style="margin-bottom: 20px;">
+    <div class="card mb-3">
         <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
 
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-4" style="margin-bottom: 20px;">
+                <div class="col-md-6 mb-3">
                     <div class="card">
                         @if (Model.ImageId != System.Guid.Empty)
                         {
@@ -87,7 +89,7 @@
                         }
                         else
                         {
-                            <img src="~/img/default-person-picture.jpg" class="card-img-top" id="ImageFilePreview" />
+                            <img src="~/img/default_image_horizontal.png" class="card-img-top" id="ImageFilePreview" />
                         }
 
                         <label class="btn btn-light" style="border-top-left-radius: 0; border-top-right-radius: 0; margin-bottom: 0;">
@@ -97,19 +99,19 @@
                     </div>
                     @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-lg-9 col-md-6 col-sm-8" style="margin-bottom: 20px;">
-                    <div style="margin-bottom: 20px;">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="mb-3">
                         @Html.LabelFor(model => model.Name, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                     </div>
                     <div class="row">
-                        <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-md-6 mb-3">
                             @Html.LabelFor(model => model.ActivityKinds, new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.ActivityKindId, Model.ActivityKinds, new { @class = "form-control"})
                             @Html.ValidationMessageFor(model => model.ActivityKindId, null, new { @class = "text-danger" })
                         </div>
-                        <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-md-6 mb-3">
                             @Html.LabelFor(model => model.PlanedAt, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.PlanedAt, new { @class = "form-control", @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.PlanedAt, null, new { @class = "text-danger" })
@@ -117,9 +119,9 @@
                     </div>
                 </div>
             </div>
-            <div style="margin-bottom: 20px;">
+            <div>
                 @Html.LabelFor(model => model.Description, new { @class = "control-label" })
-                @Html.TextAreaFor(model => model.Description, 4, 0, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Description, 6, 0, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
             </div>
         </div>
