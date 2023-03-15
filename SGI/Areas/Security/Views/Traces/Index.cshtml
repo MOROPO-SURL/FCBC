@@ -33,11 +33,11 @@
     </style>
 }
 
-    <div class="row" style="margin-bottom: 20px;">
-        <div class="col-sm-4">
-            @await Html.PartialAsync("TracesFilterPartial", Model.Filter)
-        </div>
+<div class="row mb-5">
+    <div class="col-lg-4 col-md-6 col-sm-10">
+        @await Html.PartialAsync("TracesFilterPartial", Model.Filter)
     </div>
+</div>
 
 @if (Model.MaxPageCount > 0)
 {

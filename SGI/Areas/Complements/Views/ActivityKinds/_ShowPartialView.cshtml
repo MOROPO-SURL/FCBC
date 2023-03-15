@@ -13,7 +13,6 @@
             <div class="modal-body">
                 <h5>@Html.DisplayNameFor(model => model.Name)</h5>
                 <p>@Model.Name</p>
-                <hr />
                 <h5>@Html.DisplayNameFor(model => model.Description)</h5>
                 @if (Model.Description != null)
                 {
@@ -21,9 +20,8 @@
                 }
                 else
                 {
-                    <p>-</p>
+                    <p>--</p>
                 }
-
             </div>
         </div>
     </div>
