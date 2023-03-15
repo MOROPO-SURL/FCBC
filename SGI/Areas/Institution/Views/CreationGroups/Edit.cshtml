@@ -52,22 +52,45 @@
             value: '@Model.CreatedAt?.ToShortDateString()'
         });
 
-        $('#RegistratedAt').datepicker({
+        var creationDatepicker = $('#RegistratedAt').datepicker({
             uiLibrary: 'bootstrap4',
             modal: true,
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.RegistratedAt.ToShortDateString()'
+            value: '@Model.RegistratedAt.ToShortDateString()',
+            change: function (e) {
+                var creationDate = new Date(this.value.replace(/(\d+[/])(\d+[/])/, '$2$1'));
+                var minDate = new Date(creationDate.setDate(creationDate.getDate() + 1));
+                var expirationDate = new Date(expirationDatepicker.value().replace(/(\d+[/])(\d+[/])/, '$2$1'));
+                
+                var expirationValue = expirationDatepicker.value();
+                if(expirationValue != null && expirationDate <= creationDate){
+                    expirationValue = null;
+                }
+                expirationDatepicker.destroy();
+                $('#RegistrationEndAt').datepicker({
+                    uiLibrary: 'bootstrap4',
+                    modal: true,
+                    header: true,
+                    footer: true,
+                    format: 'dd/mm/yyyy',
+                    value: expirationValue,
+                    minDate: minDate
+                });
+            }
         });
+        var creationDate = new Date(creationDatepicker.value().replace(/(\d+[/])(\d+[/])/, '$2$1'));
+        var minDate = new Date(creationDate.setDate(creationDate.getDate() + 1));
 
-        $('#RegistrationEndAt').datepicker({
+        var expirationDatepicker = $('#RegistrationEndAt').datepicker({
             uiLibrary: 'bootstrap4',
             modal: true,
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: '@Model.RegistrationEndAt.ToShortDateString()'
+            value: '@Model.RegistrationEndAt.ToShortDateString()',
+            minDate: minDate
         });
 
         $(function () {
@@ -200,14 +223,14 @@
             </div>
             <fieldset>
                 <legend class="border-bottom">Registro del Creador</legend>
-                <div class=row>
+                <div class="row">
                     <div class="col-md-6" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class=row>
+                <div class="row">
                     <div class="col-md-6 mb-3 mb-md-0" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.RegistratedAt, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.RegistratedAt, new { @class = "form-control" })
