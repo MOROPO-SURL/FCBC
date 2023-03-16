@@ -1,33 +1,25 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
-using MOROPO.SAPRESSC.Middleware.Region.Web.Backend.Models.View;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-
-namespace MOROPO.FCBC.SGI.Models.View
+﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class AwardDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Award, Guid>
+    public class AwardDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.Award, System.Guid>
     {
-        public AwardDisplayViewModel()
-        {
-            Country = new CountryDisplayViewModel();
-        }
+        public System.Guid Id { get; set; }
 
-        public Guid Id { get; set; }
-
-        [Display(Name = "Name")]
+        [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Display(Name = "Country")]
-        public CountryDisplayViewModel Country { get; set; }
+        //[Display(Name = "Country")]
+        //public CountryDisplayViewModel Country { get; set; }
 
-        public void Import(Award entity)
+        [System.ComponentModel.DataAnnotations.Display(Name = "Description")]
+        public string Description { get; set; }
+
+        public void Import(Persistence.Entities.Award entity)
         {
             Id = entity.Id;
             Name = entity.Name;
+            Description = entity.Description;
 
-            Country.Import(entity.Country);
+            //Country.Import(entity.Country);
         }
     }
 }

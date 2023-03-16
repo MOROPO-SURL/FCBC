@@ -170,8 +170,34 @@
                         <td style="vertical-align: middle;" title="Premios ">@item.Name</td>   
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
+                            </div>
+                            <div class="modal fade" id="descrip-@item.Id" tabindex="-1" role="dialog" aria-labelledby="descrip-@item.Id-label" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="descrip-@item.Id-label">Detalles</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>@GlobalViewLocalizationHelper.Localize("Name")</h5>
+                                            <p>@item.Name</p>
+                                            <h5>@GlobalViewLocalizationHelper.Localize("Description")</h5>
+                                            @if (string.IsNullOrEmpty(item.Description))
+                                            {
+                                                <span>--</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.Description</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>

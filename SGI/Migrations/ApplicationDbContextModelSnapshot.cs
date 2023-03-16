@@ -794,8 +794,11 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
-                    b.Property<Guid>("CountryId")
+                    b.Property<Guid?>("CountryId")
                         .HasColumnName("countryid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -3534,8 +3537,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasOne("MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .HasConstraintName("fk_awards_countries_countryid")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasConstraintName("fk_awards_countries_countryid");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Contractor", b =>
