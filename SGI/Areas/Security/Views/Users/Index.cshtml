@@ -143,7 +143,7 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th width="36px;"><span class="mdi mdi-shield-lock integrity-icon" title="Integridad"></span></th>
+                    <th width="36"><span class="mdi mdi-shield-lock integrity-icon" title="Integridad"></span></th>
                     <th>Nombre de Usuario</th>
                     <th style="width: 1px; word-wrap: unset;">Habilitado?</th>
                     <th style="width: 130px; text-align: center;">Acceso Total?</th>
@@ -186,9 +186,26 @@
                     <td style="vertical-align: middle;" title="Creado">@item.Created</td>
                     <td style="vertical-align: middle;">
                         <div class="btn-group btn-group-sm">
-                                <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                            <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" title="Extras"></button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    @if (item.Id != User.Identity.Name)
+                                    {
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#change-password-@item.Id">Cambiar Contrase&ntilde;a</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item disabled" href="#">Cambiar Contrase&ntilde;a</a>
+                                    }
+                                </div>
+                            </div>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
+                        @if (item.Id != User.Identity.Name)
+                        {
+                            @await Html.PartialAsync("_UserChangePasswordPartial", new MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Backend.Models.View.UserChangePasswordViewModel { UserId = item.Id });
+                        }
                     </td>
                 </tr>
             }
@@ -299,7 +316,7 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th width="36px;"><span class="fas fa-lock integrity-icon"></span></th>
+                    <th width="36"><span class="fas fa-lock integrity-icon"></span></th>
                     <th>Nombre de Usuario</th>
                     <th>Habilitado?</th>
                     <th>Acceso Total?</th>
