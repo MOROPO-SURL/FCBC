@@ -9,7 +9,7 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public System.Guid Id { get; set; }
 
-        public System.Guid ImageId { get; set; }
+        public System.Guid? ImageId { get; set; }
 
         public string ImageExtension { get; set; }
 
@@ -25,9 +25,6 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Sex")]
         public SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
 
-        [Display(Name = "CivilStatus")]
-        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.CivilStatus CivilStatus { get; set; }
-
         [Display(Name = "Alias")]
         public string Alias { get; set; }
 
@@ -37,13 +34,12 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(Critic entity)
         {
             Id = entity.Id;
-            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageId = entity.Identity.ImageId;
             ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
             Name = entity.Identity.Name;
             LastName = entity.Identity.LastName;
             BornDate = entity.Identity.BornDate;
             Sex = entity.Identity.Sex;
-            CivilStatus = entity.Identity.CivilStatus;
             Alias = entity.Identity.Alias;
             About = entity.Identity.About;
         }
