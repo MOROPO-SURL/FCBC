@@ -7,7 +7,7 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public List<SelectionDescriptedItemInputViewModel<System.Guid>> SelectableRoles { get; set; }
 
-        public System.Guid EmployeeId { get; set; }
+        public EmployeeDisplayViewModel Employee { get; set; }
 
         public EmployeeAdministrativeRolesInputViewModel()
         {

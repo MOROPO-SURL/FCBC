@@ -19,7 +19,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "ImageFile")]
         public Microsoft.AspNetCore.Http.IFormFile ImageFile { get; set; }
 
-        public System.Guid ImageId { get; set; }
+        public System.Guid? ImageId { get; set; }
 
         public string ImageExtension { get; set; }
 
@@ -66,8 +66,6 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public Municipality Municipality { get; set; }
 
-        public ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; } = new List<EmployeeAdministrativeRoleBridge>();
-
         public ICollection<SelectListItem> States { get; set; } = new List<SelectListItem>();
 
         public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
@@ -89,7 +87,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(Employee entity)
         {
             Id = entity.Id;
-            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
+            ImageId = entity.Identity.ImageId;
             ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
             Name = entity.Identity.Name;
             LastName = entity.Identity.LastName;
@@ -98,9 +96,10 @@ namespace MOROPO.FCBC.SGI.Models.View
             CivilStatus = entity.Identity.CivilStatus;
             Alias = entity.Identity.Alias;
             About = entity.Identity.About;
-            EmployeeAdministrativeRoleBridges = entity.AdministrativeRoleBridges;
             AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            
             var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            
             MunicipalityId = (System.Guid)((MunicipalityRegion)region).MunicipalityId;            
         }
 
@@ -113,7 +112,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.Identity.CivilStatus = CivilStatus;
             entity.Identity.Alias = Alias;
             entity.Identity.About = About;
-            entity.AdministrativeRoleBridges = entity.AdministrativeRoleBridges;
         }
     }
 }
