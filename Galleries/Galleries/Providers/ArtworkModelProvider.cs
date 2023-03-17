@@ -20,7 +20,7 @@ namespace MOROPO.FCBC.Galleries.Providers
         {
             imageRawModels.Clear();
 
-            for (int i = 1; i <= 18; i++)
+            for (int i = 20; i <= 37; i++)
             {
                 var extension = "jpg";
 
