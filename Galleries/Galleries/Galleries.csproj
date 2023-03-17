@@ -17,18 +17,26 @@
     <None Remove="Assets\Models\Door\Leaf.mdl" />
     <None Remove="Assets\Models\Door\VintageLeft.mdl" />
     <None Remove="Assets\Models\Door\VintageRight.mdl" />
+    <None Remove="Assets\Textures\Ceiling_Drop_Tiles_001_basecolor.jpg" />
+    <None Remove="Assets\Textures\Ceiling_Drop_Tiles_001_normal.jpg" />
+    <None Remove="Assets\Textures\Ceiling_Drop_Tiles_001_roughness.jpg" />
     <None Remove="Assets\Textures\DarkGrungeWall.jpg" />
+    <None Remove="Assets\Textures\Geometric_wallpaper_ambientOcclusion.jpg" />
+    <None Remove="Assets\Textures\Geometric_wallpaper_basecolor.jpg" />
+    <None Remove="Assets\Textures\Geometric_wallpaper_normal.jpg" />
+    <None Remove="Assets\Textures\Geometric_wallpaper_roughness.jpg" />
     <None Remove="Assets\Textures\Identity_Primary_FCBC.jpg" />
     <None Remove="Assets\Textures\ListoneWoodFloor.jpg" />
-    <None Remove="Assets\Textures\PlayboWood.jpg" />
-    <None Remove="Assets\Textures\Roof.jpg" />
-    <None Remove="Assets\Textures\Wall.jpg" />
+    <None Remove="Assets\Textures\Plaster_Rough_001_COLOR.jpg" />
+    <None Remove="Assets\Textures\Plaster_Rough_001_NORM.jpg" />
+    <None Remove="Assets\Textures\Plaster_Rough_001_ROUGH.jpg" />
     <None Remove="Assets\Textures\WhiteWallGrungePlaster.jpg" />
     <None Remove="Assets\Textures\WhiteWallUneven.jpg" />
-    <None Remove="Assets\Textures\Wood_023_ambientOcclusion.jpg" />
-    <None Remove="Assets\Textures\Wood_023_basecolor.jpg" />
-    <None Remove="Assets\Textures\Wood_023_normal.jpg" />
-    <None Remove="Assets\Textures\Wood_023_roughness.jpg" />
+    <None Remove="Assets\Textures\Wood_024_ambientOcclusion.jpg" />
+    <None Remove="Assets\Textures\Wood_024_basecolor.jpg" />
+    <None Remove="Assets\Textures\Wood_024_height.jpg" />
+    <None Remove="Assets\Textures\Wood_024_normal.jpg" />
+    <None Remove="Assets\Textures\Wood_024_roughness.jpg" />
     <None Remove="Assets\Textures\Wood_Floor_007_COLOR.jpg" />
     <None Remove="Assets\Textures\Wood_Floor_007_NORM.jpg" />
     <None Remove="Assets\Textures\Wood_Floor_007_ROUGH.jpg" />
@@ -48,28 +56,52 @@
     <Content Include="Assets\Models\Door\VintageRight.mdl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Textures\Ceiling_Drop_Tiles_001_basecolor.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Ceiling_Drop_Tiles_001_normal.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Ceiling_Drop_Tiles_001_roughness.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Geometric_wallpaper_ambientOcclusion.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Geometric_wallpaper_basecolor.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Geometric_wallpaper_normal.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Geometric_wallpaper_roughness.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Textures\Identity_Primary_FCBC.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Textures\PlayboWood.jpg">
+    <Content Include="Assets\Textures\Plaster_Rough_001_COLOR.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Textures\Roof.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Textures\Wall.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Textures\Wood_023_ambientOcclusion.jpg">
+    <Content Include="Assets\Textures\Plaster_Rough_001_NORM.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Textures\Wood_023_basecolor.jpg">
+    <Content Include="Assets\Textures\Plaster_Rough_001_ROUGH.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Textures\Wood_023_normal.jpg">
+    <Content Include="Assets\Textures\Wood_024_ambientOcclusion.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Textures\Wood_023_roughness.jpg">
+    <Content Include="Assets\Textures\Wood_024_basecolor.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_024_height.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_024_normal.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\Wood_024_roughness.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Textures\Wood_Floor_007_COLOR.jpg">

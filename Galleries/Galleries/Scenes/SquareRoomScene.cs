@@ -99,11 +99,10 @@ namespace MOROPO.FCBC.Galleries.Scenes
         {
             var material = new Material();
 
-            material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_023_basecolor.jpg"));
-            material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_023_normal.jpg"));
-            material.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_023_roughness.jpg"));
+            material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_basecolor.jpg"));
+            material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_normal.jpg"));
+            material.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_roughness.jpg"));
             material.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
-            //material.SetUVTransform(Vector2.Zero, 1f, new Vector2(45f, 45f));
 
             var centerWallDistance = FLOOR_FULL_SIZE / 2 - WALL_VINTAGE_WEIGTH / 2;
 
@@ -115,7 +114,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var northWallVintageComponent = northWallVintageNode.CreateComponent<StaticModel>();
 
             northWallVintageComponent.Model = CoreAssets.Models.Box;
-            northWallVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            northWallVintageComponent.Material = material.Clone();
+            //northWallVintageComponent.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(northWallVintageNode.Scale.X / northWallVintageNode.Scale.Y * 5f, 5f));
 
             var westWallVintageNode = CreateChild();
 
@@ -125,7 +125,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var westWallVintageComponent = westWallVintageNode.CreateComponent<StaticModel>();
 
             westWallVintageComponent.Model = CoreAssets.Models.Box;
-            westWallVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            westWallVintageComponent.Material = material.Clone();
 
             var eastWallVintageNode = CreateChild();
 
@@ -135,7 +135,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var eastWallVintageComponent = eastWallVintageNode.CreateComponent<StaticModel>();
 
             eastWallVintageComponent.Model = CoreAssets.Models.Box;
-            eastWallVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            eastWallVintageComponent.Material = material.Clone();
 
             var leftSouthWallVintageNode = CreateChild();
 
@@ -145,7 +145,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var leftSouthWallVintageComponent = leftSouthWallVintageNode.CreateComponent<StaticModel>();
 
             leftSouthWallVintageComponent.Model = CoreAssets.Models.Box;
-            leftSouthWallVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            leftSouthWallVintageComponent.Material = material.Clone();
 
             var rightSouthWallVintageNode = CreateChild();
 
@@ -155,7 +155,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var rightSouthWallVintageComponent = rightSouthWallVintageNode.CreateComponent<StaticModel>();
 
             rightSouthWallVintageComponent.Model = CoreAssets.Models.Box;
-            rightSouthWallVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            rightSouthWallVintageComponent.Material = material.Clone();
 
             var leftSouthWallVerticalVintageNode = CreateChild();
 
@@ -165,7 +165,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var leftSouthWallVerticalVintageComponent = leftSouthWallVerticalVintageNode.CreateComponent<StaticModel>();
 
             leftSouthWallVerticalVintageComponent.Model = CoreAssets.Models.Box;
-            leftSouthWallVerticalVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            leftSouthWallVerticalVintageComponent.Material = material.Clone();
 
             var rightSouthWallVerticalVintageNode = CreateChild();
 
@@ -175,7 +175,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var rightSouthWallVerticalVintageComponent = rightSouthWallVerticalVintageNode.CreateComponent<StaticModel>();
 
             rightSouthWallVerticalVintageComponent.Model = CoreAssets.Models.Box;
-            rightSouthWallVerticalVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            rightSouthWallVerticalVintageComponent.Material = material.Clone();
 
             var middleSouthWallVintageNode = CreateChild();
 
@@ -185,19 +185,19 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var middleSouthWallVintageComponent = middleSouthWallVintageNode.CreateComponent<StaticModel>();
 
             middleSouthWallVintageComponent.Model = CoreAssets.Models.Box;
-            middleSouthWallVintageComponent.Material = CoreAssets.Materials.DefaultGrey;
+            middleSouthWallVintageComponent.Material = material.Clone();
         }
         
         private void SetupLights()
         {
-            var floorLightNode = CreateChild();
+            //var floorLightNode = CreateChild();
 
-            floorLightNode.SetDirection(new Vector3(0.0f, -1.0f, 0.0f));
+            //floorLightNode.SetDirection(new Vector3(0.0f, -1.0f, 0.0f));
 
-            var floorLightComponent = floorLightNode.CreateComponent<Light>();
+            //var floorLightComponent = floorLightNode.CreateComponent<Light>();
 
-            floorLightComponent.LightType = LightType.Directional;
-            floorLightComponent.Brightness = 0.3f;
+            //floorLightComponent.LightType = LightType.Directional;
+            //floorLightComponent.Brightness = 0.3f;
 
             var roofLightNode = CreateChild();
 
@@ -206,7 +206,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var roofLightComponent = roofLightNode.CreateComponent<Light>();
 
             roofLightComponent.LightType = LightType.Directional;
-            roofLightComponent.Brightness = 0.3f;
+            roofLightComponent.Brightness = 0.15f;
 
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
@@ -219,21 +219,20 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     {
                         var roofPointLightNode = CreateChild();
 
-                        roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 5.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+                        roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 25.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 
                         var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
                         roofPointLightComponent.LightType = LightType.Point;
                         roofPointLightComponent.CastShadows = false;
-                        roofPointLightComponent.Brightness = 0.5f;
+                        roofPointLightComponent.Brightness = 0.35f;
                         roofPointLightComponent.Color = Color.White;
-                        roofPointLightComponent.Range = 280.0f;
-                        roofPointLightComponent.Radius = 5;
+                        roofPointLightComponent.Range = 380.0f;
 
                         var roofLightLampNode = CreateChild();
 
-                        roofLightLampNode.Position = new Vector3(roofPointLightNode.Position.X, WALL_HEIGHT - 2.0f, roofPointLightNode.Position.Z);
-                        roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 4, 2.0f, FLOOR_TILE_SIZE / 4);
+                        roofLightLampNode.Position = new Vector3(roofPointLightNode.Position.X - x / 4 * 1.5f, WALL_HEIGHT - 0.5f, roofPointLightNode.Position.Z - y / 4 * 1.5f);
+                        roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 4, 1.0f, FLOOR_TILE_SIZE / 4);
 
                         var roofLightLampComponent = roofLightLampNode.CreateComponent<StaticModel>();
 
@@ -249,21 +248,20 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 {
                     var roofPointLightNode = CreateChild();
 
-                    roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 5.0f, -13 * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+                    roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 20.0f, -13 * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 
                     var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
                     roofPointLightComponent.LightType = LightType.Point;
                     roofPointLightComponent.CastShadows = false;
-                    roofPointLightComponent.Brightness = 0.25f;
+                    roofPointLightComponent.Brightness = 0.35f;
                     roofPointLightComponent.Color = Color.White;
-                    roofPointLightComponent.Range = 375.0f;
-                    roofPointLightComponent.Radius = 5;
+                    roofPointLightComponent.Range = 380.0f;
 
                     var roofLightLampNode = CreateChild();
 
-                    roofLightLampNode.Position = new Vector3(roofPointLightNode.Position.X, WALL_HEIGHT - 2.0f, roofPointLightNode.Position.Z);
-                    roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 4, 2.0f, FLOOR_TILE_SIZE / 4);
+                    roofLightLampNode.Position = new Vector3(roofPointLightNode.Position.X - x / 4 * 1.5f, WALL_HEIGHT - 0.5f, roofPointLightNode.Position.Z + 13 / 4 * 1.5f);
+                    roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 4, 1.0f, FLOOR_TILE_SIZE / 4);
 
                     var roofLightLampComponent = roofLightLampNode.CreateComponent<StaticModel>();
 
@@ -282,13 +280,13 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             var roofComponent = roofNode.CreateComponent<StaticModel>();
 
-            var texture2D = Application.Current.ResourceCache.GetTexture2D("Textures/Roof.jpg");
-
             var material = new Material();
 
-            material.SetTexture(TextureUnit.Diffuse, texture2D);
-            material.SetTechnique(0u, CoreAssets.Techniques.Diff);
-            material.SetUVTransform(Vector2.Zero, 0f, new Vector2(5f, 5f));
+            material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Ceiling_Drop_Tiles_001_basecolor.jpg"));
+            material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Ceiling_Drop_Tiles_001_normal.jpg"));
+            material.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Ceiling_Drop_Tiles_001_roughness.jpg"));
+            material.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
+            material.SetUVTransform(Vector2.Zero, 0f, new Vector2(6.0f, 6.0f));
 
             roofComponent.Model = CoreAssets.Models.Box;
             roofComponent.Material = material;
@@ -309,7 +307,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_Floor_007_NORM.jpg"));
             material.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_Floor_007_ROUGH.jpg"));
             material.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
-            material.SetUVTransform(Vector2.Zero, 1f, new Vector2(6.5f, 6.5f));
+            material.SetUVTransform(Vector2.Zero, 0f, new Vector2(7.5f, 7.5f));
 
             floorComponent.Model = CoreAssets.Models.Box;
             floorComponent.Material = material;
@@ -345,13 +343,14 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
         private void SetupWalls()
         {
-            var texture2D = Application.Current.ResourceCache.GetTexture2D("Textures/Wall.jpg");
+            var materialUVTransformScale = 15.0f;
 
-            var wallMaterial = new Material();
+            var material = new Material();
 
-            wallMaterial.SetTexture(TextureUnit.Diffuse, texture2D);
-            wallMaterial.SetTechnique(0u, CoreAssets.Techniques.Diff);
-            wallMaterial.SetUVTransform(Vector2.Zero, 0f, new Vector2(5f, 5f));
+            material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Plaster_Rough_001_COLOR.jpg"));
+            material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Plaster_Rough_001_NORM.jpg"));
+            material.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Plaster_Rough_001_ROUGH.jpg"));
+            material.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
 
             var centerWallDistance = FLOOR_FULL_SIZE / 2 + WALL_WEIGTH / 2;
 
@@ -363,7 +362,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var northWallObject = northWallNode.CreateComponent<StaticModel>();
 
             northWallObject.Model = CoreAssets.Models.Box;
-            northWallObject.Material = wallMaterial;
+            northWallObject.Material = material.Clone();
+            northWallObject.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(northWallNode.Scale.X / northWallNode.Scale.Y * materialUVTransformScale, materialUVTransformScale));
 
             var westWallNode = CreateChild();
 
@@ -373,7 +373,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var westWallObject = westWallNode.CreateComponent<StaticModel>();
 
             westWallObject.Model = CoreAssets.Models.Box;
-            westWallObject.Material = wallMaterial;
+            westWallObject.Material = material.Clone();
+            westWallObject.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(westWallNode.Scale.Z / westWallNode.Scale.Y * materialUVTransformScale, materialUVTransformScale));
 
             var eastWallNode = CreateChild();
 
@@ -383,7 +384,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var eastWallObject = eastWallNode.CreateComponent<StaticModel>();
 
             eastWallObject.Model = CoreAssets.Models.Box;
-            eastWallObject.Material = wallMaterial;
+            eastWallObject.Material = material.Clone();
+            eastWallObject.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(eastWallNode.Scale.Z / eastWallNode.Scale.Y * materialUVTransformScale, materialUVTransformScale));
 
             var leftSouthWallNode = CreateChild();
 
@@ -393,7 +395,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var leftSouthWallObject = leftSouthWallNode.CreateComponent<StaticModel>();
 
             leftSouthWallObject.Model = CoreAssets.Models.Box;
-            leftSouthWallObject.Material = wallMaterial;
+            leftSouthWallObject.Material = material.Clone();
+            leftSouthWallObject.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(leftSouthWallNode.Scale.X / leftSouthWallNode.Scale.Y * materialUVTransformScale, materialUVTransformScale));
 
             var rightSouthWallNode = CreateChild();
 
@@ -403,7 +406,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var rightSouthWallObject = rightSouthWallNode.CreateComponent<StaticModel>();
 
             rightSouthWallObject.Model = CoreAssets.Models.Box;
-            rightSouthWallObject.Material = wallMaterial;
+            rightSouthWallObject.Material = material.Clone();
+            rightSouthWallObject.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(rightSouthWallNode.Scale.X / rightSouthWallNode.Scale.Y * materialUVTransformScale, materialUVTransformScale));
 
             var middleSouthWallNode = CreateChild();
 
@@ -413,7 +417,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var middleSouthWallObject = middleSouthWallNode.CreateComponent<StaticModel>();
 
             middleSouthWallObject.Model = CoreAssets.Models.Box;
-            middleSouthWallObject.Material = wallMaterial;
+            middleSouthWallObject.Material = material.Clone();
+            middleSouthWallObject.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(middleSouthWallNode.Scale.X / middleSouthWallNode.Scale.Y * materialUVTransformScale, materialUVTransformScale));
 
             var hallWallNode = CreateChild();
 
@@ -423,7 +428,12 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var hallWallObject = hallWallNode.CreateComponent<StaticModel>();
 
             hallWallObject.Model = CoreAssets.Models.Box;
-            hallWallObject.Material = wallMaterial;
+            hallWallObject.Material = new Material();
+            hallWallObject.Material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Geometric_wallpaper_basecolor.jpg"));
+            hallWallObject.Material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Geometric_wallpaper_normal.jpg"));
+            hallWallObject.Material.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Geometric_wallpaper_roughness.jpg"));
+            hallWallObject.Material.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
+            hallWallObject.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(hallWallNode.Scale.X / hallWallNode.Scale.Y * 1.5f, 1.5f));
         }
 
         private void SetupIdentyFrames()
