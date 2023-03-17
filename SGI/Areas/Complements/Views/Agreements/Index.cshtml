@@ -139,8 +139,14 @@
                         </span>
                         @item.Title
                     </div>
+                    <div class="mb-2">
+                        <span class="font-weight-bold">
+                            Fecha:
+                        </span>
+                        @item.Title
+                    </div>
                     <div>
-                        <div class="btn-group btn-group-sm float-right">
+                        <div class="btn-group float-right">
                             <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
@@ -156,9 +162,9 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th style="width: 1px;">Número</th>
-                    <th>Fecha</th>
+                    <th style="width: 1px;">No.</th>
                     <th>Título</th>
+                    <th>Fecha</th>
                     <th style="width: 1px;">Opciones</th>                    
                 </tr>
             </thead>
@@ -167,8 +173,8 @@
                 {
                     <tr>
                         <td style="vertical-align: middle;" title="Número">@item.Number</td>
-                        <td style="vertical-align: middle;" title="Fecha">@item.ReleaseAt.ToShortDateString()</td>
                         <td style="vertical-align: middle;" title="Título">@item.Title</td>
+                        <td style="vertical-align: middle;" title="Fecha">@item.ReleaseAt.ToShortDateString()</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
@@ -285,9 +291,9 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Número</th>
-                    <th>Fecha</th>
+                    <th style="width: 1px;">No.</th>
                     <th>Título</th>
+                    <th>Fecha</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
