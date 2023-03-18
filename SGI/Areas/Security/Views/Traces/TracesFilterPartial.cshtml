@@ -1,0 +1,16 @@
+﻿@model MOROPO.FCBC.SGI.Models.Filter.TracesFilterModel
+
+@using (Html.BeginForm("filter", "traces", new { Area = "security" }, FormMethod.Post, true, null))
+{
+    <fieldset>
+        <legend class="border-bottom">Filtro de Trazas</legend>
+        <div class="mb-4">
+            @Html.Label("Id", "Nombre de Usuario", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Id, new { @class = "form-control" })
+        </div>
+        <div>
+            <button type="submit" class="btn btn-sm btn-primary"><span class="mdi mdi-filter"></span> Filtrar</button>
+            <button type="button" class="btn btn-sm btn-light filter-form-reseter"><span class="mdi mdi-filter-remove-outline"></span> Limpiar</button>
+        </div>
+    </fieldset>
+}

@@ -1,0 +1,134 @@
+﻿@using MOROPO.SAPRESSC.Core.Common.Models.View;
+
+@model MOROPO.FCBC.SGI.Models.View.ArtWorkInputViewModel
+
+@{
+    ViewData["Title"] = "Agregar Obra de Artes Plásticas";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras de Artes Plásticas",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@using (Html.BeginForm("create", "artworks", new { Area = "works" }, FormMethod.Post, true, null))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+
+        <div class="card-body">
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title, null, new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.ManifestationId, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.ManifestationId, Model.AvailableManifestations, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.ManifestationId, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.BornYear, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.BornYear, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BornYear, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Collection, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Collection, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Collection, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Location, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Location, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Location, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <fieldset class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Price, new { @class = "control-label" })
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.PriceCurrencyId, Model.AvailableCurrencies, new { @class = "form-control"})
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Price, null, new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.PriceCurrencyId, null, new { @class = "text-danger" })
+                </fieldset>
+                <fieldset class="col-md-6" style="margin-bottom: 20px;">
+                    @Html.LabelFor(model => model.Cost, new { @class = "control-label" })
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Cost, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.CostCurrencyId, Model.AvailableCurrencies, new { @class = "form-control"})
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Cost, null, new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.CostCurrencyId, null, new { @class = "text-danger" })
+                </fieldset>
+            </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.About, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.About, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+            </div>
+            <fieldset class="form-group">
+                <legend class="border-bottom pb-1">Dimensiones</legend>
+                <div class="row">
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.Height, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Height, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Height, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.Width, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Width, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Width, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.Profundity, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Profundity, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Profundity, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.DimensionsUnitMeasurementId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.DimensionsUnitMeasurementId, Model.AvaiableUnitMeasurements, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.DimensionsUnitMeasurementId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.Weight, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Weight, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Weight, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.WeightUnitMeasurementId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.WeightUnitMeasurementId, Model.AvaiableUnitMeasurements, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.WeightUnitMeasurementId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Agregar</button>
+            <a class="btn btn-ligth" href="@Url.Action("index")">Cancelar</a>
+        </div>
+    </div>
+}

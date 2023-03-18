@@ -1,0 +1,20 @@
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
+{
+    public class ArtWorkAward : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    {
+        [System.ComponentModel.DataAnnotations.Key]
+        public System.Guid Id { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("WorkId")]
+        public ArtWork Work { get; set; }
+        public System.Guid WorkId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("AwardId")]
+        public Award Award { get; set; }
+        public System.Guid AwardId { get; set; }
+
+        public string Context { get; set; }
+
+        public int? Year { get; set; }
+    }
+}

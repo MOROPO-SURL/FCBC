@@ -1,0 +1,164 @@
+﻿@using MOROPO.FCBC.SGI.Models.View
+@model MOROPO.FCBC.SGI.Models.View.GroupCriterionManageViewModel
+
+@{
+    ViewData["Title"] = "Editar Grupo de Creación (Premios)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Grupo de Creación",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .social-icon {
+            font-size: 18px;
+            top: 2px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+    </style>
+}
+
+    @section scripts {
+    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('#DateOfCriterion').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.DateOfCriterion.ToShortDateString()'
+        });
+
+        $('#DateOfAssessment').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy'
+        });
+    </script>
+}
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Creador</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("edit", @Model.GroupDisplay.Id)">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("contacts", @Model.GroupDisplay.Id)">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.GroupDisplay.Id)">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active">Trayectoria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("editattachments", @Model.GroupDisplay.Id)">Archivos</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.GroupDisplay)
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="creationgroupawards" asp-route-key="@Model.GroupDisplay.Id">Premios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="EditGroupRecognitions" asp-route-key="@Model.GroupDisplay.Id">Reconocimientos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="EditGroupDistintions" asp-route-key="@Model.GroupDisplay.Id">Distinciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active">Valoraciones</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div style="margin-bottom: 20px;">
+                        <div class="page-header">
+                            <h4>Criterios<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-criterion-@Model.GroupDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                        </div>
+
+                        @await Html.PartialAsync("AddCriterionPartial", Model)
+
+                        <table class="table" style="margin: 0;">
+                            <thead>
+                                <tr>
+                                    <th>@GlobalViewLocalizationHelper.Localize("Day of Criterion")</th>
+                                    <th>@GlobalViewLocalizationHelper.Localize("Critic")</th>
+                                    <th>@GlobalViewLocalizationHelper.Localize("Criterion")</th>
+                                    <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model.GroupDisplay.GroupAssessmentBridges.Count > 0)
+                            {
+                                @foreach (var item in Model.GroupDisplay.GroupAssessmentBridges)
+                                {
+                                    <tr>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.DateOfAssessment.ToShortDateString()</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Critic.Identity.Name @item.Critic.Identity.LastName</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Criterion</td>
+                                        <td style="vertical-align: middle;">
+                                            <div class="btn-group btn-group-sm">
+                                                <a role="button" href="#" class="btn btn-sm btn-light" data-toggle="modal" data-target="#update-criterion-@item.GroupId@item.CriticId">Modificar</a>
+                                                <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-criterion-@item.GroupId@item.CriticId">Eliminar</a>
+                                                @await Html.PartialAsync("DeleteCriterionPartial", new GroupCriterionDisplayViewModel { GroupId = item.GroupId, CriticId = item.CriticId, GroupName = item.CreationGroup.Identity.Name, CriticName =  item.Critic.Identity.Name+" "+item.Critic.Identity.LastName, Criterion = item.Criterion})
+                                                @await Html.PartialAsync("UpdateCriterionPartial", new GroupAssessmentBridgeDisplayViewModel { GroupId = item.GroupId, CriticId = item.CriticId, SelectCritics = Model.SelectCritics, Criterion = item.Criterion, DateOfAssessment = item.DateOfAssessment})
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+
+

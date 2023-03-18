@@ -5,14 +5,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Options;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
+using MOROPO.SAPRESSC.Core.Persistence.EF.Extensions;
+using MOROPO.SAPRESSC.Core.Persistence.Repositories;
+using MOROPO.SAPRESSC.Core.Security.Common.Web.Frontend.Extensions;
+using MOROPO.SAPRESSC.Middleware.Identity.Web.Common.Extensions;
+using MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.EF.Extensions;
+using MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Backend.Extensions;
+using MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Common.Extensions;
 using Serilog;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Extensions;
-using SmartSolucionesCuba.SAPRESSC.Core.Persistence.Repositories;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Extensions;
-using SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Extensions;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Web.Common.Extensions;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Extensions;
+using System;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI
@@ -39,19 +45,65 @@ namespace MOROPO.FCBC.SGI
 
             services.AddScoped<DbContext, Persistence.EF.ApplicationDbContext>();
 
-            services.PerformCoreWebSecurityServiceRegistration();
-            services.PerformCoreWebSecurityLocalServiceRegistration();
-            services.PerformMiddlewareMediaWebCommonServiceRegistration();
+            services.PerformCoreWebSecurityCommonFrontendServiceRegistration();
+            services.PerformMiddlewareSecurityEssentialWebCommonServiceRegistration();
+            services.PerformMiddlewareSecurityEssentialWebBackendServiceRegistration();
             services.PerformMiddlewareIdentityWebCommonServiceRegistration();
 
-            services.AddScoped<IEntityRepository<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Entities.Trace, long>, SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Repositories.TraceRepository>();
+            services.AddScoped<IEntityRepository<SAPRESSC.Core.Persistence.EF.Entities.Trace, long>, SAPRESSC.Core.Persistence.EF.Repositories.TraceRepository>();
+            services.AddScoped<IEntityRepository<InstitutionalInformation, InstitutionalInformationKind>, InstitutionalInformationRepository>();
+            services.AddScoped<IEntityRepository<Award, Guid>, AwardRepository>();
+            services.AddScoped<IEntityRepository<Distinction, Guid>, DistinctionRepository>();
+            services.AddScoped<IEntityRepository<Recognition, Guid>, RecognitionRepository>();
+            services.AddScoped<IEntityRepository<InstitutionalService, Guid>, InstitutionalServiceRepository>();
+            services.AddScoped<IEntityRepository<Thematic, Guid>, ThematicRepository>();
+            services.AddScoped<IEntityRepository<ContractorKind, int>, ContractorKindRepository>();
+            services.AddScoped<IEntityRepository<Currency, int>, CurrencyRepository>();
+            services.AddScoped<IEntityRepository<Critic, Guid>, CriticRepository>();
+            services.AddScoped<IEntityRepository<Contractor, Guid>, ContractorRepository>();
+            services.AddScoped<IEntityRepository<Artist, Guid>, ArtistRepository>();
+            services.AddScoped<IEntityRepository<CreationGroup, Guid>, CreationGroupRepository>();
+            services.AddScoped<IEntityRepository<Association, Guid>, AssociationRepository>();
+            services.AddScoped<IEntityRepository<AdministrativeRole, Guid>, AdministrativeRoleRepository>();
+            services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
+            services.AddScoped<IEntityRepository<Resolution, Guid>, ResolutionRepository>();
+            services.AddScoped<IEntityRepository<ArtisticManifestationGroup, Guid>, ArtisticManifestationGroupRepository>();
+            services.AddScoped<IEntityRepository<CraftManifestationGroup, Guid>, CraftManifestationGroupRepository>();
+            services.AddScoped<IEntityRepository<DesignManifestationGroup, Guid>, DesignManifestationGroupRepository>();
+            services.AddScoped<IEntityRepository<ServiceLineGroup, Guid>, ServiceLineGroupRepository>();
+            services.AddScoped<IEntityRepository<ArtisticManifestation, Guid>, ArtisticManifestationRepository>();
+            services.AddScoped<IEntityRepository<CraftManifestation, Guid>, CraftManifestationRepository>();
+            services.AddScoped<IEntityRepository<DesignManifestation, Guid>, DesignManifestationRepository>();
+            services.AddScoped<IEntityRepository<ServiceLine, Guid>, ServiceLineRepository>();
+            services.AddScoped<IEntityRepository<ArtisticTechnique, Guid>, ArtisticTechniqueRepository>();
+            services.AddScoped<IEntityRepository<CraftTechnique, Guid>, CraftTechniqueRepository>();
+            services.AddScoped<IEntityRepository<DesignTechnique, Guid>, DesignTechniqueRepository>();
+            services.AddScoped<IEntityRepository<ServiceTechnique, Guid>, ServiceTechniqueRepository>();
+            services.AddScoped<IEntityRepository<UnitMeasurement, Guid>, UnitMeasurementRepository>();
+            services.AddScoped<IEntityRepository<Material, Guid>, MaterialRepository>();
+            services.AddScoped<IEntityRepository<ArtWork, Guid>, ArtWorkRepository>();
+            services.AddScoped<IEntityRepository<ArtWorkAttachment, Guid>, ArtWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<CraftWork, Guid>, CraftWorkRepository>();
+            services.AddScoped<IEntityRepository<DesignWork, Guid>, DesignWorkRepository>();
+            services.AddScoped<IEntityRepository<ServiceWork, Guid>, ServiceWorkRepository>();
+            services.AddScoped<IEntityRepository<CraftWorkAttachment, Guid>, CraftWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<DesignWorkAttachment, Guid>, DesignWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<ServiceWorkAttachment, Guid>, ServiceWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<ActivityKind, Guid>, ActivityKindRepository>();
+            services.AddScoped<IEntityRepository<Activity, Guid>, ActivityRepository>();
+            services.AddScoped<IEntityRepository<Agreement, Guid>, AgreementRepository>();
+            services.AddScoped<IEntityRepository<ArtistAttachment, Guid>, ArtistAttachmentRepository>();
+            services.AddScoped<IEntityRepository<CreationGroupAttachment, Guid>, CreationGroupAttachmentRepository>();
+            services.AddScoped<IEntityRepository<ContractorAttachment, Guid>, ContractorAttachmentRepository>();
 
-            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
-            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
+            services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
+            services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
+            services.AddSingleton<Managers.RelativeAttachmentFileManager>();
 
-            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade, Persistence.EF.Providers.ApplicationDbSchemaConfigurationProvider>();
+            services.AddSingleton<SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade, Persistence.EF.Providers.ApplicationDbSchemaConfigurationProvider>();
 
-            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper, Helpers.ApplicationDataInitializationHelper>();
+            services.AddSingleton<SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper, Helpers.ApplicationDataInitializationHelper>();      
+                   
 
             services.AddAuthentication(config =>
             {
@@ -77,15 +129,15 @@ namespace MOROPO.FCBC.SGI
                 };
             });
 
-            #region SmartSolucionesCuba.SAPRESSC.Core.Security concreter dependencies configuration
-            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Licensing.ILicenseValidator, Security.Licensing.WilcardLicenseValidator>();
+            #region SAPRESSC.Core.Security concreter dependencies configuration
+            services.AddSingleton<SAPRESSC.Core.Web.Security.Helpers.Facade.ILicenseValidationHelperFacade, Security.Licensing.WilcardLicenseValidator>();
 
-            services.AddTransient<SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Models.View.IUserProfileViewModel, Models.View.UserProfileViewModel>();
+            services.AddTransient<SAPRESSC.Core.Web.Security.Models.View.Contrat.IUserProfileViewModel, Models.View.UserProfileViewModel>();
 
-            services.AddSingleton<SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ModelBinding.IConcretModelBindHelper, Helpers.Binding.ConcretModelBindHelper>();
+            services.AddSingleton<SAPRESSC.Core.Web.Common.ModelBinding.IConcretModelBindHelper, Helpers.Binding.ConcretModelBindHelper>();
 
-            services.AddScoped<SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Providers.Facade.IIdentityProviderFacade, SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Managers.IdentityManager>();
-            services.AddScoped<SmartSolucionesCuba.SAPRESSC.Core.Web.Security.Managers.Facade.IUserProfileManagerFacade, Managers.UserProfileManager>();
+            services.AddScoped<SAPRESSC.Core.Web.Security.Providers.Facade.IIdentityProviderFacade, SAPRESSC.Middleware.Security.Essential.Web.Common.Managers.IdentityManager>();
+            services.AddScoped<SAPRESSC.Core.Web.Security.Managers.Facade.IUserProfileManagerFacade, Managers.UserProfileManager>();
             #endregion
 
             #region Globalization configuration
@@ -99,7 +151,7 @@ namespace MOROPO.FCBC.SGI
                 options.SupportedCultures = new[] { defaultCulture };
                 options.SupportedUICultures = new[] { defaultCulture };
 
-                options.RequestCultureProviders = new[] { new SmartSolucionesCuba.SAPRESSC.Core.Web.Common.Localization.UrlRequestCultureProvider() };
+                options.RequestCultureProviders = new[] { new SAPRESSC.Core.Web.Common.Localization.UrlRequestCultureProvider() };
             });
 
             services.AddSingleton<Helpers.Localization.GlobalViewLocalizationHelper>();
@@ -112,7 +164,7 @@ namespace MOROPO.FCBC.SGI
             services.AddSession();
 
             services.AddMvc(mvc =>
-                mvc.ModelBinderProviders.Insert(0, new SmartSolucionesCuba.SAPRESSC.Core.Web.Common.ModelBinding.AbstractsModelBinderProvider())
+                mvc.ModelBinderProviders.Insert(0, new SAPRESSC.Core.Web.Common.ModelBinding.AbstractsModelBinderProvider())
             )
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization(options =>
@@ -149,7 +201,7 @@ namespace MOROPO.FCBC.SGI
                 {
                     var defaultUserId = configuration["DefaultUser:Id"];
 
-                    var k3y = new System.Guid(0x79c44606, 0xa758, 0x4393, 0x87, 0x72, 0xad, 0xa6, 0x7e, 0xe1, 0xbb, 0x3e);
+                    var k3y = new Guid(0x79c44606, 0xa758, 0x4393, 0x87, 0x72, 0xad, 0xa6, 0x7e, 0xe1, 0xbb, 0x3e);
 
                     var protectedPassword = (dbContext as Persistence.EF.ApplicationDbContext).CreateSecureUser(k3y, defaultUserId, "system");
 
@@ -181,8 +233,11 @@ namespace MOROPO.FCBC.SGI
 
                 routes.MapRoute(
                     name: "defaultRoutes",
-                    template: "{controller=start}/{action=index}/{id?}");
+                    template: "{controller=start}/{action=index}/{id?}");                
             });
+            
+            // TODO Restore and redesign
+            //Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
         }
     }
 }

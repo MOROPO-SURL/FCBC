@@ -1,0 +1,247 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupContactsManageViewModel
+
+@{
+    ViewData["Title"] = "Editar Grupos de Creación (Contactos)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Grupos de Creación",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>Editar Grupos de Creación</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Group.Id)">Manifestaciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("members", @Model.Group.Id)">Miembros</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="creationgroupawards" asp-route-key="@Model.Group.Id">Trayectoria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editattachments", @Model.Group.Id)">Archivos</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-dark mb-4">
+            <details>
+                <summary class="h4 mb-0">@Model.Group.Name</summary>
+                <hr />
+                <div class="row no-gutters">
+                    <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                        @if (Model.Group.ImageId != null)
+                        {
+                            <img class="img-thumbnail" src="~/media/images/@Model.Group.ImageId.@Model.Group.ImageExtension" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                        }
+                    </div>
+                    <div class="col-lg-10 col-md-8 col-sm-6">
+                        <div class="card-block pl-3">
+                            <div class="row">
+                                <dl class="col-md-6">
+                                    <dt>Fecha de Creación</dt>
+                                    @if (Model.Group.CreatedAt == null)
+                                    {
+                                        <dd>-</dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
+                                    }
+                                </dl>
+                                <dl class="col-md-6">
+                                    <dt>Marca</dt>
+                                    @if (Model.Group.Brand == null)
+                                    {
+                                        <dd>-</dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@Model.Group.Brand</dd>
+                                    }
+                                </dl>
+                            </div>
+                            <div class="row">
+                                <dl class="col-md-6">
+                                    <dt>Número de Registro del Creador</dt>
+                                    <dd>@Model.Group.RegistrationNumber</dd>
+                                </dl>
+                                <dl class="col-md-6">
+                                    <dt>Fecha de Registro</dt>
+                                    <dd>@Model.Group.RegistratedAt.ToShortDateString()</dd>
+                                </dl>
+                                <dl class="col-md-6 mb-0">
+                                    <dt>Fecha de Expiración</dt>
+                                    <dd>@Model.Group.RegistrationEndAt.ToShortDateString()</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="page-header">
+                    <h4>Teléfonos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                </div>
+
+                @await Html.PartialAsync("_AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupPhoneContactInputViewModel
+                {
+                CreationGroupId = Model.Group.Id
+                })
+
+                <table class="table" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th>@GlobalViewLocalizationHelper.Localize("Number")</th>
+                            <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                            <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.PhoneContacts.Count > 0)
+                        {
+                            @foreach (var item in Model.PhoneContacts)
+                            {
+                                <tr>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Number")">@item.Number</td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                    <td style="vertical-align: middle;">
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-phonecontact-@item.Id">Eliminar</a>
+                                        @await Html.PartialAsync("_DeletePhoneContactPartial", item)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="page-header">
+                    <h4>Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                </div>
+                @await Html.PartialAsync("_AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupEmailContactInputViewModel
+                {
+                CreationGroupId = Model.Group.Id
+                })
+                <table class="table" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th>@GlobalViewLocalizationHelper.Localize("Email")</th>
+                            <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                            <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.EmailContacts.Count > 0)
+                        {
+                            @foreach (var item in Model.EmailContacts)
+                            {
+                                <tr>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Email")">@item.Address</td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                    <td style="vertical-align: middle;">
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-emailcontact-@item.Id">Eliminar</a>
+                                        @await Html.PartialAsync("_DeleteEmailContactPartial", item)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="page-header">
+                <h4>Redes Sociales<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-socialcontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+            </div>
+
+
+            @await Html.PartialAsync("_AddSocialContactPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupSocialContactInputViewModel
+            {
+            CreationGroupId = Model.Group.Id
+            })
+
+            <table class="table" style="margin: 0;">
+                <thead>
+                    <tr>
+                        <th style="width: 1px; white-space: nowrap;">@GlobalViewLocalizationHelper.Localize("Icon")</th>
+                        <th>@GlobalViewLocalizationHelper.Localize("SocialMedia")</th>
+                        <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                        <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SocialContacts.Count > 0)
+                    {
+                        @foreach (var item in Model.SocialContacts)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Icon")">@item.Icon</td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("SocialMedia")"><a href="@item.SocialId" target="_blank">@item.SocialId</a></td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                <td style="vertical-align: middle;">
+                                    <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-socialcontact-@item.Id">Eliminar</a>
+                                    @await Html.PartialAsync("_DeleteSocialContactPartial", item)
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+

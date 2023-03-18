@@ -1,0 +1,204 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtistContactsManageViewModel
+
+@{
+    ViewData["Title"] = "Editar Creador (Contactos)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Creadores",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .social-icon {
+            font-size: 18px;
+            top: 2px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+    </style>
+}
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Creador</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("edit", @Model.Artist.Id)">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Artist.Id)">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("ArtistAwards", @Model.Artist.Id)">Trayectoria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("editattachments", @Model.Artist.Id)">Archivos</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Artist)
+            
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="page-header">
+                    <h4>Teléfonos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
+
+
+                @await Html.PartialAsync("AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.ArtistPhoneContactInputViewModel
+                        {
+                        ArtistId = Model.Artist.Id
+                        })
+                    
+                    <table class="table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>@GlobalViewLocalizationHelper.Localize("Number")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PhoneContacts.Count > 0)
+                            {
+                                @foreach (var item in Model.PhoneContacts)
+                                {
+                                    <tr>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Number")">@item.Number</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                        <td style="vertical-align: middle;">
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-phonecontact-@item.Id">Eliminar</a>
+                                                @await Html.PartialAsync("DeletePhoneContactPartial", item)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="page-header">
+                    <h4>Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
+                @await Html.PartialAsync("AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.ArtistEmailContactInputViewModel
+                        {
+                        ArtistId = Model.Artist.Id
+                        })
+                    <table class="table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>@GlobalViewLocalizationHelper.Localize("Email")</th>
+                                <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.EmailContacts.Count > 0)
+                            {
+                                @foreach (var item in Model.EmailContacts)
+                                {
+                                    <tr>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Email")">@item.Address</td>
+                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                        <td style="vertical-align: middle;">
+                                            <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-emailcontact-@item.Id">Eliminar</a>
+                                                @await Html.PartialAsync("DeleteEmailContactPartial", item)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <div style="margin-bottom: 20px;">
+            <div class="page-header">
+                <h4>Redes Sociales<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-socialcontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+            </div>
+
+
+            @await Html.PartialAsync("_AddSocialContactPartial", new MOROPO.FCBC.SGI.Models.View.ArtistSocialContactInputViewModel
+            {
+            ArtistId = Model.Artist.Id
+            })
+
+            <table class="table" style="margin: 0;">
+                <thead>
+                    <tr>
+                        <th>@GlobalViewLocalizationHelper.Localize("Icon")</th>
+                        <th>@GlobalViewLocalizationHelper.Localize("SocialMedia")</th>
+                        <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
+                        <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SocialContacts.Count > 0)
+                    {
+                        @foreach (var item in Model.SocialContacts)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Icon")">@item.Icon</td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("SocialMedia")"><a href="@item.SocialId" target="_blank">@item.SocialId</a></td>
+                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Label</td>
+                                <td style="vertical-align: middle;">
+                                    <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-socialcontact-@item.Id">Eliminar</a>
+                                    @await Html.PartialAsync("_DeleteSocialContactPartial", item)
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        </div>
+    <div class="card-footer">
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+    </div>
+     
+

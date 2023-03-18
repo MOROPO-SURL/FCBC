@@ -1,0 +1,45 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.DesignWorkAwardManageViewModel
+
+<div class="modal fade" id="add-award-@Model.DesignWorkDisplay.Id" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-emailcontact-title">Agregar Premios</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("AddDesignWorkAwards", "DesignWorks", null, FormMethod.Post, true, null))
+            {
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.DesignWorkDisplay.Id)
+
+                    <div class="row">
+                        <div>
+                            @Html.LabelFor(model => model.Year, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Year, new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.Year, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.AwardId, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.AwardId, Model.SelectAwards, new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.AwardId, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.Context, new { @class = "control-label" })
+                            @Html.TextAreaFor(model => model.Context, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Context, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

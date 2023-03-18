@@ -1,29 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Media.Persistence.Entities;
-using SmartSolucionesCuba.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Security.Common.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF
 {
     public class ApplicationDbContext :
-        SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Context.AbstractTraceableDbContext,
-        SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.EF.Context.ISecurityPersistenceModuleDbContext,
-        SmartSolucionesCuba.SAPRESSC.Middleware.Identity.Persistence.EF.Context.IIdentityMiddlewarePersistenceDbContext
+        SAPRESSC.Core.Persistence.EF.Context.AbstractTraceableDbContext,
+        SAPRESSC.Core.Security.Common.Persistence.EF.Contract.IModulePersistenceDbContext,
+        SAPRESSC.Middleware.Security.Essential.Persistence.EF.Contract.IModulePersistenceDbContext,
+        SAPRESSC.Middleware.Identity.Persistence.EF.Context.IIdentityMiddlewarePersistenceDbContext
     {
-        public ApplicationDbContext(System.Collections.Generic.IEnumerable<SmartSolucionesCuba.SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade> dbSchemaConfigurationProviders, DbContextOptions options) : base(dbSchemaConfigurationProviders, options)
+        public ApplicationDbContext(System.Collections.Generic.IEnumerable<SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade> dbSchemaConfigurationProviders, DbContextOptions options) : base(dbSchemaConfigurationProviders, options)
         {
         }
 
-//#if DEBUG
-//        public override bool TraceChanges => false;
-//#endif
+        //#if DEBUG
+        //        public override bool TraceChanges => false;
+        //#endif
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<Permission> Permissions { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserGroupBridge> UserGroupBridges { get; set; }
-        public DbSet<GroupRoleBridge> GroupRoleBridges { get; set; }
+        public DbSet<RolePermissionBridge> RolePermissionBridges { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRoleBridge> UserRoleBridges { get; set; }
 
         public DbSet<Thumbnail> Thumbnails { get; set; }
         public DbSet<Image> Images { get; set; }
@@ -57,5 +61,102 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<OrganizationIdentity> OrganizationIdentities { get; set; }
         public DbSet<OrganizationSocialContactItemBridge> OrganizationSocialContactItemBridges { get; set; }
         public DbSet<OrganizationWebSiteContactItemBridge> OrganizationWebSiteContactItemBridges { get; set; }
+        
+        public DbSet<InstitutionalInformation> InstitutionalInformations { get; set; }
+        public DbSet<Award> Awards { get; set; }
+        public DbSet<Distinction> Distinctions { get; set; }
+        public DbSet<Recognition> Recognitions { get; set; }
+        public DbSet<InstitutionalService> InstitutionalServices { get; set; }
+        public DbSet<Thematic> Thematics { get; set; }
+        public DbSet<ContractorKind> ContractorKinds { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Critic> Critics { get; set; }
+        public DbSet<Contractor> Contractors { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<CreationGroup> CreationGroups { get; set; }
+        public DbSet<Association> Associations { get; set; }
+        public DbSet<AdministrativeRole> AdministrativeRoles { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeAdministrativeRoleBridge> AdministrativeRoleBridges { get; set; }
+        public DbSet<Resolution> Resolutions { get; set; }
+        public DbSet<ArtisticManifestation> ArtisticManifestations { get; set; }
+        public DbSet<CraftManifestation> CraftManifestations { get; set; }
+        public DbSet<DesignManifestation> DesignManifestations { get; set; }
+        public DbSet<ServiceLine> ServiceLines { get; set; }
+        public DbSet<ArtisticManifestationGroup> ArtisticManifestationGroups { get; set; }
+        public DbSet<CraftManifestationGroup> CraftManifestationGroups { get; set; }
+        public DbSet<DesignManifestationGroup> DesignManifestationGroups { get; set; }
+        public DbSet<ServiceLineGroup> ServiceLineGroups { get; set; }
+        public DbSet<ArtistArtisticManifestationBridge> ArtistArtisticManifestationBridges { get; set; }
+        public DbSet<ArtistCraftManifestationBridge> ArtistCraftManifestationBridges { get; set; }
+        public DbSet<ArtistDesignManifestationBridge> ArtistDesignManifestationBridges { get; set; }
+        public DbSet<ArtistServiceLineBridge> ArtistServiceLineBridges { get; set; }
+        public DbSet<CreationGroupArtisticManifestationBridge> CreationGroupArtisticManifestationBridges { get; set; }
+        public DbSet<CreationGroupCraftManifestationBridge> CreationGroupCraftManifestationBridges { get; set; }
+        public DbSet<CreationGroupDesignManifestationBridge> CreationGroupDesignManifestationBridges { get; set; }
+        public DbSet<CreationGroupServiceLineBridge> CreationGroupServiceLineBridges { get; set; }
+        public DbSet<ArtistAttachment> ArtistAttachments { get; set; }
+        public DbSet<CreationGroupAttachment> CreationGroupAttachments { get; set; }
+        public DbSet<ArtWork> ArtWorks { get; set; }
+        public DbSet<CraftWork> CraftWorks { get; set; }
+        public DbSet<DesignWork> DesignWorks { get; set; }
+        public DbSet<ServiceWork> ServiceWorks { get; set; }
+        public DbSet<ArtistAssociationLock> ArtistAssociationLocks { get; set; }
+        public DbSet<ArtistResolutionLock> ArtistResolutionLocks { get; set; }
+        public DbSet<CreationGroupArtistBridge> CreationGroupArtistBridges { get; set; }
+        public DbSet<ArtisticTechnique> ArtisticTechniques { get; set; }
+        public DbSet<CraftTechnique> CraftTechniques { get; set; }
+        public DbSet<DesignTechnique> DesignTechniques { get; set; }
+        public DbSet<ServiceTechnique> ServiceTechniques { get; set; }
+        public DbSet<ArtWorkTechniqueBridge> ArtWorkTechniqueBridges { get; set; }
+        public DbSet<CraftWorkTechniqueBridge> CraftWorkTechniqueBridges { get; set; }
+        public DbSet<DesignWorkTechniqueBridge> DesignWorkTechniqueBridges { get; set; }
+        public DbSet<ServiceWorkTechniqueBridge> ServiceWorkTechniqueBridges { get; set; }
+        public DbSet<ArtWorkImageBridge> ArtWorkImageBridges { get; set; }
+        public DbSet<CraftWorkImageBridge> CraftWorkImageBridges { get; set; }
+        public DbSet<DesignWorkImageBridge> DesignWorkImageBridges { get; set; }
+        public DbSet<ServiceWorkImageBridge> ServiceWorkImageBridges { get; set; }
+        public DbSet<UnitMeasurement> UnitMeasurements { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<ArtWorkMaterialBridge> ArtWorkMaterialBridges { get; set; }
+        public DbSet<ArtWorkCreatorBridge> ArtWorkCreatorBridges { get; set; }
+        public DbSet<ArtWorkCreationGroupBridge> ArtWorkCreationGroupBridges { get; set; }
+        public DbSet<ArtWorkAward> ArtWorkAwards { get; set; }
+        public DbSet<ArtWorkAttachment> ArtWorkAttachments { get; set; }
+        public DbSet<ArtistAward> ArtistAwards { get; set; }
+        public DbSet<ArtistRecognitionBridge> ArtistRecognitionBridges { get; set; }
+        public DbSet<ArtistDistinctionBridge> ArtistDistinctionBridges { get; set; }
+        public DbSet<CreationGroupAward> CreationGroupAwards { get; set; }
+        public DbSet<CreationGroupDistinctionBridge> CreationGroupDistinctionBridges { get; set; }
+        public DbSet<CreationGroupRecognitionBridge> CreationGroupRecognitionBridges { get; set; }
+        public DbSet<CraftWorkAward> CraftWorkAwards { get; set; }
+        public DbSet<DesignWorkAward> DesignWorkAwards { get; set; }
+        public DbSet<ServiceWorkAward> ServiceWorkAwards { get; set; }
+        public DbSet<CraftWorkCreatorBridge> CraftWorkCreatorBridges { get; set; }
+        public DbSet<CraftWorkCreationGroupBridge> CraftWorkCreationGroupBridges { get; set; }
+        public DbSet<CraftWorkMaterialBridge> CraftWorkMaterialBridges { get; set; }
+        public DbSet<CraftWorkAttachment> CraftWorkAttachments { get; set; }
+        public DbSet<DesignWorkCreatorBridge> DesignWorkCreatorBridges { get; set; }
+        public DbSet<DesignWorkCreationGroupBridge> DesignWorkCreationGroupBridges { get; set; }
+        public DbSet<ServiceWorkCreatorBridge> ServiceWorkCreatorBridges { get; set; }
+        public DbSet<ServiceWorkCreationGroupBridge> ServiceWorkCreationGroupBridges { get; set; }
+        public DbSet<DesignWorkMaterialBridge> DesignWorkMaterialBridges { get; set; }
+        public DbSet<DesignWorkAttachment> DesignWorkAttachments { get; set; }
+        public DbSet<ServiceWorkAttachment> ServiceWorkAttachments { get; set; }
+        public DbSet<ServiceWorkMaterialBridge> ServiceWorkMaterialBridges { get; set; }
+        public DbSet<ArtWorkThematicBridge> ArtWorkThematicBridges { get; set; }
+        public DbSet<CraftWorkThematicBridge> CraftWorkThematicBridges { get; set; }
+        public DbSet<DesignWorkThematicBridge> DesignWorkThematicBridges { get; set; }       
+        public DbSet<ServiceWorkThematicBridge> ServiceWorkThematicBridges { get; set; }       
+        public DbSet<ActivityKind> ActivityKinds { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Agreement> Agreements { get; set; }
+        public DbSet<ArtistAssessmentBridge> ArtistAssessmentBridges { get; set; }
+        public DbSet<GroupAssessmentBridge> GroupAssessmentBridges { get; set; }
+        public DbSet<ArtWorkAssessmentBridge> ArtWorkAssessmentBridges { get; set; }
+        public DbSet<CraftWorkAssessmentBridge> CraftWorkAssessmentBridges { get; set; }
+        public DbSet<DesignWorkAssessmentBridge> DesignWorkAssessmentBridges { get; set; }
+        public DbSet<ServiceWorkAssessmentBridge> ServiceWorkAssessmentBridges { get; set; }
+        public DbSet<ContractorAttachment> ContractorAttachments { get; set; }
     }
 }

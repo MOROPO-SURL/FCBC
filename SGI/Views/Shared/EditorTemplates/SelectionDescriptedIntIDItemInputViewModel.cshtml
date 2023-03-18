@@ -1,15 +1,17 @@
-﻿@model SmartSolucionesCuba.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<int>
+﻿@model MOROPO.SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<int>
 
-<div class="col-md-6">
+<div>
     @Html.HiddenFor(model => model.Id)
     @Html.HiddenFor(model => model.Label)
     @Html.HiddenFor(model => model.Description)
-    
+
     <div class="checkbox">
         <label class="h4" style="margin-bottom: 8px;">
             @Html.CheckBoxFor(model => model.Selected)
-            @Model.Label
+            @GlobalViewLocalizationHelper.Localize(Model.Label.ToString(), ViewLocalizer)
         </label>
-        <p class="text-muted">@Model.Description</p>
+        <p class="text-muted">
+            @GlobalViewLocalizationHelper.Localize(Model.Description.ToString(), ViewLocalizer)
+        </p>
     </div>
 </div>

@@ -1,0 +1,47 @@
+﻿
+using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using System.ComponentModel.DataAnnotations;
+
+namespace MOROPO.FCBC.SGI.Models.View
+{
+    public class CriticDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Critic, System.Guid>
+    {
+        public System.Guid Id { get; set; }
+
+        public System.Guid? ImageId { get; set; }
+
+        public string ImageExtension { get; set; }
+
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Display(Name = "LastName")]
+        public string LastName { get; set; }
+
+        [Display(Name = "BornDate")]
+        public System.DateTime? BornDate { get; set; }
+
+        [Display(Name = "Sex")]
+        public SAPRESSC.Middleware.Identity.Persistence.Enumerations.Sex Sex { get; set; }
+
+        [Display(Name = "Alias")]
+        public string Alias { get; set; }
+
+        [Display(Name = "About")]
+        public string About { get; set; }
+
+        public void Import(Critic entity)
+        {
+            Id = entity.Id;
+            ImageId = entity.Identity.ImageId;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            Name = entity.Identity.Name;
+            LastName = entity.Identity.LastName;
+            BornDate = entity.Identity.BornDate;
+            Sex = entity.Identity.Sex;
+            Alias = entity.Identity.Alias;
+            About = entity.Identity.About;
+        }
+    }
+}

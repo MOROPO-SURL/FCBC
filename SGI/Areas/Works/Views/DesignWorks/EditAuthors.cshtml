@@ -1,0 +1,248 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.DesignWorkAuthorsDisplayViewModel
+
+@{
+    ViewData["Title"] = "Editar Obra de Diseño (Autores)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras de Diseño",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/lib/bootstrap-combobox/css/bootstrap-combobox.css" />
+}
+
+    @section scripts {
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#creatorId').combobox();
+        });
+    </script>
+}
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Obra de Diseño</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Autores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="DesignWorkAwards" asp-route-key="@Model.Work.Id">Trayectoria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Work)
+            <div class="row">
+                <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="border-bottom mb-3">
+                        <h4>Creadores<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-creator"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                    </div>
+                    <div class="modal fade" id="add-creator" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="add-creator-title">Agregar Creador</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @using (Html.BeginForm("addcreator", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
+                            {
+                                <div class="modal-body">
+                                    @Html.DropDownList("creatorId", Model.AvailableCreators, new { @class = "form-control" })
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @if (Model.Creators.Length <= 0)
+                    {
+                        <div class="col-12"><p class="text-muted mb-0">Sin elementos que mostrar</p></div>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.Creators)
+                        {
+                            <div class="col-md-4">
+                                @if (item.ImageId != System.Guid.Empty)
+                                {
+                                    <img src="~/media/images/@item.ImageId.@item.ImageExtension" class="img-fluid img-thumbnail rounded-circle" />
+                                }
+                                else
+                                {
+                                    <img src="~/img/default-person-picture.jpg" class="img-fluid img-thumbnail rounded-circle" />
+                                }
+                                <div class="text-center mt-2">
+                                    @if (string.IsNullOrEmpty(item.LastName))
+                                    {
+                                        <div>@item.Name</div>
+                                    }
+                                    else
+                                    {
+                                        <div>@item.Name @item.LastName</div>
+                                    }
+                                    <div class="mt-2">
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-light" data-toggle="modal" data-target="#detail-creator-@item.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detalles</span></button>
+                                            <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-creator-@item.Id"><span class="mdi mdi-trash-can-outline"></span>Eliminar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="delete-creator-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-creator-@item.Id-lable" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            @using (Html.BeginForm("deletecreator", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                            {
+                                                @Html.Hidden("creatorId", item.Id)
+
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="delete-creator-@item.Id-lable">Eliminar Creador</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Esta seguro que desea eliminar el creador seleccionado?</p>
+                                                </div>
+
+                                                <div class="modal-footer" style="margin-top: 0;">
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_ArtistDetailPartial", @item);
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="border-bottom mb-3">
+                    <h4>Grupos de Creación<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-creationgroup"><span class="mdi mdi-plus"></span> Agregar</a></h4>
+                </div>
+                <div class="modal fade" id="add-creationgroup" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="add-creationgroup-title">Agregar Grupo de Creación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @using (Html.BeginForm("addcreationgroup", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
+                            {
+                                <div class="modal-body">
+                                    @Html.DropDownList("creationGroupId", Model.AvailableCreationGroups, new { @class = "form-control" })
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Agregar</button>
+                                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @if (Model.CreationGroups.Length <= 0)
+                    {
+                        <div class="col-12"><p class="text-muted mb-0">Sin elementos que mostrar</p></div>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.CreationGroups)
+                        {
+                            <div class="col-md-4">
+                                @if (item.ImageId != System.Guid.Empty)
+                                {
+                                    <img src="~/media/images/@item.ImageId.@item.ImageExtension" class="img-fluid img-thumbnail rounded-circle" />
+                                }
+                                else
+                                {
+                                    <img src="~/img/default-person-picture.jpg" class="img-fluid img-thumbnail rounded" />
+                                }
+                                <div class="text-center mt-2">
+                                    <div>@item.Name</div>
+                                    <div class="mt-2">
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-light" data-toggle="modal" data-target="#detail-creationgroup-@item.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detalles</span></button>
+                                            <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-creationgroup-@item.Id"><span class="mdi mdi-trash-can-outline"></span>Eliminar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="delete-creationgroup-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-creationgroup-@item.Id-lable" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            @using (Html.BeginForm("deletecreationgroup", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                            {
+                                                @Html.Hidden("creationGroupId", item.Id)
+
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="delete-creationgroup-@item.Id-lable">Eliminar Grupo de Creación</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Esta seguro que desea eliminar el grupo de creación seleccionado?</p>
+                                                </div>
+
+                                                <div class="modal-footer" style="margin-top: 0;">
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            await Html.RenderPartialAsync("../../../../Views/Shared/Partials/_CreationGroupsDetailPartial", @item);
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+

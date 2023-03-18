@@ -1,0 +1,16 @@
+﻿@model MOROPO.FCBC.SGI.Models.Filter.CriticFilterModel
+
+@using (Html.BeginForm("filter", "critics", new { Area = "complements" }, FormMethod.Post, true, null))
+{
+    <fieldset>
+        <legend class="border-bottom">Filtro de Críticos</legend>
+        <div class="mb-4">
+            @Html.Label("Id", "Nombre", new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Id, new { @class = "form-control" })
+        </div>
+        <div>
+            <button type="submit" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+            <button type="button" class="btn btn-sm btn-light filter-form-reseter"><span class="mdi mdi-filter-remove-outline"></span> Limpiar</button>
+        </div>
+    </fieldset>
+}

@@ -1,0 +1,15 @@
+﻿namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
+{
+    public class ServiceWorkMaterialBridgeEntityTypeConfigurator: SAPRESSC.Core.Persistence.EF.Configurators.AbstractEntityTypeConfigurator<Entities.ServiceWorkMaterialBridge>
+    {
+        protected override void ApplayRules(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Entities.ServiceWorkMaterialBridge> entityTypeBuilder)
+        {
+            base.ApplayRules(entityTypeBuilder);
+
+            entityTypeBuilder.HasKey(bridge => new { bridge.WorkId, bridge.MaterialId });
+
+            entityTypeBuilder.HasOne(bridge => bridge.Work).WithMany(entity => entity.MaterialBridges).HasForeignKey(bridge => bridge.WorkId);
+            entityTypeBuilder.HasOne(bridge => bridge.Material).WithMany().HasForeignKey(bridge => bridge.MaterialId);
+        }
+    }
+}

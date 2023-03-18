@@ -1,0 +1,38 @@
+﻿@model MOROPO.FCBC.SGI.Models.Filter.ArtistFilterModel
+
+@using (Html.BeginForm("filter", "artists", new { Area = "institution" }, FormMethod.Post, true, null))
+{
+    <fieldset>
+        <legend class="border-bottom">Filtro de Creadores</legend>
+        <div class="row mb-2">
+            <div class="col-sm-3 mb-2">
+                @Html.Label("Nombre", "Nombre", new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-3 mb-2">
+                @Html.Label("Apellidos", "Apellidos", new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-3 mb-2">
+                @Html.Label("Alias", "Nombre Artístico", new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-3 mb-2">
+                @Html.Label("No", "No. de Registro del Creador", new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-3 mb-2">
+                @Html.Label("Municipios", "Municipios", new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "selectpicker", data_live_search = "true"})
+            </div>
+            <div class="col-sm-3 mb-2">
+                @Html.Label("Manifestaciones", "Manifestaciones", new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.ManisfestationId, Model.Manisfestations, new { @class = "selectpicker", data_live_search = "true"})
+            </div>                
+        </div>
+        <div>
+            <button type="submit" class="btn btn-sm btn-primary"><span class="mdi mdi-filter"></span> Filtrar</button>
+            <button type="button" class="btn btn-sm btn-light filter-form-reseter"><span class="mdi mdi-filter-remove-outline"></span> Limpiar</button>
+        </div>
+    </fieldset>
+}

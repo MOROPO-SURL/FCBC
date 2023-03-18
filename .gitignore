@@ -348,3 +348,12 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/SGI/dpkeys
+/SGI/appsettings.Development.json
+/SGI/appsettings.Staging.json
+/SGI/wwwroot/media/images/c0d11faf-e601-4c9a-88ec-72068b43e847.png
+/SGI/Rotativa/Windows/wkhtmltoimage.exe
+/SGI/Rotativa/Windows/wkhtmltopdf.exe
+/SGI/wwwroot/media/images/df572a9c-0d49-4294-80d9-eceb4bd7fe62.jpg
+/SGI/wwwroot/media
+/SGI/.config/dotnet-tools.json

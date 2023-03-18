@@ -1,0 +1,49 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.EmployeeDisplayViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles de @Model.Name @Model.LastName</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    @if(Model.EmployeeAdministrativeRoleBridges.Count() != 0) {
+                        @foreach (var item in Model.EmployeeAdministrativeRoleBridges)
+                        {
+                            <h5>Rol</h5>
+                            <p>@item.Role.Name</p>
+                            <hr />
+                            <h5>Description</h5>
+                            <p>@item.Role.Description</p>
+                        }
+                        <hr />
+                    }
+
+                    <h5>@Html.DisplayNameFor(model => model.About)</h5>
+                    <p>@Model.About</p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.State)</h5>
+                            <p>@Html.DisplayName(Model.State.Name)</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.Municipality)</h5>
+                            <p>@Html.DisplayName(Model.Municipality.Name)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h5>@Html.DisplayNameFor(model => model.AddressPostal)</h5>
+                            <p>@Html.DisplayName(Model.AddressPostal)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

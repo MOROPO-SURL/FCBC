@@ -1,0 +1,121 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtWorkDisplayViewModel
+
+<div class="alert alert-dark">
+    <details>
+        <summary class="h4 mb-0">@Model.Title</summary>
+        <hr />
+        <div class="row no-gutters">
+
+            <div class="col-lg-10 col-md-8 col-sm-6">
+                <div class="card-block pl-3">
+                    <div class="row">
+                        <dl class="col-md-6">
+                            <dt>Manifestación Artística</dt>
+                            <dd>@Model.Manifestation.Name</dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Año de Creación</dt>
+                            <dd>@Model.BornYear</dd>
+
+                        </dl>
+                    </div>
+                    <div class="row">
+                        <dl class="col-md-6">
+                            <dt>Colección</dt>
+                            @if (Model.Collection != null)
+                            {
+                                <dd>@Model.Collection</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Localización</dt>
+                            @if (!String.IsNullOrEmpty(Model.Location))
+                            {
+                                <dd>@Model.Location</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Precio</dt>
+                            @if (Model.Price != null)
+                            {
+                                <dd>@Model.PriceSymbol@Model.Price</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Costo</dt>
+                            @if (Model.Cost != null)
+                            {
+                                <dd>@Model.CostSymbol@Model.Cost</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+
+                        </dl>
+                    </div>
+                    <div class=row>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Altura</dt>
+                            @if(Model.Height != null)
+                            {
+                                <dd>@Model.Height</dd>
+                            }else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Ancho</dt>
+                            @if (Model.Width != null)
+                            {
+                                <dd>@Model.Width</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Profundidad</dt>
+                            @if (Model.Profundity != null)
+                            {
+                                <dd>@Model.Profundity</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                        <dl class="col-md-6 mb-0">
+                            <dt>Peso</dt>
+                            @if (Model.Weight != null)
+                            {
+                                <dd>@Model.Weight @Model.UnitMeasurement.Name</dd>
+                            }
+                            else
+                            {
+                                <dd>---</dd>
+                            }
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+</div>

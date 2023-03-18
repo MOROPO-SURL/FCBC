@@ -1,0 +1,1938 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CreationSuccessMessage" xml:space="preserve">
+    <value>Cambios aplicados con éxito.</value>
+  </data>
+  <data name="CurrentUserNotRemovableMessage" xml:space="preserve">
+    <value>El usuario actual no puede ser eliminado</value>
+  </data>
+  <data name="DeletionSuccessMessage" xml:space="preserve">
+    <value>Cambios aplicados con éxito.</value>
+  </data>
+  <data name="DisableSuccessMessage" xml:space="preserve">
+    <value>Elemento deshabilitado con éxito.</value>
+  </data>
+  <data name="EditionSuccessMessage" xml:space="preserve">
+    <value>Cambios aplicados con éxito.</value>
+  </data>
+  <data name="EnableSuccessMessage" xml:space="preserve">
+    <value>Elemento habilitado con éxito.</value>
+  </data>
+  <data name="InvalidAuthenticationDataMessage" xml:space="preserve">
+    <value>Usuario y/o contraseña incorrectos.</value>
+  </data>
+  <data name="InvalidMessage" xml:space="preserve">
+    <value>Los datos introducidos no son válidos.</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>El elemento especificado no encontrado.</value>
+  </data>
+  <data name="RequiredDataIncompleteMessage" xml:space="preserve">
+    <value>Algunos relacionados no pueden encontrarse.</value>
+  </data>
+  <data name="RequiredDataIncompleteTitle" xml:space="preserve">
+    <value>Datos necesarios para continuar</value>
+  </data>
+  <data name="RequiredValidationErrorMessage" xml:space="preserve">
+    <value>El campo {0} es obligatorio.</value>
+  </data>
+  <data name="MaxLengthValidationErrorMessage" xml:space="preserve">
+    <value>El campo {0} no debe exceder los {1} caracteres.</value>
+  </data>
+  <data name="RangeValidationErrorMessage" xml:space="preserve">
+    <value>El valor del campo {0} de estar entre {1} y {2}.</value>
+  </data>
+  <data name="CompareValidationErrorMessage" xml:space="preserve">
+    <value>Los campos {0} y {1} no coinciden.</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirmación de la Contraseña</value>
+  </data>
+  <data name="StringLengthMinMaxValidationErrorMessage" xml:space="preserve">
+    <value>El valor del campo {0} debe tener como mínimo {2} y como máximo {1} caracteres.</value>
+  </data>
+  <data name="UniqueValueConvinationValidationErrorMessage" xml:space="preserve">
+    <value>La combinación de valores de los campos {0} y {1} ya existe en el sistema y esta debe ser única.</value>
+  </data>
+  <data name="PasswordChangeRequiredMessage" xml:space="preserve">
+    <value>Cambio de contraseña requerido.</value>
+  </data>
+  <data name="ChangePasswordSuccessMessage" xml:space="preserve">
+    <value>Cambio de contraseña realizado con éxito. Inicie sesión nuevamente.</value>
+  </data>
+  <data name="UserDisabledMessage" xml:space="preserve">
+    <value>Usuario deshabilitado.</value>
+  </data>
+  <data name="system-admin-role" xml:space="preserve">
+    <value>Administrador del Sistema</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Administración</value>
+  </data>
+  <data name="clients" xml:space="preserve">
+    <value>Clientes</value>
+  </data>
+  <data name="collagelayouts" xml:space="preserve">
+    <value>Diseños de Impresión</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Panel de Control</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>Eventos</value>
+  </data>
+  <data name="printorders" xml:space="preserve">
+    <value>Órdenes de Impresión</value>
+  </data>
+  <data name="traces" xml:space="preserve">
+    <value>Registros</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nueva Contraseña</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Contraseña Anterior</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Cargar archivo</value>
+  </data>
+  <data name="PhotoSessionCaptureCount" xml:space="preserve">
+    <value>Capturas en Sesiones de Fotos</value>
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Público</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Attended" xml:space="preserve">
+    <value>Atendido(a)</value>
+  </data>
+  <data name="CompletitionState" xml:space="preserve">
+    <value>Estado de Cumplimiento</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>No Habilitado(a)</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Habilitado(a)</value>
+  </data>
+  <data name="EnabledState" xml:space="preserve">
+    <value>Estado de Habilitación</value>
+  </data>
+  <data name="Eny" xml:space="preserve">
+    <value>Cualquiera</value>
+  </data>
+  <data name="Unattended" xml:space="preserve">
+    <value>No Atendido(a)</value>
+  </data>
+  <data name="DefaultPhotoSessionContentCollageLayout" xml:space="preserve">
+    <value>Diseño de Impresión de Sesión de Fotos por defecto</value>
+  </data>
+  <data name="DefaultPictureContentCollageLayout" xml:space="preserve">
+    <value>Diseño de Impresión de Foto Única por defecto</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>Acerca de</value>
+  </data>
+  <data name="BornDate" xml:space="preserve">
+    <value>Fecha de Nacimiento</value>
+  </data>
+  <data name="CivilStatus" xml:space="preserve">
+    <value>Estado Civil</value>
+  </data>
+  <data name="Divorced" xml:space="preserve">
+    <value>Divoriciado(a)</value>
+  </data>
+  <data name="Famale" xml:space="preserve">
+    <value>Femenino</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Apellidos</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Masculino</value>
+  </data>
+  <data name="Married" xml:space="preserve">
+    <value>Casado(a)</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Sex" xml:space="preserve">
+    <value>Sexo</value>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Soltero(a)</value>
+  </data>
+  <data name="Widower" xml:space="preserve">
+    <value>Viudo(a)</value>
+  </data>
+  <data name="Employees" xml:space="preserve">
+    <value>Trabajadores</value>
+  </data>
+  <data name="Employ" xml:space="preserve">
+    <value>Trabajador</value>
+  </data>
+  <data name="AdministrativeRoles" xml:space="preserve">
+    <value>Roles Administrativos</value>
+  </data>
+  <data name="Director" xml:space="preserve">
+    <value>Director</value>
+  </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Chofer</value>
+  </data>
+  <data name="Specialist" xml:space="preserve">
+    <value>Especialista</value>
+  </data>
+  <data name="RegularExpressionValidationErrorMessage" xml:space="preserve">
+    <value>Formato incorrecto</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>Dirección Web</value>
+  </data>
+  <data name="Authors" xml:space="preserve">
+    <value>Autores</value>
+  </data>
+  <data name="Award" xml:space="preserve">
+    <value>Galardón</value>
+  </data>
+  <data name="Awardeds" xml:space="preserve">
+    <value>Galardonados</value>
+  </data>
+  <data name="Awards" xml:space="preserve">
+    <value>Galardones</value>
+  </data>
+  <data name="Edition" xml:space="preserve">
+    <value>Edición</value>
+  </data>
+  <data name="IsInstitutional" xml:space="preserve">
+    <value>Es Institucional</value>
+  </data>
+  <data name="ProductionTeam" xml:space="preserve">
+    <value>Equipo de Realización</value>
+  </data>
+  <data name="ProductionTeams" xml:space="preserve">
+    <value>Equipos de Realización</value>
+  </data>
+  <data name="Member" xml:space="preserve">
+    <value>Integrante</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>Integrantes</value>
+  </data>
+  <data name="ProductionRole" xml:space="preserve">
+    <value>Rol de Realización</value>
+  </data>
+  <data name="Presentation" xml:space="preserve">
+    <value>Presentación</value>
+  </data>
+  <data name="Presentations" xml:space="preserve">
+    <value>Presentaciones</value>
+  </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Fecha y Hora</value>
+  </data>
+  <data name="SelectionRequiredValidationMessage" xml:space="preserve">
+    <value>La selección en el campo {0} es obligatoria</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Programa</value>
+  </data>
+  <data name="Shows" xml:space="preserve">
+    <value>Programas</value>
+  </data>
+  <data name="InvalidVerificationCodeMessage" xml:space="preserve">
+    <value>Código de verificación incorrecto.</value>
+  </data>
+  <data name="Verification Code" xml:space="preserve">
+    <value>Código de Verificación</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Control de Acceso</value>
+  </data>
+  <data name="business-award-creator" xml:space="preserve">
+    <value>Crear Galardones</value>
+  </data>
+  <data name="business-award-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear galardones</value>
+  </data>
+  <data name="business-award-editor" xml:space="preserve">
+    <value>Modificar Galardones</value>
+  </data>
+  <data name="business-award-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar galardones</value>
+  </data>
+  <data name="business-award-remover" xml:space="preserve">
+    <value>Eliminar Galardones</value>
+  </data>
+  <data name="business-award-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar galardones</value>
+  </data>
+  <data name="business-award-viewer" xml:space="preserve">
+    <value>Visualizar Galardones</value>
+  </data>
+  <data name="business-award-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar galardones</value>
+  </data>
+  <data name="business-employ-creator" xml:space="preserve">
+    <value>Crear Trabajadores</value>
+  </data>
+  <data name="business-employ-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear trabajadores</value>
+  </data>
+  <data name="business-employ-editor" xml:space="preserve">
+    <value>Modificar Trabajadores</value>
+  </data>
+  <data name="business-employ-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar trabajadores</value>
+  </data>
+  <data name="business-employ-remover" xml:space="preserve">
+    <value>Eliminar Trabajadores</value>
+  </data>
+  <data name="business-employ-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar trabajadores</value>
+  </data>
+  <data name="business-employ-viewer" xml:space="preserve">
+    <value>Visualizar Trabajadores</value>
+  </data>
+  <data name="business-employ-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar trabajadores</value>
+  </data>
+  <data name="business-presentation-creator" xml:space="preserve">
+    <value>Crear Presentaciones</value>
+  </data>
+  <data name="business-presentation-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear presentaciones</value>
+  </data>
+  <data name="business-presentation-editor" xml:space="preserve">
+    <value>Modificar Presentaciones</value>
+  </data>
+  <data name="business-presentation-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar presentaciones</value>
+  </data>
+  <data name="business-presentation-remover" xml:space="preserve">
+    <value>Eliminar Presentaciones</value>
+  </data>
+  <data name="business-presentation-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar presentaciones</value>
+  </data>
+  <data name="business-presentation-viewer" xml:space="preserve">
+    <value>Visualizar Presentaciones</value>
+  </data>
+  <data name="business-presentation-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar presentaciones</value>
+  </data>
+  <data name="business-productionteam-creator" xml:space="preserve">
+    <value>Crear Equipos de Realización</value>
+  </data>
+  <data name="business-productionteam-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear equipos de realización</value>
+  </data>
+  <data name="business-productionteam-editor" xml:space="preserve">
+    <value>Modificar Equipos de Realización</value>
+  </data>
+  <data name="business-productionteam-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar equipos de realización</value>
+  </data>
+  <data name="business-productionteam-remover" xml:space="preserve">
+    <value>Elimincar Equipos de Realización</value>
+  </data>
+  <data name="business-productionteam-remover-description" xml:space="preserve">
+    <value>Usuarios que puede eliminar equipos de realización</value>
+  </data>
+  <data name="business-productionteam-viewer" xml:space="preserve">
+    <value>Visualizar Equipos de Realización</value>
+  </data>
+  <data name="business-productionteam-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar equipos de realización</value>
+  </data>
+  <data name="business-show-creator" xml:space="preserve">
+    <value>Crear Programas</value>
+  </data>
+  <data name="business-show-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear programas</value>
+  </data>
+  <data name="business-show-editor" xml:space="preserve">
+    <value>Modificar Programas</value>
+  </data>
+  <data name="business-show-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar programas</value>
+  </data>
+  <data name="business-show-remover" xml:space="preserve">
+    <value>Eliminar Programas</value>
+  </data>
+  <data name="business-show-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar programas</value>
+  </data>
+  <data name="business-show-viewer" xml:space="preserve">
+    <value>Visualizar Programas</value>
+  </data>
+  <data name="business-show-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar programas</value>
+  </data>
+  <data name="licensing-manager" xml:space="preserve">
+    <value>Licenciar</value>
+  </data>
+  <data name="licensing-manager-description" xml:space="preserve">
+    <value>Usuarios que puede gestionar el licenciamiento</value>
+  </data>
+  <data name="securitylocal-group-creator" xml:space="preserve">
+    <value>Crear Grupos de Usuarios</value>
+  </data>
+  <data name="securitylocal-group-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear grupos de usuarios</value>
+  </data>
+  <data name="securitylocal-group-editor" xml:space="preserve">
+    <value>Modificar Grupos de Usuarios</value>
+  </data>
+  <data name="securitylocal-group-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar grupos de usuarios</value>
+  </data>
+  <data name="securitylocal-group-remover" xml:space="preserve">
+    <value>Eliminar Grupos de Usuarios</value>
+  </data>
+  <data name="securitylocal-group-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar grupos de usuarios</value>
+  </data>
+  <data name="securitylocal-group-viewer" xml:space="preserve">
+    <value>Visualizar Grupos de Usuarios</value>
+  </data>
+  <data name="securitylocal-group-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar grupos de usuarios</value>
+  </data>
+  <data name="securitylocal-user-creator" xml:space="preserve">
+    <value>Crear Usuarios</value>
+  </data>
+  <data name="securitylocal-user-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear usuarios</value>
+  </data>
+  <data name="securitylocal-user-editor" xml:space="preserve">
+    <value>Modificar Usuarios</value>
+  </data>
+  <data name="securitylocal-user-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar usuarios</value>
+  </data>
+  <data name="securitylocal-user-remover" xml:space="preserve">
+    <value>Eliminar Usuarios</value>
+  </data>
+  <data name="securitylocal-user-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar usuarios</value>
+  </data>
+  <data name="securitylocal-user-viewer" xml:space="preserve">
+    <value>Visualizar Usuarios</value>
+  </data>
+  <data name="securitylocal-user-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar usuarios</value>
+  </data>
+  <data name="shell-manager" xml:space="preserve">
+    <value>Administrar</value>
+  </data>
+  <data name="shell-manager-description" xml:space="preserve">
+    <value>Usuarios con acceso a la administración</value>
+  </data>
+  <data name="social-blog-creator" xml:space="preserve">
+    <value>Crear Blogs</value>
+  </data>
+  <data name="social-blog-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden crear blogs</value>
+  </data>
+  <data name="social-blog-editor" xml:space="preserve">
+    <value>Modificar Blogs</value>
+  </data>
+  <data name="social-blog-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar blogs</value>
+  </data>
+  <data name="social-blog-remover" xml:space="preserve">
+    <value>Eliminar Blogs</value>
+  </data>
+  <data name="social-blog-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar blogs</value>
+  </data>
+  <data name="social-blog-viewer" xml:space="preserve">
+    <value>Visualizar Blogs</value>
+  </data>
+  <data name="social-blog-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar blogs</value>
+  </data>
+  <data name="CharacterGeneration" xml:space="preserve">
+    <value>Generación de Caracteres</value>
+  </data>
+  <data name="Conduction" xml:space="preserve">
+    <value>Conducción</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="DirectionAssistant" xml:space="preserve">
+    <value>Asistentes de Dirección</value>
+  </data>
+  <data name="Drive" xml:space="preserve">
+    <value>Choferes</value>
+  </data>
+  <data name="HandyMan" xml:space="preserve">
+    <value>Montadores</value>
+  </data>
+  <data name="ImageRealization" xml:space="preserve">
+    <value>Realización de Imagen</value>
+  </data>
+  <data name="ITSpecialist" xml:space="preserve">
+    <value>Informáticos</value>
+  </data>
+  <data name="LightManagement" xml:space="preserve">
+    <value>Luces</value>
+  </data>
+  <data name="LightManamentAssistant" xml:space="preserve">
+    <value>Auxiliares de Luces</value>
+  </data>
+  <data name="Photography" xml:space="preserve">
+    <value>Cámara</value>
+  </data>
+  <data name="Production" xml:space="preserve">
+    <value>Producción</value>
+  </data>
+  <data name="Screenplay" xml:space="preserve">
+    <value>Guión</value>
+  </data>
+  <data name="SocialComunication" xml:space="preserve">
+    <value>Periodistas</value>
+  </data>
+  <data name="SociaMedia" xml:space="preserve">
+    <value>Pespecialistas de los Medios</value>
+  </data>
+  <data name="SoundManagement" xml:space="preserve">
+    <value>Sonido</value>
+  </data>
+  <data name="SoundManagementAssistant" xml:space="preserve">
+    <value>Auxiliares de Sonido</value>
+  </data>
+  <data name="TechSpecialist" xml:space="preserve">
+    <value>Técnicos</value>
+  </data>
+  <data name="TransmitionEdition" xml:space="preserve">
+    <value>Edición de Transmisión</value>
+  </data>
+  <data name="VideoLibraryManagement" xml:space="preserve">
+    <value>Videoteca</value>
+  </data>
+  <data name="AfterData" xml:space="preserve">
+    <value>Datos Actuales</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="BeforeData" xml:space="preserve">
+    <value>Datos Anteriores</value>
+  </data>
+  <data name="CitizenId" xml:space="preserve">
+    <value>Carnet de Identidad</value>
+  </data>
+  <data name="EntityName" xml:space="preserve">
+    <value>Nombre de la Entidad</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="Stage name" xml:space="preserve">
+    <value>Nombre Artístico</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="ContractKind" xml:space="preserve">
+    <value>Tipo de Contratista</value>
+  </data>
+  <data name="Founding date" xml:space="preserve">
+    <value>Fecha de Fundada</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
+  <data name="Municipality" xml:space="preserve">
+    <value>Municipio</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organización</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
+  <data name="EmailAddressValidationErrorMessage" xml:space="preserve">
+    <value>El correo electrónico no es valido</value>
+  </data>
+  <data name="PhoneValidationErrorMessage" xml:space="preserve">
+    <value>El número de teléfono no es valido</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
+  <data name="AdmitionMode" xml:space="preserve">
+    <value>Modalidad de ingreso</value>
+  </data>
+  <data name="FourthLevelEducation" xml:space="preserve">
+    <value>Cuarto nivel de Educación</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Galería</value>
+  </data>
+  <data name="Higher" xml:space="preserve">
+    <value>Superior</value>
+  </data>
+  <data name="House" xml:space="preserve">
+    <value>Casa</value>
+  </data>
+  <data name="HouseWorkshop" xml:space="preserve">
+    <value>Casa-Taller</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medio</value>
+  </data>
+  <data name="Observations" xml:space="preserve">
+    <value>Observasiones</value>
+  </data>
+  <data name="Primary" xml:space="preserve">
+    <value>Primaria</value>
+  </data>
+  <data name="SchoolLevel" xml:space="preserve">
+    <value>Nivel escolar</value>
+  </data>
+  <data name="specify training" xml:space="preserve">
+    <value>Formación (especificar formación escolar)</value>
+  </data>
+  <data name="Unknow" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
+  <data name="UpperMiddle" xml:space="preserve">
+    <value>Medio Superior</value>
+  </data>
+  <data name="UrlValidationErrorMessage" xml:space="preserve">
+    <value>La dirección web no es valida</value>
+  </data>
+  <data name="Workplace" xml:space="preserve">
+    <value>Lugar de trabajo</value>
+  </data>
+  <data name="Workshop" xml:space="preserve">
+    <value>Taller</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>País</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Resolución</value>
+  </data>
+  <data name="ResolutionDate" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Is Spaced Symbol" xml:space="preserve">
+    <value>¿Tiene espacio?</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Posición</value>
+  </data>
+  <data name="Prefix" xml:space="preserve">
+    <value>Prefijo</value>
+  </data>
+  <data name="Sufix" xml:space="preserve">
+    <value>Sufijo</value>
+  </data>
+  <data name="Symbol" xml:space="preserve">
+    <value>Símbolo</value>
+  </data>
+  <data name="CurrentUserNotDisactivableMessage" xml:space="preserve">
+    <value>Este usuario no puede ser desavilitado</value>
+  </data>
+  <data name="artist-editor" xml:space="preserve">
+    <value>Modificar Creador</value>
+  </data>
+  <data name="artist-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar creadores</value>
+  </data>
+  <data name="artist-management" xml:space="preserve">
+    <value>Gestionar Creadores</value>
+  </data>
+  <data name="administrative-roles-creator" xml:space="preserve">
+    <value>Agregar roles administrativos</value>
+  </data>
+  <data name="administrative-roles-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar roles administrativos</value>
+  </data>
+  <data name="administrative-roles-editor" xml:space="preserve">
+    <value>Modificar roles administrativos</value>
+  </data>
+  <data name="administrative-roles-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar roles administrativos</value>
+  </data>
+  <data name="administrative-roles-management" xml:space="preserve">
+    <value>Gestionar de roles administrativos</value>
+  </data>
+  <data name="administrative-roles-remover" xml:space="preserve">
+    <value>Eliminar roles administrativos</value>
+  </data>
+  <data name="administrative-roles-remover-description" xml:space="preserve">
+    <value>Usuario que puede modificar roles administrativos</value>
+  </data>
+  <data name="administrative-roles-viewer" xml:space="preserve">
+    <value>Visualizar roles administrativos</value>
+  </data>
+  <data name="administrative-roles-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar roles administrativos</value>
+  </data>
+  <data name="art-work-creator" xml:space="preserve">
+    <value>Agregar Obra de Arte</value>
+  </data>
+  <data name="art-work-creator-description" xml:space="preserve">
+    <value>Usuario que puede modificar obra de arte</value>
+  </data>
+  <data name="art-work-editor" xml:space="preserve">
+    <value>Modificar Obra de Arte</value>
+  </data>
+  <data name="art-work-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar obra de arte</value>
+  </data>
+  <data name="art-work-management" xml:space="preserve">
+    <value>Gestionar Obras de Arte</value>
+  </data>
+  <data name="art-work-remover" xml:space="preserve">
+    <value>Eliminar Obra de Arte</value>
+  </data>
+  <data name="art-work-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar obra de arte</value>
+  </data>
+  <data name="art-work-viewer" xml:space="preserve">
+    <value>Visualizar Obras de Arte</value>
+  </data>
+  <data name="art-work-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar obras de arte</value>
+  </data>
+  <data name="artist-creator" xml:space="preserve">
+    <value>Agregar Creador</value>
+  </data>
+  <data name="artist-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar creador</value>
+  </data>
+  <data name="artist-remover" xml:space="preserve">
+    <value>Eliminar Creador</value>
+  </data>
+  <data name="artist-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar creador</value>
+  </data>
+  <data name="artist-viewer" xml:space="preserve">
+    <value>Visualizar Creadores</value>
+  </data>
+  <data name="artist-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar creadores</value>
+  </data>
+  <data name="artistic-manifestation-creator" xml:space="preserve">
+    <value>Agregar Manifestación Artistica</value>
+  </data>
+  <data name="artistic-manifestation-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar manifestación artistica</value>
+  </data>
+  <data name="artistic-manifestation-editor" xml:space="preserve">
+    <value>Modificar Manifestación Artistica</value>
+  </data>
+  <data name="artistic-manifestation-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar manifestación artistica</value>
+  </data>
+  <data name="artistic-manifestation-group-creator" xml:space="preserve">
+    <value>Agregar Grupo de Manifestaciones Artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar grupo de manifestaciones artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-editor" xml:space="preserve">
+    <value>Modificar Grupo de Manifestaciones Artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar grupo de manifestaciones artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-management" xml:space="preserve">
+    <value>Gestionar Grupo de Manifestaciones Artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-remover" xml:space="preserve">
+    <value>Eliminar Grupos de Manifestaciones Artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar grupo de manifestaciones artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-viewer" xml:space="preserve">
+    <value>Visualizar los Grupos de Manifestaciones Artisticas</value>
+  </data>
+  <data name="artistic-manifestation-group-viewer-description" xml:space="preserve">
+    <value>Usuario que puede vizualizar grupos de manifestaciones artisticas</value>
+  </data>
+  <data name="artistic-manifestation-management" xml:space="preserve">
+    <value>Gestionar Manifestaciones Artisticas</value>
+  </data>
+  <data name="artistic-manifestation-remover" xml:space="preserve">
+    <value>Eliminar Manifestación Artistica</value>
+  </data>
+  <data name="artistic-manifestation-remover-description" xml:space="preserve">
+    <value>Usuario que puede elminar manifestación artistica</value>
+  </data>
+  <data name="artistic-manifestation-viewer" xml:space="preserve">
+    <value>Visualizar Manifestaciones Artisticas</value>
+  </data>
+  <data name="artistic-manifestation-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar manifestaciones artisticas</value>
+  </data>
+  <data name="artistic-technique-creator" xml:space="preserve">
+    <value>Agregar Técnica Artística</value>
+  </data>
+  <data name="artistic-technique-creator-description" xml:space="preserve">
+    <value>Usuario que puede Agrega Técnica Artística</value>
+  </data>
+  <data name="artistic-technique-editor" xml:space="preserve">
+    <value>Modificar Técnica Artística</value>
+  </data>
+  <data name="artistic-technique-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar técnica artística</value>
+  </data>
+  <data name="artistic-technique-management" xml:space="preserve">
+    <value>Gestionar Técnicas Artísticas</value>
+  </data>
+  <data name="artistic-technique-remover" xml:space="preserve">
+    <value>Eliminar Técnica Artística</value>
+  </data>
+  <data name="artistic-technique-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar técnica artística</value>
+  </data>
+  <data name="artistic-technique-viewer" xml:space="preserve">
+    <value>Visualizar Técnicas Artísticas</value>
+  </data>
+  <data name="artistic-technique-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar técnicas artísticas</value>
+  </data>
+  <data name="association-creator" xml:space="preserve">
+    <value>Agregar Asociación</value>
+  </data>
+  <data name="association-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar asociación</value>
+  </data>
+  <data name="association-editor" xml:space="preserve">
+    <value>Modificar Asociación</value>
+  </data>
+  <data name="association-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar asociación</value>
+  </data>
+  <data name="association-management" xml:space="preserve">
+    <value>Gestionar Asociaciones</value>
+  </data>
+  <data name="association-remover" xml:space="preserve">
+    <value>Eliminar Asociación</value>
+  </data>
+  <data name="association-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar asociación</value>
+  </data>
+  <data name="association-viewer" xml:space="preserve">
+    <value>Visualizar asociaciones</value>
+  </data>
+  <data name="association-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar asociaciones</value>
+  </data>
+  <data name="award-creator" xml:space="preserve">
+    <value>Agregar Premio</value>
+  </data>
+  <data name="award-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar premio</value>
+  </data>
+  <data name="award-editor" xml:space="preserve">
+    <value>Modificar Premio</value>
+  </data>
+  <data name="award-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar premio</value>
+  </data>
+  <data name="award-management" xml:space="preserve">
+    <value>Gestionar Premios</value>
+  </data>
+  <data name="award-remover" xml:space="preserve">
+    <value>Eliminar Premio</value>
+  </data>
+  <data name="award-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar premio</value>
+  </data>
+  <data name="award-viewer" xml:space="preserve">
+    <value>Visualizar Premios</value>
+  </data>
+  <data name="award-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar premios</value>
+  </data>
+  <data name="contractor-creator" xml:space="preserve">
+    <value>Agregar Contratista</value>
+  </data>
+  <data name="contractor-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar contratista</value>
+  </data>
+  <data name="contractor-editor" xml:space="preserve">
+    <value>Modificar Contratista</value>
+  </data>
+  <data name="contractor-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar contratista</value>
+  </data>
+  <data name="contractor-kind-creator" xml:space="preserve">
+    <value>Agregar Tipo de Contratista</value>
+  </data>
+  <data name="contractor-kind-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar tipo de contratista</value>
+  </data>
+  <data name="contractor-kind-editor" xml:space="preserve">
+    <value>Modificar Tipo de Contratista</value>
+  </data>
+  <data name="contractor-kind-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar tipo de contratista</value>
+  </data>
+  <data name="contractor-kind-management" xml:space="preserve">
+    <value>Gestionar Tipos de Contratista</value>
+  </data>
+  <data name="contractor-kind-remover" xml:space="preserve">
+    <value>Eliminar Tipos de Contratistas</value>
+  </data>
+  <data name="contractor-kind-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar tipo de contratista</value>
+  </data>
+  <data name="contractor-kind-viewer" xml:space="preserve">
+    <value>Visualizar tipo de contratistas</value>
+  </data>
+  <data name="contractor-kind-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar tipos de contratistas</value>
+  </data>
+  <data name="contractor-management" xml:space="preserve">
+    <value>Gestionar Contratistas</value>
+  </data>
+  <data name="contractor-remover" xml:space="preserve">
+    <value>Eliminar Contratista</value>
+  </data>
+  <data name="contractor-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar contratista</value>
+  </data>
+  <data name="contractor-viewer" xml:space="preserve">
+    <value>Visualizar Contratistas</value>
+  </data>
+  <data name="contractor-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar contratistas</value>
+  </data>
+  <data name="craft-manifestation-creator" xml:space="preserve">
+    <value>Agregar Manifestación Artesanal</value>
+  </data>
+  <data name="craft-manifestation-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar manifestación artesanal</value>
+  </data>
+  <data name="craft-manifestation-editor" xml:space="preserve">
+    <value>Modificar Manifestación Artesanal</value>
+  </data>
+  <data name="craft-manifestation-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar manifestación artesanal</value>
+  </data>
+  <data name="craft-manifestation-group-creator" xml:space="preserve">
+    <value>Agregar Grupo de Manifestación Artesanal</value>
+  </data>
+  <data name="craft-manifestation-group-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar grupo de manifestación artesanal</value>
+  </data>
+  <data name="craft-manifestation-group-editor" xml:space="preserve">
+    <value>Modificar Grupo de Manifestación Artesanal</value>
+  </data>
+  <data name="craft-manifestation-group-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar grupo de manifestación artesanal</value>
+  </data>
+  <data name="craft-manifestation-group-management" xml:space="preserve">
+    <value>Gestionar de Grupos de Manifestaciones Artesanales</value>
+  </data>
+  <data name="craft-manifestation-group-remover" xml:space="preserve">
+    <value>Eliminar grupo de manifestación Artesanal</value>
+  </data>
+  <data name="craft-manifestation-group-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar grupo de manifestación artesanal</value>
+  </data>
+  <data name="craft-manifestation-group-viewer" xml:space="preserve">
+    <value>Visualizar Grupos de Manifestaciones Artesanales</value>
+  </data>
+  <data name="craft-manifestation-group-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar grupos de manifestaciones artisticas</value>
+  </data>
+  <data name="craft-manifestation-management" xml:space="preserve">
+    <value>Gestionar Manifestaciones Artesanales</value>
+  </data>
+  <data name="craft-manifestation-remover" xml:space="preserve">
+    <value>Eliminar Manifestación Artesanal</value>
+  </data>
+  <data name="craft-manifestation-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar manifestación artesanal</value>
+  </data>
+  <data name="craft-manifestation-viewer" xml:space="preserve">
+    <value>Visualizar Manifestaciones Artesanales</value>
+  </data>
+  <data name="craft-manifestation-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar manifestaciones artesanales</value>
+  </data>
+  <data name="craft-technique-creator" xml:space="preserve">
+    <value>Agregar Técnica Artesanal</value>
+  </data>
+  <data name="craft-technique-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar técnica artesanal</value>
+  </data>
+  <data name="craft-technique-editor" xml:space="preserve">
+    <value>Modificar Técnica Artesanal</value>
+  </data>
+  <data name="craft-technique-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar técnica artesanal</value>
+  </data>
+  <data name="craft-technique-management" xml:space="preserve">
+    <value>Gestionar de Técnicas Artesanales</value>
+  </data>
+  <data name="craft-technique-remover" xml:space="preserve">
+    <value>Eliminar Técnicas Artesanales</value>
+  </data>
+  <data name="craft-technique-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar técnica artesanal</value>
+  </data>
+  <data name="craft-technique-viewer" xml:space="preserve">
+    <value>Visualizar Técnicas Artesanales</value>
+  </data>
+  <data name="craft-technique-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar técnicas artesanales</value>
+  </data>
+  <data name="craft-work-creator" xml:space="preserve">
+    <value>Agregar Obra Artesanal</value>
+  </data>
+  <data name="craft-work-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar obra artesanal</value>
+  </data>
+  <data name="craft-work-editor" xml:space="preserve">
+    <value>Modificar Obra Artesanal</value>
+  </data>
+  <data name="craft-work-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar obra artesanal</value>
+  </data>
+  <data name="craft-work-management" xml:space="preserve">
+    <value>Gestionar Obras Artesanales</value>
+  </data>
+  <data name="craft-work-remover" xml:space="preserve">
+    <value>Eliminar Obra Artesanal</value>
+  </data>
+  <data name="craft-work-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar obra artesanal</value>
+  </data>
+  <data name="craft-work-viewer" xml:space="preserve">
+    <value>Visualizar Obras Artesanales</value>
+  </data>
+  <data name="craft-work-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar obras artesanales</value>
+  </data>
+  <data name="creation-group-creator" xml:space="preserve">
+    <value>Agregar Grupo de Creación</value>
+  </data>
+  <data name="creation-group-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar grupo de creación</value>
+  </data>
+  <data name="creation-group-editor" xml:space="preserve">
+    <value>Modificar Grupo de Creación</value>
+  </data>
+  <data name="creation-group-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar grupo de creación</value>
+  </data>
+  <data name="creation-group-management" xml:space="preserve">
+    <value>Gestionar Grupos de Creación</value>
+  </data>
+  <data name="creation-group-remover" xml:space="preserve">
+    <value>Eliminar Grupo de Creación</value>
+  </data>
+  <data name="creation-group-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar grupo de creación</value>
+  </data>
+  <data name="creation-group-viewer" xml:space="preserve">
+    <value>Visualizar Grupos de Creación</value>
+  </data>
+  <data name="creation-group-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar grupos de creación</value>
+  </data>
+  <data name="critic-creator" xml:space="preserve">
+    <value>Agregar Crítico</value>
+  </data>
+  <data name="critic-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar crítico</value>
+  </data>
+  <data name="critic-editor" xml:space="preserve">
+    <value>Modificar Crítico</value>
+  </data>
+  <data name="critic-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar crítico</value>
+  </data>
+  <data name="critic-management" xml:space="preserve">
+    <value>Gestionar Críticos</value>
+  </data>
+  <data name="critic-remover" xml:space="preserve">
+    <value>Eliminar Crítico</value>
+  </data>
+  <data name="critic-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar crítico</value>
+  </data>
+  <data name="critic-viewer" xml:space="preserve">
+    <value>Visualizar Críticos</value>
+  </data>
+  <data name="critic-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar críticos</value>
+  </data>
+  <data name="currency-creator" xml:space="preserve">
+    <value>Agregar Moneda</value>
+  </data>
+  <data name="currency-creator-description" xml:space="preserve">
+    <value>Usuario que puede modificar moneda</value>
+  </data>
+  <data name="currency-editor" xml:space="preserve">
+    <value>Modificar Moneda</value>
+  </data>
+  <data name="currency-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar moneda</value>
+  </data>
+  <data name="currency-management" xml:space="preserve">
+    <value>Gestionar Monedas</value>
+  </data>
+  <data name="currency-remover" xml:space="preserve">
+    <value>Eliminar Moneda</value>
+  </data>
+  <data name="currency-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar moneda</value>
+  </data>
+  <data name="currency-viewer" xml:space="preserve">
+    <value>Visualizar monedas</value>
+  </data>
+  <data name="currency-viewer-description" xml:space="preserve">
+    <value>Usuario que puede modificar monedas</value>
+  </data>
+  <data name="design-manifestation-creator" xml:space="preserve">
+    <value>Agregar Manifestación de Diseño</value>
+  </data>
+  <data name="design-manifestation-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar manifestación de diseño</value>
+  </data>
+  <data name="design-manifestation-editor" xml:space="preserve">
+    <value>Modificar Manifestación de Diseño</value>
+  </data>
+  <data name="design-manifestation-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar manifestación de diseño</value>
+  </data>
+  <data name="design-manifestation-group-creator" xml:space="preserve">
+    <value>Agregar Grupo de Manifestación de Diseño</value>
+  </data>
+  <data name="design-manifestation-group-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar grupo de manifestación de diseño</value>
+  </data>
+  <data name="design-manifestation-group-editor" xml:space="preserve">
+    <value>Modificar Grupo de Manifestación de Diseño</value>
+  </data>
+  <data name="design-manifestation-group-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar grupo de manifestación de diseño</value>
+  </data>
+  <data name="design-manifestation-group-management" xml:space="preserve">
+    <value>Gestionar Grupos de Manifestación de Diseño</value>
+  </data>
+  <data name="design-manifestation-group-remover" xml:space="preserve">
+    <value>Eliminar Grupo de Manifestación de Diseño</value>
+  </data>
+  <data name="design-manifestation-group-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar grupo de manifestación de diseño</value>
+  </data>
+  <data name="design-manifestation-group-viewer" xml:space="preserve">
+    <value>Visualizar Grupos de Manifestaciones de Diseño</value>
+  </data>
+  <data name="design-manifestation-group-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar grupos de manifestaciones de diseño</value>
+  </data>
+  <data name="design-manifestation-management" xml:space="preserve">
+    <value>Gestionar Manifestaciones de Diseño</value>
+  </data>
+  <data name="design-manifestation-remover" xml:space="preserve">
+    <value>Eliminar Manifestación de Diseño</value>
+  </data>
+  <data name="design-manifestation-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar manifestación de diseño</value>
+  </data>
+  <data name="design-manifestation-viewer" xml:space="preserve">
+    <value>Visualizar Manifestaciones de Diseño</value>
+  </data>
+  <data name="design-manifestation-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar manifestaciones de diseño</value>
+  </data>
+  <data name="design-technique-creator" xml:space="preserve">
+    <value>Agregar Técnica de Diseño</value>
+  </data>
+  <data name="design-technique-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar técnica de diseño</value>
+  </data>
+  <data name="design-technique-editor" xml:space="preserve">
+    <value>Modificar Técnica de Diseño</value>
+  </data>
+  <data name="design-technique-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar técnica de diseño</value>
+  </data>
+  <data name="design-technique-management" xml:space="preserve">
+    <value>Gestionar Técnicas de Diseño</value>
+  </data>
+  <data name="design-technique-remover" xml:space="preserve">
+    <value>Eliminar Técnica de Diseño</value>
+  </data>
+  <data name="design-technique-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar técnica de diseño</value>
+  </data>
+  <data name="design-technique-viewer" xml:space="preserve">
+    <value>Visualizar Técnicas de Diseño</value>
+  </data>
+  <data name="design-technique-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar técnica de diseño</value>
+  </data>
+  <data name="design-work-creator" xml:space="preserve">
+    <value>Agregar Obra de Diseño</value>
+  </data>
+  <data name="design-work-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar obra de diseño</value>
+  </data>
+  <data name="design-work-editor" xml:space="preserve">
+    <value>Modificar Obra de Diseño</value>
+  </data>
+  <data name="design-work-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar Obra de Diseño</value>
+  </data>
+  <data name="design-work-management" xml:space="preserve">
+    <value>Gestionar Obras de Diseño</value>
+  </data>
+  <data name="design-work-remover" xml:space="preserve">
+    <value>Eliminar Obra de Diseño</value>
+  </data>
+  <data name="design-work-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar obra de diseño</value>
+  </data>
+  <data name="design-work-viewer" xml:space="preserve">
+    <value>Visualizar Obras de Diseño</value>
+  </data>
+  <data name="design-work-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar obras de diseño</value>
+  </data>
+  <data name="distinction-creator" xml:space="preserve">
+    <value>Agregar Distinción</value>
+  </data>
+  <data name="distinction-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar distinción</value>
+  </data>
+  <data name="distinction-editor" xml:space="preserve">
+    <value>Modificar Distinción</value>
+  </data>
+  <data name="distinction-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar distinción</value>
+  </data>
+  <data name="distinction-management" xml:space="preserve">
+    <value>Gestionar Distinciones</value>
+  </data>
+  <data name="distinction-remover" xml:space="preserve">
+    <value>Eliminar Distinción</value>
+  </data>
+  <data name="distinction-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar distinción</value>
+  </data>
+  <data name="distinction-viewer" xml:space="preserve">
+    <value>Visualizar Distinción</value>
+  </data>
+  <data name="distinction-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar distinción</value>
+  </data>
+  <data name="employee-creator" xml:space="preserve">
+    <value>Agregar Trabajador</value>
+  </data>
+  <data name="employee-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar trabajador</value>
+  </data>
+  <data name="employee-editor" xml:space="preserve">
+    <value>Modificar Trabajador</value>
+  </data>
+  <data name="employee-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar trabajador</value>
+  </data>
+  <data name="employee-management" xml:space="preserve">
+    <value>Gestionar Trabajadores</value>
+  </data>
+  <data name="employee-remover" xml:space="preserve">
+    <value>Eliminar Trabajador</value>
+  </data>
+  <data name="employee-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar trabajador</value>
+  </data>
+  <data name="employee-viewer" xml:space="preserve">
+    <value>Visualizar Trabajadores</value>
+  </data>
+  <data name="employee-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar trabajadores</value>
+  </data>
+  <data name="institutional-information-editor" xml:space="preserve">
+    <value>Modificar Información institucional</value>
+  </data>
+  <data name="institutional-information-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar la información institucional</value>
+  </data>
+  <data name="institutional-information-management" xml:space="preserve">
+    <value>Gestionar Informaciones Institucionales</value>
+  </data>
+  <data name="institutional-information-viewer" xml:space="preserve">
+    <value>Visualizar inforación institucional</value>
+  </data>
+  <data name="institutional-information-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar la información instutucional</value>
+  </data>
+  <data name="material-creator" xml:space="preserve">
+    <value>Agregar Material</value>
+  </data>
+  <data name="material-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar material</value>
+  </data>
+  <data name="material-editor" xml:space="preserve">
+    <value>Modificar Material</value>
+  </data>
+  <data name="material-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar material</value>
+  </data>
+  <data name="material-management" xml:space="preserve">
+    <value>Gestionar Materiales</value>
+  </data>
+  <data name="material-remover" xml:space="preserve">
+    <value>Eliminar Material</value>
+  </data>
+  <data name="material-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar material</value>
+  </data>
+  <data name="material-viewer" xml:space="preserve">
+    <value>Visualizar Materiales</value>
+  </data>
+  <data name="material-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar materiales</value>
+  </data>
+  <data name="recognition-creator" xml:space="preserve">
+    <value>Agregar Reconocimiento</value>
+  </data>
+  <data name="recognition-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar reconocimiento</value>
+  </data>
+  <data name="recognition-editor" xml:space="preserve">
+    <value>Modificar Reconocimiento</value>
+  </data>
+  <data name="recognition-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar reconocimiento</value>
+  </data>
+  <data name="recognition-management" xml:space="preserve">
+    <value>Gestionar Reconocimientos</value>
+  </data>
+  <data name="recognition-remover" xml:space="preserve">
+    <value>Eliminar Reconocimiento</value>
+  </data>
+  <data name="recognition-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar reconocimiento</value>
+  </data>
+  <data name="recognition-viewer" xml:space="preserve">
+    <value>Visualizar Reconocimientos</value>
+  </data>
+  <data name="recognition-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar recococimientos</value>
+  </data>
+  <data name="resolution-creator" xml:space="preserve">
+    <value>Agregar Resolución</value>
+  </data>
+  <data name="resolution-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar resolución</value>
+  </data>
+  <data name="resolution-editor" xml:space="preserve">
+    <value>Modificar Resolución</value>
+  </data>
+  <data name="resolution-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar resolución</value>
+  </data>
+  <data name="resolution-management" xml:space="preserve">
+    <value>Gestionar Resoluciones</value>
+  </data>
+  <data name="resolution-remover" xml:space="preserve">
+    <value>Eliminar Resolución</value>
+  </data>
+  <data name="resolution-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar resolución</value>
+  </data>
+  <data name="resolution-viewer" xml:space="preserve">
+    <value>Visualizar resoluciones</value>
+  </data>
+  <data name="resolution-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar resoluciones</value>
+  </data>
+  <data name="security-role-creator" xml:space="preserve">
+    <value>Agregar Rol de Seguridad</value>
+  </data>
+  <data name="security-role-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar rol de seguridad</value>
+  </data>
+  <data name="security-role-editor" xml:space="preserve">
+    <value>Modificar Rol de Seguridad</value>
+  </data>
+  <data name="security-role-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar rol de seguridad</value>
+  </data>
+  <data name="security-role-management" xml:space="preserve">
+    <value>Gestionar Roles de Seguridad</value>
+  </data>
+  <data name="security-role-remover" xml:space="preserve">
+    <value>Eliminar Rol de Seguridad</value>
+  </data>
+  <data name="security-role-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar rol de seguridad</value>
+  </data>
+  <data name="security-role-viewer" xml:space="preserve">
+    <value>Visualizar Roles de Seguridad</value>
+  </data>
+  <data name="security-role-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar roles de seguridad</value>
+  </data>
+  <data name="security-trace-viewer" xml:space="preserve">
+    <value>Visualizar Registros</value>
+  </data>
+  <data name="security-trace-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar los registros</value>
+  </data>
+  <data name="security-user-creator" xml:space="preserve">
+    <value>Agregar Usuario de Seguridad</value>
+  </data>
+  <data name="security-user-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar usuario de seguridad</value>
+  </data>
+  <data name="security-user-editor" xml:space="preserve">
+    <value>Modificar Usuario de Seguridad</value>
+  </data>
+  <data name="security-user-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar usuario de seguridad</value>
+  </data>
+  <data name="security-user-management" xml:space="preserve">
+    <value>Gestionar Usuarios de Seguridad</value>
+  </data>
+  <data name="security-user-remover" xml:space="preserve">
+    <value>Eliminar Usuario de Seguridad</value>
+  </data>
+  <data name="security-user-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar usuario de seguridad</value>
+  </data>
+  <data name="security-user-viewer" xml:space="preserve">
+    <value>Visualizar Usuarios de Seguridad</value>
+  </data>
+  <data name="security-user-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar usuarios de seguridad</value>
+  </data>
+  <data name="service-creator" xml:space="preserve">
+    <value>Agregar Servicio</value>
+  </data>
+  <data name="service-creator-description" xml:space="preserve">
+    <value>Usuario que puede agrewgar servicio</value>
+  </data>
+  <data name="service-editor" xml:space="preserve">
+    <value>Modificar Servicio</value>
+  </data>
+  <data name="service-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar servicio</value>
+  </data>
+  <data name="service-line-creator" xml:space="preserve">
+    <value>Agregar Linea de Servicio</value>
+  </data>
+  <data name="service-line-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar linea de servicio</value>
+  </data>
+  <data name="service-line-editor" xml:space="preserve">
+    <value>Modificar Linea de Servicio</value>
+  </data>
+  <data name="service-line-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar linea de servicio</value>
+  </data>
+  <data name="service-line-group-creator" xml:space="preserve">
+    <value>Agregar Grupo de Linea de Servicio</value>
+  </data>
+  <data name="service-line-group-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar grupo de linea de servicio</value>
+  </data>
+  <data name="service-line-group-editor" xml:space="preserve">
+    <value>Modificar Grupo de Linea de Servicio</value>
+  </data>
+  <data name="service-line-group-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar grupo de linea de servicio</value>
+  </data>
+  <data name="service-line-group-management" xml:space="preserve">
+    <value>Gestionar Grupos de Linea de Servicio</value>
+  </data>
+  <data name="service-line-group-remover" xml:space="preserve">
+    <value>Eliminar Grupo de Linea de Servicio</value>
+  </data>
+  <data name="service-line-group-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar grupo de linea de servicio</value>
+  </data>
+  <data name="service-line-group-viewer" xml:space="preserve">
+    <value>Visualizar Grupos de Lineas de Servicios</value>
+  </data>
+  <data name="service-line-group-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar grupos de lineas de servicios</value>
+  </data>
+  <data name="service-line-management" xml:space="preserve">
+    <value>Getionar Lineas de Servicio</value>
+  </data>
+  <data name="service-line-remover" xml:space="preserve">
+    <value>Eliminar Linea de Servicio</value>
+  </data>
+  <data name="service-line-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar linea de servicio</value>
+  </data>
+  <data name="service-line-viewer" xml:space="preserve">
+    <value>Visualizar Lineas de Servicios</value>
+  </data>
+  <data name="service-line-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar lineas de servicios</value>
+  </data>
+  <data name="service-management" xml:space="preserve">
+    <value>Gestionar Servicios</value>
+  </data>
+  <data name="service-remover" xml:space="preserve">
+    <value>Eliminar Servicio</value>
+  </data>
+  <data name="service-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar servicio</value>
+  </data>
+  <data name="service-technique-creator" xml:space="preserve">
+    <value>Agregar Técnica de Servicio</value>
+  </data>
+  <data name="service-technique-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar técnica de servicio</value>
+  </data>
+  <data name="service-technique-editor" xml:space="preserve">
+    <value>Modificar Técnica de Servicio</value>
+  </data>
+  <data name="service-technique-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar técnica de servicio</value>
+  </data>
+  <data name="service-technique-management" xml:space="preserve">
+    <value>Gestionar Ténicas de Servicio</value>
+  </data>
+  <data name="service-technique-remover" xml:space="preserve">
+    <value>Eliminar técnica de servicio</value>
+  </data>
+  <data name="service-technique-remover-description" xml:space="preserve">
+    <value>Usuario que puede modificar técnica de servicio</value>
+  </data>
+  <data name="service-technique-viewer" xml:space="preserve">
+    <value>Visualizar Técnicas de Servicios</value>
+  </data>
+  <data name="service-technique-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar técnicas de servicios</value>
+  </data>
+  <data name="service-viewer" xml:space="preserve">
+    <value>Visualizar Servicios</value>
+  </data>
+  <data name="service-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar servicios</value>
+  </data>
+  <data name="service-work-creator" xml:space="preserve">
+    <value>Agregar Trabajo de Servicio</value>
+  </data>
+  <data name="service-work-creator-description" xml:space="preserve">
+    <value>Usuario que puede modificar trabajo de servicio</value>
+  </data>
+  <data name="service-work-editor" xml:space="preserve">
+    <value>Modificar Trabajo de Servicio</value>
+  </data>
+  <data name="service-work-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar trabajo de servicio</value>
+  </data>
+  <data name="service-work-management" xml:space="preserve">
+    <value>Gestionar Trabajos de Servicio</value>
+  </data>
+  <data name="service-work-remover" xml:space="preserve">
+    <value>Eliminar Trabajo de Servicio</value>
+  </data>
+  <data name="service-work-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar trabajo de servicio</value>
+  </data>
+  <data name="service-work-viewer" xml:space="preserve">
+    <value>Visualizar Trabajos de Servicio</value>
+  </data>
+  <data name="service-work-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar trabajos de servicio</value>
+  </data>
+  <data name="thematic-creator" xml:space="preserve">
+    <value>Agregar Temática</value>
+  </data>
+  <data name="thematic-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar temática</value>
+  </data>
+  <data name="thematic-editor" xml:space="preserve">
+    <value>Modificar Temática</value>
+  </data>
+  <data name="thematic-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar temática</value>
+  </data>
+  <data name="thematic-management" xml:space="preserve">
+    <value>Gestionar Temáticas</value>
+  </data>
+  <data name="thematic-remover" xml:space="preserve">
+    <value>Eliminar Temática</value>
+  </data>
+  <data name="thematic-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar temática</value>
+  </data>
+  <data name="thematic-viewer" xml:space="preserve">
+    <value>Visualizar Temáticas</value>
+  </data>
+  <data name="thematic-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar temáticas</value>
+  </data>
+  <data name="unit-measurement-creator" xml:space="preserve">
+    <value>Agregar Unidade de Medida</value>
+  </data>
+  <data name="unit-measurement-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar unidades de medida</value>
+  </data>
+  <data name="unit-measurement-editor" xml:space="preserve">
+    <value>Modificar Unidades de Medida</value>
+  </data>
+  <data name="unit-measurement-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar unidades de medida</value>
+  </data>
+  <data name="unit-measurement-management" xml:space="preserve">
+    <value>Gestionar Unidades de Medida</value>
+  </data>
+  <data name="unit-measurement-remover" xml:space="preserve">
+    <value>Eliminar Unidades de Medida</value>
+  </data>
+  <data name="unit-measurement-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar unidades de medida</value>
+  </data>
+  <data name="unit-measurement-viewer" xml:space="preserve">
+    <value>Visualizar Unidades de Medida</value>
+  </data>
+  <data name="unit-measurement-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar unidades de medida</value>
+  </data>
+  <data name="Graduate" xml:space="preserve">
+    <value>Graduado de Escuelas de Arte</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>Miembro de Asociación</value>
+  </data>
+  <data name="ArtisticManifestationGroup" xml:space="preserve">
+    <value>Grupo de manifestación artística</value>
+  </data>
+  <data name="CraftManifestationGroup" xml:space="preserve">
+    <value>Grupo de manifestación de artesanía</value>
+  </data>
+  <data name="DesignManifestationGroup" xml:space="preserve">
+    <value>Grupo de manifestación de diseño</value>
+  </data>
+  <data name="ServiceLineGroup" xml:space="preserve">
+    <value>Grupo de linea de servicio</value>
+  </data>
+  <data name="ArtisticManifestation" xml:space="preserve">
+    <value>Manifestación Artística</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Colección</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Costo</value>
+  </data>
+  <data name="CraftManifestation" xml:space="preserve">
+    <value>Manifestación Artesanal</value>
+  </data>
+  <data name="CreationYear" xml:space="preserve">
+    <value>Año de Creación</value>
+  </data>
+  <data name="DesignManifestation" xml:space="preserve">
+    <value>Manifestación de Diseño</value>
+  </data>
+  <data name="DimensionsUnitMeasurement" xml:space="preserve">
+    <value>Unidad de medida de dimensiones</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Altura</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Localización</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Precio</value>
+  </data>
+  <data name="Profundity" xml:space="preserve">
+    <value>Profundidad</value>
+  </data>
+  <data name="WeightUnitMeasurement" xml:space="preserve">
+    <value>Unidad de medida del peso</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="WorkWeight" xml:space="preserve">
+    <value>Peso de la obra</value>
+  </data>
+  <data name="ServiceLine" xml:space="preserve">
+    <value>Linea de servicio</value>
+  </data>
+  <data name="activity-creator" xml:space="preserve">
+    <value>Agregar Actividad</value>
+  </data>
+  <data name="activity-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar actividad</value>
+  </data>
+  <data name="activity-editor" xml:space="preserve">
+    <value>Modificar Actividad</value>
+  </data>
+  <data name="activity-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar actividad</value>
+  </data>
+  <data name="activity-kind-creator" xml:space="preserve">
+    <value>Agregar Tipo de Actividad</value>
+  </data>
+  <data name="activity-kind-creator-description" xml:space="preserve">
+    <value>Usuario que puede agregar tipo de actividad</value>
+  </data>
+  <data name="activity-kind-editor" xml:space="preserve">
+    <value>Modificar Tipo de Actividad</value>
+  </data>
+  <data name="activity-kind-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar tipo de actividad</value>
+  </data>
+  <data name="activity-kind-management" xml:space="preserve">
+    <value>Gestionar tipos de Actividades</value>
+  </data>
+  <data name="activity-kind-remover" xml:space="preserve">
+    <value>Eliminar Tipo de Actividad</value>
+  </data>
+  <data name="activity-kind-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar tipo de actividad</value>
+  </data>
+  <data name="activity-kind-viewer" xml:space="preserve">
+    <value>Visualizar Tipos de Actividades</value>
+  </data>
+  <data name="activity-kind-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar tipos de actividades</value>
+  </data>
+  <data name="activity-management" xml:space="preserve">
+    <value>Gestionar Actividades</value>
+  </data>
+  <data name="activity-remover" xml:space="preserve">
+    <value>Eliminar Actividad</value>
+  </data>
+  <data name="activity-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar actividad</value>
+  </data>
+  <data name="activity-viewer" xml:space="preserve">
+    <value>Visualizar Actividades</value>
+  </data>
+  <data name="activity-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar actividades</value>
+  </data>
+  <data name="ActivityKind" xml:space="preserve">
+    <value>Tipo de Actividad</value>
+  </data>
+  <data name="PlanedAt" xml:space="preserve">
+    <value>Fecha a realizar</value>
+  </data>
+  <data name="ReleaseAt" xml:space="preserve">
+    <value>Fecha de Emisión</value>
+  </data>
+  <data name="RegistratedAt" xml:space="preserve">
+    <value>Fecha de Registro</value>
+  </data>
+  <data name="RegistrationEndAt" xml:space="preserve">
+    <value>Fecha que Vence</value>
+  </data>
+  <data name="RegistrationNumber" xml:space="preserve">
+    <value>Número de Registro</value>
+  </data>
+  <data name="Agreement" xml:space="preserve">
+    <value>Acuerdos</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Marca o Sello</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Creado en</value>
+  </data>
+  <data name="Criterion" xml:space="preserve">
+    <value>Criterio</value>
+  </data>
+  <data name="Critic" xml:space="preserve">
+    <value>Crítico</value>
+  </data>
+  <data name="Day of Criterion" xml:space="preserve">
+    <value>Fecha del Criterio</value>
+  </data>
+  <data name="agreement-creator" xml:space="preserve">
+    <value>Agregar Acuerdo del CA</value>
+  </data>
+  <data name="agreement-creator-description" xml:space="preserve">
+    <value>Usuario que puede adicionar acuerdo del CA</value>
+  </data>
+  <data name="agreement-editor" xml:space="preserve">
+    <value>Modificar Acuerdo del CA</value>
+  </data>
+  <data name="agreement-editor-description" xml:space="preserve">
+    <value>Usuario que puede modificar acuerdo del CA</value>
+  </data>
+  <data name="agreement-management" xml:space="preserve">
+    <value>Gestionar Acuerdos del CA</value>
+  </data>
+  <data name="agreement-remover" xml:space="preserve">
+    <value>Eliminar Acuerdo del CA</value>
+  </data>
+  <data name="agreement-remover-description" xml:space="preserve">
+    <value>Usuario que puede eliminar acuerdo del CA</value>
+  </data>
+  <data name="agreement-viewer" xml:space="preserve">
+    <value>Visualizar Acuerdos del CA</value>
+  </data>
+  <data name="agreement-viewer-description" xml:space="preserve">
+    <value>Usuario que puede visualizar acuerdos del CA</value>
+  </data>
+  <data name="CriticUpdateId" xml:space="preserve">
+    <value>Crítico</value>
+  </data>
+  <data name="DateOfAssessment" xml:space="preserve">
+    <value>Fecha del Criterio</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ArtManifestation" xml:space="preserve">
+    <value>Manifestación</value>
+  </data>
+  <data name="Context" xml:space="preserve">
+    <value>Contexto</value>
+  </data>
+</root>

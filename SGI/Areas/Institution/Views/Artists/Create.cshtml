@@ -1,0 +1,317 @@
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+@using MOROPO.FCBC.SGI.Persistence.Enumerations;
+
+@model MOROPO.FCBC.SGI.Models.View.ArtistInputViewModel
+
+@{
+    ViewData["Title"] = "Agregar Creador";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Creadores",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-multiselect.css.css" />
+    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
+}
+
+    @section scripts {
+    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('#BornDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy'
+        });        
+
+        $('#RegistratedAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: null
+        });
+
+        $('#RegistrationEndAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: null
+        });
+
+        $(document).ready(function(){
+            var admitionModel = $('#AdmitionModel').val();
+            if (admitionModel == "Graduate") {
+                $("#show-hide-association").addClass("d-none");
+                $("#show-hide-resolution").addClass("d-none");
+            } else if (admitionModel == "Membership") {
+                $("#show-hide-association").removeClass("d-none");
+                $("#show-hide-resolution").addClass("d-none");
+            } else if (admitionModel == "Resolution") {
+                $("#show-hide-association").addClass("d-none");
+                $("#show-hide-resolution").removeClass("d-none");
+            }
+        });
+
+        $(function () {
+            $(document).on("change", "#ImageFile", function () {
+                var files = !!this.files ? this.files : [];
+
+                if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+                if (/^image/.test(files[0].type)) {
+                    var reader = new FileReader();
+
+                    reader.readAsDataURL(files[0]);
+
+                    reader.onloadend = function () {
+                        $('#ImageFilePreview').attr('src', this.result);
+                    }
+                }
+
+            });
+
+            $('#StateId').on("change", function () {
+                var stateId = $('#StateId').val();
+                var state = $('#StateId option:selected').text();
+                var obj = { state: stateId };
+                AjaxCall('PopulateStateToMunicipality/' + stateId, stateId, 'GET').done(function (response) {
+                    if (response.length > 0) {
+                        $('#MunicipalityId').html('');
+                        var options = '';
+                        $('#AddressPostal').html('');
+                        for (var i = 0; i < response.length; i++) {
+                            console.log(response[i]);
+                            options += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
+                        }
+                        $('#MunicipalityId').append(options);
+                    }
+                });
+            });
+
+            $('#AdmitionModel').on("change", function () {
+                
+                var admitionModel = $('#AdmitionModel').val();
+                if (admitionModel == "Graduate") {
+                    $("#show-hide-association").addClass("d-none");
+                    $("#show-hide-resolution").addClass("d-none");
+                }else if(admitionModel == "Membership"){
+                    $("#show-hide-association").removeClass("d-none");
+                    $("#show-hide-resolution").addClass("d-none");
+                } else if (admitionModel == "Resolution") {
+                    $("#show-hide-association").addClass("d-none");
+                    $("#show-hide-resolution").removeClass("d-none");
+                }
+            });
+        });
+
+        function AjaxCall(url, data, type) {
+            console.log(url);
+            return $.ajax({
+                url: url,
+                type: type ? type : 'GET',
+                data: data,
+                contentType: 'application/json'
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('.listbox').multiselect({
+                includeSelectAllOption: true,
+                templates: {
+                    li: '<li><a href="javascript:void(0);"><label class="pl-2"></label></a></li>'
+                }
+            });
+        });
+    </script>
+
+    }
+
+@using (Html.BeginForm("create", "artists", new { Area = "institution" }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <div class="card mb-3">
+        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-4 mb-3">
+                    <div class="card">
+                        <img src="~/img/default-person-picture.jpg" class="card-img-top" id="ImageFilePreview" />
+                        <label class="btn btn-light" style="border-top-left-radius: 0; border-top-right-radius: 0; margin-bottom: 0;">
+                            @GlobalViewLocalizationHelper.Localize("Upload", ViewLocalizer) ...
+                            @Html.EditorFor(model => model.ImageFile)
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-8">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LastName, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.Alias, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Alias, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.Brand, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Brand, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Brand, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.CitizenId, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.CitizenId, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CitizenId, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.BornDate, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.BornDate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BornDate, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.Sex, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Sex, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Male", ViewLocalizer), Sex.Male.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Famale", ViewLocalizer), Sex.Famale.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Unknown", ViewLocalizer), Sex.Unknown.ToString())  }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Sex, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.CivilStatus, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.CivilStatus, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Single", ViewLocalizer), CivilStatus.Single.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Married", ViewLocalizer), CivilStatus.Married.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Divorced", ViewLocalizer), CivilStatus.Divorced.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Widower", ViewLocalizer), CivilStatus.Widower.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Unknow", ViewLocalizer), CivilStatus.Unknow.ToString())  }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CivilStatus, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-3">
+                    @Html.LabelFor(model => model.SchoolLevel, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.SchoolLevel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Primary", ViewLocalizer), SchoolLevel.Primary.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Medium", ViewLocalizer), SchoolLevel.Medium.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("UpperMiddle", ViewLocalizer), SchoolLevel.UpperMiddle.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Higher", ViewLocalizer), SchoolLevel.Higher.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("FourthLevelEducation", ViewLocalizer), SchoolLevel.FourthLevelEducation.ToString()) }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SchoolLevel, null, new { @class = "text-danger" })
+                </div>
+                <div id="SpecificEducationContianer" class="col mb-3">
+                    @Html.LabelFor(model => model.SpecificEducation, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.SpecificEducation, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SpecificEducation, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-3">
+                    @Html.LabelFor(model => model.Workplace, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Workplace, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("House", ViewLocalizer), WorkPlace.House.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Workshop", ViewLocalizer), WorkPlace.Workshop.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Gallery", ViewLocalizer), WorkPlace.Gallery.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("HouseWorkshop", ViewLocalizer), WorkPlace.HouseWorkshop.ToString()) }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Workplace, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-4 col-md-6 mb-3">
+                    @Html.LabelFor(model => model.AdmitionModel, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.AdmitionModel, new SelectListItem[] { new SelectListItem(GlobalViewLocalizationHelper.Localize("Graduado", ViewLocalizer), AdmitionMode.Graduate.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Miembro", ViewLocalizer), AdmitionMode.Membership.ToString()), new SelectListItem(GlobalViewLocalizationHelper.Localize("Resolución", ViewLocalizer), AdmitionMode.Resolution.ToString()) }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AdmitionModel, null, new { @class = "text-danger" })
+                </div>
+                <div id="show-hide-association" class="col-lg-4 col-md-6 mb-3">
+                    @Html.LabelFor(model => model.AssociationId, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.AssociationId, Model.Associations, "", new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.AssociationId, null, new { @class = "text-danger" })
+                </div>
+                <div id="show-hide-resolution" class="col-lg-4 col-md-6 mb-3">
+                    @Html.LabelFor(model => model.ResolutionId, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.ResolutionId, Model.Resolutions, "", new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.ResolutionId, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.About, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.About, 6, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+            </div>
+            <fieldset>
+                <legend class="border-bottom">Registro del Creador</legend>                
+                <div class=row>
+                    <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistratedAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistratedAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistratedAt, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4 col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="border-bottom">Dirección Postal</legend>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        @Html.LabelFor(model => model.StateId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.StateId, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        @Html.LabelFor(model => model.MunicipalityId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.MunicipalityId, Model.Municipalities, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.MunicipalityId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.AddressPostal, 3, 0, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
+                </div>
+            </fieldset>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Agregar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
+        </div>
+    </div>
+}
+
+

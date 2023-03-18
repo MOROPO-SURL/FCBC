@@ -1,0 +1,162 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.DesignWorkAttachmentsDisplayViewModel
+
+@{
+    ViewData["Title"] = "Editar Obra de Diseño (Archivos)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras de Diseño",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>Editar Obra de Diseño</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editauthors" asp-route-key="@Model.Work.Id">Autores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="DesignWorkAwards" asp-route-key="@Model.Work.Id">Trayectoria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Work)
+        <div class="modal fade" id="add-attachment" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add-attachment-title">Agregar Archivo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("addattachment", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                    {
+                        @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddAttachmentModalBodyPartial", new MOROPO.FCBC.SGI.Models.View.AttachmentInputViewModel())
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.Attachments.Length <= 0)
+        {
+            <p class="text-muted mb-0">Sin elementos que mostrar</p>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var item in Model.Attachments)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="modal fade" id="delete-attachment-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-attachment-@item.Id-lable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    @using (Html.BeginForm("deleteattachment", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                    {
+                                        @Html.Hidden("attachmentId", item.Id)
+
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="delete-attachment-@item.Id-lable">Eliminar Archivo</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Esta seguro que desea eliminar el archivo seleccionada?</p>
+                                        </div>
+                                        <div class="modal-footer" style="margin-top: 0;">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+                            @item.Icon
+                            <h4>@item.Name</h4>
+                            @if (item.Description == null)
+                            {
+                                <span class="text-muted italic">Sin descripción</span>
+                            }
+                            else
+                            {
+                                <p style="color: #6c757d; word-wrap: break-word;">@item.Description</p>
+                            }
+                            <div class="mt-3">
+                                <div class="btn-group btn-group-sm">
+                                    @using (Html.BeginForm("DownloadAttachment", "designworks", new { key = Model.Work.Id, attachmentId = item.Id }, FormMethod.Post))
+                                    {
+                                        <button class="btn btn-light" type="submit" style="padding: 0.25rem 0.5rem; font-size: .875rem; line-height: 1.5;">Descargar</button>
+                                    }
+                                    <a class="btn btn-light" href="#" data-toggle="modal" data-target="#edit-attachment-@item.Id">Modificar</a>
+                                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-attachment-@item.Id">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="edit-attachment-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="edit-attachment-title">Modificar datos de adjunto</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @using (Html.BeginForm("editattachment", "designworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                                {
+                                    @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddAttachmentModalBodyPartial", @item.MergeViewModels())
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Modificar</button>
+                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-attachment">Agregar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+

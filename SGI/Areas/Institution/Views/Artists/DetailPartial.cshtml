@@ -1,0 +1,86 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtistDisplayViewModel
+
+<!-- Modal -->
+<div class="modal fade " id="descrip-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">  
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.Name)</h5>
+                            <p>@Model.Name</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.LastName)</h5>
+                            <p>@Model.LastName</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.State)</h5>
+                            <p>@Html.DisplayName(Model.State.Name)</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>@Html.DisplayNameFor(model => model.Municipality)</h5>
+                            <p>@Html.DisplayName(Model.Municipality.Name)</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-md-3">
+                             <h5>@Html.DisplayNameFor(model => model.Sex)</h5>
+                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</p>
+                        </div>                            
+                        <div class="col-md-3">
+                             <h5>@Html.DisplayNameFor(model => model.CivilStatus)</h5>
+                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.CivilStatus.ToString(), ViewLocalizer))</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>@Html.DisplayNameFor(model => model.AddressPostal)</h5>
+                            <p class="p" style="word-wrap: break-word;">@Html.DisplayName(Model.AddressPostal)</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <h5>@Html.DisplayNameFor(model => model.About)</h5>
+                    <p style="word-wrap: break-word;">@Model.About</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>@Html.DisplayNameFor(model => model.AdmitionMode)</h5>
+                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.AdmitionMode.ToString()))</p>
+                        </div>
+                        <div class="col-md-8">
+                            <h5>Asociación | Resolución</h5>
+                            @if (Model.AdmitionModeContext != null)
+                            {
+                                @if (Model.AdmitionModeContext.Contains("Resolution|"))
+                                {
+                                    <p>@Model.Resolution.NumberResolution-@Model.Resolution.Title</p>
+                                }
+                                else if (Model.AdmitionModeContext.Contains("Association|"))
+                                {
+                                    <p>@Model.Association.OrganizationIdentityName</p>
+                                }
+                            }
+                            
+                        </div>
+                    </div>
+                    <h5>Lista de Manifestaciones</h5>
+                    @foreach (var item in Model.ArtistManifestationBridges)
+                    {
+                        <h5>Manifestación</h5>
+                        <p>@item.Manifestation.Name</p>
+                        <hr />
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a role="button" href="@Url.Action("print", new { key = Model.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Imprimir</span></a>
+                
+            </div>
+        </div>
+    </div>
+</div>

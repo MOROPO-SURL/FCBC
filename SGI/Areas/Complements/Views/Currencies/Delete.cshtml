@@ -1,0 +1,50 @@
+﻿@using MOROPO.SAPRESSC.Core.Common.Models.View;
+@using MOROPO.FCBC.SGI.Persistence.Enumerations
+
+@model MOROPO.FCBC.SGI.Models.View.CurrencyDisplayViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Moneda";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Monedas",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<h3>Esta seguro que desea eliminar la moneda detallada a continuación?</h3>
+<dl>
+
+    <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.Name)</dd>
+    <dt>@Html.DisplayNameFor(model => model.Symbol)</dt>
+    <dd>@Html.DisplayFor(model => model.Symbol)</dd>
+    <dt>@Html.DisplayNameFor(model => model.IsSpacedSymbol)</dt>
+    <dd>@Html.DisplayFor(model => model.IsSpacedSymbol)</dd>
+    <dt>@Html.DisplayNameFor(model => model.Position)</dt>
+    <dd>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Position.ToString(), ViewLocalizer))</dd>
+</dl>
+@using (Html.BeginForm("delete", "currencies", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
+{
+    @Html.HiddenFor(model => model.Id)
+    <div>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
+    </div>
+}
+

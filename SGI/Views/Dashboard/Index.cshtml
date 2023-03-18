@@ -16,6 +16,22 @@
     Layout = "_BackendLayout";
 }
 
+<div id="js-var-scope-layout"
+     data-traces-by-day-labels=" @(Newtonsoft.Json.JsonConvert.SerializeObject(Model.UsersList))"
+     data-week-statistics-labels="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekStatisticsColumns))"
+     data-traces-by-users="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.TracesbyUsers))"
+     data-Week-traces-statistics-values="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekTracesStatisticsValues))"
+     data-Creator-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CreatorCount))"
+     data-Creation-Group-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CreationGroupCount))"
+     data-Contractor-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CreationGroupCount))"
+     data-Art-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WorkCount))"
+     data-Craft-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CraftWorkCount))"
+     data-Design-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.DesignWorkCount))"
+     data-Service-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ServiceWorkCount))"
+     data-Manifestations-Names="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.manifestationsNames))"
+     data-Manifestations-Counts="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ManifestationsCounts))">
+</div>
+
 @section styles {
     <style type="text/css">
         .card .mdi {
@@ -25,16 +41,136 @@
         .nav-link .mdi {
             font-size: 18px;
         }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+        }
     </style>
 }
 
+@section scripts {
+    <script src="~/lib/chartjs/chart.min.js"></script>
+    <script src="~/js/Views/Dashboard/Index.cshtml.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 500) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 400);
+                return false;
+            });
+        });
+    </script>
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="border-bottom mb-2">
+            <h5>Usuarios más activos</h5>
+        </div>
+        <canvas id="tracesByUsersChart"></canvas>
+    </div>
+    <div class="col-md-6">
+        <div class="border-bottom mb-2">
+            <h5>Actividad en el sistema</h5>
+        </div>
+        <canvas id="weekStatisticsChart"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="border-bottom mb-2">
+            <h5>Universo de creación</h5>
+        </div>
+        <canvas id="pieChart"></canvas>
+    </div>
+    <div class="col-md-4">
+        <div class="border-bottom mb-2">
+            <h5>Distribución de obras</h5>
+        </div>
+        <canvas id="doughnutChart"></canvas>
+    </div>
+    <div class="col-md-4">
+        <div class="border-bottom mb-2">
+            <h5>Manifestaciones punteras</h5>
+        </div>
+        <canvas id="polarAreaChart"></canvas>
+    </div>
+</div>
+<div class="border-bottom mt-4">
+    <h5>Estadísticas primarias</h5>
+</div>
+<div class="row mb-4 mt-4">
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Usuarios</h5>
+                @Model.UserCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Registros</h5>
+                @Model.TraceCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Creadores</h5>
+                @Model.CreatorCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Grupos de Creación</h5>
+                @Model.CreationGroupCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Contratistas</h5>
+                @Model.ContractorCount
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5>Obras</h5>
+                @Model.WorkCount
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
 <div class="row">
     <div class="col-sm-6">
     @for (int i = 0; i < Model.Sections.Count; i += 2)
     {
         var group = Model.Sections.ElementAt(i);
 
-        <div class="card mb-3">
+            if (group.Value == null) { continue; }
+
+        <div class="card mb-4">
             <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
             <div class="card-body">
                 @{
@@ -49,7 +185,7 @@
                     @foreach (var item in subList)
                     {
                         <div class="col-sm-4" style="text-align: center; padding-bottom: 15px; padding-top: 15px;">
-                            @if (User.HasClaim(claim => claim.Type.Equals(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.ClaimTypes.AccountWithFullAccess) && claim.Value.Equals(true.ToString())) || User.IsInRole(item.Role))
+                            @if (User.HasClaim(claim => claim.Type.Equals(MOROPO.SAPRESSC.Core.Web.Security.Constants.ClaimTypes.AccountWithFullAccess) && claim.Value.Equals(true.ToString())) || User.IsInRole(item.Role))
                             {
                                 <a href="@Url.Action(item.Action, item.Controller, new { item.Area })">
                                     @item.ToIconographyHtmlString()
@@ -81,8 +217,10 @@
         {
             var group = Model.Sections.ElementAt(i);
 
-            <div class="card mb-3">
-                <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
+                if (group.Value == null) { continue; }
+
+                <div class="card mb-4">
+                    <div class="card-header"><h5 style="margin-bottom: 0;">@group.Key</h5></div>
                 <div class="card-body">
                     @{
                         var total = group.Value.Count;
@@ -96,7 +234,7 @@
                             @foreach (var item in subList)
                             {
                                 <div class="col-sm-4" style="text-align: center; padding-bottom: 15px; padding-top: 15px;">
-                                    @if (User.HasClaim(claim => claim.Type.Equals(SmartSolucionesCuba.SAPRESSC.Core.Web.Security.ClaimTypes.AccountWithFullAccess) && claim.Value.Equals(true.ToString())) || User.IsInRole(item.Role))
+                                    @if (User.HasClaim(claim => claim.Type.Equals(MOROPO.SAPRESSC.Core.Web.Security.Constants.ClaimTypes.AccountWithFullAccess) && claim.Value.Equals(true.ToString())) || User.IsInRole(item.Role))
                                     {
                                     <a href="@Url.Action(item.Action, item.Controller, new { item.Area })">
                                         @item.ToIconographyHtmlString()
@@ -123,3 +261,4 @@
     }
     </div>
 </div>
+<a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>

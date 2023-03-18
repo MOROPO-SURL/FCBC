@@ -1,0 +1,29 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ContractorPhoneContactDisplayViewModel
+
+<div class="modal fade" id="delete-phonecontact-@Model.Id" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete-phonecontact-@Model.Id-title">Eliminar Contacto telefónico</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("deletephonecontact", "contractors", null, FormMethod.Post, true, null))
+            {
+                @Html.HiddenFor(model => model.Id)
+
+                @Html.HiddenFor(model => model.ContractorId)
+
+                <div class="modal-body">
+                    <p>Está seguro que desea eliminar el contacto telefónico con la etiqueta <b>@Model.Label</b> y número <b>@Model.Number</b>?</p>
+                </div>
+
+                <div class="modal-footer" style="margin-top: 0;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

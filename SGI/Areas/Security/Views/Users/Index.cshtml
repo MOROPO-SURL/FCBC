@@ -1,4 +1,4 @@
-﻿@model SmartSolucionesCuba.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<SmartSolucionesCuba.SAPRESSC.Core.Security.Persistence.Entities.User, string, SmartSolucionesCuba.SAPRESSC.Core.Web.SecurityLocal.Models.View.UserDisplayViewModel>
+﻿@model MOROPO.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.Entities.User, string, MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Backend.Models.View.UserDisplayViewModel>
 
 @{
     ViewData["Title"] = "Administración de Usuarios";
@@ -30,11 +30,13 @@
     </style>
 }
 
-<div class="row" style="margin-bottom: 20px;">
-    <div class="col-sm-4">
+<div class="row mb-5">
+    <div class="col-lg-4 col-md-6 col-sm-10">
         @await Html.PartialAsync("_UsersFilterPartial", Model.Filter)
     </div>
-    <div class="col-sm-8"><a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a></div>
+    <div class="col-lg-8 col-md-6 col-sm-2">
+        <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+    </div>
 </div>
 
 @if (Model.MaxPageCount > 0)
@@ -48,11 +50,13 @@
             <ul class="pagination" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", 1}})">Primero</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">Primero</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
             
                 @if (Model.MaxPageCount > 5)
@@ -65,11 +69,11 @@
                             {
                                 if (i == Model.Page)
                                 {
-                                    <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                    <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -79,11 +83,11 @@
                             {
                                 if (i == Model.Page)
                                 {
-                                    <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                    <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -94,11 +98,11 @@
                         {
                             if (i == Model.Page)
                             {
-                                <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                             }
                             else
                             {
-                                <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                             }
                         }
                     }
@@ -109,22 +113,24 @@
                     {
                         if (i == Model.Page)
                         {
-                            <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                            <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                         }
                         else
                         {
-                            <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                         }
                     }
                 }
 
                 @if (Model.HasNext)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">Ultimo</a></li>
                 }
             </ul>
             <div class="text-info" style="margin-top: 10px; margin-bottom: 20px;">
@@ -137,7 +143,7 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th width="36px;"><span class="mdi mdi-shield-lock integrity-icon" title="Integridad"></span></th>
+                    <th width="36"><span class="mdi mdi-shield-lock integrity-icon" title="Integridad"></span></th>
                     <th>Nombre de Usuario</th>
                     <th style="width: 1px; word-wrap: unset;">Habilitado?</th>
                     <th style="width: 130px; text-align: center;">Acceso Total?</th>
@@ -181,8 +187,25 @@
                     <td style="vertical-align: middle;">
                         <div class="btn-group btn-group-sm">
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" title="Extras"></button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    @if (item.Id != User.Identity.Name)
+                                    {
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#change-password-@item.Id">Cambiar Contrase&ntilde;a</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item disabled" href="#">Cambiar Contrase&ntilde;a</a>
+                                    }
+                                </div>
+                            </div>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
+                        @if (item.Id != User.Identity.Name)
+                        {
+                            @await Html.PartialAsync("_UserChangePasswordPartial", new MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Backend.Models.View.UserChangePasswordViewModel { UserId = item.Id });
+                        }
                     </td>
                 </tr>
             }
@@ -194,18 +217,20 @@
         var paginationStart = (Model.Page - 1) * Model.Limit + 1;
         var paginationEnd = Model.List.Count;
     
-        <div class="text-center" style="margin-top: 20px;">
+        <div class="text-center" style="margin: 20px 0;">
             <div class="text-info" style="margin-bottom: 10px; margin-top: 20px;">
                 <span style="font-weight: 600;">Página @Model.Page</span>: del @paginationStart al @paginationEnd, <span style="font-weight: 600;">Total de páginas</span>: @Model.MaxPageCount
             </div>   
             <ul class="pagination" style="margin: 0;">
                 @if (Model.HasPrevious)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", 1}})">Primero</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page - 1}})">&laquo;</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">Primero</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&laquo;</a></li>
                 }
             
                 @if (Model.MaxPageCount > 5)
@@ -218,11 +243,11 @@
                             {
                                 if (i == Model.Page)
                                 {
-                                    <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                    <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -232,11 +257,11 @@
                             {
                                 if (i == Model.Page)
                                 {
-                                    <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                    <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                                 }
                                 else
                                 {
-                                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                                 }
                             }
                         }
@@ -247,11 +272,11 @@
                         {
                             if (i == Model.Page)
                             {
-                                <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                                <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                             }
                             else
                             {
-                                <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                                <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                             }
                         }
                     }
@@ -262,22 +287,24 @@
                     {
                         if (i == Model.Page)
                         {
-                            <li class="active"><a href="#">@i <span class="sr-only">(current)</span></a></li>
+                            <li class="active page-item"><a class="page-link" href="#">@i <span class="sr-only">(current)</span></a></li>
                         }
                         else
                         {
-                            <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
+                            <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", i}})">@i</a></li>
                         }
                     }
                 }
 
                 @if (Model.HasNext)
                 {
-                    <li><a href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.Page + 1}})">&raquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="@Url.Action(Model.Action, new Microsoft.AspNetCore.Routing.RouteValueDictionary(Model.RouteValues) {{"sheet", Model.MaxPageCount}})">Ultimo</a></li>
                 }
                 else
                 {
-                    <li class="disabled"><a href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    <li class="disabled page-item"><a class="page-link" href="#">Ultimo</a></li>
                 }
             </ul>      
         </div>
@@ -289,7 +316,7 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th width="36px;"><span class="fas fa-lock integrity-icon"></span></th>
+                    <th width="36"><span class="fas fa-lock integrity-icon"></span></th>
                     <th>Nombre de Usuario</th>
                     <th>Habilitado?</th>
                     <th>Acceso Total?</th>

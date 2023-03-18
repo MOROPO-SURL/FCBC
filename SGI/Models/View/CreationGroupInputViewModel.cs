@@ -1,0 +1,115 @@
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using MOROPO.FCBC.SGI.Extensions;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.SAPRESSC.Core.Web.Common.ComponentModel.DataAnnotations;
+using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
+namespace MOROPO.FCBC.SGI.Models.View
+{
+    public class CreationGroupInputViewModel : SAPRESSC.Core.Persistence.Models.IEntityInputModel<CreationGroup, System.Guid>
+    {
+        public System.Guid Id { get; set; }
+
+        [FormFileContentTypes(ContentTypes = new string[] { "image/png", "image/jpeg" }, ErrorMessage = "PNG_JPEG_FileAllowedOnlyMessage")]
+        [FormFileMaxLength(Length = 3145728, ErrorMessage = "FileLimitSizeExcededMessage")]
+        [Display(Name = "ImageFile")]
+        public Microsoft.AspNetCore.Http.IFormFile ImageFile { get; set; }
+
+        public System.Guid? ImageId { get; set; }
+
+        public string ImageExtension { get; set; }
+
+        public bool ResetImage { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Display(Name = "Brand")]
+        public string Brand { get; set; }
+
+        [Display(Name = "RegistrationNumber")]
+        [Range(1, 1000000, ErrorMessage = "RangeValidationErrorMessage")]
+        public int RegistrationNumber { get; set; }
+
+        [Display(Name = "RegistratedAt")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.DateTime RegistratedAt { get; set; }
+
+        [Display(Name = "RegistrationEndAt")]
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        public System.DateTime RegistrationEndAt { get; set; }
+
+        [Display(Name = "Agreement")]
+        public System.Guid? AgreementId { get; set; }
+
+        [Display(Name = "CreatedAt")]
+        public System.DateTime? CreatedAt { get; set; }
+
+        public ICollection<SelectListItem> AvailableAgreements { get; set; } = new List<SelectListItem>();
+
+        [Display(Name = "About")]
+        public string About { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "State")]
+        public System.Guid StateId { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Municipality")]
+        public System.Guid MunicipalityId { get; set; }
+
+        public State State { get; set; }
+
+        public Municipality Municipality { get; set; }
+
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        [Display(Name = "Address")]
+        public string AddressPostal { get; set; }
+
+        public ICollection<SelectListItem> States { get; set; } = new List<SelectListItem>();
+        public ICollection<SelectListItem> Municipalities { get; set; } = new List<SelectListItem>();
+
+        public CreationGroup Export()
+        {
+            var entity = new CreationGroup();
+
+            Mergue(entity);
+
+            return entity;
+        }
+
+        public void Import(CreationGroup entity)
+        {
+            Id = entity.Id;
+            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
+            Name = entity.Identity.Name;
+            Brand = entity.Brand;
+            About = entity.Identity.About;
+            CreatedAt = entity.Identity.BornDate;
+            RegistrationNumber = entity.RegistrationNumber;
+            RegistratedAt = entity.RegistratedAt;
+            RegistrationEndAt = entity.RegistrationEndAt;
+            AgreementId = entity.AgreementId;            
+            MunicipalityId = ((MunicipalityRegion)entity.Identity.OrganizationPostalContactItemBridges.FirstOrDefault().ContactItem.Region).Municipality.Id;            
+            AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+        }
+
+        public void Mergue(CreationGroup entity)
+        {
+            entity.Identity.Name = Name;
+            entity.Identity.About = About;
+            entity.Brand = Brand;
+            entity.RegistrationNumber = RegistrationNumber;
+            entity.RegistratedAt = RegistratedAt;
+            entity.RegistrationEndAt = RegistrationEndAt;
+            entity.Identity.BornDate = CreatedAt;
+            entity.AgreementId = AgreementId;   
+        }
+       
+    }
+}

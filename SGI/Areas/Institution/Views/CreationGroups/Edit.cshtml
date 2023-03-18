@@ -1,0 +1,273 @@
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+@using MOROPO.FCBC.SGI.Persistence.Enumerations;
+
+@model MOROPO.FCBC.SGI.Models.View.CreationGroupInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Grupos de Creación";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Grupos de Creación",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap-multiselect.css.css" />
+    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
+}
+
+    @section scripts {
+    <script src="~/js/Views/CreationGroups/Edit.js"></script>
+    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('#CreateDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.CreatedAt?.ToShortDateString()'
+        });
+
+        var creationDatepicker = $('#RegistratedAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.RegistratedAt.ToShortDateString()',
+            change: function (e) {
+                var creationDate = new Date(this.value.replace(/(\d+[/])(\d+[/])/, '$2$1'));
+                var minDate = new Date(creationDate.setDate(creationDate.getDate() + 1));
+                var expirationDate = new Date(expirationDatepicker.value().replace(/(\d+[/])(\d+[/])/, '$2$1'));
+                
+                var expirationValue = expirationDatepicker.value();
+                if(expirationValue != null && expirationDate <= creationDate){
+                    expirationValue = null;
+                }
+                expirationDatepicker.destroy();
+                $('#RegistrationEndAt').datepicker({
+                    uiLibrary: 'bootstrap4',
+                    modal: true,
+                    header: true,
+                    footer: true,
+                    format: 'dd/mm/yyyy',
+                    value: expirationValue,
+                    minDate: minDate
+                });
+            }
+        });
+        var creationDate = new Date(creationDatepicker.value().replace(/(\d+[/])(\d+[/])/, '$2$1'));
+        var minDate = new Date(creationDate.setDate(creationDate.getDate() + 1));
+
+        var expirationDatepicker = $('#RegistrationEndAt').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.RegistrationEndAt.ToShortDateString()',
+            minDate: minDate
+        });
+
+        $(function () {
+            $(document).on("change", "#ImageFile", function () {
+                var files = !!this.files ? this.files : [];
+
+                if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+                if (/^image/.test(files[0].type)) {
+                    var reader = new FileReader();
+
+                    reader.readAsDataURL(files[0]);
+
+                    reader.onloadend = function () {
+                        $('#ImageFilePreview').attr('src', this.result);
+                    }
+                }
+
+            });
+
+            $('#StateId').on("change", function () {
+                var stateId = $('#StateId').val();
+                var state = $('#StateId option:selected').text();
+                var obj = { state: stateId };
+                var location = window.location;
+                AjaxCall('PopulateStateToMunicipalityEdit/' + stateId, null, 'GET').done(function (response) {
+                    if (response.length > 0) {
+                        $('#MunicipalityId').html('');
+                        var options = '';
+                        for (var i = 0; i < response.length; i++) {
+                            console.log(response[i]);
+                            options += '<option value="' + response[i].id + '">' + response[i].name + '</option>';
+                        }
+                        $('#MunicipalityId').append(options);
+                    }
+                });
+            });
+        });
+
+        function AjaxCall(url, data, type) {
+            console.log(url);
+            return $.ajax({
+                url: url,
+                type: type ? type : 'GET',
+                data: data,
+                contentType: 'application/json'
+            });
+        }
+    </script>
+    }
+
+@using (Html.BeginForm("edit", "creationgroups", new { Area = "institution", key = string.Empty }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>@ViewData["Title"]</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="editartisticmanifestations" asp-route-key="@Model.Id">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("members", @Model.Id)">Miembros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("creationgroupawards", @Model.Id)">Trayectoria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("editattachments", @Model.Id)">Archivos</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-4" style="margin-bottom: 20px;">
+                    <div class="card">
+                        @if (Model.ImageId != System.Guid.Empty)
+                        {
+                            <img class="img-thumbnail" src="~/media/images/@Model.ImageId.@Model.ImageExtension" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                        }
+                        <label class="btn btn-light" style="border-top-left-radius: 0; border-top-right-radius: 0; margin-bottom: 0;">
+                            @GlobalViewLocalizationHelper.Localize("Upload", ViewLocalizer) ...
+                            @Html.EditorFor(model => model.ImageFile)
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-9 col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.CreatedAt, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.CreatedAt, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CreatedAt, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" style="margin-bottom: 20px;">
+                            @Html.LabelFor(model => model.Brand, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Brand, new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.Brand, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.AgreementId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.AgreementId, Model.AvailableAgreements, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.AgreementId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div style="margin-bottom: 20px;">
+                @Html.LabelFor(model => model.About, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.About, 4, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+            </div>
+            <fieldset>
+                <legend class="border-bottom">Registro del Creador</legend>
+                <div class="row">
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3 mb-md-0" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistratedAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistratedAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistratedAt, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend class="border-bottom">Dirección Postal</legend>
+                <div class="row">
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.StateId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.StateId, Model.States, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.StateId, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        @Html.LabelFor(model => model.MunicipalityId, new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.MunicipalityId, Model.Municipalities, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.MunicipalityId, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.AddressPostal, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.AddressPostal, 3, 0, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AddressPostal, null, new { @class = "text-danger" })
+                </div>
+            </fieldset>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+    </div>
+}

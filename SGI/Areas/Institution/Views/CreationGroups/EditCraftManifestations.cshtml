@@ -1,0 +1,175 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.GroupCraftManisfestationsInputViewModel
+
+@{
+    ViewData["Title"] = "Editar Grupos de Creación (Manifestaciones Artesanales)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Grupos de Creación",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@using (Html.BeginForm("editcraftmanifestations", "CreationGroups", new { key = Model.Group.Id }, FormMethod.Post, true, null))
+{
+    var selectableIndex = 0;
+
+    <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+            <h4>Editar Grupos de Creación</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="edit" asp-route-key="@Model.Group.Id">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Manifestaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("members", @Model.Group.Id)">Miembros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("contacts", @Model.Group.Id)">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("creationgroupawards", @Model.Group.Id)">Trayectoria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("editattachments", @Model.Group.Id)">Archivos</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-dark">
+                <details>
+                    <summary class="h4 mb-0">@Model.Group.Name</summary>
+                    <hr />
+                    <div class="row no-gutters">
+                        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                            @if (Model.Group.ImageId != null)
+                            {
+                                <img class="img-thumbnail" src="~/media/images/@Model.Group.ImageId.@Model.Group.ImageExtension" />
+                            }
+                            else
+                            {
+                                <img class="img-thumbnail" src="~/img/default-person-picture.jpg" />
+                            }
+                        </div>
+                        <div class="col-lg-10 col-md-8 col-sm-6">
+                            <div class="card-block pl-3">
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>Fecha de Creación</dt>                                        
+                                        @if (Model.Group.CreatedAt == null)
+                                        {
+                                            <dd>-</dd>
+                                        }
+                                        else 
+                                        {
+                                            <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
+                                        }
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>Marca</dt>                                        
+                                        @if (Model.Group.Brand == null)
+                                        {
+                                            <dd>-</dd>
+                                        }
+                                        else 
+                                        {
+                                            <dd>@Model.Group.Brand</dd>
+                                        }
+                                    </dl>
+                                </div>
+                                <div class="row">
+                                    <dl class="col-md-6">
+                                        <dt>Número de Registro del Creador</dt>
+                                        <dd>@Model.Group.RegistrationNumber</dd>
+                                    </dl>
+                                    <dl class="col-md-6">
+                                        <dt>Fecha de Registro</dt>
+                                        <dd>@Model.Group.RegistratedAt.ToShortDateString()</dd>
+                                    </dl>
+                                    <dl class="col-md-6 mb-0">
+                                        <dt>Fecha de Expiración</dt>
+                                        <dd>@Model.Group.RegistrationEndAt.ToShortDateString()</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>                
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="editartisticmanifestations" asp-route-key="@Model.Group.Id">Artísticas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Artesanales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="editdesignmanifestations" asp-route-key="@Model.Group.Id">Diseño</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="editservicelines" asp-route-key="@Model.Group.Id">Servicios</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var item in Model.UngroupManifestations)
+                        {
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
+                            </div>
+                        }
+                    </div>
+
+                    @if (Model.SelectGroups != null && Model.SelectGroups.Count > 0)
+                    {
+                        foreach (var group in Model.SelectGroups)
+                        {
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h5>@group.Key.Name</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        @foreach (var item in group.Value)
+                                        {
+                                            <div class="col-md-4">
+                                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+    </div>
+}
+
+

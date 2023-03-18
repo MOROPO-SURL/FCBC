@@ -1,0 +1,83 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupDisplayViewModel
+
+<!-- Modal -->
+<div class="modal fade" id="detail-creationgroup-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <h5>Grupo</h5>                    
+                    <p>@Model.Name</p>
+                    <hr />
+                    <h5>@Html.DisplayNameFor(model => model.RegistrationNumber)</h5>
+                    <p>@Model.RegistrationNumber</p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Fecha de Creación</h5>
+                            @Model.CreatedAt
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Fecha en que expira</h5>
+                            @Model.RegistrationEndAt
+                        </div>                        
+                    </div>
+                    <hr />                   
+                    <h5>Lista de Manifestaciones</h5>
+                    <div class="container" style=" overflow-x:auto; max-height:250px;">
+                    @if(Model.CreationGroupArtisticManifestationBrigdes.Count()>0)
+                    {
+                        <h5>Artes Plásticas:</h5>
+                        <div class="row">                                               
+                        @foreach (var item in Model.CreationGroupArtisticManifestationBrigdes)
+                        {
+                            <div class="col-md-6">
+                                <p>@item.Manifestation.Name</p>
+                                 
+                            </div>
+                        }
+                        </div>
+                        <hr />
+                    }
+
+                    @if (Model.DesignManifestationBridges.Count()>0)
+                    {
+                        <h5>Diseño:</h5>
+                        <div class="row">                                              
+                        @foreach (var item in Model.DesignManifestationBridges)
+                        {
+                            <div class="col-md-6">
+                                <p>@item.Manifestation.Name</p>
+                                
+                            </div>
+                        }
+                        </div>
+                        <hr />
+                    }
+
+                    @if (Model.CraftManifestationBridges.Count() > 0)
+                    {
+                        <h5>Artesanales:</h5>
+                        <div class="row">                                               
+                        @foreach (var item in Model.CraftManifestationBridges)
+                        {
+                            <div class="col-md-6">
+                                <p>@item.Manifestation.Name</p>
+                                
+                            </div>
+                        }
+                        </div>
+                        <hr />
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
