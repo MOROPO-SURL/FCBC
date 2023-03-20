@@ -1267,188 +1267,188 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         #region Criterion
-        [Route("edit/{key}/EditGroupCriterion")]
-        [RequirePermissions(Permission.CreationGroupEditor)]
-        public IActionResult EditGroupCriterion(System.Guid key)
-        {
-            try
-            {
-                var entity = Repository.Get(key);
+        //[Route("edit/{key}/EditGroupCriterion")]
+        //[RequirePermissions(Permission.CreationGroupEditor)]
+        //public IActionResult EditGroupCriterion(System.Guid key)
+        //{
+        //    try
+        //    {
+        //        var entity = Repository.Get(key);
 
-                var resultModel = new GroupCriterionManageViewModel
-                {
-                    GroupDisplay = new CreationGroupDisplayViewModel()
-                };
-                PopulateCritics(resultModel);
-                resultModel.GroupDisplay.Import(entity);
+        //        var resultModel = new GroupCriterionManageViewModel
+        //        {
+        //            GroupDisplay = new CreationGroupDisplayViewModel()
+        //        };
+        //        PopulateCritics(resultModel);
+        //        resultModel.GroupDisplay.Import(entity);
 
-                return View(resultModel);
-            }
-            catch (System.Exception e)
-            {
-                logger.LogError(e.InnerException, e.Message);
-            }
+        //        return View(resultModel);
+        //    }
+        //    catch (System.Exception e)
+        //    {
+        //        logger.LogError(e.InnerException, e.Message);
+        //    }
 
-            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-            return GetDefaultActionResult();
-        }
+        //    return GetDefaultActionResult();
+        //}
 
-        [Route("edit/Criterion/add")]
-        [RequirePermissions(Permission.CreationGroupEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddGroupCriterion(GroupCriterionManageViewModel modelInput)
-        {
-            CreationGroup entity = null;
-            Critic critic = null;
-            try
-            {
-                entity = Repository.Get(modelInput.GroupDisplay.Id);
-                critic = criticRepository.Get(modelInput.CriticId);
+        //[Route("edit/Criterion/add")]
+        //[RequirePermissions(Permission.CreationGroupEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult AddGroupCriterion(GroupCriterionManageViewModel modelInput)
+        //{
+        //    CreationGroup entity = null;
+        //    Critic critic = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelInput.GroupDisplay.Id);
+        //        critic = criticRepository.Get(modelInput.CriticId);
 
-                modelInput.GroupDisplay.Import(entity);
-            }
-            catch { }
+        //        modelInput.GroupDisplay.Import(entity);
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                entity.GroupAssessmentBridges.Add(new GroupAssessmentBridge { CreationGroup = entity, Critic = critic, GroupId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
+        //    if (ModelState.IsValid)
+        //    {
+        //        entity.GroupAssessmentBridges.Add(new GroupAssessmentBridge { CreationGroup = entity, Critic = critic, GroupId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
+        //}
 
-        [Route("edit/Criterion/update")]
-        [RequirePermissions(Permission.CreationGroupEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult UpdateGroupCriterion(GroupAssessmentBridgeDisplayViewModel modelInput)
-        {
-            CreationGroup entity = null;
-            Critic critic = null;
-            try
-            {
-                entity = Repository.Get(modelInput.GroupId);
-                critic = criticRepository.Get(modelInput.CriticUpdateId);
+        //[Route("edit/Criterion/update")]
+        //[RequirePermissions(Permission.CreationGroupEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult UpdateGroupCriterion(GroupAssessmentBridgeDisplayViewModel modelInput)
+        //{
+        //    CreationGroup entity = null;
+        //    Critic critic = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelInput.GroupId);
+        //        critic = criticRepository.Get(modelInput.CriticUpdateId);
 
-            }
-            catch { }
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                var groupAssessmentBridge = entity.GroupAssessmentBridges.FirstOrDefault(a => a.GroupId == modelInput.GroupId && a.CriticId == modelInput.CriticId);
-                entity.GroupAssessmentBridges.Remove(groupAssessmentBridge);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var groupAssessmentBridge = entity.GroupAssessmentBridges.FirstOrDefault(a => a.GroupId == modelInput.GroupId && a.CriticId == modelInput.CriticId);
+        //        entity.GroupAssessmentBridges.Remove(groupAssessmentBridge);
 
-                entity.GroupAssessmentBridges.Add(new GroupAssessmentBridge { CreationGroup = entity, Critic = critic, GroupId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
+        //        entity.GroupAssessmentBridges.Add(new GroupAssessmentBridge { CreationGroup = entity, Critic = critic, GroupId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
+        //}
 
-        [Route("edit/Criterion/delete")]
-        [RequirePermissions(Permission.CreationGroupEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteGroupCriterion(GroupCriterionDisplayViewModel modelDisplay)
-        {
-            CreationGroup entity = null;
-            try
-            {
-                entity = Repository.Get(modelDisplay.GroupId);
+        //[Route("edit/Criterion/delete")]
+        //[RequirePermissions(Permission.CreationGroupEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult DeleteGroupCriterion(GroupCriterionDisplayViewModel modelDisplay)
+        //{
+        //    CreationGroup entity = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelDisplay.GroupId);
 
-            }
-            catch { }
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                var groupCriterion = entity.GroupAssessmentBridges.First(a => a.GroupId == modelDisplay.GroupId && a.CriticId == modelDisplay.CriticId);
-                entity.GroupAssessmentBridges.Remove(groupCriterion);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var groupCriterion = entity.GroupAssessmentBridges.First(a => a.GroupId == modelDisplay.GroupId && a.CriticId == modelDisplay.CriticId);
+        //        entity.GroupAssessmentBridges.Remove(groupCriterion);
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
+        //}
 
         #endregion
 

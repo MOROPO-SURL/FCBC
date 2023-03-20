@@ -1935,4 +1935,7 @@
   <data name="Context" xml:space="preserve">
     <value>Contexto</value>
   </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Superior</value>
+  </data>
 </root>

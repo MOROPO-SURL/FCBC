@@ -1,5 +1,4 @@
-﻿using MOROPO.FCBC.SGI.Persistence.EF.Configurators;
-using MOROPO.SAPRESSC.Core.Persistence.EF.Configurators;
+﻿using MOROPO.SAPRESSC.Core.Persistence.EF.Configurators;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
 {
@@ -60,13 +59,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                     new Configurators.CraftWorkThematicBridgeEntityTypeConfigurator(),
                     new Configurators.DesignWorkThematicBridgeEntityTypeConfigurator(),
                     new Configurators.ServiceWorkThematicBridgeEntityTypeConfigurator(),
-                    new Configurators.ActivityEntityTypeConfigurator(),
-                    new Configurators.ArtistAssessmentBridgeEntityTypeConfigurator(),
-                    new Configurators.GroupAssessmentBridgeEntityTypeConfigurator(),
-                    new Configurators.ArtWorkAssessmentBridgeEntityTypeConfigurator(),
-                    new Configurators.CraftWorkAssessmentBridgeEntityTypeConfigurator(),
-                    new Configurators.DesignWorkAssessmentBridgeEntityTypeConfigurator(),
-                    new Configurators.ServiceWorkAssessmentBridgeEntityTypeConfigurator()
+                    new Configurators.ActivityEntityTypeConfigurator()
                 };
             }
         }

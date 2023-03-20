@@ -151,12 +151,12 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ActivityKind> ActivityKinds { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Agreement> Agreements { get; set; }
-        public DbSet<ArtistAssessmentBridge> ArtistAssessmentBridges { get; set; }
-        public DbSet<GroupAssessmentBridge> GroupAssessmentBridges { get; set; }
-        public DbSet<ArtWorkAssessmentBridge> ArtWorkAssessmentBridges { get; set; }
-        public DbSet<CraftWorkAssessmentBridge> CraftWorkAssessmentBridges { get; set; }
-        public DbSet<DesignWorkAssessmentBridge> DesignWorkAssessmentBridges { get; set; }
-        public DbSet<ServiceWorkAssessmentBridge> ServiceWorkAssessmentBridges { get; set; }
+        public DbSet<ArtistValoration> ArtistValorations { get; set; }
+        public DbSet<CreationGroupValoration> CreationGroupValorations { get; set; }
+        public DbSet<ArtWorkValoration> ArtWorkValorations { get; set; }
+        public DbSet<CraftWorkValoration> CraftWorkValorations { get; set; }
+        public DbSet<DesignWorkValoration> DesignWorkValorations { get; set; }
+        public DbSet<ServiceWorkValoration> ServiceWorkValorations { get; set; }
         public DbSet<ContractorAttachment> ContractorAttachments { get; set; }
     }
 }

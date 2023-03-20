@@ -1571,192 +1571,192 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return RedirectToAction("ArtistAwards", new { key = entity.Id });
         }
 
-        #region Criterion
-        [Route("edit/{key}/EditArtisticCriterion")]
-        [RequirePermissions(Permission.ArtistEditor)]
-        public IActionResult EditArtisticCriterion(System.Guid key)
-        {
-            try
-            {
-                var entity = Repository.Get(key);
+        //#region Criterion
+        //[Route("edit/{key}/EditArtisticCriterion")]
+        //[RequirePermissions(Permission.ArtistEditor)]
+        //public IActionResult EditArtisticCriterion(System.Guid key)
+        //{
+        //    try
+        //    {
+        //        var entity = Repository.Get(key);
 
-                var resultModel = new ArtistCriterionManageViewModel
-                {
-                    ArtistDisplay = new ArtistDisplayViewModel()
-                };
-                PopulateCritics(resultModel);
-                resultModel.ArtistDisplay.Import(entity);
+        //        var resultModel = new ArtistCriterionManageViewModel
+        //        {
+        //            ArtistDisplay = new ArtistDisplayViewModel()
+        //        };
+        //        PopulateCritics(resultModel);
+        //        resultModel.ArtistDisplay.Import(entity);
 
-                return View(resultModel);
-            }
-            catch (System.Exception e)
-            {
-                logger.LogError(e.InnerException, e.Message);
-            }
+        //        return View(resultModel);
+        //    }
+        //    catch (System.Exception e)
+        //    {
+        //        logger.LogError(e.InnerException, e.Message);
+        //    }
 
-            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-            return GetDefaultActionResult();
-        }
+        //    return GetDefaultActionResult();
+        //}
 
-        [Route("edit/Criterion/add")]
-        [RequirePermissions(Permission.ArtistEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddArtistCriterion(ArtistCriterionManageViewModel modelInput)
-        {
-            Artist entity = null;
-            Critic critic = null;
-            try
-            {
-                entity = Repository.Get(modelInput.ArtistDisplay.Id);
-                critic = criticRepository.Get(modelInput.CriticId);
+        //[Route("edit/Criterion/add")]
+        //[RequirePermissions(Permission.ArtistEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult AddArtistCriterion(ArtistCriterionManageViewModel modelInput)
+        //{
+        //    Artist entity = null;
+        //    Critic critic = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelInput.ArtistDisplay.Id);
+        //        critic = criticRepository.Get(modelInput.CriticId);
 
-                modelInput.ArtistDisplay.Import(entity);                
-            }
-            catch { }
+        //        modelInput.ArtistDisplay.Import(entity);                
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                entity.ArtistAssessmentBridges.Add(new ArtistAssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
+        //    if (ModelState.IsValid)
+        //    {
+        //        entity.ArtistAssessmentBridges.Add(new ArtistAssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
+        //}
         
 
-        [Route("edit/Criterion/update")]
-        [RequirePermissions(Permission.ArtistEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult UpdateArtistCriterion(ArtistAssessmentBridgeDisplayViewModel modelInput)
-        {
-            Artist entity = null;
-            Critic critic = null;
-            try
-            {
-                entity = Repository.Get(modelInput.ArtistId);
-                critic = criticRepository.Get(modelInput.CriticUpdateId);
+        //[Route("edit/Criterion/update")]
+        //[RequirePermissions(Permission.ArtistEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult UpdateArtistCriterion(ArtistAssessmentBridgeDisplayViewModel modelInput)
+        //{
+        //    Artist entity = null;
+        //    Critic critic = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelInput.ArtistId);
+        //        critic = criticRepository.Get(modelInput.CriticUpdateId);
                
-            }
-            catch { }
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                var artistAssessmentBridge = entity.ArtistAssessmentBridges.FirstOrDefault(a => a.ArtistId == modelInput.ArtistId && a.CriticId == modelInput.CriticId);
-                entity.ArtistAssessmentBridges.Remove(artistAssessmentBridge);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var artistAssessmentBridge = entity.ArtistAssessmentBridges.FirstOrDefault(a => a.ArtistId == modelInput.ArtistId && a.CriticId == modelInput.CriticId);
+        //        entity.ArtistAssessmentBridges.Remove(artistAssessmentBridge);
 
-                entity.ArtistAssessmentBridges.Add(new ArtistAssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
+        //        entity.ArtistAssessmentBridges.Add(new ArtistAssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
+        //}
 
-        [Route("edit/Criterion/delete")]
-        [RequirePermissions(Permission.ArtistEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteArtistCriterion(ArtistCriterionDisplayViewModel modelDisplay)
-        {
-            Artist entity = null;
-            try
-            {
-                entity = Repository.Get(modelDisplay.ArtistId);
+        //[Route("edit/Criterion/delete")]
+        //[RequirePermissions(Permission.ArtistEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult DeleteArtistCriterion(ArtistCriterionDisplayViewModel modelDisplay)
+        //{
+        //    Artist entity = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelDisplay.ArtistId);
 
-            }
-            catch { }
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                var artistCriterion = entity.ArtistAssessmentBridges.First(a => a.ArtistId == modelDisplay.ArtistId && a.CriticId == modelDisplay.CriticId);
-                entity.ArtistAssessmentBridges.Remove(artistCriterion);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var artistCriterion = entity.ArtistAssessmentBridges.First(a => a.ArtistId == modelDisplay.ArtistId && a.CriticId == modelDisplay.CriticId);
+        //        entity.ArtistAssessmentBridges.Remove(artistCriterion);
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
+        //}
 
-        #endregion
+        //#endregion
 
         private void PopulateCritics(ArtistCriterionManageViewModel modelInput)
         {

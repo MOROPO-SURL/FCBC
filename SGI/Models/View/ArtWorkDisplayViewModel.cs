@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtWorkDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.ArtWork, System.Guid>
+    public class ArtWorkDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<ArtWork, System.Guid>
     {
         public System.Guid Id { get; set; }
 
@@ -43,7 +43,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ArtisticTechniqueDisplayViewModel[] Techniques { get; set; }
 
-        public ICollection<ArtWorkAward> Awards { get; set; }
+        public ICollection<AwardReachDiplayViewModel> Awards { get; set; }
 
         [Display(Name = "Height")]
         public decimal? Height { get; set; }
@@ -65,9 +65,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "WeightUnitMeasurement")]
         public System.Guid? WeightUnitMeasurementId { get; set; }
 
-        public ICollection<ArtWorkAssessmentBridge> ArtWorkAssessmentBridges { get; set; }
+        public ValorationDisplayViewModel[] Valorations { get; set; }
 
-        public void Import(Persistence.Entities.ArtWork entity)
+        public void Import(ArtWork entity)
         {
             Id = entity.Id;
             Title = entity.Title;
@@ -92,8 +92,33 @@ namespace MOROPO.FCBC.SGI.Models.View
 
                 return model;
             }).ToArray();
-            Awards = entity.Awards;
-            ArtWorkAssessmentBridges = entity.WorkAssessmentBridges;
+            Awards = entity.Awards.Select(item =>
+            {
+                var model = new AwardReachDiplayViewModel
+                {
+                    Id = item.Id,
+                    Award = new AwardDisplayViewModel(),
+                    Context = item.Context
+                };
+
+                model.Award.Import(item.Award);
+
+                return model;
+            }).ToArray();
+            Valorations = entity.Valorations.Select(item =>
+            {
+                var model = new ValorationDisplayViewModel
+                {
+                    Id = item.Id,
+                    Critic = new CriticDisplayViewModel(),
+                    Declaration = item.Declaration,
+                    DeclaredAt = item.DeclaredAt
+                };
+
+                model.Critic.Import(item.Critic);
+
+                return model;
+            }).ToArray();
             Height = entity.Height;
             Width = entity.Width;
             Profundity = entity.Profundity;

@@ -53,6 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Works\Views\ArtWorks\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="Areas\Works\Views\ServiceWorks\Delete.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
