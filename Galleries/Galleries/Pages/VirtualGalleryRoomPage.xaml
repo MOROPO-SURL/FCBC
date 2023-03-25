@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:urho="clr-namespace:Urho.Forms;assembly=UrhoSharp.Forms"
+    x:Class="MOROPO.FCBC.Galleries.Pages.VirtualGalleryRoomPage">
+    <ContentPage.Content>
+        <Grid>
+            <urho:UrhoSurface x:Name="MainUrhoSurface" VerticalOptions="FillAndExpand" />
+            <StackLayout VerticalOptions="Center">
+                <ActivityIndicator 
+                    x:Name="MainActivityIndicator"
+                    IsRunning="True" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
