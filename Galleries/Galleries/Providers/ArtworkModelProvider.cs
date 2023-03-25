@@ -24,12 +24,14 @@ namespace MOROPO.FCBC.Galleries.Providers
             {
                 var extension = "jpg";
 
-                if (i == 4 || i == 14 || i == 18) extension = "png";
+                //if (i == 4 || i == 14 || i == 18) extension = "png";
 
                 var model = new Models.Raw.ImageRawModel
                 {
-                    Url = string.Format("http://localhost/media/images/_{0}.{1}", i, extension)
+                    Url = string.Format("https://fcbc-sgi.moropo.cu/media/images/_{0}.{1}", i, extension)
                 };
+
+                System.Diagnostics.Debug.WriteLine(model.Url);
 
                 var cacheStream = await ImageService.Instance.Config.DownloadCache.DownloadAndCacheIfNeededAsync(
                     model.Url, 

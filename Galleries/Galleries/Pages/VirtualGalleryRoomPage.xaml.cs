@@ -15,18 +15,25 @@ namespace MOROPO.FCBC.Galleries.Pages
 
             System.Threading.Tasks.Task.Delay(System.TimeSpan.FromSeconds(1)).ContinueWith(async task =>
             {
-                await Providers.ArtworkModelProvider.Instance.LoadAsync();
-
-                Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                try
                 {
-                    MainActivityIndicator.IsRunning = false;
-                    MainActivityIndicator.IsVisible = false;
+                    await Providers.ArtworkModelProvider.Instance.LoadAsync();
 
-                    await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                     {
-                        Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                        MainActivityIndicator.IsRunning = false;
+                        MainActivityIndicator.IsVisible = false;
+
+                        await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
+                        {
+                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                        });
                     });
-                });
+                }
+                catch (System.Exception e)
+                {
+
+                }
             });
         }
     }

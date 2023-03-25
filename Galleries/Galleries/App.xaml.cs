@@ -6,6 +6,11 @@
         {
             InitializeComponent();
 
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+            {
+                FFImageLoading.ImageService.Instance.Config.HttpClient = new System.Net.Http.HttpClient(Xamarin.Forms.DependencyService.Get<Providers.Facade.INativeHttpClientHandlerProviderFacade>().Get());
+            }
+
             MainPage = new Pages.VirtualGalleryRoomPage();
         }
 

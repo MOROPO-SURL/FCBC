@@ -34,8 +34,11 @@ namespace MOROPO.FCBC.Galleries.Presenters
             // Viewport
             var viewport = new Viewport(Context, scene, scene.MainCamera, null);
 
-            viewport.RenderPath.Append(CoreAssets.PostProcess.FXAA3);
-            viewport.RenderPath.Append(CoreAssets.PostProcess.FXAA2);
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.UWP)
+            {
+                viewport.RenderPath.Append(CoreAssets.PostProcess.FXAA3);
+                viewport.RenderPath.Append(CoreAssets.PostProcess.FXAA2);
+            }
 
             Renderer.HDRRendering = true;
 
