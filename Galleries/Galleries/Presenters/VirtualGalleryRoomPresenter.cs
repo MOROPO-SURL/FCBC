@@ -6,7 +6,7 @@ namespace MOROPO.FCBC.Galleries.Presenters
     internal class VirtualGalleryRoomPresenter : Application
     {
         protected const float TOUCH_SENSITIVITY = 2;
-        protected const float MOVEMENT_SIZE = 20.0f;
+        protected const float MOVEMENT_SIZE = 2.0f;
         protected const float MOVEMENT_SPEED = 0.25f;
 
         private float yaw;
@@ -164,11 +164,11 @@ namespace MOROPO.FCBC.Galleries.Presenters
             }
             else if (obj.Key == Key.Q)
             {
-                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y + 10f, cameraNode.Position.Z)));
+                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y + 2f, cameraNode.Position.Z)));
             }
             else if (obj.Key == Key.Z)
             {
-                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y - 10f, cameraNode.Position.Z)));
+                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y - 2f, cameraNode.Position.Z)));
             }
             else if (obj.Key == Key.W)
             {

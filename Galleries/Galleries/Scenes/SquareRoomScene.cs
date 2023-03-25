@@ -115,7 +115,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             northWallVintageComponent.Model = CoreAssets.Models.Box;
             northWallVintageComponent.Material = material.Clone();
-            //northWallVintageComponent.Material.SetUVTransform(Vector2.Zero, 0f, new Vector2(northWallVintageNode.Scale.X / northWallVintageNode.Scale.Y * 5f, 5f));
 
             var westWallVintageNode = CreateChild();
 
@@ -157,35 +156,65 @@ namespace MOROPO.FCBC.Galleries.Scenes
             rightSouthWallVintageComponent.Model = CoreAssets.Models.Box;
             rightSouthWallVintageComponent.Material = material.Clone();
 
-            var leftSouthWallVerticalVintageNode = CreateChild();
+            var leftOutsideDoorVintageNode = CreateChild();
 
-            leftSouthWallVerticalVintageNode.Position = new Vector3(FLOOR_FULL_SIZE * 1 / 12 + 1.5f, WALL_HEIGHT * 4 / 10 + WALL_VINTAGE_HEIGHT * 2 / 3 + 0.5f, -1 * centerWallDistance);
-            leftSouthWallVerticalVintageNode.Scale = new Vector3(WALL_VINTAGE_HEIGHT, WALL_HEIGHT * 8 / 10 - WALL_VINTAGE_HEIGHT * 2 / 3 + 1.0f, WALL_VINTAGE_WEIGTH);
+            leftOutsideDoorVintageNode.Position = new Vector3(FLOOR_FULL_SIZE * 1 / 12 + 1.5f, WALL_HEIGHT * 4 / 10 + WALL_VINTAGE_HEIGHT, -1 * centerWallDistance);
+            leftOutsideDoorVintageNode.Scale = new Vector3(WALL_VINTAGE_HEIGHT, WALL_HEIGHT * 8 / 10, WALL_VINTAGE_WEIGTH);
 
-            var leftSouthWallVerticalVintageComponent = leftSouthWallVerticalVintageNode.CreateComponent<StaticModel>();
+            var leftOutsideDoorVintageComponent = leftOutsideDoorVintageNode.CreateComponent<StaticModel>();
 
-            leftSouthWallVerticalVintageComponent.Model = CoreAssets.Models.Box;
-            leftSouthWallVerticalVintageComponent.Material = material.Clone();
+            leftOutsideDoorVintageComponent.Model = CoreAssets.Models.Box;
+            leftOutsideDoorVintageComponent.Material = material.Clone();
 
-            var rightSouthWallVerticalVintageNode = CreateChild();
+            var rightOutsideDoorVintageNode = CreateChild();
 
-            rightSouthWallVerticalVintageNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE * 1 / 12 - 1.5f, WALL_HEIGHT * 4 / 10 + WALL_VINTAGE_HEIGHT * 2 / 3 + 0.5f, -1 * centerWallDistance);
-            rightSouthWallVerticalVintageNode.Scale = new Vector3(WALL_VINTAGE_HEIGHT, WALL_HEIGHT * 8 / 10 - WALL_VINTAGE_HEIGHT * 2 / 3 + 1.0f, WALL_VINTAGE_WEIGTH);
+            rightOutsideDoorVintageNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE * 1 / 12 - 1.5f, WALL_HEIGHT * 4 / 10 + WALL_VINTAGE_HEIGHT, -1 * centerWallDistance);
+            rightOutsideDoorVintageNode.Scale = new Vector3(WALL_VINTAGE_HEIGHT, WALL_HEIGHT * 8 / 10, WALL_VINTAGE_WEIGTH);
 
-            var rightSouthWallVerticalVintageComponent = rightSouthWallVerticalVintageNode.CreateComponent<StaticModel>();
+            var rightOutsideDoorVintageComponent = rightOutsideDoorVintageNode.CreateComponent<StaticModel>();
 
-            rightSouthWallVerticalVintageComponent.Model = CoreAssets.Models.Box;
-            rightSouthWallVerticalVintageComponent.Material = material.Clone();
+            rightOutsideDoorVintageComponent.Model = CoreAssets.Models.Box;
+            rightOutsideDoorVintageComponent.Material = material.Clone();
 
-            var middleSouthWallVintageNode = CreateChild();
+            var middleOutsideDoorVintageNode = CreateChild();
 
-            middleSouthWallVintageNode.Position = new Vector3(0.0f, WALL_HEIGHT * 8 / 10 + 0.25f, -1 * centerWallDistance);
-            middleSouthWallVintageNode.Scale = new Vector3(FLOOR_FULL_SIZE * 2 / 12 - 2.0f, WALL_VINTAGE_HEIGHT, WALL_VINTAGE_WEIGTH);
+            middleOutsideDoorVintageNode.Position = new Vector3(0.0f, WALL_HEIGHT * 8 / 10 + WALL_VINTAGE_HEIGHT / 2 - WALL_VINTAGE_WEIGTH / 2, -1 * centerWallDistance);
+            middleOutsideDoorVintageNode.Scale = new Vector3(FLOOR_FULL_SIZE * 2 / 12 - 2.0f, WALL_VINTAGE_HEIGHT + WALL_VINTAGE_WEIGTH, WALL_VINTAGE_WEIGTH);
 
-            var middleSouthWallVintageComponent = middleSouthWallVintageNode.CreateComponent<StaticModel>();
+            var middleOutsideDoorVintageComponent = middleOutsideDoorVintageNode.CreateComponent<StaticModel>();
 
-            middleSouthWallVintageComponent.Model = CoreAssets.Models.Box;
-            middleSouthWallVintageComponent.Material = material.Clone();
+            middleOutsideDoorVintageComponent.Model = CoreAssets.Models.Box;
+            middleOutsideDoorVintageComponent.Material = material.Clone();
+
+            var middleInsideDoorVintageNode = CreateChild();
+
+            middleInsideDoorVintageNode.Position = new Vector3(0.0f, WALL_HEIGHT * 8f / 10f - WALL_VINTAGE_WEIGTH / 2f, -1f * centerWallDistance - WALL_WEIGTH / 2f - 0.5f);
+            middleInsideDoorVintageNode.Scale = new Vector3(FLOOR_FULL_SIZE * 2 / 12 - 2.0f, WALL_VINTAGE_WEIGTH, WALL_WEIGTH);
+
+            var middleInsideDoorVintageComponent = middleInsideDoorVintageNode.CreateComponent<StaticModel>();
+
+            middleInsideDoorVintageComponent.Model = CoreAssets.Models.Box;
+            middleInsideDoorVintageComponent.Material = material.Clone();
+
+            var rightInsideDoorVintageNode = CreateChild();
+
+            rightInsideDoorVintageNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE * 1 / 12 + WALL_VINTAGE_WEIGTH / 2, WALL_HEIGHT * 4 / 10, -1 * centerWallDistance - WALL_WEIGTH / 2f - WALL_VINTAGE_WEIGTH / 2);
+            rightInsideDoorVintageNode.Scale = new Vector3(WALL_VINTAGE_WEIGTH, WALL_HEIGHT * 8 / 10, WALL_VINTAGE_HEIGHT);
+
+            var rightInsideDoorVintageComponent = rightInsideDoorVintageNode.CreateComponent<StaticModel>();
+
+            rightInsideDoorVintageComponent.Model = CoreAssets.Models.Box;
+            rightInsideDoorVintageComponent.Material = material.Clone();
+
+            var leftInsideDoorVintageNode = CreateChild();
+
+            leftInsideDoorVintageNode.Position = new Vector3(FLOOR_FULL_SIZE * 1 / 12 - WALL_VINTAGE_WEIGTH / 2, WALL_HEIGHT * 4 / 10, -1 * centerWallDistance - WALL_WEIGTH / 2f - WALL_VINTAGE_WEIGTH / 2);
+            leftInsideDoorVintageNode.Scale = new Vector3(WALL_VINTAGE_WEIGTH, WALL_HEIGHT * 8 / 10, WALL_VINTAGE_HEIGHT);
+
+            var leftInsideDoorVintageComponent = leftInsideDoorVintageNode.CreateComponent<StaticModel>();
+
+            leftInsideDoorVintageComponent.Model = CoreAssets.Models.Box;
+            leftInsideDoorVintageComponent.Material = material.Clone();
         }
         
         private void SetupLights()
@@ -370,9 +399,9 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
 
-            for (int y = pivotNegative; y <= pivotPositive; ++y)
+            for (int y = pivotNegative; y <= pivotPositive; y += 2)
             {
-                for (int x = pivotNegative; x <= pivotPositive; ++x)
+                for (int x = pivotNegative; x <= pivotPositive; x += 2)
                 {
                     if (x == 0 && y == 0 ||
                         System.Math.Abs(x) == 6 && System.Math.Abs(y) == 6 ||
