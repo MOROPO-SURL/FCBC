@@ -10,6 +10,8 @@
 
             if (target.Controller == "traces") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-foot-print\"></span>");
 
+            if (target.Controller == "apikeys") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-key\"></span>");
+
             if (target.Controller == "recognitions") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-trophy-award\"></span>");
 
             if (target.Controller == "distinctions") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-certificate\"></span>");

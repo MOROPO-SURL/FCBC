@@ -357,9 +357,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountries(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(CreationGroupInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(CreationGroup entity, CreationGroupInputViewModel modelInput)
         {
-            base.ConfigurePostFailEditValidation(modelInput);
+            base.ConfigurePostFailEditValidation(entity, modelInput);
 
             PopulateAvailableResolutions(modelInput);
             PopulateWithCountriesEdit(modelInput);

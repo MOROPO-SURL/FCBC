@@ -24,6 +24,26 @@ namespace MOROPO.FCBC.SGI.Helpers
                 permissionDbSet.Add(Security.Authorization.Permission.TraceViewer.ToPermissionEntity());
             }
 
+            #region ApiKey
+
+            if (!permissionDbSet.Any(item => item.Code.Equals(Security.Authorization.Permission.ApiKeyViewer)))
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ApiKeyViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.ApiKeyManagement));
+            }
+            if (!permissionDbSet.Any(item => item.Code.Equals(Security.Authorization.Permission.ApiKeyCreator)))
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ApiKeyCreator.ToPermissionEntity(Security.Authorization.PermissionsFamily.ApiKeyManagement));
+            }
+            if (!permissionDbSet.Any(item => item.Code.Equals(Security.Authorization.Permission.ApiKeyEditor)))
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ApiKeyEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.ApiKeyManagement));
+            }
+            if (!permissionDbSet.Any(item => item.Code.Equals(Security.Authorization.Permission.ApiKeyRemover)))
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ApiKeyRemover.ToPermissionEntity(Security.Authorization.PermissionsFamily.ApiKeyManagement));
+            }
+            #endregion
+
             #region InstitutionalInformation
             if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.InstitutionalInformationViewer)).Result)
             {

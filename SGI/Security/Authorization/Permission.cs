@@ -260,6 +260,14 @@
         public const string ActivityEditor = "activity-editor";
         public const string ActivityRemover = "activity-remover";
         #endregion
+
+        #region ApiKey
+        public const string ApiKeyViewer = "apikey-viewer";
+        public const string ApiKeyCreator = "apikey-creator";
+        public const string ApiKeyEditor = "apikey-editor";
+        public const string ApiKeyRemover = "apikey-remover";
+        #endregion
+
     }
 }
 

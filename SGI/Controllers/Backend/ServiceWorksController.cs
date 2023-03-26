@@ -155,9 +155,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateInputModelForAvailableCurrencies(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(ServiceWorkInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(ServiceWork entity, ServiceWorkInputViewModel modelInput)
         {
-            base.ConfigurePostFailEditValidation(modelInput);
+            base.ConfigurePostFailEditValidation(entity, modelInput);
 
             PopulateInputModelForAvailableManifestations(modelInput);
             PopulateInputModelForAvailableCurrencies(modelInput);

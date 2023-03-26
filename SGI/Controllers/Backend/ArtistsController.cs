@@ -501,14 +501,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithResolutionEdit(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(ArtistInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(Artist entity, ArtistInputViewModel modelInput)
         {
             PopulateWithCountries(modelInput);
         }
 
         [Route("edit/{key}/contacts")]
         [RequirePermissions(Permission.ArtistEditor)]
-        public IActionResult Contacts(System.Guid key)
+        public IActionResult Contacts(Guid key)
         {
             try
             {
@@ -558,7 +558,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [Route("artists/{key}/print")]
         [RequirePermissions(Permission.ArtistViewer)]
         [RequirePermissions(Permission.ArtistEditor)]
-        public IActionResult Print(System.Guid key)
+        public IActionResult Print(Guid key)
         {
             try
             {

@@ -210,7 +210,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithContractKindEdit(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(ContractorInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(Contractor entity, ContractorInputViewModel modelInput)
         {
             PopulateWithContractKind(modelInput);
         }

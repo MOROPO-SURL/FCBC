@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Options;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
@@ -96,6 +95,7 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<CreationGroupAttachment, Guid>, CreationGroupAttachmentRepository>();
             services.AddScoped<IEntityRepository<ContractorAttachment, Guid>, ContractorAttachmentRepository>();
             services.AddScoped<IEntityRepository<ArtWorkValoration, Guid>, ArtWorkValorationRepository>();
+            services.AddScoped<IEntityRepository<ApiKey, Guid>, ApiKeyRepository>();
 
             services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();

@@ -304,7 +304,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void ConfigurePostFailCreateValidation(EmployeeInputViewModel modelInput)
         {
-            
+            PopulateWithCountries(modelInput);
         }
 
         protected override void ConfigureEdit(Employee entity, EmployeeInputViewModel modelInput)
@@ -312,9 +312,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountriesEdit(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(EmployeeInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(Employee entity, EmployeeInputViewModel modelInput)
         {
-           
+            PopulateWithCountriesEdit(modelInput);
         }
 
         #region Contacts

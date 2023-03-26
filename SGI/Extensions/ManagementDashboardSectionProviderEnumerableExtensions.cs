@@ -26,6 +26,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Permission.TraceViewer
             });
 
+            securitySection.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Llaves API",
+                Controller = "apikeys",
+                Action = "index",
+                Area = "security",
+                Role = Security.Authorization.Permission.ApiKeyViewer
+            });
+
             var manifestationsSection = new List<ManagementDashboardSectionViewModel>
             {
                 new ManagementDashboardSectionViewModel
