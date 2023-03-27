@@ -167,5 +167,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ExhibitServiceWorkBridge> ExhibitServiceWorkBridges { get; set; }
         public DbSet<ApiKey> ApiKeys { get; set; }
         public DbSet<ApiKeyPermissionBridge> ApiKeyPermissionBridges { get; set; }
+        public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<GalleryEmployeeBridge> GalleryEmployeeBridges { get; set; }
     }
 }

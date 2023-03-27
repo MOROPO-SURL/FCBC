@@ -1,0 +1,64 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.GalleryDisplayViewModel
+
+@{
+    ViewData["Title"] = "Gallería";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr class="mb-4" />
+
+<div><a class="btn btn-primary float-right" href="@Url.Action("edit")"><span class="mdi mdi-square-edit-outline"></span> Modificar</a></div>
+
+<div class="clearfix mb-3"></div>
+
+@if (Model.ImageId != null)
+{
+    <img src="~/media/images/@Model.ImageId.@Model.ImageExtension" class="img-thumbnail mb-3" id="ImageFilePreview" />
+}
+
+<dl>
+    <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+    <dd>@Html.DisplayFor(model => model.Name)</dd>
+    <dt>@Html.DisplayNameFor(model => model.BornDate)</dt>
+    @if (Model.BornDate == null)
+    {
+        <dd>--</dd>
+    }
+    else
+    {
+        <dd>@Model.BornDate.Value.ToShortDateString()</dd>
+    }
+    <dt>@Html.DisplayNameFor(model => model.About)</dt>
+    @if (string.IsNullOrEmpty(Model.About))
+    {
+        <dd>--</dd>
+    }
+    else
+    {
+        <dd>@Html.DisplayFor(model => model.About)</dd>
+    }        
+    <dt>@Html.DisplayNameFor(model => model.History)</dt>
+    @if (string.IsNullOrEmpty(Model.History))
+    {
+        <dd>--</dd>
+    }
+    else
+    {
+        <dd>@Html.DisplayFor(model => model.History)</dd>
+    }    
+</dl>

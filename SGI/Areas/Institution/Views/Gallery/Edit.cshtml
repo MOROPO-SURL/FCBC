@@ -1,0 +1,137 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.GalleryInputViewModel
+
+@{
+    ViewData["Title"] = "Modificar Galería";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Galería",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Modficar"
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $('#BornDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy',
+            value: '@Model.BornDate?.ToShortDateString()'
+        });
+        $(function () {
+            $(document).on("change", "#ImageFile", function () {
+                var files = !!this.files ? this.files : [];
+
+                if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+                if (/^image/.test(files[0].type)) {
+                    var reader = new FileReader();
+
+                    reader.readAsDataURL(files[0]);
+
+                    reader.onloadend = function () {
+                        $('#ImageFilePreview').attr('src', this.result);
+                    }
+                }
+
+            });
+        });
+    </script>
+}
+
+@using (Html.BeginForm("edit", "gallery", new { Area = "institution" }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h4>@ViewData["Title"]</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Información</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("contacts", @Model.Id)">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("employee", @Model.Id)">Representantes</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        @if (Model.ImageId != null)
+                        {
+                            <img src="~/media/images/@Model.ImageId.@Model.ImageExtension" class="card-img-top" id="ImageFilePreview" />
+                        }
+                        else
+                        {
+                            <img src="~/img/default_image_horizontal.png" id="ImageFilePreview" />
+                        }
+
+                        <label class="btn btn-light" style="border-top-left-radius: 0; border-top-right-radius: 0; margin-bottom: 0;">
+                            @GlobalViewLocalizationHelper.Localize("Upload", ViewLocalizer) ...
+                            @Html.EditorFor(model => model.ImageFile)
+                        </label>
+                        @Html.ValidationMessageFor(model => model.ImageFile, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.BornDate, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.BornDate, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.BornDate, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(model => model.About, new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.About, 8, 0, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.About, null, new { @class = "text-danger" })
+                    </div>                    
+                </div>
+            </div>            
+            <div>
+                @Html.LabelFor(model => model.History, new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.History, 16, 0, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.History, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Modificar</button>
+            <a class="btn btn-light" href="@Url.Action("index")">Regresar</a>
+        </div>
+    </div>
+}

@@ -77,5 +77,9 @@
         internal const string ActivityKindManagement = "activity-kind-management";
 
         internal const string ActivityManagement = "activity-management";
+
+        internal const string GalleryManagement = "gallery-management";
+
+        internal const string ExposureManagement = "exposure-management";
     }
 }

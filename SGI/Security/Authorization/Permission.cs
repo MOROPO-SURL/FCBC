@@ -268,6 +268,18 @@
         public const string ApiKeyRemover = "apikey-remover";
         #endregion
 
+        #region Exposure
+        public const string ExposureViewer = "exposure-viewer";
+        public const string ExposureCreator = "exposure-creator";
+        public const string ExposureEditor = "exposure-editor";
+        public const string ExposureRemover = "exposure-remover";
+        #endregion
+
+        #region Gallery
+        public const string GalleryViewer = "gallery-viewer";
+        public const string GalleryEditor = "gallery-editor";
+        #endregion
+
     }
 }
 

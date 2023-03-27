@@ -739,6 +739,36 @@ namespace MOROPO.FCBC.SGI.Helpers
             }
             #endregion
 
+            #region Exposure
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ExposureViewer)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ExposureViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.ExposureManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ExposureCreator)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ExposureCreator.ToPermissionEntity(Security.Authorization.PermissionsFamily.ExposureManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ExposureEditor)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ExposureEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.ExposureManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.ExposureRemover)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.ExposureRemover.ToPermissionEntity(Security.Authorization.PermissionsFamily.ExposureManagement));
+            }
+            #endregion
+
+            #region Gallery
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.GalleryViewer)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.GalleryViewer.ToPermissionEntity(Security.Authorization.PermissionsFamily.GalleryManagement));
+            }
+            if (!permissionDbSet.AnyAsync(role => role.Code.Equals(Security.Authorization.Permission.GalleryEditor)).Result)
+            {
+                permissionDbSet.Add(Security.Authorization.Permission.GalleryEditor.ToPermissionEntity(Security.Authorization.PermissionsFamily.GalleryManagement));
+            }
+            #endregion
+
             var countryDbSet = dbContext.Set<Country>();
             var stateDbSet = dbContext.Set<State>();
             var municipalitiesDbSet = dbContext.Set<Municipality>();
@@ -836,6 +866,19 @@ namespace MOROPO.FCBC.SGI.Helpers
                 {
                     Id = InstitutionalInformationKind.History,
                     Value = "Historia no especificada ..."
+                });
+            }
+
+            if (!dbContext.Set<Gallery>().Any())
+            {
+                dbContext.Set<Gallery>().Add(new Gallery
+                {
+                    Id = GalleryId.Amalia,
+                    Identity = new SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity
+                    {
+                        Name = "Amalia",
+                        About = "No especificado por el momento ..."
+                    }
                 });
             }
 

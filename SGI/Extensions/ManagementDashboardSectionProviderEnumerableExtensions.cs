@@ -257,6 +257,22 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Action = "index",
                     Area = "institution",
                     Role = Security.Authorization.Permission.EmployeeViewer
+                },
+                new ManagementDashboardSectionViewModel
+                {
+                    Title = "Gallería",
+                    Controller = "gallery",
+                    Action = "index",
+                    Area = "institution",
+                    Role = Security.Authorization.Permission.GalleryViewer
+                },
+                new ManagementDashboardSectionViewModel
+                {
+                    Title = "Exposiciones",
+                    Controller = "exposures",
+                    Action = "index",
+                    Area = "institution",
+                    Role = Security.Authorization.Permission.ExposureViewer
                 }
             };
 

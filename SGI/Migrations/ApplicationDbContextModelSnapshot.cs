@@ -2026,15 +2026,21 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnName("createdat");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnName("description");
 
+                    b.Property<bool>("Enabled")
+                        .HasColumnName("enabled");
+
                     b.Property<DateTime?>("EndAt")
                         .HasColumnName("endat");
 
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnName("isenabled");
+                    b.Property<int>("GalleryId")
+                        .HasColumnName("galleryid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2045,6 +2051,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_exposures");
+
+                    b.HasIndex("GalleryId")
+                        .HasName("ix_exposures_galleryid");
 
                     b.ToTable("exposures");
                 });
@@ -2064,6 +2073,45 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_exposureemployeecuratorshipbridges_employeeid");
 
                     b.ToTable("exposureemployeecuratorshipbridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Gallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.Property<string>("History")
+                        .HasColumnName("history");
+
+                    b.Property<Guid?>("IdentityId")
+                        .IsRequired()
+                        .HasColumnName("identityid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_galleries");
+
+                    b.HasIndex("IdentityId")
+                        .IsUnique()
+                        .HasName("ix_galleries_identityid");
+
+                    b.ToTable("galleries");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.GalleryEmployeeBridge", b =>
+                {
+                    b.Property<int>("GalleryId")
+                        .HasColumnName("galleryid");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnName("employeeid");
+
+                    b.HasKey("GalleryId", "EmployeeId")
+                        .HasName("pk_galleryemployeebridges");
+
+                    b.HasIndex("EmployeeId")
+                        .HasName("ix_galleryemployeebridges_employeeid");
+
+                    b.ToTable("galleryemployeebridges");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalInformation", b =>
@@ -2935,6 +2983,12 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.Property<string>("Label")
                         .HasColumnName("label");
+
+                    b.Property<decimal>("Latitude")
+                        .HasColumnName("latitude");
+
+                    b.Property<decimal>("Longitude")
+                        .HasColumnName("longitude");
 
                     b.Property<Guid>("RegionId")
                         .HasColumnName("regionid");
@@ -4372,6 +4426,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Exposure", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Gallery", "Gallery")
+                        .WithMany()
+                        .HasForeignKey("GalleryId")
+                        .HasConstraintName("fk_exposures_galleries_galleryid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ExposureEmployeeCuratorshipBridge", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Employee", "Employee")
@@ -4384,6 +4447,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("EmployeeCuratorshipBridges")
                         .HasForeignKey("ExposureId")
                         .HasConstraintName("fk_exposureemployeecuratorshipbridges_exposures_exposureid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Gallery", b =>
+                {
+                    b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
+                        .WithOne()
+                        .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Gallery", "IdentityId")
+                        .HasConstraintName("fk_galleries_organizationidentities_identityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.GalleryEmployeeBridge", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .HasConstraintName("fk_galleryemployeebridges_employees_employeeid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Gallery", "Gallery")
+                        .WithMany("EmployeeBridges")
+                        .HasForeignKey("GalleryId")
+                        .HasConstraintName("fk_galleryemployeebridges_galleries_galleryid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
