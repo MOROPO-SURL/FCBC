@@ -532,7 +532,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             identityFrameComponent.Material = Material.FromImage("Textures/Identity_Primary_FCBC.jpg");
         }
 
-        private void SetupArtworkFrames(Models.Raw.ImageRawModel[] imageRawModels)
+        private void SetupArtworkFrames(Models.Common.ImageCommonModel[] imageRawModels)
         {
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;

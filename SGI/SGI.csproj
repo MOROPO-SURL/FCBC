@@ -24,21 +24,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Frontend\Api\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AspNetCore.Authentication.ApiKey" Version="1.0.0" />
 	<PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     <PackageReference Include="Rotativa.AspNetCore" Version="1.2.0" />
-	<PackageReference Include="SAPRESSC.Core.Security.Common.Web.Backend" Version="2.2.6.6" />
-	<PackageReference Include="SAPRESSC.Core.Security.Common.Web.Frontend" Version="2.2.6.6" />
-	<PackageReference Include="SAPRESSC.Core.Web.Api" Version="2.2.6.6" />
-    <PackageReference Include="SAPRESSC.Middleware.Identity.Web.Common" Version="2.2.6.7" />
+	<PackageReference Include="SAPRESSC.Core.Security.Common.Web.Backend" Version="2.2.8" />
+	<PackageReference Include="SAPRESSC.Core.Security.Common.Web.Frontend" Version="2.2.8" />
+	<PackageReference Include="SAPRESSC.Core.Web.Api" Version="2.2.8" />
+    <PackageReference Include="SAPRESSC.Middleware.Identity.Web.Common" Version="2.2.8" />
     <PackageReference Include="SAPRESSC.Middleware.Region.Web.Backend" Version="2.2.6.5" />
-	<PackageReference Include="SAPRESSC.Middleware.Security.Essential.Web.Backend" Version="2.2.6.6" />
+	<PackageReference Include="SAPRESSC.Middleware.Security.Essential.Web.Backend" Version="2.2.8" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />

@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<sscxftoolkitmvvmpages:ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:urho="clr-namespace:Urho.Forms;assembly=UrhoSharp.Forms"
-    x:Class="MOROPO.FCBC.Galleries.Pages.VirtualGalleryRoomPage">
+    x:Class="MOROPO.FCBC.Galleries.Pages.ExposureRoomPage">
     <ContentPage.Content>
         <Grid>
             <urho:UrhoSurface x:Name="MainUrhoSurface" VerticalOptions="FillAndExpand" />
@@ -14,4 +15,4 @@
             </StackLayout>
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</sscxftoolkitmvvmpages:ContentPage>

@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.Models.Api
+﻿using System.Linq;
+
+namespace MOROPO.FCBC.SGI.Models.Api
 {
     public class SessionApiModel : SmartSolucionesCuba.AspNetCore.Authentication.ApiKey.Models.IApiKeySessionModel
     {
@@ -6,7 +8,17 @@
         {
             ApiKey = entity;
 
-            Claims = new System.Collections.Generic.List<System.Security.Claims.Claim>();
+            var claims = new System.Collections.Generic.List<System.Security.Claims.Claim>
+            {
+                new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.AuthenticationMethod, SmartSolucionesCuba.AspNetCore.Authentication.ApiKey.ApiKeyAuthenticationDefaults.AuthenticationScheme)
+            };
+
+            foreach (var bridge in entity.PermissionBridges)
+            {
+                claims.AddRange(entity.PermissionBridges.Select(item => new System.Security.Claims.Claim(System.Security.Claims.ClaimsIdentity.DefaultRoleClaimType, item.Permission.Code)).ToArray());
+            }
+
+            Claims = claims;
         }
 
         public string Key => ApiKey.Token;

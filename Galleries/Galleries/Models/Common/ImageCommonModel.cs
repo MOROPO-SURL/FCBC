@@ -1,6 +1,6 @@
-﻿namespace MOROPO.FCBC.Galleries.Models.Raw
+﻿namespace MOROPO.FCBC.Galleries.Models.Common
 {
-    internal class ImageRawModel
+    internal class ImageCommonModel
     {
         public string Url { get; set; }
 

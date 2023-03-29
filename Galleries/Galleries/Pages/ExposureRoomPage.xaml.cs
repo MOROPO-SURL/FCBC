@@ -2,9 +2,9 @@
 
 namespace MOROPO.FCBC.Galleries.Pages
 {
-    public partial class VirtualGalleryRoomPage : Xamarin.Forms.ContentPage
+    public partial class ExposureRoomPage : SmartSolucionesCuba.XFToolKit.Mvvm.Pages.ContentPage
     {
-        public VirtualGalleryRoomPage()
+        public ExposureRoomPage()
         {
             InitializeComponent();
         }

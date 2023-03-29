@@ -1,5 +1,4 @@
 ﻿using FFImageLoading;
-using System.Linq;
 
 namespace MOROPO.FCBC.Galleries.Providers
 {
@@ -9,11 +8,11 @@ namespace MOROPO.FCBC.Galleries.Providers
 
         public static ArtworkModelProvider Instance => _instance ?? (_instance = new ArtworkModelProvider());
 
-        private readonly System.Collections.Generic.List<Models.Raw.ImageRawModel> imageRawModels;
+        private readonly System.Collections.Generic.List<Models.Common.ImageCommonModel> imageRawModels;
 
         public ArtworkModelProvider()
         {
-            imageRawModels = new System.Collections.Generic.List<Models.Raw.ImageRawModel>();
+            imageRawModels = new System.Collections.Generic.List<Models.Common.ImageCommonModel>();
         }
 
         public async System.Threading.Tasks.Task LoadAsync()
@@ -26,7 +25,7 @@ namespace MOROPO.FCBC.Galleries.Providers
 
                 //if (i == 4 || i == 14 || i == 18) extension = "png";
 
-                var model = new Models.Raw.ImageRawModel
+                var model = new Models.Common.ImageCommonModel
                 {
                     Url = string.Format("https://fcbc-sgi.moropo.cu/media/images/_{0}.{1}", i, extension)
                 };
@@ -57,7 +56,7 @@ namespace MOROPO.FCBC.Galleries.Providers
             }
         }
 
-        public Models.Raw.ImageRawModel[] GetImageRawModels()
+        public Models.Common.ImageCommonModel[] GetImageRawModels()
         {
             return imageRawModels.ToArray();
         }

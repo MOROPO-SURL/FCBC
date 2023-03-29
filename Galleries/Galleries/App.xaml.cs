@@ -11,7 +11,7 @@
                 FFImageLoading.ImageService.Instance.Config.HttpClient = new System.Net.Http.HttpClient(Xamarin.Forms.DependencyService.Get<Providers.Facade.INativeHttpClientHandlerProviderFacade>().Get());
             }
 
-            MainPage = new Pages.VirtualGalleryRoomPage();
+            MainPage = new Xamarin.Forms.NavigationPage(new Pages.MainPage());
         }
 
         protected override void OnStart()
