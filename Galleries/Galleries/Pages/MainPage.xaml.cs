@@ -17,22 +17,42 @@
 
             IsEnabled = true;
 
-            var apiCOnnectClient = new SGI.API.Connect.Clients.GalleryConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
+            var galleryApiConnectClient = new SGI.API.Connect.Clients.GalleryConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
 
-            apiCOnnectClient.GetAsync(SGI.Persistence.Enumerations.GalleryId.Amalia).ContinueWith(task =>
+            galleryApiConnectClient.GetAsync(SGI.Persistence.Enumerations.GalleryId.Amalia).ContinueWith(getGalleryTask =>
             {
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (task.IsFaulted || task.IsCanceled)
+                    if (getGalleryTask.IsFaulted || getGalleryTask.IsCanceled)
                     {
-                        Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(task.Exception);
+                        Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getGalleryTask.Exception);
                     }
                     else
                     {
+                        BindingContextPageModel.About = getGalleryTask.Result.About;
+                        BindingContextPageModel.History = getGalleryTask.Result.History;
+                        BindingContextPageModel.BornDate = getGalleryTask.Result.BornDate;
+                        BindingContextPageModel.ImageSource = getGalleryTask.Result.ImageId == null ? null : Xamarin.Forms.ImageSource.FromUri(new System.Uri(string.Format("{0}media/images/{1}.{2}", Constants.Networking.SGI_BASE_URL, getGalleryTask.Result.ImageId, getGalleryTask.Result.ImageExtension)));
 
+                        BindingContextPageModel.IsBusy = false;
+
+                        var exposuresApiConnectClient = new SGI.API.Connect.Clients.ExposureConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
+
+                        exposuresApiConnectClient.FilterPaginateAsync(new SGI.API.Common.Models.Filter.ExposureFilterApiModel { GalleryId = SGI.Persistence.Enumerations.GalleryId.Amalia }).ContinueWith(getExposuresTask =>
+                        {
+                            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                            {
+                                if (getGalleryTask.IsFaulted || getGalleryTask.IsCanceled)
+                                {
+                                    Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getGalleryTask.Exception);
+                                }
+                                else
+                                {
+                                    BindingContextPageModel.Exposures = getExposuresTask.Result.List;
+                                }
+                            });
+                        });
                     }
-
-                    BindingContextPageModel.IsBusy = false;
                 });
             });
         }

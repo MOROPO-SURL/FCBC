@@ -2,6 +2,6 @@
 {
     internal static class Networking
     {
-        public const string API_BASE_URL = "http://localhost/";
+        public const string SGI_BASE_URL = "http://192.168.43.139/";
     }
 }

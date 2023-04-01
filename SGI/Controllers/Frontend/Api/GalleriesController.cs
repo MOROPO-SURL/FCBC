@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.API.Common.Models;
+using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.SAPRESSC.Core.Common.Models;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Extensions;
 
 namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
 {
@@ -40,6 +42,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
         public override ActionResult<PaginationModel<GalleryDisplayApiModel>> GetPaginate(int sheet = 1, int limit = 25)
         {
             return base.GetPaginate(sheet, limit);
+        }
+
+        protected override GalleryDisplayApiModel EntityToDisplayModel(Gallery entity)
+        {
+            var model = base.EntityToDisplayModel(entity);
+
+            model.ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension();
+
+            return model;
         }
     }
 }

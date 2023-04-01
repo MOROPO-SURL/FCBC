@@ -6,7 +6,8 @@
         private System.DateTime? bornDate;
         private string about;
         private string history;
-        private FFImageLoading.Work.ImageSource image;
+        private Xamarin.Forms.ImageSource image;
+        private System.Collections.Generic.List<SGI.API.Common.Models.ExposureDisplayApiModel> exposures;
 
         public string Name { get => name; set => SetProperty(ref name, value); }
 
@@ -16,6 +17,8 @@
 
         public string History { get => history; set => SetProperty(ref history, value); }
 
-        public FFImageLoading.Work.ImageSource Image { get => image; set => SetProperty(ref image, value); }
+        public Xamarin.Forms.ImageSource ImageSource { get => image; set => SetProperty(ref image, value); }
+
+        public System.Collections.Generic.List<SGI.API.Common.Models.ExposureDisplayApiModel> Exposures { get => exposures; set => SetProperty(ref exposures, value); }
     }
 }

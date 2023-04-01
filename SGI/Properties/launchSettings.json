@@ -34,7 +34,7 @@
         "Public": {
             "commandName": "Project",
             "launchBrowser": false,
-            "applicationUrl": "https://localhost:443;http://localhost:80",
+            "applicationUrl": "https://0.0.0.0:443;http://0.0.0.0:80",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             }

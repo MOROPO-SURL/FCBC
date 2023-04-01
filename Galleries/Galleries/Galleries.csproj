@@ -12,6 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Images\DefaultGalleyBanner.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Images\DefaultGalleyBanner.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SSCXFToolKit.Mvvm" Version="0.4.10-alpha" />
     <PackageReference Include="SSCXFToolKit.Presentation" Version="0.6.2" />
     <PackageReference Include="UrhoSharp.Forms" Version="1.9.67" />

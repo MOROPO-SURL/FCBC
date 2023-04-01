@@ -6,6 +6,8 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.SAPRESSC.Core.Common.Models;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using System;
+using System.Linq.Expressions;
 
 namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
 {
@@ -17,6 +19,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
     {
         public ExposuresController(IEntityRepository<Exposure, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ExposuresController> localizer, ILogger<ExposuresController> logger) : base(repository, localizer, logger)
         {
+        }
+
+        protected override Expression<Func<Exposure, bool>> GetGlobalSelector()
+        {
+            return entity => entity.Enabled;
         }
 
         [RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
