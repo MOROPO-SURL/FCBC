@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Extensions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -37,7 +38,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "ArtisticManifestation")]
         public ArtisticManifestationDisplayViewModel Manifestation { get; set; }
 
-        public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
+        public System.Guid? FeatureImageId { get; set; }
+
+        public string FeatureImageExtension { get; set; }
 
         public SAPRESSC.Middleware.Media.Persistence.Entities.Image[] Images { get; set; }
 
@@ -82,7 +85,8 @@ namespace MOROPO.FCBC.SGI.Models.View
             CostCurrency = entity.CostCurrency;
             PriceCurrency = entity.PriceCurrency;
             Manifestation = new ArtisticManifestationDisplayViewModel();
-            FeatureImage = entity.FeatureImage;
+            FeatureImageId = entity.FeatureImageId;
+            FeatureImageExtension = entity.FeatureImage?.ContentType.ContentTypeToExtension();
             Images = entity.ImageBridges.Select(bridge => bridge.Image).ToArray();
             Techniques = entity.TechniqueBridges.Select(bridge =>
             {

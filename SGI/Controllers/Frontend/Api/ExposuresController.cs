@@ -6,7 +6,8 @@ using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.SAPRESSC.Core.Common.Models;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
-using System;
+using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Extensions;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
@@ -21,7 +22,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
         {
         }
 
-        protected override Expression<Func<Exposure, bool>> GetGlobalSelector()
+        protected override Expression<System.Func<Exposure, bool>> GetGlobalSelector()
         {
             return entity => entity.Enabled;
         }
@@ -64,6 +65,26 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
         public override ActionResult<PaginationModel<ExposureDisplayApiModel>> GetPaginateFiltered([FromBody] ExposureFilterApiModel filterModel, int sheet = 1, int limit = 25)
         {
             return base.GetPaginateFiltered(filterModel, sheet, limit);
+        }
+
+        protected override ExposureDisplayApiModel EntityToDisplayModel(Exposure entity)
+        {
+            var model = base.EntityToDisplayModel(entity);
+
+            model.Import(entity);
+
+            model.Curators = entity.EmployeeCuratorshipBridges.Select(bridge =>
+            {
+                var _model = new EmployeeDisplayApiModel();
+
+                _model.Import(bridge.Employee);
+
+                _model.ImageExtension = bridge.Employee.Identity.Image?.ContentType.ContentTypeToExtension();
+
+                return _model;
+            }).ToArray();
+
+            return model;
         }
     }
 }

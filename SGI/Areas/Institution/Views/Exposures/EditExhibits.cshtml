@@ -1,0 +1,178 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.EditExposureExhibitsViewModel
+
+@{
+    ViewData["Title"] = "Modificar Exposición (Obras)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Exposiciones",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/lib/bootstrap-combobox/css/bootstrap-combobox.css" />
+    <style type="text/css">
+        .dropdown-toggle {
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: -1px;
+            line-height: 36px;
+        }
+
+        .dropdown-toggle::after {
+            margin: 0 5px;
+        }
+
+        ul.dropdown-menu{
+            width: 100%;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+    <script type="text/javascript">
+        $('.member-select').combobox();
+    </script>
+
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h4>Modificar Exposición</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("edit", @Model.Exposure.Id)">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editemployees", @Model.Exposure.Id)">Curadores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Obras</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body pb-0">        
+        <div class="alert alert-dark mb-4">
+            <details>
+                <summary class="h4 mb-0">@Model.Exposure.Name</summary>
+                <hr />
+                <dl class="mb-0">
+                    <dt>Descripción</dt>                                        
+                    @if (Model.Exposure.Description == null)
+                    {
+                        <dd>-</dd>
+                    }
+                    else 
+                    {
+                        <dd>@Model.Exposure.Description</dd>
+                    }
+                </dl>
+            </details>                
+        </div>
+        @if (Model.Exhibits.Length != 0)
+        {
+            <div class="card-columns">
+                @foreach (var item in Model.Exhibits)
+                {
+                    <div class="card" style="margin-bottom: 1.25rem !important;">
+                        <img class="card-img-top" src="~/media/images/@item.ArtWork.FeatureImageId.@item.ArtWork.FeatureImageExtension" />
+                        <div class="card-img-overlay">
+                            <div class="btn-group btn-group-sm float-right">
+                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-@item.Id"><span class="mdi mdi-trash-can"></span></a>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-auto">#@item.Index</div>
+                                <div class="col">@item.ArtWork.Title</div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="delete-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-@item.Id-lable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    @using (Html.BeginForm("deleteusecaseimage", "prototypes", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                    {
+                                        @Html.Hidden("exhibitId", item.Id)
+
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="delete-@item.Id-lable">Eliminar Obra</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="mb-0">Esta seguro que desea eliminar la obra seleccionada?</p>
+                                        </div>
+                                        <div class="modal-footer" style="margin-top: 0;">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-muted font-italic">Este sala aún no tiene obras, haga clic en el boton agregar para comenzar ...</div>
+        }
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-exhibit">Agregar</button>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>    
+    <div class="modal fade" id="add-exhibit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-exhibit-title">Agregar Obra</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("addexhibit", "exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, null))
+                {
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div>
+                                    @Html.Label("index", "Posición", new { @class = "control-label" })
+                                    @Html.DropDownList("index", Model.AvailableIdexes, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    @Html.Label("workId", "Obra", new { @class = "control-label" })
+                                    @Html.DropDownList("workId", Model.AvailableArtWorks, "Escribar para buscar la obra ...", new { @class = "form-control member-select" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

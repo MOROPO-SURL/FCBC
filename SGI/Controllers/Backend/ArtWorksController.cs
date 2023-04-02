@@ -554,7 +554,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpGet]
         [Route("edit/{key}/images")]
         [RequirePermissions(Permission.ArtWorkEditor)]
-        public ActionResult EditImages(System.Guid key)
+        public ActionResult EditImages(Guid key)
         {
             var entity = Repository.Get(key);
 
@@ -583,7 +583,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [Route("edit/{key}/images/add")]
         [ValidateAntiForgeryToken]
         [RequirePermissions(Permission.ArtWorkEditor)]
-        public IActionResult AddImage(System.Guid key, Microsoft.AspNetCore.Http.IFormFile imageFile)
+        public IActionResult AddImage(Guid key, Microsoft.AspNetCore.Http.IFormFile imageFile)
         {
             try
             {
@@ -628,7 +628,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 return RedirectToAction("editimages", new { key = entity.Id });
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
@@ -642,7 +642,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [Route("edit/{key}/images/delete")]
         [ValidateAntiForgeryToken]
         [RequirePermissions(Permission.ArtWorkEditor)]
-        public IActionResult DeleteImage(System.Guid key, System.Guid imageId)
+        public IActionResult DeleteImage(Guid key, Guid imageId)
         {
             try
             {
@@ -677,6 +677,36 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 return RedirectToAction("editimages", new { key });
             }
             catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/images/featured")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public IActionResult FeaturedImage(Guid key, Guid imageId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var bridge = entity.ImageBridges.First(b => b.ImageId == imageId);
+
+                entity.FeatureImageId = bridge.ImageId;
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+
+                return RedirectToAction("editimages", new { key });
+            }
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }

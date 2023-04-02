@@ -1,8 +1,8 @@
-﻿namespace MOROPO.FCBC.Galleries.Models.Common
+﻿namespace MOROPO.FCBC.Galleries.Models.View
 {
-    internal class ImageCommonModel
+    public class ImageViewModel
     {
-        public string Url { get; set; }
+        public System.Guid Id { get; set; }
 
         public int Width { get; set; }
 

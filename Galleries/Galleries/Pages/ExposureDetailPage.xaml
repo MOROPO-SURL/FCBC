@@ -1,15 +1,113 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sscxftoolkitmvvmpages:ContentPage
+<sscxftoolkitmvvmpages:BindingContextedContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
+    xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
+    xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
+    xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExposureDetailPage"
-    Title="Exposición">
+    x:TypeArguments="pagemodels:ExposureDetailPageModel"
+    Title="Exposición"
+    BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="160" ChildAbsoluteHorizontalMargin="10" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <ScrollView Orientation="Vertical">
+                <StackLayout Spacing="0">
+                    <Grid>
+                        <ffimageloadingforms:CachedImage
+                            HeightRequest="{Binding Source={Reference HeaderContentContainer}, Path=Height}"
+                            Aspect="AspectFill"
+                            Source="{Binding Path=GalleyFeatureImageSource}"
+                            CacheType="Disk"
+                            CacheDuration="8760:00:00" />
+                        <BoxView Color="#dd9c4237" />
+                        <StackLayout
+                            x:Name="HeaderContentContainer"
+                            HorizontalOptions="Center"
+                            Spacing="0"
+                            WidthRequest="300" 
+                            Margin="10,60">
+                            <Label
+                                Text="Galería Amalia"
+                                Margin="0,0,0,20"
+                                FontSize="40"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource MainContrastTextColor}"
+                                HorizontalTextAlignment="Center" />
+                            <Label
+                                Text="Sala Expositiva"
+                                HorizontalTextAlignment="Center"
+                                FontSize="20"
+                                TextColor="White" />
+                            <Label
+                                Text="{Binding Path=Exposure.Name}"
+                                FontSize="36"
+                                HorizontalTextAlignment="Center"
+                                TextColor="{StaticResource MainContrastTextColor}" />
+                            <Button
+                                Margin="0,15,0,0"
+                                Style="{StaticResource HeaderButtonStyle}"
+                                Text="Entrar a la Sala"
+                                Clicked="GoToExposureButton_Clicked" />
+                        </StackLayout>
+                    </Grid>
+                    <Label
+                        Margin="10"
+                        Text="{Binding Path=Exposure.Description}"
+                        FontSize="16" />
+                    <Label 
+                        Text="Curadores"
+                        TextColor="Black"
+                        Margin="10,10,10,5"
+                        FontSize="Medium"
+                        FontAttributes="Bold" />
+                    <BoxView
+                        Margin="10,0"
+                        Color="Black"
+                        HeightRequest="1" />
+                    <FlexLayout
+                        Margin="5"
+                        Wrap="Wrap"
+                        AlignItems="Start" AlignContent="Start"
+                        BindableLayout.ItemsSource="{Binding Path=Exposure.Curators}">
+                        <BindableLayout.EmptyView>
+                            <Label
+                                Margin="5"
+                                Text="No hay curadores disponibles en este momento"
+                                HorizontalTextAlignment="Center"
+                                TextColor="DimGray" />
+                        </BindableLayout.EmptyView>
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    Margin="5" Padding="0"
+                                    BackgroundColor="WhiteSmoke"
+                                    WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}"
+                                    HeightRequest="120">
+                                    <StackLayout Margin="20,15">
+                                        <Label 
+                                            Text="{Binding Path=Name}"
+                                            FontSize="Large" />
+                                        <Label
+                                            VerticalOptions="StartAndExpand"
+                                            Text="{Binding Path=LastName}"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="3" />
+                                    </StackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </StackLayout>
+            </ScrollView>
+            <views:BusyView />
+        </Grid>
     </ContentPage.Content>
-</sscxftoolkitmvvmpages:ContentPage>
+</sscxftoolkitmvvmpages:BindingContextedContentPage>

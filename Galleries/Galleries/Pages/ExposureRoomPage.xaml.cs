@@ -4,20 +4,36 @@ namespace MOROPO.FCBC.Galleries.Pages
 {
     public partial class ExposureRoomPage : SmartSolucionesCuba.XFToolKit.Mvvm.Pages.ContentPage
     {
-        public ExposureRoomPage()
+        private readonly System.Guid exposureId;
+
+        public ExposureRoomPage(System.Guid exposureId)
         {
+            this.exposureId = exposureId;
+
             InitializeComponent();
+
+            IsEnabled = false;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            System.Threading.Tasks.Task.Delay(System.TimeSpan.FromSeconds(1)).ContinueWith(async task =>
+            if (IsEnabled) return;
+
+            IsEnabled = true;
+
+            var exhibitsApiConnectClient = new SGI.API.Connect.Clients.ExhibitConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
+
+            exhibitsApiConnectClient.FilterAsync(new SGI.API.Common.Models.Filter.ExhibitFilterApiModel { ExposureId = exposureId }).ContinueWith(async task =>
             {
-                try
+                if (task.IsFaulted || task.IsCanceled)
                 {
-                    await Providers.ArtworkModelProvider.Instance.LoadAsync();
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() => { Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(task.Exception); });
+                }
+                else
+                {
+                    await Providers.ExhibitViewModelProvider.Instance.PrepareAsync(task.Result);
 
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                     {
@@ -26,13 +42,9 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                         await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                         {
-                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
                         });
-                    });
-                }
-                catch (System.Exception e)
-                {
-
+                    });                    
                 }
             });
         }

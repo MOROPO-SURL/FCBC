@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.Galleries.Scenes.Contract;
+using System.Linq;
 using Urho;
 
 namespace MOROPO.FCBC.Galleries.Scenes
@@ -42,7 +43,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             SetupMoveMarks();
 
-            SetupArtworkFrames(Providers.ArtworkModelProvider.Instance.GetImageRawModels());
+            SetupArtworkFrames(Providers.ExhibitViewModelProvider.Instance.GetExhibits());
 
             SetupIdentyFrames();
 
@@ -287,7 +288,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             roofLightComponent.LightType = LightType.Directional;
             roofLightComponent.Color = Color.White;
-            roofLightComponent.Brightness = 0.75f;
+            roofLightComponent.Brightness = 0.45f;
 
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
@@ -308,7 +309,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                         roofPointLightComponent.CastShadows = false;
                         roofPointLightComponent.Brightness = 0.15f;
                         roofPointLightComponent.Color = Color.White;
-                        roofPointLightComponent.Range = 150.0f;
+                        roofPointLightComponent.Range = 145.0f;
 
                         var roofLightLampNode = CreateChild();
 
@@ -337,7 +338,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     roofPointLightComponent.CastShadows = false;
                     roofPointLightComponent.Brightness = 0.15f;
                     roofPointLightComponent.Color = Color.White;
-                    roofPointLightComponent.Range = 150.0f;
+                    roofPointLightComponent.Range = 140.0f;
 
                     var roofLightLampNode = CreateChild();
 
@@ -532,34 +533,40 @@ namespace MOROPO.FCBC.Galleries.Scenes
             identityFrameComponent.Material = Material.FromImage("Textures/Identity_Primary_FCBC.jpg");
         }
 
-        private void SetupArtworkFrames(Models.Common.ImageCommonModel[] imageRawModels)
+        private void SetupArtworkFrames(Models.View.ExhibitViewModel[] exhibits)
         {
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
 
             var referenceFrameWidth = 80f;
 
-            int index = 0;
+            int index = 1;
 
             // North Wall
             for (int x = pivotNegative; x <= pivotPositive; ++x)
             {
                 if (x == 0 || x % 4 != 0) continue;
 
-                var item = imageRawModels[index++];
+                var exhibit = exhibits.FirstOrDefault(item => item.Index == index);
+
+                index += 1;
+
+                if (exhibit == null) continue;
 
                 var pictureFrameNode = CreateChild();
 
                 var frameWidth = referenceFrameWidth;
                 var frameHeight = frameWidth;
 
-                var zoom = (item.Width + item.Height) / 2 / frameWidth;
+                var artWork = exhibit.ArtWorks[0];
 
-                if (item.Width != item.Height)
+                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+
+                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
                 {
-                    frameWidth = item.Width / zoom;
+                    frameWidth = artWork.FeatureImage.Width / zoom;
 
-                    frameHeight = item.Height / zoom;
+                    frameHeight = artWork.FeatureImage.Height / zoom;
                 }
 
                 pictureFrameNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f);
@@ -569,7 +576,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 var urhoResourceImage = new Urho.Resources.Image();
 
-                using (var urhoBuffer = new MemoryBuffer(item.Data))
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
                     urhoResourceImage.Load(urhoBuffer);
 
                 boxObject.Model = CoreAssets.Models.Box;
@@ -581,20 +588,26 @@ namespace MOROPO.FCBC.Galleries.Scenes
             {
                 if (x == 0 || x % 4 != 0) continue;
 
-                var item = imageRawModels[index++];
+                var exhibit = exhibits.FirstOrDefault(item => item.Index == index);
+
+                index += 1;
+
+                if (exhibit == null) continue;
 
                 var pictureFrameNode = CreateChild();
 
                 var frameWidth = referenceFrameWidth;
                 var frameHeight = frameWidth;
 
-                var zoom = (item.Width + item.Height) / 2 / frameWidth;
+                var artWork = exhibit.ArtWorks[0];
 
-                if (item.Width != item.Height)
+                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+
+                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
                 {
-                    frameWidth = item.Width / zoom;
+                    frameWidth = artWork.FeatureImage.Width / zoom;
 
-                    frameHeight = item.Height / zoom;
+                    frameHeight = artWork.FeatureImage.Height / zoom;
                 }
 
                 pictureFrameNode.Position = new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f);
@@ -604,7 +617,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 var urhoResourceImage = new Urho.Resources.Image();
 
-                using (var urhoBuffer = new MemoryBuffer(item.Data))
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
                     urhoResourceImage.Load(urhoBuffer);
 
                 boxObject.Model = CoreAssets.Models.Box;
@@ -616,20 +629,26 @@ namespace MOROPO.FCBC.Galleries.Scenes
             {
                 if (x % 4 != 0) continue;
 
-                var item = imageRawModels[index++];
+                var exhibit = exhibits.FirstOrDefault(item => item.Index == index);
+
+                index += 1;
+
+                if (exhibit == null) continue;
 
                 var pictureFrameNode = CreateChild();
 
                 var frameWidth = referenceFrameWidth;
                 var frameHeight = frameWidth;
 
-                var zoom = (item.Width + item.Height) / 2 / frameWidth;
+                var artWork = exhibit.ArtWorks[0];
 
-                if (item.Width != item.Height)
+                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+
+                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
                 {
-                    frameWidth = item.Width / zoom;
+                    frameWidth = artWork.FeatureImage.Width / zoom;
 
-                    frameHeight = item.Height / zoom;
+                    frameHeight = artWork.FeatureImage.Height / zoom;
                 }
 
                 pictureFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
@@ -639,7 +658,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 var urhoResourceImage = new Urho.Resources.Image();
 
-                using (var urhoBuffer = new MemoryBuffer(item.Data))
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
                     urhoResourceImage.Load(urhoBuffer);
 
                 boxObject.Model = CoreAssets.Models.Box;
@@ -651,20 +670,26 @@ namespace MOROPO.FCBC.Galleries.Scenes
             {
                 if (x % 4 != 0) continue;
 
-                var item = imageRawModels[index++];
+                var exhibit = exhibits.FirstOrDefault(item => item.Index == index);
+
+                index += 1;
+
+                if (exhibit == null) continue;
 
                 var pictureFrameNode = CreateChild();
 
                 var frameWidth = referenceFrameWidth;
                 var frameHeight = frameWidth;
 
-                var zoom = (item.Width + item.Height) / 2 / frameWidth;
+                var artWork = exhibit.ArtWorks[0];
 
-                if (item.Width != item.Height)
+                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+
+                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
                 {
-                    frameWidth = item.Width / zoom;
+                    frameWidth = artWork.FeatureImage.Width / zoom;
 
-                    frameHeight = item.Height / zoom;
+                    frameHeight = artWork.FeatureImage.Height / zoom;
                 }
 
                 pictureFrameNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
@@ -674,7 +699,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 var urhoResourceImage = new Urho.Resources.Image();
 
-                using (var urhoBuffer = new MemoryBuffer(item.Data))
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
                     urhoResourceImage.Load(urhoBuffer);
 
                 boxObject.Model = CoreAssets.Models.Box;

@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.Galleries.Pages
+﻿using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
+
+namespace MOROPO.FCBC.Galleries.Pages
 {
     public partial class MainPage : SmartSolucionesCuba.XFToolKit.Mvvm.Pages.BindingContextedContentPage<Models.Page.MainPageModel>
     {
@@ -42,7 +44,7 @@
                         {
                             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                             {
-                                if (getGalleryTask.IsFaulted || getGalleryTask.IsCanceled)
+                                if (getExposuresTask.IsFaulted || getExposuresTask.IsCanceled)
                                 {
                                     Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getGalleryTask.Exception);
                                 }
@@ -55,6 +57,11 @@
                     }
                 });
             });
+        }
+
+        private void ExposureDetailButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPushPageAsync(new ExposureDetailPage(BindingContextPageModel.ImageSource, ((sender as Xamarin.Forms.BindableObject).BindingContext as SGI.API.Common.Models.ExposureDisplayApiModel).Id));
         }
     }
 }

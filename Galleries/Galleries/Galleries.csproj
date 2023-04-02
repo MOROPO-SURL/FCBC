@@ -44,10 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\View\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\SGI.API.Connect\SGI.API.Connect.csproj" />
   </ItemGroup>
 

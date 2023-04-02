@@ -7,10 +7,10 @@
         <ResourceDictionary>
             <Color x:Key="MainContrastTextColor">#cbab71</Color>
 
-            <Style TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="DarkBlue" />
-            </Style>
-            
+            <Style TargetType="Button" x:Key="HeaderButtonStyle">
+                <Setter Property="TextColor" Value="#9c4237" />
+                <Setter Property="BackgroundColor" Value="{StaticResource MainContrastTextColor}" />
+            </Style>            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

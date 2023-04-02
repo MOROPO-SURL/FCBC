@@ -14,6 +14,8 @@
 
         public System.DateTime? EndAt { get; set; }
 
+        public EmployeeDisplayApiModel[] Curators { get; set; }
+
         public void Import(Persistence.Entities.Exposure entity)
         {
             Id = entity.Id;

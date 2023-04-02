@@ -13,11 +13,6 @@
     BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style TargetType="Button" x:Key="HeaderButtonStyle">
-                <Setter Property="TextColor" Value="#9c4237" />
-                <Setter Property="BackgroundColor" Value="{StaticResource MainContrastTextColor}" />
-            </Style>
-            
             <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="240" ChildAbsoluteHorizontalMargin="10" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -29,7 +24,9 @@
                         <ffimageloadingforms:CachedImage
                             HeightRequest="{Binding Source={Reference HeaderContentContainer}, Path=Height}"
                             Aspect="AspectFill"
-                            Source="{Binding Path=ImageSource}" />
+                            Source="{Binding Path=ImageSource}"
+                            CacheType="Disk"
+                            CacheDuration="8760:00:00" />
                         <BoxView Color="#dd9c4237" />
                         <StackLayout
                             x:Name="HeaderContentContainer"
@@ -38,7 +35,8 @@
                             Margin="10,30">
                             <Label
                                 Text="Galería Amalia"
-                                FontSize="36"
+                                FontSize="40"
+                                FontAttributes="Bold"
                                 TextColor="{StaticResource MainContrastTextColor}"
                                 HorizontalTextAlignment="Center" />
                             <Label
@@ -108,7 +106,8 @@
                                             LineBreakMode="TailTruncation"
                                             MaxLines="3" />
                                         <Button
-                                            Text="Detalles" />
+                                            Text="Detalles"
+                                            Clicked="ExposureDetailButton_Clicked" />
                                     </StackLayout>
                                 </Frame>
                             </DataTemplate>

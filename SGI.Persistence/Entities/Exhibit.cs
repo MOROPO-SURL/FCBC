@@ -6,6 +6,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
     {
         public Exhibit()
         {
+            Id = System.Guid.NewGuid();
             ArtWorkBridges = new List<ExhibitArtWorkBridge>();
             CraftWorkBridges = new List<ExhibitCraftWorkBridge>();
             DesignWorkBridges = new List<ExhibitDesignWorkBridge>();

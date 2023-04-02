@@ -1,14 +1,21 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
     public class ExposureRepository : SAPRESSC.Core.Persistence.EF.Repositories.AbstractEntityRepository<Entities.Exposure, System.Guid>
     {
-        public ExposureRepository(Microsoft.EntityFrameworkCore.DbContext dbContext) : base(dbContext)
+        public ExposureRepository(DbContext dbContext) : base(dbContext)
         {
         }
 
-        public override System.Func<Exposure, object> GetPagingOrderSelector()
+        protected override IQueryable<Entities.Exposure> GetQueryableDbSet()
+        {
+            return base.GetQueryableDbSet()
+                .Include(entity => entity.EmployeeCuratorshipBridges).ThenInclude(bridge => bridge.Employee).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image);
+        }
+
+        public override System.Func<Entities.Exposure, object> GetPagingOrderSelector()
         {
             return entity => entity.CreatedAt;
         }
