@@ -21,6 +21,8 @@ namespace MOROPO.FCBC.Galleries.Presenters
         {
         }
 
+        public Models.Page.ExposureRoomPageModel ExposureRoomPageModel { get; set; }
+
         protected override void Start()
         {
             base.Start();
@@ -56,17 +58,11 @@ namespace MOROPO.FCBC.Galleries.Presenters
             base.OnUpdate(timeStep);
         }
 
-        public void PresentArtworkDetailById(System.Guid artWorkId)
+        public void PresentArtworkDetailFor(Models.View.ArtWorkViewModel model)
         {
             UnbindSceneEvents();
 
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
-            {
-                Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Aviso", string.Format("Mediante esta acción se mostrará una ventana flotante detallando la obra con el identifcador {0}.", artWorkId), "Aceptar").ContinueWith(_ => 
-                {
-                    BindSceneEvents();
-                });
-            });
+            ExposureRoomPageModel.TargetArtWork = model;
         }
 
         private void BindSceneEvents()

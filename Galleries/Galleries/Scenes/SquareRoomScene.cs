@@ -91,7 +91,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (artWorkFrame != null)
                 {
-                    presenter.PresentArtworkDetailById(artWorkFrame.ArtworkId);
+                    presenter.PresentArtworkDetailFor(artWorkFrame.ArtWork);
                 }
             }
         }
@@ -574,6 +574,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
 
+                boxObject.ArtWork = artWork;
+
                 var urhoResourceImage = new Urho.Resources.Image();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
@@ -614,6 +616,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
 
                 var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+
+                boxObject.ArtWork = artWork;
 
                 var urhoResourceImage = new Urho.Resources.Image();
 
@@ -656,6 +660,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
 
+                boxObject.ArtWork = artWork;
+
                 var urhoResourceImage = new Urho.Resources.Image();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
@@ -697,6 +703,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
 
+                boxObject.ArtWork = artWork;
+
                 var urhoResourceImage = new Urho.Resources.Image();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
@@ -714,11 +722,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
     internal class ArtworkFrame : StaticModel
     {
-        public ArtworkFrame()
-        {
-            ArtworkId = System.Guid.NewGuid();
-        }
-
-        public System.Guid ArtworkId { get; private set; }
+        public Models.View.ArtWorkViewModel ArtWork { get; set; }
     }
 }

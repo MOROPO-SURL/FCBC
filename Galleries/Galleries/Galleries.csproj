@@ -13,11 +13,13 @@
 
   <ItemGroup>
     <None Remove="Assets\Font\IconmonstrIconic.ttf" />
+    <None Remove="Assets\Font\materialdesignicons-webfont.ttf" />
     <None Remove="Assets\Image\DefaultGalleyBanner.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\Font\IconmonstrIconic.ttf" />
+    <EmbeddedResource Include="Assets\Font\materialdesignicons-webfont.ttf" />
     <EmbeddedResource Include="Assets\Image\DefaultGalleyBanner.jpg" />
   </ItemGroup>
 

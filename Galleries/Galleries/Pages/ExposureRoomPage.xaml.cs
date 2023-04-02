@@ -3,13 +3,13 @@ using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
 
 namespace MOROPO.FCBC.Galleries.Pages
 {
-    public partial class ExposureRoomPage : SmartSolucionesCuba.XFToolKit.Mvvm.Pages.ContentPage
+    public partial class ExposureRoomPage : SmartSolucionesCuba.XFToolKit.Mvvm.Pages.BindingContextedContentPage<Models.Page.ExposureRoomPageModel>
     {
         private readonly System.Guid exposureId;
 
         private Urho.Application virtualRoomPresenter;
 
-        public ExposureRoomPage(System.Guid exposureId)
+        public ExposureRoomPage(System.Guid exposureId) : base(new Models.Page.ExposureRoomPageModel { IsBusy = true })
         {
             this.exposureId = exposureId;
 
@@ -40,13 +40,14 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                     {
-                        MainActivityIndicator.IsRunning = false;
-                        MainActivityIndicator.IsVisible = false;
-
                         virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                         {
                             Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
                         });
+
+                        BindingContextPageModel.IsBusy = false;
+
+                        (virtualRoomPresenter as VirtualGalleryRoomPresenter).ExposureRoomPageModel = BindingContextPageModel;
                     });                    
                 }
             });
@@ -54,12 +55,19 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         protected override bool OnBackButtonPressed()
         {
-            DisplayAlert("Confirmar", "Está seguro que desea abandonar la sala?", "Abandonar", "Continuar").ContinueWith(task =>
+            if (BindingContextPageModel.TargetArtWork != null)
             {
-                if (!task.Result) return;
+                BindingContextPageModel.TargetArtWork = null;
+            }
+            else
+            {
+                DisplayAlert("Confirmar", "Está seguro que desea abandonar la sala?", "Abandonar", "Continuar").ContinueWith(task =>
+                {
+                    if (!task.Result) return;
 
-                Xamarin.Forms.Device.BeginInvokeOnMainThread(() => this.NavigationPopModalPageAsync());
-            });
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() => this.NavigationPopModalPageAsync());
+                });
+            }
 
             return true;
         }
