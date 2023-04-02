@@ -71,6 +71,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
                 var _model = new ArtWorkDisplayApiModel();
 
                 _model.Import(bridge.ArtWork);
+                
                 _model.FeatureImage = new ImageDisplayApiModel
                 {
                     Id = bridge.ArtWork.FeatureImageId.Value,
@@ -78,6 +79,21 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
                     Width = bridge.ArtWork.FeatureImage.Width,
                     Height = bridge.ArtWork.FeatureImage.Height
                 };
+                _model.ArtTechniques = bridge.ArtWork.TechniqueBridges.Select(bridg3 => new ArtTechniqueDisplayApiModel
+                {
+                    Id = bridg3.TechniqueId,
+                    Name = bridg3.Technique.Name,
+                    Description = bridg3.Technique.Description
+                }).ToArray();
+                _model.Creators = bridge.ArtWork.CreatorBridges.Select(bridg3 => new CreatorDisplayApiModel
+                {
+                    Id = bridg3.CreatorId,
+                    Name = bridg3.Creator.Identity.Name,
+                    LastName = bridg3.Creator.Identity.LastName,
+                    Sex = bridg3.Creator.Identity.Sex,
+                    ImageId = bridg3.Creator.Identity.ImageId,
+                    ImageExtension = bridg3.Creator.Identity.Image?.ContentType.ContentTypeToExtension()
+                }).ToArray();
 
                 return _model;
             }).ToArray();

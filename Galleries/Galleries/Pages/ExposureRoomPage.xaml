@@ -4,14 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
     xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
+    xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
+    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     xmlns:urho="clr-namespace:Urho.Forms;assembly=UrhoSharp.Forms"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExposureRoomPage"
     x:TypeArguments="pagemodels:ExposureRoomPageModel">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converters:CreatorDisplayApiModelToImageSourceConverter x:Key="CreatorDisplayApiModelToImageSourceConverter" />
+
             <sscxftoolkitpresentationconverters:NotNullToBooleanConverter x:Key="NotNullToBooleanConverter" />
+            <sscxftoolkitpresentationconverters:EnumerationToJoinedStringBindingConverter x:Key="EnumerationToJoinedStringBindingConverter" Placeholder="No se defnieron tecnícas para esta obra" Separator=", " />
 
             <Style TargetType="Label" x:Key="FieldCaptionLabel">
                 <Setter Property="TextColor" Value="DimGray" />
@@ -30,10 +35,57 @@
                 IsVisible="{Binding Path=TargetArtWork, Converter={StaticResource NotNullToBooleanConverter}}"
                 BackgroundColor="#f8ffffff">
                 <StackLayout Spacing="0">
-                    <Label Text="Título" Style="{StaticResource FieldCaptionLabel}" />
+                    <Label Text="Autor" Style="{StaticResource FieldCaptionLabel}" Margin="0,0,0,4" />
+                    <StackLayout
+                        BindableLayout.ItemsSource="{Binding Path=TargetArtWork.Creators}">
+                        <BindableLayout.EmptyView>
+                            <Label
+                                Margin="5"
+                                Text="No hay creadores especificados en este momento"
+                                TextColor="DimGray" />
+                        </BindableLayout.EmptyView>
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <icplugin:CircleImage
+                                        Grid.Column="0"
+                                        VerticalOptions="Center"
+                                        HeightRequest="48" WidthRequest="48"
+                                        Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
+                                        BorderThickness="2"
+                                        BorderColor="Snow" />
+                                    <StackLayout 
+                                        Grid.Column="1"
+                                        Spacing="0"
+                                        VerticalOptions="Center">                                        
+                                        <Label 
+                                            Grid.Column="1" Grid.Row="0"
+                                            VerticalOptions="Center"
+                                            FontSize="Medium"
+                                            Text="{Binding Path=Name}" />
+                                        <Label 
+                                            Grid.Column="1" Grid.Row="1"
+                                            VerticalOptions="Center"
+                                            Text="{Binding Path=LastName}" />
+                                    </StackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                    <Label Text="Título" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
                     <Label 
                         Text="{Binding Path=TargetArtWork.Title}"
-                        FontSize="Medium" />
+                        FontSize="Large" />
+                    <Label Text="Técnica" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
+                    <Label 
+                        Text="{Binding Path=TargetArtWork.ArtTechniques, Converter={StaticResource EnumerationToJoinedStringBindingConverter}}" />
+                    <Label Text="Año" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
+                    <Label 
+                        Text="{Binding Path=TargetArtWork.Year}" />
                 </StackLayout>
             </Frame>
                 

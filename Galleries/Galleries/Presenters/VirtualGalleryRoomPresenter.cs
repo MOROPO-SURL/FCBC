@@ -65,7 +65,7 @@ namespace MOROPO.FCBC.Galleries.Presenters
             ExposureRoomPageModel.TargetArtWork = model;
         }
 
-        private void BindSceneEvents()
+        public void BindSceneEvents()
         {
             Input.TouchBegin += scene.SceneInput_TouchBegin;
             Input.TouchEnd += scene.SceneInput_TouchEnd;

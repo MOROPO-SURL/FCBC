@@ -7,7 +7,7 @@ namespace MOROPO.FCBC.Galleries.Pages
     {
         private readonly System.Guid exposureId;
 
-        private Urho.Application virtualRoomPresenter;
+        private VirtualGalleryRoomPresenter virtualRoomPresenter;
 
         public ExposureRoomPage(System.Guid exposureId) : base(new Models.Page.ExposureRoomPageModel { IsBusy = true })
         {
@@ -47,7 +47,7 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                         BindingContextPageModel.IsBusy = false;
 
-                        (virtualRoomPresenter as VirtualGalleryRoomPresenter).ExposureRoomPageModel = BindingContextPageModel;
+                        virtualRoomPresenter.ExposureRoomPageModel = BindingContextPageModel;
                     });                    
                 }
             });
@@ -58,6 +58,8 @@ namespace MOROPO.FCBC.Galleries.Pages
             if (BindingContextPageModel.TargetArtWork != null)
             {
                 BindingContextPageModel.TargetArtWork = null;
+
+                virtualRoomPresenter.BindSceneEvents();
             }
             else
             {

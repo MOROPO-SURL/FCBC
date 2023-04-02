@@ -1,4 +1,5 @@
 ﻿using FFImageLoading;
+using System.Linq;
 
 namespace MOROPO.FCBC.Galleries.Providers
 {
@@ -36,7 +37,10 @@ namespace MOROPO.FCBC.Galleries.Providers
                         FeatureImage = new Models.View.ImageViewModel
                         {
                             Id = _model.FeatureImage.Id
-                        }
+                        },
+                        Creators = _model.Creators,
+                        ArtTechniques = _model.ArtTechniques.Select(item => item.ToString()).ToArray(),
+                        Year = _model.Year
                     };
 
                     var url = string.Format("{0}media/images/{1}.{2}", Constants.Networking.SGI_BASE_URL, _model.FeatureImage.Id, _model.FeatureImage.Extension);
