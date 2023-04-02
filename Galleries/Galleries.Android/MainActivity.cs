@@ -19,6 +19,8 @@ namespace MOROPO.FCBC.Galleries.Droid
 
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
 
+            ImageCircle.Forms.Plugin.Droid.ImageCircleRenderer.Init();
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

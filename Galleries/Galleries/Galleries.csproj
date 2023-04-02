@@ -12,17 +12,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Images\DefaultGalleyBanner.jpg" />
+    <None Remove="Assets\Font\IconmonstrIconic.ttf" />
+    <None Remove="Assets\Image\DefaultGalleyBanner.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Images\DefaultGalleyBanner.jpg" />
+    <EmbeddedResource Include="Assets\Font\IconmonstrIconic.ttf" />
+    <EmbeddedResource Include="Assets\Image\DefaultGalleyBanner.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
     <PackageReference Include="SSCXFToolKit.Mvvm" Version="0.4.10-alpha" />
     <PackageReference Include="SSCXFToolKit.Presentation" Version="0.6.2" />
     <PackageReference Include="UrhoSharp.Forms" Version="1.9.67" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />

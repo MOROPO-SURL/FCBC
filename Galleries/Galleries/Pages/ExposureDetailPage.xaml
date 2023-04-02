@@ -4,15 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
     xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
+    xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
     xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExposureDetailPage"
     x:TypeArguments="pagemodels:ExposureDetailPageModel"
     Title="Exposición"
     BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converters:EmployeeDisplayApiModelToImageSourceConverter x:Key="EmployeeDisplayApiModelToImageSourceConverter" />
+
             <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="160" ChildAbsoluteHorizontalMargin="10" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -88,18 +92,23 @@
                             <DataTemplate>
                                 <Grid
                                     Margin="5" Padding="0"
-                                    BackgroundColor="WhiteSmoke"
-                                    WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}"
-                                    HeightRequest="120">
-                                    <StackLayout Margin="20,15">
+                                    WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                                    <StackLayout Margin="0,8" Spacing="0">
+                                        <icplugin:CircleImage
+                                            Grid.Column="0"
+                                            HorizontalOptions="Center"
+                                            HeightRequest="96" WidthRequest="96"
+                                            Source="{Binding Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
+                                            BorderThickness="3"
+                                            BorderColor="Snow" />
                                         <Label 
                                             Text="{Binding Path=Name}"
-                                            FontSize="Large" />
+                                            HorizontalTextAlignment="Center"
+                                            FontSize="Medium" />
                                         <Label
                                             VerticalOptions="StartAndExpand"
                                             Text="{Binding Path=LastName}"
-                                            LineBreakMode="TailTruncation"
-                                            MaxLines="3" />
+                                            HorizontalTextAlignment="Center" />
                                     </StackLayout>
                                 </Grid>
                             </DataTemplate>

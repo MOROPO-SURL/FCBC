@@ -58,8 +58,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="SkiaSharp.Views.Forms">
+      <Version>2.80.3</Version>
+    </PackageReference>
     <PackageReference Include="UrhoSharp.Forms">
       <Version>1.9.67</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
+      <Version>3.0.0.5</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>

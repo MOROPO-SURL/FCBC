@@ -51,6 +51,8 @@ namespace MOROPO.FCBC.Galleries.UWP
 
                 FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
+                ImageCircle.Forms.Plugin.UWP.ImageCircleRenderer.Init();
+
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
