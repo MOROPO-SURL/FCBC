@@ -29,7 +29,7 @@
 <h3>Esta seguro que desea eliminar la manifestación de artes plásticas detallada a continuación?</h3>
 <dl>
     
-    <dt>@Html.DisplayNameFor(model => model.Name)</dt>    
+    <dt>Nombre</dt>    
     <dd>@Html.DisplayFor(model => model.Name)</dd>    
 </dl>
 @using (Html.BeginForm("delete", "artisticmanifestations", new { Area = "manifestations", key = string.Empty }, FormMethod.Post, true, null))
@@ -37,6 +37,6 @@
     @Html.HiddenFor(model => model.Id)
     <div>
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
     </div>
 }

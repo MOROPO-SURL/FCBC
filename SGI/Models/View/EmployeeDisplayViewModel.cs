@@ -12,7 +12,7 @@ namespace MOROPO.FCBC.SGI.Models.View
     {
         public System.Guid Id { get; set; }
 
-        public System.Guid ImageId { get; set; }
+        public System.Guid? ImageId { get; set; }
 
         public string ImageExtension { get; set; }
 
@@ -54,7 +54,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(Employee entity)
         {
             Id = entity.Id;
-            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
+            ImageId = entity.Identity.ImageId;
             ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
             Name = entity.Identity.Name;
             LastName = entity.Identity.LastName;
@@ -65,7 +65,9 @@ namespace MOROPO.FCBC.SGI.Models.View
             About = entity.Identity.About;            
             EmployeeAdministrativeRoleBridges = entity.AdministrativeRoleBridges;
             AddressPostal = entity.Identity.PersonPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
+            
             var region = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region;
+            
             Municipality = ((MunicipalityRegion)region).Municipality;
             State = Municipality.State;
         }

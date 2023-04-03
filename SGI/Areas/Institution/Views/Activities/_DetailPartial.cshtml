@@ -12,31 +12,27 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
+                    <h5>@Html.DisplayNameFor(model => model.Name)</h5>
+                    <p>@Model.Name</p>
                     <div class="row">
-                        <div class="col-md-4">
-                            <h5>@Html.DisplayNameFor(model => model.Name)</h5>
-                            <p>@Model.Name</p>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <h5>@Html.DisplayNameFor(model => model.ActivityKindName)</h5>
                             <p>@Model.ActivityKindName</p>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <h5>@Html.DisplayNameFor(model => model.PlanedAt)</h5>
                             <p>@Html.DisplayName(Model.PlanedAt.ToString())</p>
                         </div>
                     </div>
-                    <hr />
                     <div class="row">
                         <div class="col-md-12">
                             <h5>@Html.DisplayNameFor(model => model.Description)</h5>
                             @if (Model.Description != null)
                             {
-                                <p>@Html.DisplayName(Model.Description)</p>
+                                <span>@Html.DisplayName(Model.Description)</span>
                             }else{
-                                <p>-</p>
-                            }
-                            
+                                <span>--</span>
+                            }                            
                         </div>
                     </div>
                 </div>

@@ -19,19 +19,8 @@
     Layout = "_BackendLayout";
 }
 
-@section styles {
-    <style type="text/css">
-        .integrity-icon {
-            font-size: 18px;
-            top: 2px;
-            margin-left: 8px;
-            margin-right: 8px;
-        }
-    </style>
-}
-
-    <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
-    <div class="clearfix" style="margin-bottom: 20px;"></div>
+<a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+<div class="clearfix mb-3"></div>
 
 @if (Model.MaxPageCount > 0)
 {
@@ -166,7 +155,7 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Descripción</th>
+                    <th>Símbolo</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>

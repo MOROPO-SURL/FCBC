@@ -1,6 +1,6 @@
-﻿@model MOROPO.FCBC.SGI.Models.View.ArtWorkCriterionManageViewModel
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtWorkValorationsViewModel
 
-<div class="modal fade" id="add-criterion-@Model.WorkDisplay.Id" tabindex="-1" role="dialog" aria-hidden="true">
+@*<div class="modal fade" id="add-criterion-@Model.Work.Id" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,7 +12,7 @@
             @using (Html.BeginForm("AddWorkCriterion", "ArtWorks", null, FormMethod.Post, true, null))
             {
                 <div class="modal-body">
-                    @Html.HiddenFor(model => model.WorkDisplay.Id)
+                    @Html.HiddenFor(model => model.Work.Id)
 
                     <div class="row">
                         <div class="col-md-6" style="margin-bottom: 20px;">
@@ -42,5 +42,5 @@
             }
         </div>
     </div>
-</div>
+</div>*@
 

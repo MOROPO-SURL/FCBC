@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.EmployeeContactsManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Trabajador";
+    ViewData["Title"] = "Modificar Trabajador";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -49,41 +49,20 @@
             </ul>
         </div>
         
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
-                    <div class="card">
-                        @if (Model.Employee.ImageId != System.Guid.Empty)
-                        {
-                            <img class="img-thumbnail" src="~/media/images/@Model.Employee.ImageId.@Model.Employee.ImageExtension" />
-                        }
-                        else
-                        {
-                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg">
-                        }
+        <div class="card-body pb-0">
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Employee)
 
-                        <div class="col-lg-10 col-md-9 col-sm-9">
-                            <dl style="margin-bottom: 0;">
-                                <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
-                                <dd>@Model.Employee.Name</dd>
-                            <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("LastName", ViewLocalizer)</dt>
-                            <dd>@Model.Employee.LastName</dd>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
-                <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="col-md-6 mb-3">
                     <div class="page-header">
                     <h4>Teléfonos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-phonecontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                     </div>
 
 
-                @await Html.PartialAsync("AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.EmployeePhoneContactInputViewModel
-                        {
+                    @await Html.PartialAsync("AddPhoneContactPartial", new MOROPO.FCBC.SGI.Models.View.EmployeePhoneContactInputViewModel
+                    {
                         EmployeeId = Model.Employee.Id
-                        })
+                    })
                     
                     <table class="table" style="margin: 0;">
                         <thead>
@@ -117,14 +96,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="col-md-6 mb-3">
                     <div class="page-header">
                     <h4>Correos Electrónicos<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-nautacontact"><span class="mdi mdi-plus"></span> Agregar</a></h4>
                     </div>
-                @await Html.PartialAsync("AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.EmployeeEmailContactInputViewModel
-                        {
+                    @await Html.PartialAsync("AddEmailContactPartial", new MOROPO.FCBC.SGI.Models.View.EmployeeEmailContactInputViewModel
+                    {
                         EmployeeId = Model.Employee.Id
-                        })
+                    })
                     <table class="table" style="margin: 0;">
                         <thead>
                             <tr>
@@ -157,8 +136,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            
+            </div>            
         </div>
     <div class="card-footer">
         <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>

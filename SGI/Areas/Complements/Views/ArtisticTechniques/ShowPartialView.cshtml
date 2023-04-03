@@ -13,19 +13,15 @@
             <div class="modal-body">
                 <h5>@Html.DisplayNameFor(model => model.Name)</h5>
                 <p>@Model.Name</p>
-                <hr />
                 <h5>@Html.DisplayNameFor(model => model.Description)</h5>
                 @if (Model.Description != null)
                 {
-                    <p>@Html.DisplayName(Model.Description)</p>
+                    <span>@Html.DisplayName(Model.Description)</span>
                 }
                 else
                 {
-                    <p>-</p>
+                    <span>--</span>
                 }
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

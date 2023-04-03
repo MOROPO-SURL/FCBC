@@ -34,6 +34,10 @@
             height: 0;
             overflow: hidden;
         }
+        .disabled>div{
+            pointer-events: none;
+            opacity: 0.5;
+        }
     </style>
 }
 
@@ -62,16 +66,37 @@
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: null
+            value: null,
+            change: function (e) {
+                $("#expiration-date").removeClass("disabled");
+                var creationDate = new Date(this.value.replace(/(\d+[/])(\d+[/])/, '$2$1'));
+                var minDate = new Date(creationDate.setDate(creationDate.getDate() + 1));
+                var expirationDate = new Date(expirationDatepicker.value().replace(/(\d+[/])(\d+[/])/, '$2$1'));
+                
+                var expirationValue = expirationDatepicker.value();
+                if(expirationValue != null && expirationDate <= creationDate){
+                    expirationValue = null;
+                }
+                expirationDatepicker.destroy();
+                $('#RegistrationEndAt').datepicker({
+                    uiLibrary: 'bootstrap4',
+                    modal: true,
+                    header: true,
+                    footer: true,
+                    format: 'dd/mm/yyyy',
+                    value: expirationValue,
+                    minDate: minDate
+                });
+            }
         });
 
-        $('#RegistrationEndAt').datepicker({
+        var expirationDatepicker = $('#RegistrationEndAt').datepicker({
             uiLibrary: 'bootstrap4',
             modal: true,
             header: true,
             footer: true,
             format: 'dd/mm/yyyy',
-            value: null
+            value: null,
         });
 
         $(function () {
@@ -188,22 +213,22 @@
             </div>
             <fieldset>
                 <legend class="border-bottom">Registro del Creador</legend>
-                <div class=row>
+                <div class="row">
                     <div class="col-md-6" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.RegistrationNumber, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class=row>
+                <div class="row">
                     <div class="col-md-6 mb-3 mb-md-0" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.RegistratedAt, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.RegistratedAt, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.RegistratedAt, null, new { @class = "text-danger" })
                     </div>
-                    <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div id="expiration-date" class="col-md-6 disabled" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.RegistrationEndAt, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.RegistrationEndAt, new { @class = "form-control " })
                         @Html.ValidationMessageFor(model => model.RegistrationEndAt, null, new { @class = "text-danger" })
                     </div>
                 </div>

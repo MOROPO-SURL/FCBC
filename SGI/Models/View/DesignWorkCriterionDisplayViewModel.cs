@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class DesignWorkCriterionDisplayViewModel: WorkCriterionDisplayViewModel
+    public class DesignWorkCriterionDisplayViewModel: ValorationDisplayViewModel
     {
     }
 }

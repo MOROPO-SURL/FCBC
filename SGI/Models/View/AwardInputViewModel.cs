@@ -11,11 +11,14 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "Country")]
-        public System.Guid? CountryId { get; set; }
+        //[Required(ErrorMessage = "RequiredValidationErrorMessage")]
+        //[Display(Name = "Country")]
+        //public System.Guid? CountryId { get; set; }
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Countries { get; set; }
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        //public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Countries { get; set; }
 
         public Award Export()
         {
@@ -30,12 +33,14 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             Id = entity.Id;
             Name = entity.Name;
-            CountryId = entity.Country.Id;
+            Description = entity.Description;
+            //CountryId = entity.Country.Id;
         }
 
         public void Mergue(Award entity)
         {
             entity.Name = Name;
+            entity.Description = Description;
         }
     }
 }

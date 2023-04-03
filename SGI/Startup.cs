@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Options;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
@@ -18,6 +17,7 @@ using MOROPO.SAPRESSC.Middleware.Security.Essential.Persistence.EF.Extensions;
 using MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Backend.Extensions;
 using MOROPO.SAPRESSC.Middleware.Security.Essential.Web.Common.Extensions;
 using Serilog;
+using SmartSolucionesCuba.AspNetCore.Authentication.ApiKey.Extensions;
 using System;
 using System.Linq;
 
@@ -95,6 +95,11 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<ArtistAttachment, Guid>, ArtistAttachmentRepository>();
             services.AddScoped<IEntityRepository<CreationGroupAttachment, Guid>, CreationGroupAttachmentRepository>();
             services.AddScoped<IEntityRepository<ContractorAttachment, Guid>, ContractorAttachmentRepository>();
+            services.AddScoped<IEntityRepository<ArtWorkValoration, Guid>, ArtWorkValorationRepository>();
+            services.AddScoped<IEntityRepository<ApiKey, Guid>, ApiKeyRepository>();
+            services.AddScoped<IEntityRepository<Gallery, GalleryId>, GalleryRepository>();
+            services.AddScoped<IEntityRepository<Exposure, Guid>, ExposureRepository>();
+            services.AddScoped<IEntityRepository<Exhibit, Guid>, ExhibitRepository>();
 
             services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();
@@ -102,8 +107,9 @@ namespace MOROPO.FCBC.SGI
 
             services.AddSingleton<SAPRESSC.Core.Persistence.EF.Providers.Facade.IDbSchemaConfigurationProviderFacade, Persistence.EF.Providers.ApplicationDbSchemaConfigurationProvider>();
 
-            services.AddSingleton<SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper, Helpers.ApplicationDataInitializationHelper>();      
-                   
+            services.AddSingleton<SAPRESSC.Core.Persistence.EF.Helpers.Facade.IDataInitializationHelper, Helpers.ApplicationDataInitializationHelper>();
+
+            services.AddHttpContextAccessor();
 
             services.AddAuthentication(config =>
             {
@@ -114,19 +120,11 @@ namespace MOROPO.FCBC.SGI
                 config.AccessDeniedPath = new PathString("/security/error/forbidden");
                 config.LoginPath = new PathString("/security/account/login");
             })
-            .AddJwtBearer(config =>
+            .AddApiKeyInHeaderOrQueryParams<Providers.ApiKeySessionProvider>(SmartSolucionesCuba.AspNetCore.Authentication.ApiKey.ApiKeyAuthenticationDefaults.AuthenticationScheme, options =>
             {
-                config.RequireHttpsMetadata = false;
-                config.SaveToken = true;
-                config.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidIssuer = configuration["JWT:Issuer"],
-                    ValidAudience = configuration["JWT:Issuer"],
-                    ValidateLifetime = false,
-                    RequireExpirationTime = false,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["JWT:Key"])),
-                    ClockSkew = System.TimeSpan.Zero
-                };
+                options.Realm = "FCBC Camagüey SGI Restfull API";
+                options.KeyName = API.Common.Constants.Authorization.API_KEY_HEADER_PROPERTY;
+                options.SuppressWWWAuthenticateHeader = true;
             });
 
             #region SAPRESSC.Core.Security concreter dependencies configuration
@@ -178,6 +176,33 @@ namespace MOROPO.FCBC.SGI
             services.AddDataProtection().PersistKeysToFileSystem(new System.IO.DirectoryInfo(System.IO.Path.Combine(env.ContentRootPath, "dpkeys")));
 
             services.AddSingleton<Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider, Microsoft.AspNetCore.Mvc.ViewFeatures.CookieTempDataProvider>();
+
+            var openApiSecurityScheme = new Microsoft.OpenApi.Models.OpenApiSecurityScheme()
+            {
+                Description = string.Format("Authorization Header \"{0}: {1}\"", API.Common.Constants.Authorization.API_KEY_HEADER_PROPERTY, "{token}"),
+                Name = "Authorization",
+                In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+            };
+
+            services.AddSingleton(openApiSecurityScheme);
+
+            services.AddSwaggerGen(setup =>
+            {
+                setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "FCBC Camagüey SGI Restfull API",
+                    Version = "v1"
+                });
+                setup.DocInclusionPredicate((string stringParam, Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription apiDescription) =>
+                {
+                    return apiDescription.RelativePath.StartsWith("api/");
+                });
+                setup.AddSecurityDefinition(API.Common.Constants.Authorization.API_KEY_HEADER_PROPERTY, openApiSecurityScheme);
+                setup.OperationFilter<Filters.Swagger.OperationSwaggerFilter>();
+                setup.EnableAnnotations();
+                setup.IgnoreObsoleteActions();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Microsoft.Extensions.Options.IOptions<RequestLocalizationOptions> requestLocalizationOptions, Microsoft.Extensions.Logging.ILoggerFactory loggerFactory, DbContext dbContext)
@@ -218,6 +243,16 @@ namespace MOROPO.FCBC.SGI
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseSession();
+
+            app.UseSwagger(setup =>
+            {
+                setup.RouteTemplate = "api/docs/{documentName}/swagger.json";
+            });
+            app.UseSwaggerUI(setup =>
+            {
+                setup.SwaggerEndpoint("/api/docs/v1/swagger.json", "FCBC Camagüey SGI Restfull API v1");
+                setup.RoutePrefix = "api/docs";
+            });
 
             app.UseMvc(routes =>
             {

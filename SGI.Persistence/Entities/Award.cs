@@ -19,8 +19,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("CountryId")]
         public Country Country { get; set; }
+        public Guid? CountryId { get; set; }
 
-        [Required]
-        public Guid CountryId { get; set; }
+        public string Description { get; set; }
     }
 }

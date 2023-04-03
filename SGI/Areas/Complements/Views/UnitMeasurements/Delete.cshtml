@@ -35,7 +35,7 @@
     <dt>@Html.DisplayNameFor(model => model.Symbol)</dt>
     <dd>@Html.DisplayFor(model => model.Symbol)</dd>
 </dl>
-@using (Html.BeginForm("delete", "administrativeroles", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
+@using (Html.BeginForm("delete", "unitmeasurements", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
 {
     @Html.HiddenFor(model => model.Id)
     <div>

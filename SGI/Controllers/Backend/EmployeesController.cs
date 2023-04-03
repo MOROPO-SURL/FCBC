@@ -89,7 +89,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [RequirePermissions(Permission.EmployeeEditor)]
-        public override IActionResult Edit( System.Guid key)
+        public override IActionResult Edit(Guid key)
         {
             return base.Edit(key);
         }
@@ -117,7 +117,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [RequirePermissions(Permission.EmployeeRemover)]
-        public override IActionResult Delete(System.Guid key)
+        public override IActionResult Delete(Guid key)
         {
             return base.Delete(key);
         }
@@ -131,7 +131,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpGet("PopulateStateToMunicipality/{stateId}")]
         public IActionResult PopulateStateToMunicipality(string stateId)
         {
-            var stateIdParse = System.Guid.Parse(stateId);
+            var stateIdParse = Guid.Parse(stateId);
 
             var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
             return Ok(municipalities);
@@ -140,7 +140,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [HttpGet("edit/PopulateStateToMunicipalityEdit/{stateId}")]
         public IActionResult PopulateStateToMunicipalityEdit(string stateId)
         {
-            var stateIdParse = System.Guid.Parse(stateId);
+            var stateIdParse = Guid.Parse(stateId);
 
             var municipalities = municipalityRepository.GetAll().Where(entity => entity.StateId == stateIdParse).ToList();
             return Ok(municipalities);
@@ -222,10 +222,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountriesEdit(inputViewModel);
 
             var contact = entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem;
+            
             contact.Address = inputViewModel.AddressPostal;
+            
             var region = municipalityRegionRepository.GetAll().FirstOrDefault(p => p.MunicipalityId == inputViewModel.MunicipalityId);
             var municipality = municipalityRepository.GetAll().FirstOrDefault(p => p.Id == inputViewModel.MunicipalityId);
+            
             inputViewModel.StateId = municipality.StateId;
+            
             if (region.Id != entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.RegionId)
             {
                 entity.Identity.PersonPostalContactItemBridges.FirstOrDefault().ContactItem.Region = region;
@@ -300,7 +304,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         protected override void ConfigurePostFailCreateValidation(EmployeeInputViewModel modelInput)
         {
-            
+            PopulateWithCountries(modelInput);
         }
 
         protected override void ConfigureEdit(Employee entity, EmployeeInputViewModel modelInput)
@@ -308,14 +312,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountriesEdit(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(EmployeeInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(Employee entity, EmployeeInputViewModel modelInput)
         {
-           
+            PopulateWithCountriesEdit(modelInput);
         }
 
+        #region Contacts
         [Route("edit/{key}/contacts")]
         [RequirePermissions(Permission.EmployeeEditor)]
-        public IActionResult Contacts(System.Guid key)
+        public IActionResult Contacts(Guid key)
         {
             try
             {
@@ -541,11 +546,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             return RedirectToAction("contacts", new { key = entity.Id });
         }
+        #endregion
 
-
+        #region Administrative Roles
+        [HttpGet]
         [Route("edit/{key}/administrativeroles")]
         [RequirePermissions(Permission.EmployeeEditor)]
-        public IActionResult AdministrativeRoles(System.Guid key)
+        public IActionResult AdministrativeRoles(Guid key)
         {
             try
             {
@@ -553,67 +560,68 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 var roles = administrativeRoleRepository.GetAll().ToArray();
 
-                var resultModel = new EmployeeAdministrativeRolesInputViewModel
+                var model = new EmployeeAdministrativeRolesInputViewModel
                 {
                     SelectableRoles = roles.Select(role => new SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<Guid>
                     {
                         Id = role.Id,
                         Label = role.Name,
                         Description = role.Description,
-                        Selected = entity.EmployeeAdministrativeRoleBridges.Any(bridge => bridge.RoleId == role.Id)
+                        Selected = entity.AdministrativeRoleBridges.Any(bridge => bridge.RoleId == role.Id)
                     }).ToList(),
-                    EmployeeId = key
+                    Employee = new EmployeeDisplayViewModel()
+                };
 
-                };                
+                model.Employee.Import(entity);
 
-                return View(resultModel);
+                return View(model);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
 
         [RequirePermissions(Permission.EmployeeEditor)]
         [HttpPost]
+        [Route("edit/{key}/administrativeroles")]
         [ValidateAntiForgeryToken]
-        public IActionResult AddadministrativeRoles(EmployeeAdministrativeRolesInputViewModel modelInput)
+        public IActionResult AddadministrativeRoles(Guid key, EmployeeAdministrativeRolesInputViewModel modelInput)
         {
             Employee entity = null;
 
             try
             {
-                entity = Repository.Get(modelInput.EmployeeId);
+                entity = Repository.Get(key);
             }
             catch { }
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
             if (ModelState.IsValid)
             {
-
-                entity.EmployeeAdministrativeRoleBridges.Clear();
+                entity.AdministrativeRoleBridges.Clear();
 
                 foreach (var admRolId in modelInput.SelectableRoles.Where(r => r.Selected == true).Select(e => e.Id))
                 {
                     var admRole = this.administrativeRoleRepository.Get(admRolId);
                    
                     var EmployeeAdministrativeRoleBridge = new EmployeeAdministrativeRoleBridge { EmployeeId = entity.Id, RoleId = admRolId, Role = admRole, Employee = entity };
-                    entity.EmployeeAdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
+                    entity.AdministrativeRoleBridges.Add(EmployeeAdministrativeRoleBridge);
 
                 }
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -629,10 +637,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("administrativeroles", new { key = entity.Id });
         }
+        #endregion
     }
 }

@@ -11,8 +11,6 @@
 
         public System.Collections.Generic.ICollection<EmployeeAdministrativeRoleBridge> AdministrativeRoleBridges { get; set; }
 
-        public System.Collections.Generic.ICollection<EmployeeAdministrativeRoleBridge> EmployeeAdministrativeRoleBridges { get; set; }
-
         public Employee()
         {
             Id = System.Guid.NewGuid();

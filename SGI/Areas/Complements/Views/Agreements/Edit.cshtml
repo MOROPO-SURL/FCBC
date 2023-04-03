@@ -56,25 +56,27 @@
 
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="col-md-2 col-sm-1 mb-3">
                     @Html.LabelFor(model => model.Number, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.Number, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Number, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="col-md-10 col-sm-11 mb-3">
+                    @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Title, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-3">
                     @Html.LabelFor(model => model.ReleaseAt, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.ReleaseAt, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ReleaseAt, null, new { @class = "text-danger" })
                 </div>
             </div>
-            <div style="margin-bottom: 20px;">
-                @Html.LabelFor(model => model.Title, new { @class = "control-label" })
-                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Title, null, new { @class = "text-danger" })
-            </div>
             <div>
                 @Html.LabelFor(model => model.Description, new { @class = "control-label" })
-                @Html.TextAreaFor(model => model.Description, 6, 0, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Description, 5, 0, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
             </div>
         </div>

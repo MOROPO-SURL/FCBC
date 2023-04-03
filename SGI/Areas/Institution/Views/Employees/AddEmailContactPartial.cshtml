@@ -15,12 +15,12 @@
                     @Html.HiddenFor(model => model.EmployeeId)
 
                     <div class="row">
-                        <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-md-6 mb-md-1 mb-sm-3">
                             @Html.LabelFor(model => model.Label, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.Label, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Label, null, new { @class = "text-danger" })
                         </div>
-                        <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-md-6">
                             @Html.LabelFor(model => model.Address, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Address, null, new { @class = "text-danger" })

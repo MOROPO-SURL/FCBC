@@ -33,16 +33,15 @@
     </style>
 }
 @{
-    <div class="row" style="margin-bottom: 20px;">
-        <div class="col-sm-4">
-            @await Html.PartialAsync("CriticsFilterPartial", Model.Filter)
-        </div>
-        <div class="col-sm-8">
-            <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
-        </div>
+<div class="row mb-5">
+    <div class="col-lg-4 col-md-6 col-sm-10">
+        @await Html.PartialAsync("CriticsFilterPartial", Model.Filter)
     </div>
-    }
-    <div class="clearfix" style="margin-bottom: 20px;"></div>
+    <div class="col-lg-8 col-md-6 col-sm-2">
+        <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+    </div>
+</div>
+}
 
 @if (Model.MaxPageCount > 0)
 {
@@ -148,32 +147,40 @@
         {
             <div class="card border-primary mb-2 d-block d-sm-none">
                 <div class="card-body">
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Nombre:
-                        </span>
-                        @item.Name
-                    </div>
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Apellidos:
-                        </span>
-                        @item.LastName
-                    </div>
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Sexo:
-                        </span>
-                        @Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.Sex.ToString(), ViewLocalizer))
-                    </div>
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Estado civil:
-                        </span>
-                        @Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.CivilStatus.ToString(), ViewLocalizer))
+                    <div class="row">
+                        <div class="col-4">
+                            @if (item.ImageId != null)
+                            {
+                                <img class="img-thumbnail rounded-circle" src="~/media/images/@item.ImageId.@item.ImageExtension" />
+                            }
+                            else
+                            {
+                                <img class="img-thumbnail rounded-circle" src="~/img/default-person-picture.jpg" />
+                            }
+                        </div>
+                        <div class="col-8">
+                            <div class="mb-2">
+                                <span class="font-weight-bold">
+                                    Nombre:
+                                </span>
+                                @item.Name
+                            </div>
+                            <div class="mb-2">
+                                <span class="font-weight-bold">
+                                    Apellidos:
+                                </span>
+                                @item.LastName
+                            </div>
+                            <div class="mb-2">
+                                <span class="font-weight-bold">
+                                    Sexo:
+                                </span>
+                                @item.Sex
+                            </div>
+                        </div>
                     </div>
                     <div>
-                        <div class="btn-group btn-group-sm float-right">
+                        <div class="btn-group float-right">
                             <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
@@ -191,10 +198,10 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
+                    <th style="width: 80px; text-align: center;"><span class="mdi mdi-18px mdi-account-box"></span></th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Sexo</th>
-                    <th>Estado civil</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
@@ -202,12 +209,21 @@
                 @foreach (var item in Model.List)
                 {
                     <tr>
+                        <td style="vertical-align: middle;">
+                            @if (item.ImageId != null)
+                            {
+                                <img class="img-thumbnail rounded-circle" src="~/media/images/@item.ImageId.@item.ImageExtension" />
+                            }
+                            else
+                            {
+                                <img class="img-thumbnail rounded-circle" src="~/img/default-person-picture.jpg" />
+                            }
+                        </td>
                         <td style="vertical-align: middle;">@item.Name</td>
                         <td style="vertical-align: middle;">@item.LastName</td>
                         <td style="vertical-align: middle;">@Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.Sex.ToString(), ViewLocalizer))</td>
-                        <td style="vertical-align: middle;">@Html.DisplayName(GlobalViewLocalizationHelper.Localize(item.CivilStatus.ToString(), ViewLocalizer))</td>
                         <td style="vertical-align: middle;">
-                            <div class="btn-group btn-group-sm">
+                            <div class="btn-group">
                                 <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
@@ -322,16 +338,16 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
+                    <th style="width: 80px; text-align: center;"><span class="mdi mdi-18px mdi-account-box"></span></th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Sexo</th>
-                    <th>Estado civil</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="6"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                    <td colspan="5"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
                 </tr>
             </tbody>
         </table>

@@ -19,19 +19,8 @@
     Layout = "_BackendLayout";
 }
 
-@section styles {
-    <style type="text/css">
-        .integrity-icon {
-            font-size: 18px;
-            top: 2px;
-            margin-left: 8px;
-            margin-right: 8px;
-        }
-    </style>
-}
-
-    <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
-    <div class="clearfix" style="margin-bottom: 20px;"></div>
+<a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+<div class="clearfix mb-3"></div>
 
 @if (Model.MaxPageCount > 0)
 {
@@ -145,7 +134,7 @@
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
-                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
+                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detalles</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
@@ -173,7 +162,7 @@
                         <td style="vertical-align: middle;">@item.Name</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detail</span></button>
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline"></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>

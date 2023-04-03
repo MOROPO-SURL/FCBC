@@ -17,7 +17,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             CreationGroupAwards = new List<CreationGroupAward>();
             CreationGroupDistinctionBridges = new List<CreationGroupDistinctionBridge>();
             CreationGroupRecognitionBridges = new List<CreationGroupRecognitionBridge>();
-            GroupAssessmentBridges = new List<GroupAssessmentBridge>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -56,7 +55,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ICollection<CreationGroupRecognitionBridge> CreationGroupRecognitionBridges { get; set; }
 
         public ICollection<CreationGroupDistinctionBridge> CreationGroupDistinctionBridges { get; set; }
-        public ICollection<GroupAssessmentBridge> GroupAssessmentBridges { get; set; }
 
 
     }

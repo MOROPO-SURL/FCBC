@@ -133,40 +133,74 @@
         </div>
     }
 
-    <div class="d-block d-sm-none">
-        @foreach (var item in Model.List)
-        {
-            <div class="card border-primary mb-2">
-                <div class="card-body text-justify">
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Nombre:
-                        </span>
-                        @item.Name
-                    </div>
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Pertenece a:
-                        </span>
-                        @if (item.Group != null)
-                        {
-                            <span>@item.Group.Name</span>
-                        }
-                        else
-                        {
-                            <span>-</span>
-                        }
-                    </div>
-                    <div>
-                        <div class="btn-group btn-group-sm float-right">
-                            <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
-                            <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
-                        </div>
+    @foreach (var item in Model.List)
+    {
+        <div class="card border-primary mb-2 d-block d-sm-none">
+            <div class="card-body text-justify">
+                <div class="mb-2">
+                    <span class="font-weight-bold">
+                        Nombre:
+                    </span>
+                    @item.Name
+                </div>
+                <div class="mb-2">
+                    <span class="font-weight-bold">
+                        Pertenece a:
+                    </span>
+                    @if (item.Group != null)
+                    {
+                        <span>@item.Group.Name</span>
+                    }
+                    else
+                    {
+                        <span>--</span>
+                    }
+                </div>
+                <div>
+                    <div class="btn-group btn-group-sm float-right">
+                        <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                        <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                        <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                     </div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+            
+        <div class="modal fade" id="descrip-@item.Id" tabindex="-1" role="dialog" aria-labelledby="descrip-@item.Id-label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="descrip-@item.Id-label">Detalles</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>@GlobalViewLocalizationHelper.Localize("Name")</h5>
+                        <p>@item.Name</p>
+                        <h5>Pertenece a</h5>
+                        @if (item.Group == null)
+                        {
+                            <p>--</p>
+                        }
+                        else
+                        {
+                            <p>@item.Group.Name</p>
+                        }
+                        <h5>@GlobalViewLocalizationHelper.Localize("Description")</h5>
+                        @if (string.IsNullOrEmpty(item.Description))
+                        {
+                            <span>--</span>
+                        }
+                        else
+                        {
+                            <span>@item.Description</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
     <div class="d-none d-sm-block" style="border: 1px solid #DDD; border-radius: 4px;">
         <table class="table" style="margin: 0;">
@@ -189,11 +223,12 @@
                             }
                             else
                             {
-                                <span>-</span>
+                                <span>--</span>
                             }
                         </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>

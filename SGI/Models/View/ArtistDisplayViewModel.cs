@@ -65,7 +65,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ICollection<ArtistCraftManifestationBridge> CraftManifestationBridges { get; set; }
         public ICollection<ArtistDesignManifestationBridge> DesignManifestationBridges { get; set; }
         public ICollection<ArtistServiceLineBridge> ServiceLineBridges { get; set; }
-        public ICollection<ArtistAssessmentBridge> ArtistAssessmentBridges { get; set; }
+        
+        public ValorationDisplayViewModel[] Valorations { get; set; }
 
         public ICollection<ArtistAward> ArtistAwards { get; set; }
 
@@ -120,7 +121,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             ServiceLineBridges = entity.ServiceLineBridges;
             ArtistAwards = entity.ArtistAwards;
             RegistrationNumber = entity.RegistrationNumber;
-            ArtistAssessmentBridges = entity.ArtistAssessmentBridges;
         }
     }
 }

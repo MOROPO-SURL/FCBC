@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace MOROPO.FCBC.SGI.Persistence.Entities
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class CreationGroupAward : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
+        public CreationGroupAward()
+        {
+            Id = System.Guid.NewGuid();
+        }
+
         [System.ComponentModel.DataAnnotations.Key]
-        public Guid Id { get ; set; }
+        public System.Guid Id { get ; set; }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("GroupId")]
         public CreationGroup Group { get; set; }
@@ -19,7 +19,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public Award Award { get; set; }
         public System.Guid AwardId { get; set; }
 
-        [Required]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Context { get; set; }
     }
 }

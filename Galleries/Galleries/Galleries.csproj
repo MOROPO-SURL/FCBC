@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <RootNamespace>MOROPO.FCBC.Galleries</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Font\IconmonstrIconic.ttf" />
+    <None Remove="Assets\Font\materialdesignicons-webfont.ttf" />
+    <None Remove="Assets\Image\DefaultGalleyBanner.jpg" />
+    <None Remove="Assets\Image\Identity_Primary_FCBC.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Font\IconmonstrIconic.ttf" />
+    <EmbeddedResource Include="Assets\Font\materialdesignicons-webfont.ttf" />
+    <EmbeddedResource Include="Assets\Image\DefaultGalleyBanner.jpg" />
+    <EmbeddedResource Include="Assets\Image\Identity_Primary_FCBC.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
+    <PackageReference Include="SSCXFToolKit.Mvvm" Version="0.4.10-alpha" />
+    <PackageReference Include="SSCXFToolKit.Presentation" Version="0.6.2" />
+    <PackageReference Include="UrhoSharp.Forms" Version="1.9.67" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Pages\ContactPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\ExposureDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\ExposureRoomPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\HistoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\RequiredUpdatePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\BusyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SGI.API.Connect\SGI.API.Connect.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\ExposureDetailPage.xaml.cs">
+      <DependentUpon>ExposureDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\ExposureRoomPage.xaml.cs">
+      <DependentUpon>ExposureRoomPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

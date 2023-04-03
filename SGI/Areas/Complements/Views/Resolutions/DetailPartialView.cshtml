@@ -20,11 +20,11 @@
                 <h5>@Html.DisplayNameFor(model => model.Description)</h5>
                 @if (string.IsNullOrEmpty(Model.Description))
                 {
-                    <p class="mb-0 text-muted font-italic">Descripción no especificada</p>
+                    <span>--</span>
                 }
                 else
                 {                    
-                    <p class="mb-0">@Model.Description</p>  
+                    <span>@Model.Description</span>
                 }                            
             </div>
         </div>

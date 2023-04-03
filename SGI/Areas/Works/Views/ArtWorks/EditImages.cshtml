@@ -84,9 +84,28 @@
             <div class="card-columns">
                 @foreach (var item in Model.Images)
                 {
-                    <div class="card">
-                        <img class="card-img" src="~/media/images/@item.Id.@item.Extension">
-                        <div class="card-img-overlay"><a class="btn btn-danger float-right" href="#" data-toggle="modal" data-target="#delete-image-@item.Id"><span class="mdi mdi-trash-can"></span></a></div>
+                    var cardClass = Model.Work.FeatureImageId == item.Id ? "card border-primary" : "card";
+
+                    <div class="@cardClass" style="margin-bottom: 1.25rem !important;">
+                        @if (Model.Work.FeatureImageId != item.Id)
+                        {
+                            <img class="card-img" src="~/media/images/@item.Id.@item.Extension" />
+                        }
+                        else
+                        {
+                            <div class="card-body p-1">
+                                <img class="card-img" src="~/media/images/@item.Id.@item.Extension" />
+                            </div>
+                        }
+                        <div class="card-img-overlay">
+                            <div class="btn-group btn-group-sm float-right">
+                                @if (Model.Work.FeatureImageId != item.Id)
+                                {
+                                    <a class="btn btn-success" href="#" data-toggle="modal" data-target="#featured-image-@item.Id"><span class="mdi mdi-target"></span></a>
+                                }
+                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-image-@item.Id"><span class="mdi mdi-trash-can"></span></a>
+                            </div>
+                        </div>
                         <div class="modal fade" id="delete-image-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-image-@item.Id-lable" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -99,7 +118,7 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Esta seguro que desea eliminar la imagen seleccionada?</p>
+                                            <p class="mb-0">Esta seguro que desea eliminar la imagen seleccionada?</p>
                                         </div>
                                         <div class="modal-footer" style="margin-top: 0;">
                                             <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -109,6 +128,31 @@
                                 </div>
                             </div>
                         </div>
+                        @if (Model.Work.FeatureImageId != item.Id)
+                        {
+                            <div class="modal fade" id="featured-image-@item.Id" tabindex="-1" role="dialog" aria-labelledby="featured-image-@item.Id-lable" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        @using (Html.BeginForm("featuredimage", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                        {
+                                            @Html.Hidden("imageId", item.Id)
+
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="delete-image-@item.Id-lable">Seleccionar como Imagen Principal</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-0">Esta seguro que desea selecciona la imagen seleccionada como principal?</p>
+                                            </div>
+                                            <div class="modal-footer" style="margin-top: 0;">
+                                                <button type="submit" class="btn btn-primary">Seleccionar</button>
+                                                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 }
             </div>

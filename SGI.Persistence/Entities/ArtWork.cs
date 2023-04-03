@@ -6,16 +6,15 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
     {
         public ArtWork()
         {
-            TechniqueBridges = new System.Collections.Generic.List<ArtWorkTechniqueBridge>();
-            ImageBridges = new System.Collections.Generic.List<ArtWorkImageBridge>();
-            MaterialBridges = new System.Collections.Generic.List<ArtWorkMaterialBridge>();
-            CreatorBridges = new System.Collections.Generic.List<ArtWorkCreatorBridge>();
-            CreationGroupBridges = new System.Collections.Generic.List<ArtWorkCreationGroupBridge>();
-            ThematicBridges = new System.Collections.Generic.List<ArtWorkThematicBridge>();
-            Valorations = new System.Collections.Generic.List<ArtWorkValoration>();
-            Awards = new System.Collections.Generic.List<ArtWorkAward>();
-            Attachments = new System.Collections.Generic.List<ArtWorkAttachment>();
-            WorkAssessmentBridges = new List<ArtWorkAssessmentBridge>();
+            TechniqueBridges = new List<ArtWorkTechniqueBridge>();
+            ImageBridges = new List<ArtWorkImageBridge>();
+            MaterialBridges = new List<ArtWorkMaterialBridge>();
+            CreatorBridges = new List<ArtWorkCreatorBridge>();
+            CreationGroupBridges = new List<ArtWorkCreationGroupBridge>();
+            ThematicBridges = new List<ArtWorkThematicBridge>();
+            Valorations = new List<ArtWorkValoration>();
+            Awards = new List<ArtWorkAward>();
+            Attachments = new List<ArtWorkAttachment>();
         }
 
         public string Collection { get; set; }
@@ -40,22 +39,22 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public UnitMeasurement WeightUnitMeasurement { get; set; }
         public System.Guid? WeightUnitMeasurementId { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkTechniqueBridge> TechniqueBridges { get; set; }
+        public List<ArtWorkTechniqueBridge> TechniqueBridges { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkMaterialBridge> MaterialBridges { get; set; }
+        public List<ArtWorkMaterialBridge> MaterialBridges { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkImageBridge> ImageBridges { get; set; }
+        public List<ArtWorkImageBridge> ImageBridges { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkCreatorBridge> CreatorBridges { get; set; }
-        public System.Collections.Generic.List<ArtWorkThematicBridge> ThematicBridges { get; set; }
+        public List<ArtWorkCreatorBridge> CreatorBridges { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkCreationGroupBridge> CreationGroupBridges { get; set; }
+        public List<ArtWorkThematicBridge> ThematicBridges { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkValoration> Valorations { get; set; }
+        public List<ArtWorkCreationGroupBridge> CreationGroupBridges { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkAward> Awards { get; set; }
+        public List<ArtWorkValoration> Valorations { get; set; }
 
-        public System.Collections.Generic.List<ArtWorkAttachment> Attachments { get; set; }        
-        public System.Collections.Generic.List<ArtWorkAssessmentBridge> WorkAssessmentBridges { get; set; }        
+        public List<ArtWorkAward> Awards { get; set; }
+
+        public List<ArtWorkAttachment> Attachments { get; set; }       
     }
 }

@@ -12,7 +12,7 @@ namespace MOROPO.FCBC.SGI.Models.Filter
         {
             if (Id == null || Id == string.Empty) return null;
 
-            return emp => emp.Identity.Name.ToLower().Contains(Id.ToLower());
+            return emp => emp.Identity.Name.Contains(Id, StringComparison.InvariantCultureIgnoreCase) || emp.Identity.LastName.Contains(Id, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

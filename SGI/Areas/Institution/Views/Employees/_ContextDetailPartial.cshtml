@@ -1,0 +1,38 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.EmployeeDisplayViewModel
+
+<div class="alert alert-dark">
+    <details>
+        <summary class="h4 mb-0">@Model.Name @Model.LastName</summary>
+        <hr />
+        <div class="row no-gutters">
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+            @if (Model.ImageId != null)
+            {
+                <img class="img-thumbnail rounded-circle" src="~/media/images/@Model.ImageId.@Model.ImageExtension" />
+            }
+            else
+            {
+                <img class="img-thumbnail rounded-circle" src="~/img/default-person-picture.jpg" />
+            }
+            </div>
+            <div class="col-lg-10 col-md-8 col-sm-6">
+                <div class="card-block pl-3">
+                    <div class="row">
+                        <dl class="col-md-6">
+                            <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                            <dd>@Html.DisplayFor(model => model.Name)</dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
+                            <dd>@Html.DisplayFor(model => model.LastName)</dd>
+                        </dl>
+                    </div>
+                    <dl>
+                        <dt>Sexo</dt>
+                        <dd>@GlobalViewLocalizationHelper.Localize(Model.Sex.ToString())</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </details>
+</div>            

@@ -147,7 +147,14 @@
                         <span class="font-weight-bold">
                             Descripción:
                         </span>
-                        @item.Description
+                        @if (string.IsNullOrEmpty(item.Description))
+                        {
+                            <span>--</span>
+                        }
+                        else
+                        {
+                            <span>@item.Description</span>
+                        }
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
@@ -175,7 +182,16 @@
                 {
                     <tr>
                         <td style="vertical-align: middle;">@item.Name</td>
-                        <td style="vertical-align: middle;">@item.Description</td>
+                        <td style="vertical-align: middle;">
+                        @if (string.IsNullOrEmpty(item.Description))
+                        {
+                            <span>--</span>
+                        }
+                        else
+                        {
+                            <span>@item.Description</span>
+                        }
+                        </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
@@ -298,7 +314,7 @@ else
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="6"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
                 </tr>
             </tbody>
         </table>

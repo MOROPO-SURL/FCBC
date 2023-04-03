@@ -1,20 +1,19 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using System;
-using System.Xml.Linq;
-
-namespace MOROPO.FCBC.SGI.Models.View
+﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class DistinctionDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Distinction, Guid>
+    public class DistinctionDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.Distinction, System.Guid>
     {
-        public Guid Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
-        public void Import(Distinction entity)
+        public string Description { get; set; }
+
+        public void Import(Persistence.Entities.Distinction entity)
         {
             Id = entity.Id;
             Name = entity.Name;
+            Description = entity.Description;
         }
     }
 }

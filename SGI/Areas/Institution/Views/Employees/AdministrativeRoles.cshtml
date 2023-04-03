@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.EmployeeAdministrativeRolesInputViewModel
 
 @{
-    ViewData["Title"] = "Editar Trabajador";
+    ViewData["Title"] = "Modificar Trabajador";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -24,35 +24,27 @@
     Layout = "_BackendLayout";
 }
 
-@section styles {
-    <style type="text/css">
-        #ImageFile {
-            width: 0;
-            height: 0;
-            overflow: hidden;
-        }
-    </style>
-}
-
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header"><h4>@ViewData["Title"]</h4>
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("edit", @Model.EmployeeId)">Información</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("contacts", @Model.EmployeeId)">Contactos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Roles Administrativos</a>
-                </li>
-            </ul>
-        </div>
+<div class="card mb-3">
+    <div class="card-header"><h4>@ViewData["Title"]</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.Employee.Id)">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("contacts", @Model.Employee.Id)">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Roles Administrativos</a>
+            </li>
+        </ul>
+    </div>
         
-        @using (Html.BeginForm("addadministrativeroles", "employees", null, FormMethod.Post, true, null))
-            {
-            @Html.HiddenFor(model => model.EmployeeId)
-        <div class="card-body">
+    @using (Html.BeginForm("addadministrativeroles", "employees", new { key = Model.Employee.Id }, FormMethod.Post, true, null))
+    {
+        @Html.HiddenFor(model => model.Employee.Id)
+        <div class="card-body pb-1">
+            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Employee)
+
             <div class="row">
                 @if (Model.SelectableRoles != null && Model.SelectableRoles.Count() > 0)
                 {
@@ -65,18 +57,15 @@
                 }
                 else
                 {
-                    <div class="editor-field col-md-12">Sin elementos que mostrar.</div>
+                    <div class="col-md-12 text-muted mb-3">Sin elementos que mostrar.</div>
                 }
             </div>
-        </div>
-        
-
-   
+        </div>   
     <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Adicionar Roles</button>
+        <button type="submit" class="btn btn-primary">Modificar</button>
         <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
     </div>
-    }
+}
 </div>
 
 

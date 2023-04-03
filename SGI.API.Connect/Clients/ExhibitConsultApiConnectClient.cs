@@ -1,0 +1,11 @@
+﻿namespace MOROPO.FCBC.SGI.API.Connect.Clients
+{
+    public class ExhibitConsultApiConnectClient : SAPRESSC.Core.Api.Connect.Clients.AbstractEntityConsultFilteredApiConnectClient<Persistence.Entities.Exhibit, System.Guid, Common.Models.ExhibitDisplayApiModel, Common.Models.Filter.ExhibitFilterApiModel>
+    {
+        public ExhibitConsultApiConnectClient(SAPRESSC.Core.Api.Connect.Providers.Facade.IHttpClientHelperProviderFacade httpClientHelperProvider) : base(httpClientHelperProvider)
+        {
+        }
+
+        protected override string TargetController => "api/exhibits";
+    }
+}

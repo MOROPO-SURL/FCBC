@@ -1,0 +1,23 @@
+﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
+{
+    public class CreationGroupValoration : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
+    {
+        [System.ComponentModel.DataAnnotations.Key]
+        public System.Guid Id { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("CreationGroupId")]
+        public CreationGroup CreationGroup { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Guid? CreationGroupId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("CriticId")]
+        public Critic Critic { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Guid? CriticId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Declaration { get; set; }
+
+        public System.DateTime? DeclaredAt { get; set; }
+    }
+}

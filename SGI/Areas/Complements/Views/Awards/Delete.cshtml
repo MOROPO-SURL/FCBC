@@ -31,8 +31,15 @@
     
     <dt>@Html.DisplayNameFor(model => model.Name)</dt>    
     <dd>@Html.DisplayFor(model => model.Name)</dd>  
-    <dt>@Html.DisplayNameFor(model => model.Country)</dt>
-    <dd>@Html.DisplayFor(model => model.Country.Name)</dd>
+    <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+    @if (string.IsNullOrEmpty(Model.Description))
+    {
+        <dd>--</dd>
+    }
+    else
+    {
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
+    }
 </dl>
 @using (Html.BeginForm("delete", "awards", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
 {

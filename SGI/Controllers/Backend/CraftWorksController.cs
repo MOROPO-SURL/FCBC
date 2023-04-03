@@ -158,9 +158,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateInputModelForAvailableCurrencies(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(CraftWorkInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(CraftWork entity, CraftWorkInputViewModel modelInput)
         {
-            base.ConfigurePostFailEditValidation(modelInput);
+            base.ConfigurePostFailEditValidation(entity, modelInput);
 
             PopulateInputModelForAvailableManifestations(modelInput);
             PopulateInputModelForAvailableCurrencies(modelInput);
@@ -1074,188 +1074,188 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         #endregion
 
         #region Criterion
-        [Route("edit/{key}/EditWorkCriterion")]
-        [RequirePermissions(Permission.CraftWorkEditor)]
-        public IActionResult EditWorkCriterion(System.Guid key)
-        {
-            try
-            {
-                var entity = Repository.Get(key);
+        //[Route("edit/{key}/EditWorkCriterion")]
+        //[RequirePermissions(Permission.CraftWorkEditor)]
+        //public IActionResult EditWorkCriterion(System.Guid key)
+        //{
+        //    try
+        //    {
+        //        var entity = Repository.Get(key);
 
-                var resultModel = new CraftWorkCriterionManageViewModel
-                {
-                    WorkDisplay = new CraftWorkDisplayViewModel()
-                };
-                PopulateCritics(resultModel);
-                resultModel.WorkDisplay.Import(entity);
+        //        var resultModel = new CraftWorkCriterionManageViewModel
+        //        {
+        //            WorkDisplay = new CraftWorkDisplayViewModel()
+        //        };
+        //        PopulateCritics(resultModel);
+        //        resultModel.WorkDisplay.Import(entity);
 
-                return View(resultModel);
-            }
-            catch (System.Exception e)
-            {
-                logger.LogError(e.InnerException, e.Message);
-            }
+        //        return View(resultModel);
+        //    }
+        //    catch (System.Exception e)
+        //    {
+        //        logger.LogError(e.InnerException, e.Message);
+        //    }
 
-            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-            return GetDefaultActionResult();
-        }
+        //    return GetDefaultActionResult();
+        //}
 
-        [Route("edit/Criterion/add")]
-        [RequirePermissions(Permission.CraftWorkEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddWorkCriterion(CraftWorkCriterionManageViewModel modelInput)
-        {
-            CraftWork entity = null;
-            Critic critic = null;
-            try
-            {
-                entity = Repository.Get(modelInput.WorkDisplay.Id);
-                critic = criticRepository.Get(modelInput.CriticId);
+        //[Route("edit/Criterion/add")]
+        //[RequirePermissions(Permission.CraftWorkEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult AddWorkCriterion(CraftWorkCriterionManageViewModel modelInput)
+        //{
+        //    CraftWork entity = null;
+        //    Critic critic = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelInput.WorkDisplay.Id);
+        //        critic = criticRepository.Get(modelInput.CriticId);
 
-                modelInput.WorkDisplay.Import(entity);
-            }
-            catch { }
+        //        modelInput.WorkDisplay.Import(entity);
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                entity.WorkAssessmentBridges.Add(new CraftWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
+        //    if (ModelState.IsValid)
+        //    {
+        //        entity.WorkAssessmentBridges.Add(new CraftWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
+        //}
 
-        [Route("edit/Criterion/update")]
-        [RequirePermissions(Permission.CraftWorkEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult UpdateWorkCriterion(CraftWorkAssessmentBridgeDisplayViewModel modelInput)
-        {
-            CraftWork entity = null;
-            Critic critic = null;
-            try
-            {
-                entity = Repository.Get(modelInput.WorkId);
-                critic = criticRepository.Get(modelInput.CriticUpdateId);
+        //[Route("edit/Criterion/update")]
+        //[RequirePermissions(Permission.CraftWorkEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult UpdateWorkCriterion(CraftWorkAssessmentBridgeDisplayViewModel modelInput)
+        //{
+        //    CraftWork entity = null;
+        //    Critic critic = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelInput.WorkId);
+        //        critic = criticRepository.Get(modelInput.CriticUpdateId);
 
-            }
-            catch { }
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                var workAssessmentBridge = entity.WorkAssessmentBridges.FirstOrDefault(a => a.WorkId == modelInput.WorkId && a.CriticId == modelInput.CriticId);
-                entity.WorkAssessmentBridges.Remove(workAssessmentBridge);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var workAssessmentBridge = entity.WorkAssessmentBridges.FirstOrDefault(a => a.WorkId == modelInput.WorkId && a.CriticId == modelInput.CriticId);
+        //        entity.WorkAssessmentBridges.Remove(workAssessmentBridge);
 
-                entity.WorkAssessmentBridges.Add(new CraftWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
+        //        entity.WorkAssessmentBridges.Add(new CraftWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
+        //}
 
-        [Route("edit/Criterion/delete")]
-        [RequirePermissions(Permission.CraftWorkEditor)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteWorkCriterion(WorkCriterionDisplayViewModel modelDisplay)
-        {
-            CraftWork entity = null;
-            try
-            {
-                entity = Repository.Get(modelDisplay.WorkId);
+        //[Route("edit/Criterion/delete")]
+        //[RequirePermissions(Permission.CraftWorkEditor)]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult DeleteWorkCriterion(ValorationDisplayViewModel modelDisplay)
+        //{
+        //    CraftWork entity = null;
+        //    try
+        //    {
+        //        entity = Repository.Get(modelDisplay.Id);
 
-            }
-            catch { }
+        //    }
+        //    catch { }
 
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+        //    if (entity == null)
+        //    {
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
 
-                return GetDefaultActionResult();
-            }
+        //        return GetDefaultActionResult();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                var workCriterion = entity.WorkAssessmentBridges.First(a => a.WorkId == modelDisplay.WorkId && a.CriticId == modelDisplay.CriticId);
-                entity.WorkAssessmentBridges.Remove(workCriterion);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var workCriterion = entity.WorkAssessmentBridges.First(a => a.WorkId == modelDisplay.Id && a.CriticId == modelDisplay.CriticId);
+        //        entity.WorkAssessmentBridges.Remove(workCriterion);
 
-                Repository.Update(entity, User.Identity.Name);
+        //        Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+        //    }
+        //    else
+        //    {
+        //        var messages = new List<string>();
 
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+        //        foreach (var item in ModelState)
+        //        {
+        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
+        //            foreach (var error in item.Value.Errors)
+        //            {
+        //                messages.Add(error.ErrorMessage);
+        //            }
+        //        }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
+        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+        //    }
 
-            return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
-        }
+        //    return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
+        //}
 
         #endregion
 

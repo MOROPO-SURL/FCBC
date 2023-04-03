@@ -11,30 +11,56 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="text-center mb-4">
+                @if (Model.ImageId != null)
+                {
+                    <img src="~/media/images/@Model.ImageId.@Model.ImageExtension" width="100" class="img-thumbnail w-50 rounded-circle" />
+                }
+                else
+                {
+                    <img src="~/img/default-person-picture.jpg" class="img-thumbnail w-50 rounded-circle" />
+                }
+                </div>
                 <div class="row">
                     <div class="col-md-6">
-                        @if (Model.ImageId != System.Guid.Empty)
+                        <h5>@Html.DisplayNameFor(model => model.Name)</h5>
+                        <p>@Model.Name</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>@Html.DisplayNameFor(model => model.LastName)</h5>
+                        <p>@Model.LastName</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>@Html.DisplayNameFor(model => model.Sex)</h5>
+                        <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</p>
+                        </div>
+                    <div class="col-md-6">
+                        <h5>@Html.DisplayNameFor(model => model.Alias)</h5>
+                        <p>
+                        @if (Model.Alias != null)
                         {
-                            <img src="~/media/images/@Model.ImageId.@Model.ImageExtension" class="card-img-top" id="ImageFilePreview" />
+                            <span>@Model.Alias</span>
                         }
                         else
                         {
-                            <img src="~/media/images/default-person.png" class="card-img-top" id="ImageFilePreview" />
+                            <span>--</span>
                         }
+                        </p>
                     </div>
                 </div>
-                <h5>@Html.DisplayNameFor(model => model.Name)</h5>
-                <p>@Model.Name</p>
-                <h5>@Html.DisplayNameFor(model => model.LastName)</h5>
-                <p>@Model.LastName</p>
-                <h5>@Html.DisplayNameFor(model => model.Sex)</h5>
-                <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.Sex.ToString(), ViewLocalizer))</p>
-                <h5>@Html.DisplayNameFor(model => model.CivilStatus)</h5>
-                <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.CivilStatus.ToString(), ViewLocalizer))</p>
-                <h5>@Html.DisplayNameFor(model => model.Alias)</h5>
-                <p>@Model.Alias</p>
                 <h5>@Html.DisplayNameFor(model => model.About)</h5>
-                <p>@Model.About</p>
+                <p class="mb-0">
+                @if (Model.About != null)
+                {
+                    <span>@Model.About</span>
+                }
+                else
+                {
+                    <span>--</span>
+                }
+                </p>
             </div>
         </div>
     </div>

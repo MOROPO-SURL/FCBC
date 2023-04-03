@@ -89,7 +89,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateTree(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(CraftManifestationGroupInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(CraftManifestationGroup entity, CraftManifestationGroupInputViewModel modelInput)
         {
             PopulateTree(modelInput);
         }

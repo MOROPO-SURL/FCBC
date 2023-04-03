@@ -59,24 +59,31 @@
 {
     @Html.ValidationSummary(true)
 
-    <div class="card" style="margin-bottom: 20px;">
+    <div class="card mb-3">
         <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
 
         <div class="card-body">
-
             <div class="row">
-                <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="col-md-6 mb-3">
                     @Html.LabelFor(model => model.Name, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="col-md-6 mb-3">
                     @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
-                    @Html.HiddenFor(model => model.ParentId)
-                    <div id="tree"></div>
+                    @Html.HiddenFor(model => model.ParentId)                        
+                    @if (Model.SerializedTree == "[]")
+                    {
+                        <div class="text-muted">Sin elementos para seleccionar</div>
+                    }
+                    else
+                    {
+                        <div id="tree"></div>
+                    }
+                    @Html.ValidationMessageFor(model => model.ParentId, null, new { @class = "text-danger" })
                 </div>
             </div>
-            <div style="margin-bottom: 20px;">
+            <div>
                 @Html.LabelFor(model => model.Description, new { @class = "control-label" })
                 @Html.TextAreaFor(model => model.Description, 4, 0, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Description, null, new { @class = "text-danger" })
