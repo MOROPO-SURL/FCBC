@@ -108,7 +108,7 @@
                         <div class="modal fade" id="delete-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-@item.Id-lable" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    @using (Html.BeginForm("deleteusecaseimage", "prototypes", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                    @using (Html.BeginForm("removeexhibit", "exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
                                     {
                                         @Html.Hidden("exhibitId", item.Id)
 

@@ -16,6 +16,22 @@
             <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="240" ChildAbsoluteHorizontalMargin="10" />
         </ResourceDictionary>
     </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Text="Actualizar"
+            Order="Primary"
+            Clicked="RefreshToolbarItem_Clicked">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="Material Design Icons" Glyph="&#xF450;">
+                    <FontImageSource.Color>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="UWP" Value="Black" />
+                        </OnPlatform>
+                    </FontImageSource.Color>
+                </FontImageSource>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid>
             <ScrollView Orientation="Vertical">
@@ -27,7 +43,7 @@
                             Source="{Binding Path=ImageSource}"
                             CacheType="Disk"
                             CacheDuration="8760:00:00" />
-                        <BoxView Color="#dd9c4237" />
+                        <BoxView Color="#dd512c10" />
                         <StackLayout
                             x:Name="HeaderContentContainer"
                             HorizontalOptions="Center" 
@@ -53,7 +69,8 @@
                                     Padding="0"
                                     Style="{StaticResource HeaderButtonStyle}"
                                     Grid.Column="0"
-                                    Text="Historia" />
+                                    Text="Historia"
+                                    Clicked="HistoryHeaderButton_Clicked" />
                                 <Button
                                     Padding="0"
                                     Style="{StaticResource HeaderButtonStyle}"
@@ -62,7 +79,8 @@
                                 <Button
                                     Style="{StaticResource HeaderButtonStyle}"
                                     Grid.Column="2"
-                                    Text="Contacto" />
+                                    Text="Contacto"
+                                    Clicked="ContactHeaderButton_Clicked" />
                             </Grid>
                         </StackLayout>
                     </Grid>

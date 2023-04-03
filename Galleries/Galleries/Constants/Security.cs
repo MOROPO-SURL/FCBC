@@ -2,6 +2,6 @@
 {
     internal static class Security
     {
-        public const string TOKEN = "747546920cadb9e541f5224f2fefdcf2bc7cbede51af8e341e4adf0b9da4e1ff";
+        public const string TOKEN = "0b8d8b7d7ced0bd40b08c4e921fe4a7c193d1da717def49878de94cbff3eaf79";
     }
 }

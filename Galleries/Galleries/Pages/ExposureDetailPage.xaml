@@ -31,7 +31,7 @@
                             Source="{Binding Path=GalleyFeatureImageSource}"
                             CacheType="Disk"
                             CacheDuration="8760:00:00" />
-                        <BoxView Color="#dd9c4237" />
+                        <BoxView Color="#dd512c10" />
                         <StackLayout
                             x:Name="HeaderContentContainer"
                             HorizontalOptions="Center"

@@ -21,7 +21,17 @@ namespace MOROPO.FCBC.Galleries.Pages
 
             if (IsEnabled) return;
 
-            IsEnabled = true;
+            Refresh();            
+        }
+
+        private void GoToExposureButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPushModalPageAsync(new ExposureRoomPage(exposureId));
+        }
+
+        private void Refresh()
+        {
+            BindingContextPageModel.IsBusy = true;
 
             var exposuresApiConnectClient = new SGI.API.Connect.Clients.ExposureConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
 
@@ -33,7 +43,7 @@ namespace MOROPO.FCBC.Galleries.Pages
                 {
                     if (getExposuresTask.IsFaulted || getExposuresTask.IsCanceled)
                     {
-                        Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getExposuresTask.Exception);
+                        Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getExposuresTask.Exception, Refresh);
                     }
                     else
                     {
@@ -41,13 +51,10 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                         BindingContextPageModel.IsBusy = false;
                     }
+
+                    IsEnabled = true;
                 });
             });
-        }
-
-        private void GoToExposureButton_Clicked(object sender, System.EventArgs eventArgs)
-        {
-            this.NavigationPushModalPageAsync(new ExposureRoomPage(exposureId));
         }
     }
 }

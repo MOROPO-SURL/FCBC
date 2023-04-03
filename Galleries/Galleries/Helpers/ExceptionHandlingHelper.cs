@@ -37,9 +37,33 @@ namespace MOROPO.FCBC.Galleries.Helpers
 
             var message = "Problemas no esperados en el sistema.";
 
+            var nativeHelper = Xamarin.Forms.DependencyService.Get<Facade.INativeExceptionHandlingHelperFacade>();
+
+            if (nativeHelper != null)
+            {
+                targetException = nativeHelper.ToCrossPlatformException(targetException);
+            }
+
             if (targetException is System.Net.Http.HttpRequestException)
             {
-                message = "No se puede acceder al servidor. Revise su conexión de red y/o la disponibilidad del servicio.";
+                message = string.Format("No se puede acceder al servidor.{0}{0}Revise su conexión de red Wi-Fi o de datos móviles.", System.Environment.NewLine);
+
+                Xamarin.Forms.Application.Current.MainPage.DisplayAlert(title, message, "Reintentar", "Terminar").ContinueWith(task => 
+                {
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    {
+                        if (task.Result)
+                        {
+                            continuationCallback?.Invoke();
+                        }
+                        else
+                        {
+                            Xamarin.Forms.DependencyService.Get<Managers.Facade.INativeApplicationManagerFacade>().Close();
+                        }
+                    });
+                });
+
+                return;
             }
             else if (targetException is SAPRESSC.Core.Api.Connect.UnspectedHttpStatusException)
             {

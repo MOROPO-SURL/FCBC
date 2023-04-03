@@ -17,7 +17,35 @@ namespace MOROPO.FCBC.Galleries.Pages
 
             if (IsEnabled) return;
 
-            IsEnabled = true;
+            Refresh();
+        }
+
+        private void ExposureDetailButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPushPageAsync(new ExposureDetailPage(BindingContextPageModel.ImageSource, ((sender as Xamarin.Forms.BindableObject).BindingContext as SGI.API.Common.Models.ExposureDisplayApiModel).Id));
+        }
+
+        private void ContactHeaderButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPushPageAsync(new ContactPage());
+        }
+
+        private void HistoryHeaderButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPushPageAsync(new HistoryPage(BindingContextPageModel.History));
+        }
+
+        private void RefreshToolbarItem_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            if (BindingContextPageModel.IsBusy) return;
+
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            BindingContextPageModel.IsBusy = true;
+            IsEnabled = false;
 
             var galleryApiConnectClient = new SGI.API.Connect.Clients.GalleryConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
 
@@ -27,7 +55,7 @@ namespace MOROPO.FCBC.Galleries.Pages
                 {
                     if (getGalleryTask.IsFaulted || getGalleryTask.IsCanceled)
                     {
-                        Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getGalleryTask.Exception);
+                        Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getGalleryTask.Exception, Refresh);
                     }
                     else
                     {
@@ -46,7 +74,7 @@ namespace MOROPO.FCBC.Galleries.Pages
                             {
                                 if (getExposuresTask.IsFaulted || getExposuresTask.IsCanceled)
                                 {
-                                    Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getGalleryTask.Exception);
+                                    Helpers.ExceptionHandlingHelper.Instance.DefaultHandle(getGalleryTask.Exception, Refresh);
                                 }
                                 else
                                 {
@@ -55,13 +83,10 @@ namespace MOROPO.FCBC.Galleries.Pages
                             });
                         });
                     }
+
+                    IsEnabled = true;
                 });
             });
-        }
-
-        private void ExposureDetailButton_Clicked(object sender, System.EventArgs eventArgs)
-        {
-            this.NavigationPushPageAsync(new ExposureDetailPage(BindingContextPageModel.ImageSource, ((sender as Xamarin.Forms.BindableObject).BindingContext as SGI.API.Common.Models.ExposureDisplayApiModel).Id));
         }
     }
 }
