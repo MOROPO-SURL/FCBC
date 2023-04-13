@@ -4,6 +4,7 @@ namespace MOROPO.FCBC.SGI.Models.Api
 {
     public class SessionApiModel : SmartSolucionesCuba.AspNetCore.Authentication.ApiKey.Models.IApiKeySessionModel
     {
+        // TODO Fix ApiKey Authorization claims from permission to role
         public SessionApiModel(Persistence.Entities.ApiKey entity)
         {
             ApiKey = entity;

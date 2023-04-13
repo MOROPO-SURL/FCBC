@@ -24,8 +24,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [Display(Name = "Organization")]
-        public string OrganizationIdentityName { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Display(Name = "Founding date")]
         public System.DateTime? BornDate { get; set; }
@@ -66,9 +66,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(Association entity)
         {
             Id = entity.Id;
-            ImageId = entity.Identity.Image?.Id ?? System.Guid.Empty;
-            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            OrganizationIdentityName = entity.Identity.Name;
+            ImageId = entity.Identity.ImageId;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension();
+            Name = entity.Identity.Name;
             BornDate = entity.Identity.BornDate;
             About = entity.Identity.About;
             AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();
@@ -78,7 +78,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public void Mergue(Association entity)
         {
-            entity.Identity.Name = OrganizationIdentityName;
+            entity.Identity.Name = Name;
             entity.Identity.BornDate = BornDate;
             entity.Identity.About = About;  
         }

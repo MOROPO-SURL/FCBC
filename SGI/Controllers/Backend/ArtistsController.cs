@@ -828,7 +828,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     modelDisplay.Association = new AssociationDisplayViewModel 
                     { 
                          Id = association.Id,
-                         OrganizationIdentityName = association.Identity.Name
+                         Name = association.Identity.Name
                     };
                     modelDisplay.AdmitionModeContext = "Association|" + modelDisplay.AssociationId.ToString();
                 }
