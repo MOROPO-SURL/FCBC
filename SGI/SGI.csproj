@@ -34,7 +34,7 @@
 	<PackageReference Include="SAPRESSC.Core.Web.Api" Version="2.2.8.5" />
     <PackageReference Include="SAPRESSC.Middleware.Identity.Web.Common" Version="2.2.8.5" />
     <PackageReference Include="SAPRESSC.Middleware.Region.Web.Backend" Version="2.2.8.5" />
-	<PackageReference Include="SAPRESSC.Middleware.Security.Essential.Web.Backend" Version="2.2.8.5" />
+	<PackageReference Include="SAPRESSC.Middleware.Security.Essential.Web.Backend" Version="2.2.8.7" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
