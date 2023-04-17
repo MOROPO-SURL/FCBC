@@ -47,27 +47,6 @@
                     <hr />
                     <h5>@Html.DisplayNameFor(model => model.About)</h5>
                     <p style="word-wrap: break-word;">@Model.About</p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h5>@Html.DisplayNameFor(model => model.AdmitionMode)</h5>
-                            <p>@Html.DisplayName(GlobalViewLocalizationHelper.Localize(Model.AdmitionMode.ToString()))</p>
-                        </div>
-                        <div class="col-md-8">
-                            <h5>Asociación | Resolución</h5>
-                            @if (Model.AdmitionModeContext != null)
-                            {
-                                @if (Model.AdmitionModeContext.Contains("Resolution|"))
-                                {
-                                    <p>@Model.Resolution.NumberResolution-@Model.Resolution.Title</p>
-                                }
-                                else if (Model.AdmitionModeContext.Contains("Association|"))
-                                {
-                                    <p>@Model.Association.Name</p>
-                                }
-                            }
-                            
-                        </div>
-                    </div>
                     <h5>Lista de Manifestaciones</h5>
                     @foreach (var item in Model.ArtistManifestationBridges)
                     {

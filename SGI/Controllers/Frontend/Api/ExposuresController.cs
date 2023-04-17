@@ -28,7 +28,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
             return entity => entity.Enabled;
         }
 
-        [RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
+        // TODO Fix ApiKey Authorization claims from permission to role
+        //[RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
         [Swashbuckle.AspNetCore.Annotations.SwaggerOperation("Get Exposure's list", "Endpoint to obtain the full list of Exposures.")]
         [Swashbuckle.AspNetCore.Annotations.SwaggerResponse((int)System.Net.HttpStatusCode.OK, null, typeof(ExposureDisplayApiModel[]))]
         public override ActionResult<ExposureDisplayApiModel[]> Get()
@@ -36,7 +37,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
             return base.Get();
         }
 
-        [RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
+        // TODO Fix ApiKey Authorization claims from permission to role
+        //[RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
         [Swashbuckle.AspNetCore.Annotations.SwaggerOperation("Get a Exposure", "Endpoint to obtain a Exposures by it's id.")]
         [Swashbuckle.AspNetCore.Annotations.SwaggerResponse((int)System.Net.HttpStatusCode.OK, null, typeof(ExposureDisplayApiModel))]
         public override ActionResult<ExposureDisplayApiModel> Get(System.Guid key)
@@ -44,7 +46,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
             return base.Get(key);
         }
 
-        [RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
+        // TODO Fix ApiKey Authorization claims from permission to role
+        //[RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
         [Swashbuckle.AspNetCore.Annotations.SwaggerOperation("Get Exposure's pagination", "Endpoint to obtain the paginated list of Exposures.")]
         [Swashbuckle.AspNetCore.Annotations.SwaggerResponse((int)System.Net.HttpStatusCode.OK, null, typeof(PaginationModel<ExposureDisplayApiModel>))]
         public override ActionResult<PaginationModel<ExposureDisplayApiModel>> GetPaginate(int sheet = 1, int limit = 25)
@@ -52,7 +55,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
             return base.GetPaginate(sheet, limit);
         }
 
-        [RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
+        // TODO Fix ApiKey Authorization claims from permission to role
+        //[RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
         [Swashbuckle.AspNetCore.Annotations.SwaggerOperation("Get Exposure's pagination", "Endpoint to obtain the paginated list of Exposures.")]
         [Swashbuckle.AspNetCore.Annotations.SwaggerResponse((int)System.Net.HttpStatusCode.OK, null, typeof(ExposureDisplayApiModel[]))]
         public override ActionResult<ExposureDisplayApiModel[]> GetFiltered([FromBody] ExposureFilterApiModel filterModel)
@@ -60,7 +64,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
             return base.GetFiltered(filterModel);
         }
 
-        [RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
+        // TODO Fix ApiKey Authorization claims from permission to role
+        //[RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
         [Swashbuckle.AspNetCore.Annotations.SwaggerOperation("Get Exposure's pagination", "Endpoint to obtain the paginated list of Exposures.")]
         [Swashbuckle.AspNetCore.Annotations.SwaggerResponse((int)System.Net.HttpStatusCode.OK, null, typeof(PaginationModel<ExposureDisplayApiModel>))]
         public override ActionResult<PaginationModel<ExposureDisplayApiModel>> GetPaginateFiltered([FromBody] ExposureFilterApiModel filterModel, int sheet = 1, int limit = 25)

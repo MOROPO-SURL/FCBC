@@ -3,7 +3,8 @@
 
 @model Dictionary<string, ICollection<MOROPO.SAPRESSC.Core.Web.Backend.Models.View.ManagementDashboardSectionViewModel>>
 
-<div id="sidebar" class="pb-4" style="margin-top: 56px; padding-top: 28px; height: calc(100vh - 56px); z-index: 1000;  overflow-x: hidden; overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */">
+<h4 class="d-none d-md-block" style="height: 56px;"></h4>
+<div id="sidebar" class="pb-4" style="padding-top: 28px; height: calc(100vh - 56px); z-index: 1000;  overflow-x: hidden; overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */">
     <nav class="nav flex-column nav-pills nav-sidebar">
         @if (Context.Request.Path.Value == "/management/dashboard")
         {
