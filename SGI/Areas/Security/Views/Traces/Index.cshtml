@@ -1,7 +1,7 @@
 ﻿@model MOROPO.SAPRESSC.Core.Web.Frontend.Models.View.PaginationViewModel<MOROPO.SAPRESSC.Core.Persistence.EF.Entities.Trace, long, MOROPO.FCBC.SGI.Models.View.TraceDisplayViewModel>
 
 @{
-    ViewData["Title"] = "Administración de Trazas";
+    ViewData["Title"] = "Consulta de Registros";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -21,12 +21,6 @@
 
 @section styles {
     <style type="text/css">
-        .integrity-icon {
-            font-size: 18px;
-            top: 2px;
-            margin-left: 8px;
-            margin-right: 8px;
-        }
         dd {
             word-wrap: break-word;
         }        
@@ -163,10 +157,7 @@
                         @item.Type
                     </div>
                     <div>
-                        <div class="btn-group btn-group-sm float-right">
-                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
-                        </div>
-                        <div class="clearfix"></div>
+                        <button class="btn btn-sm btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span> Detalles</button>
                     </div>
                 </div>
             </div>
@@ -195,8 +186,8 @@
                         <td style="vertical-align: middle;">@item.Type.ToString()</td>
                         <td style="vertical-align: middle;">@entityName</td>
                         <td style="vertical-align: middle;">
-                            <div class="btn-group btn-group-sm">
-                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                            <div>
+                                <button class="btn btn-sm btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span> Detalles</button>
                             </div>
                         </td>
                     </tr>

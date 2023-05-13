@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sscxftoolkitmvvmpages:ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
+    x:Class="MOROPO.FCBC.Galleries.Pages.ContactPage"
+    Title="Contacto">
+    <ContentPage.Content>
+        <ScrollView Orientation="Vertical">
+            <StackLayout Margin="10,30">
+                <Label
+                    Text="Galería Amalia"
+                    FontSize="40"
+                    FontAttributes="Bold"
+                    TextColor="#9c4237"
+                    HorizontalTextAlignment="Center" />
+                <Image x:Name="BrandImage" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</sscxftoolkitmvvmpages:ContentPage>

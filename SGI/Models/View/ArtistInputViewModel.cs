@@ -53,12 +53,14 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Context { get; set; }
 
         [Display(Name = "AdmitionMode")]
-        public Persistence.Enumerations.AdmitionMode AdmitionModel { get; set; }        
-        
+        public Persistence.Enumerations.AdmitionMode AdmitionModel { get; set; }
+
+        [Display(Name = "Association")]
         public System.Guid? AssociationId { get; set; }
 
         public ICollection<SelectListItem> Associations { get; set; } = new List<SelectListItem>();
 
+        [Display(Name = "Resolution")]
         public System.Guid? ResolutionId { get; set; }
 
         public ICollection<SelectListItem> Resolutions { get; set; } = new List<SelectListItem>();

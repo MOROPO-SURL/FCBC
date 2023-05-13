@@ -88,7 +88,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateTree(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(ServiceLineGroupInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(ServiceLineGroup entity, ServiceLineGroupInputViewModel modelInput)
         {
             PopulateTree(modelInput);
         }

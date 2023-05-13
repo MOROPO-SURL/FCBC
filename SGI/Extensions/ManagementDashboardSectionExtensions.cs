@@ -10,6 +10,8 @@
 
             if (target.Controller == "traces") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-foot-print\"></span>");
 
+            if (target.Controller == "apikeys") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-key\"></span>");
+
             if (target.Controller == "recognitions") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-trophy-award\"></span>");
 
             if (target.Controller == "distinctions") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-certificate\"></span>");
@@ -55,6 +57,10 @@
             if (target.Controller == "activitykinds") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-calendar-multiple\"></span>");
 
             if (target.Controller == "activities") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-calendar\"></span>");
+
+            if (target.Controller == "gallery") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-cards\"></span>");
+
+            if (target.Controller == "exposures") return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"mdi mdi-sign-text\"></span>");
 
             if (target.Controller == "artisticmanifestations" ||
                 target.Controller == "artisticmanifestationgroups" ||

@@ -10,8 +10,4 @@
     <ProjectReference Include="..\SGI.Persistence\SGI.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Filter\" />
-  </ItemGroup>
-
 </Project>

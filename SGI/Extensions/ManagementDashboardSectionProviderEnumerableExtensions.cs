@@ -26,6 +26,15 @@ namespace MOROPO.FCBC.SGI.Extensions
                 Role = Security.Authorization.Permission.TraceViewer
             });
 
+            securitySection.Add(new ManagementDashboardSectionViewModel
+            {
+                Title = "Llaves API",
+                Controller = "apikeys",
+                Action = "index",
+                Area = "security",
+                Role = Security.Authorization.Permission.ApiKeyViewer
+            });
+
             var manifestationsSection = new List<ManagementDashboardSectionViewModel>
             {
                 new ManagementDashboardSectionViewModel
@@ -248,6 +257,22 @@ namespace MOROPO.FCBC.SGI.Extensions
                     Action = "index",
                     Area = "institution",
                     Role = Security.Authorization.Permission.EmployeeViewer
+                },
+                new ManagementDashboardSectionViewModel
+                {
+                    Title = "Gallería",
+                    Controller = "gallery",
+                    Action = "index",
+                    Area = "institution",
+                    Role = Security.Authorization.Permission.GalleryViewer
+                },
+                new ManagementDashboardSectionViewModel
+                {
+                    Title = "Exposiciones",
+                    Controller = "exposures",
+                    Action = "index",
+                    Area = "institution",
+                    Role = Security.Authorization.Permission.ExposureViewer
                 }
             };
 

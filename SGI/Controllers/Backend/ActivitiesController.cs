@@ -111,7 +111,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithActivityKindEdit(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(ActivityInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(Activity entity, ActivityInputViewModel modelInput)
         {
             PopulateWithActivityKind(modelInput);
         }

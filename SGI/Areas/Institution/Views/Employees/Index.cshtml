@@ -21,13 +21,6 @@
 
 @section styles {
     <style type="text/css">
-        .integrity-icon {
-            font-size: 18px;
-            top: 2px;
-            margin-left: 8px;
-            margin-right: 8px;
-        }
-
         dd {
             word-wrap: break-word;
         }
@@ -219,8 +212,8 @@
                         <td style="vertical-align: middle;">@item.LastName</td>
                         <td style="vertical-align: middle;">@GlobalViewLocalizationHelper.Localize(item.Sex.ToString())</td>
                         <td style="vertical-align: middle;">
-                            <div class="btn-group">
-                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span> Detalles</button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-s btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>

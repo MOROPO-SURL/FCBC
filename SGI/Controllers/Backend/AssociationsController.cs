@@ -81,6 +81,24 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequirePermissions(Permission.AssociationEditor)]
         public override IActionResult Edit(AssociationInputViewModel inputModel)
         {
+
+            ModelState.ClearValidationState("ImageFile");
+            ModelState.MarkFieldValid("ImageFile");
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var formFile = Request.Form.Files[0];
+
+                if (formFile.Length > 0)
+                {
+                    inputModel.ImageFile = formFile;
+
+                    var updateModelTask = TryUpdateModelAsync(inputModel);
+
+                    updateModelTask.Wait();
+                }
+            }
+            
             return base.Edit(inputModel);
         }
 
@@ -145,7 +163,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             PopulateWithCountriesEdit(modelInput);
         }
 
-        protected override void ConfigurePostFailEditValidation(AssociationInputViewModel modelInput)
+        protected override void ConfigurePostFailEditValidation(Association entity, AssociationInputViewModel modelInput)
         {
             PopulateWithCountries(modelInput);
         }

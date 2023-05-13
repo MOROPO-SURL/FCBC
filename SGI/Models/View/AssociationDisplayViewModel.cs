@@ -13,8 +13,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public string ImageExtension { get; set; }
 
-        [Display(Name = "Organization")]
-        public string OrganizationIdentityName { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Display(Name = "Founding date")]
         public System.DateTime? BornDate { get; set; }
@@ -28,9 +28,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         public void Import(Association entity)
         {
             Id = entity.Id;
-            ImageId = entity.Identity.ImageId ?? System.Guid.Empty;
-            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension() ?? null;
-            OrganizationIdentityName = entity.Identity.Name;
+            ImageId = entity.Identity.ImageId;
+            ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension();
+            Name = entity.Identity.Name;
             BornDate = entity.Identity.BornDate;
             About = entity.Identity.About;
             AddressPostal = entity.Identity.OrganizationPostalContactItemBridges.Select(b => b.ContactItem.Address).First();

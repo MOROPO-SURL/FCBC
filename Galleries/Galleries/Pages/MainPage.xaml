@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sscxftoolkitmvvmpages:BindingContextedContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
+    xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
+    xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
+    xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
+    xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="MOROPO.FCBC.Galleries.Pages.MainPage"
+    x:TypeArguments="pagemodels:MainPageModel"
+    Title="Inicio"
+    BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="240" ChildAbsoluteHorizontalMargin="10" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Text="Actualizar"
+            Order="Primary"
+            Clicked="RefreshToolbarItem_Clicked">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="Material Design Icons" Glyph="&#xF450;">
+                    <FontImageSource.Color>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="UWP" Value="Black" />
+                        </OnPlatform>
+                    </FontImageSource.Color>
+                </FontImageSource>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView Orientation="Vertical">
+                <StackLayout Spacing="0">
+                    <Grid>
+                        <ffimageloadingforms:CachedImage
+                            HeightRequest="{Binding Source={Reference HeaderContentContainer}, Path=Height}"
+                            Aspect="AspectFill"
+                            Source="{Binding Path=ImageSource}"
+                            CacheType="Disk"
+                            CacheDuration="8760:00:00" />
+                        <BoxView Color="#dd512c10" />
+                        <StackLayout
+                            x:Name="HeaderContentContainer"
+                            HorizontalOptions="Center" 
+                            WidthRequest="300" 
+                            Margin="10,30">
+                            <Label
+                                Text="Galería Amalia"
+                                FontSize="40"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource MainContrastTextColor}"
+                                HorizontalTextAlignment="Center" />
+                            <Label
+                                Text="{Binding Path=About}"
+                                HorizontalTextAlignment="Center"
+                                TextColor="{StaticResource MainContrastTextColor}" />
+                            <Grid ColumnSpacing="4" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Padding="0"
+                                    Style="{StaticResource HeaderButtonStyle}"
+                                    Grid.Column="0"
+                                    Text="Historia"
+                                    Clicked="HistoryHeaderButton_Clicked" />
+                                <Button
+                                    Padding="0"
+                                    Style="{StaticResource HeaderButtonStyle}"
+                                    Grid.Column="1"
+                                    Text="Catálogo" />
+                                <Button
+                                    Style="{StaticResource HeaderButtonStyle}"
+                                    Grid.Column="2"
+                                    Text="Contacto"
+                                    Clicked="ContactHeaderButton_Clicked" />
+                            </Grid>
+                        </StackLayout>
+                    </Grid>
+                    <Label 
+                        Text="Salas Expositivas"
+                        TextColor="Black"
+                        Margin="10,10,10,5"
+                        FontSize="Medium"
+                        FontAttributes="Bold" />
+                    <BoxView
+                        Margin="10,0"
+                        Color="Black"
+                        HeightRequest="1" />
+                    <FlexLayout
+                        Margin="5"
+                        Wrap="Wrap"
+                        AlignItems="Start" AlignContent="Start"
+                        BindableLayout.ItemsSource="{Binding Path=Exposures}">
+                        <BindableLayout.EmptyView>
+                            <Label
+                                Margin="5"
+                                Text="No existen salas expositivas disponibles en este momento"
+                                HorizontalTextAlignment="Center"
+                                TextColor="DimGray" />
+                        </BindableLayout.EmptyView>
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    Margin="5" Padding="0"
+                                    BackgroundColor="WhiteSmoke"
+                                    HasShadow="true"
+                                    WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}"
+                                    HeightRequest="180">
+                                    <StackLayout Margin="20,15">
+                                        <Label 
+                                            Text="{Binding Path=Name}"
+                                            FontSize="Large" />
+                                        <Label
+                                            VerticalOptions="StartAndExpand"
+                                            Text="{Binding Path=Description}"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="3" />
+                                        <Button
+                                            Text="Detalles"
+                                            Clicked="ExposureDetailButton_Clicked" />
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </StackLayout>
+            </ScrollView>
+            <views:BusyView />
+        </Grid>
+    </ContentPage.Content>
+</sscxftoolkitmvvmpages:BindingContextedContentPage>

@@ -2,6 +2,8 @@
 {
     internal static class PermissionsFamily
     {
+        internal const string ApiKeyManagement = "apikey-management";
+
         internal const string InstitutionalInformationManagement = "institutional-information-management";
 
         internal const string ArtisticManifestationManagement = "artistic-manifestation-management";
@@ -75,5 +77,9 @@
         internal const string ActivityKindManagement = "activity-kind-management";
 
         internal const string ActivityManagement = "activity-management";
+
+        internal const string GalleryManagement = "gallery-management";
+
+        internal const string ExposureManagement = "exposure-management";
     }
 }

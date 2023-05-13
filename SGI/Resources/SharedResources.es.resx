@@ -1930,9 +1930,93 @@
     <value />
   </data>
   <data name="ArtManifestation" xml:space="preserve">
-    <value>Manifestación</value>
+    <value>Manifestación de Artes Pláticas</value>
   </data>
   <data name="Context" xml:space="preserve">
     <value>Contexto</value>
+  </data>
+  <data name="ServiceManifestation" xml:space="preserve">
+    <value>Manifestación de Servicio</value>
+  </data>
+  <data name="ExpirateAt" xml:space="preserve">
+    <value>Fecha de Expiración</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="apikey-creator" xml:space="preserve">
+    <value>Agregar Llaves API</value>
+  </data>
+  <data name="apikey-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden agregar Llaves API en el sistema</value>
+  </data>
+  <data name="apikey-editor" xml:space="preserve">
+    <value>Modificar Llaves API</value>
+  </data>
+  <data name="apikey-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar Llaves API en el sistema</value>
+  </data>
+  <data name="apikey-management" xml:space="preserve">
+    <value>Gestionar Llaves API</value>
+  </data>
+  <data name="apikey-remover" xml:space="preserve">
+    <value>Eliminar Llaves API</value>
+  </data>
+  <data name="apikey-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar Llaves API en el sistema</value>
+  </data>
+  <data name="apikey-viewer" xml:space="preserve">
+    <value>Visualizar Llaves API</value>
+  </data>
+  <data name="apikey-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar Llaves API en el sistema</value>
+  </data>
+  <data name="exposure-creator" xml:space="preserve">
+    <value>Agregar Exposiciones</value>
+  </data>
+  <data name="exposure-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden agregar Exposiciones en el sistema</value>
+  </data>
+  <data name="exposure-editor" xml:space="preserve">
+    <value>Modificar Exposiciones</value>
+  </data>
+  <data name="exposure-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar Exposiciones en el sistema</value>
+  </data>
+  <data name="exposure-management" xml:space="preserve">
+    <value>Gestionar Exposiciones</value>
+  </data>
+  <data name="exposure-remover" xml:space="preserve">
+    <value>Eliminar Exposiciones</value>
+  </data>
+  <data name="exposure-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar Exposiciones en el sistema</value>
+  </data>
+  <data name="exposure-viewer" xml:space="preserve">
+    <value>Visualizar Exposiciones</value>
+  </data>
+  <data name="exposure-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar Exposiciones en el sistema</value>
+  </data>
+  <data name="gallery-editor" xml:space="preserve">
+    <value>Modificar Galería</value>
+  </data>
+  <data name="gallery-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar la Galería en el sistema</value>
+  </data>
+  <data name="gallery-management" xml:space="preserve">
+    <value>Gestionar Gelería</value>
+  </data>
+  <data name="gallery-viewer" xml:space="preserve">
+    <value>Visualizar la Galería</value>
+  </data>
+  <data name="gallery-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar la Galería en el sistema</value>
+  </data>
+  <data name="FoundatedAt" xml:space="preserve">
+    <value>Fecha de Fundación</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Historia</value>
   </data>
 </root>

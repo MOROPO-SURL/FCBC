@@ -1,6 +1,6 @@
-﻿@model MOROPO.FCBC.SGI.Models.View.WorkCriterionDisplayViewModel
+﻿@model MOROPO.FCBC.SGI.Models.View.ValorationDisplayViewModel
 
-<div class="modal fade" id="delete-criterion-@Model.WorkId@Model.CriticId" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="delete-criterion-@Model.Id" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,14 +8,11 @@
             </div>
             @using (Html.BeginForm("DeleteWorkCriterion", "ArtWorks", null, FormMethod.Post, true, null))
             {
-                @Html.HiddenFor(model => model.CriticId)
-                @Html.HiddenFor(model => model.WorkId)
-
-
+                @Html.HiddenFor(model => model.Critic.Id)
+                @Html.HiddenFor(model => model.Id)
 
                 <div class="modal-body">
-                    <p>Está seguro que desea eliminar la valoración hecha por <strong> @Model.CriticName</strong> sobre <strong>@Model.WorkName</strong> </p><br>
-                    <p>@Model.Criterion</p>
+                    <p class="mb-0">Está seguro que desea eliminar la valoración hecha por <strong> @Model.Critic.Name</strong>?</p>
                 </div>
 
                 <div class="modal-footer" style="margin-top: 0;">

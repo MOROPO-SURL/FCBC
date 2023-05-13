@@ -33,7 +33,16 @@
 </dl>
 <dl>
     <dt>@Html.DisplayNameFor(model => model.Description)</dt>
-    <dd>@Html.DisplayFor(model => model.Description)</dd>
+    <dd>
+    @if (Model.Description != null)
+    {
+        <span>@Html.DisplayName(Model.Description)</span>
+    }
+    else
+    {
+        <span>--</span>
+    }
+    </dd>
 </dl>
 @using (Html.BeginForm("delete", "artistictechniques", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
 {
