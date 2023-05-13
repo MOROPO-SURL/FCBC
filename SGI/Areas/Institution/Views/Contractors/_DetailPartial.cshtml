@@ -14,7 +14,7 @@
                 <div class="card-body">  
                     <div class="row">
                         <div class="col-md-12">
-                            <h5>@Html.DisplayNameFor(model => model.OrganizationIdentityName)</h5>
+                            <h5>Nombre</h5>
                             <p>@Model.OrganizationIdentityName</p>
                         </div>
                         <div class="col-md-4">
@@ -24,24 +24,31 @@
                         <div class="col-md-4">
                             <h5>@Html.DisplayNameFor(model => model.BornDate)</h5>
                             @if(Model.BornDate != null){
-                                <p>@Html.DisplayName(Model.BornDate.ToString())</p>
+                                <p>@Html.DisplayName(Model.BornDate.Value.ToShortDateString())</p>
                             }else{
-                                <p>-</p>
+                                <p>--</p>
                             }
                         </div>
                         <div class="col-md-4">
                             <h5>@Html.DisplayNameFor(model => model.Brand)</h5>
                             @if (Model.Brand != null)
                             {
-                                <p>@Html.DisplayName(Model.Brand)</p>
+                                <p>@Html.DisplayFor(model => model.Brand)</p>
                             }else{
-                                <p>-</p>
+                                <p>--</p>
                             }
                         </div>
                     </div>                    
                     <hr />
                     <h5>@Html.DisplayNameFor(model => model.About)</h5>
-                    <p style="word-wrap: break-word;">@Model.About</p>
+                    <p class="mb-0" style="word-wrap: break-word;">
+                        @if (Model.About != null)
+                        {
+                            <span>@Html.DisplayFor(model => model.About)</span>
+                        }else{
+                            <spans>--</spans>
+                        }
+                    </p>
                 </div>
             </div>
         </div>

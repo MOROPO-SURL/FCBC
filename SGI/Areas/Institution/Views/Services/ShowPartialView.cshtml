@@ -14,7 +14,16 @@
         <h5>@Html.DisplayNameFor(model => model.Name)</h5>
         <p>@Model.Name</p>
         <h5>@Html.DisplayNameFor(model => model.Description)</h5>
-        <p class="mb-0">@Model.Description</p>
+        <p class="mb-0">
+            @if (string.IsNullOrEmpty(Model.Description))
+            {
+               <span>--</span>
+            }
+            else
+            {
+                <span>@Model.Description</span>
+            }
+        </p>
       </div>
     </div>
   </div>

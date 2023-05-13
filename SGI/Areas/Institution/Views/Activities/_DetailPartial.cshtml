@@ -21,7 +21,16 @@
                         </div>
                         <div class="col-md-6">
                             <h5>@Html.DisplayNameFor(model => model.PlanedAt)</h5>
-                            <p>@Html.DisplayName(Model.PlanedAt.ToString())</p>
+                            <p>
+                                @if (Model.PlanedAt != null)
+                                {
+                                    @Html.DisplayName(Model.PlanedAt.Value.ToShortDateString())
+                                }
+                                else
+                                {
+                                    <span>--</span>
+                                }
+                            </p>
                         </div>
                     </div>
                     <div class="row">

@@ -144,7 +144,7 @@
                 </div>
                 <div>
                     <div class="btn-group btn-group-sm float-right">
-                        <button class="btn btn-light" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                        <button class="btn btn-light" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span> Detalles</button>
                         <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                         <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                     </div>
@@ -172,7 +172,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h5>Fecha de Registro</h5>
-                                    <p>@item.CreatedAt</p>
+                                    <p>@item.CreatedAt.ToShortDateString()</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -181,7 +181,7 @@
                                     <p>@if (item.StartAt != null) { <span>@item.StartAt.Value.ToShortDateString()</span> } else { <span>--</span> }</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <h5>Fecha de Apertura</h5>
+                                    <h5>Fecha de Cierre</h5>
                                     <p>@if (item.EndAt != null) { <span>@item.EndAt.Value.ToShortDateString()</span> } else { <span>--</span> }</p>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@
                         </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-light" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                                <button class="btn btn-light" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span> Detalles</button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-s btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
