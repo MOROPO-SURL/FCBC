@@ -144,19 +144,6 @@
                         </span>
                         @item.Name
                     </div>
-                    <div class="mb-2">
-                        <span class="font-weight-bold">
-                            Pertenece a:
-                        </span>
-                        @if (item.Group != null)
-                        {
-                            <span>@item.Group.Name</span>
-                        }
-                        else
-                        {
-                            <span>-</span>
-                        }
-                    </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
@@ -173,7 +160,6 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Pertenece a</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
@@ -182,16 +168,6 @@
                 {
                     <tr>
                         <td style="vertical-align: middle;" title="Manifestacin Artistica ">@item.Name</td>
-                        <td style="vertical-align: middle;" title="Pertenece a">
-                            @if (item.Group != null)
-                            {
-                                <span>@item.Group.Name</span>
-                            }
-                            else
-                            {
-                                <span>-</span>
-                            }
-                        </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
@@ -308,13 +284,12 @@ else
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Pertenece a</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="6"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                    <td colspan="2"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
                 </tr>
             </tbody>
         </table>

@@ -8,10 +8,6 @@
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("GroupId")]
-        public ServiceLineGroup Group { get; set; }
-        public System.Guid? GroupId { get; set; }
-
         public string Description { get; set; }
 
         public ServiceLine()

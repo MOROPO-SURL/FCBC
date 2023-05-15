@@ -143,19 +143,6 @@
                     </span>
                     @item.Name
                 </div>
-                <div class="mb-2">
-                    <span class="font-weight-bold">
-                        Pertenece a:
-                    </span>
-                    @if (item.Group != null)
-                    {
-                        <span>@item.Group.Name</span>
-                    }
-                    else
-                    {
-                        <span>--</span>
-                    }
-                </div>
                 <div>
                     <div class="btn-group btn-group-sm float-right">
                         <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
@@ -178,15 +165,6 @@
                     <div class="modal-body">
                         <h5>@GlobalViewLocalizationHelper.Localize("Name")</h5>
                         <p>@item.Name</p>
-                        <h5>Pertenece a</h5>
-                        @if (item.Group == null)
-                        {
-                            <p>--</p>
-                        }
-                        else
-                        {
-                            <p>@item.Group.Name</p>
-                        }
                         <h5>@GlobalViewLocalizationHelper.Localize("Description")</h5>
                         @if (string.IsNullOrEmpty(item.Description))
                         {
@@ -207,7 +185,6 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Pertenece a</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
@@ -216,16 +193,6 @@
                 {
                     <tr>
                         <td style="vertical-align: middle;" title="Manifestacin Artistica ">@item.Name</td>
-                        <td style="vertical-align: middle;" title="Pertenece a">
-                            @if (item.Group != null)
-                            {
-                                <span>@item.Group.Name</span>
-                            }
-                            else
-                            {
-                                <span>--</span>
-                            }
-                        </td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
@@ -343,13 +310,12 @@ else
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Pertenece a</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="6"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                    <td colspan="2"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
                 </tr>
             </tbody>
         </table>

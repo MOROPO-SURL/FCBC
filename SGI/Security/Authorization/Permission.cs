@@ -170,34 +170,6 @@
         public const string ResolutionRemover = "resolution-remover";
         #endregion
 
-        #region ArtisticManifestationGroup
-        public const string ArtisticManifestationGroupViewer = "artistic-manifestation-group-viewer";
-        public const string ArtisticManifestationGroupCreator = "artistic-manifestation-group-creator";
-        public const string ArtisticManifestationGroupEditor = "artistic-manifestation-group-editor";
-        public const string ArtisticManifestationGroupRemover = "artistic-manifestation-group-remover";
-        #endregion
-
-        #region CraftManifestationGroup
-        public const string CraftManifestationGroupViewer = "craft-manifestation-group-viewer";
-        public const string CraftManifestationGroupCreator = "craft-manifestation-group-creator";
-        public const string CraftManifestationGroupEditor = "craft-manifestation-group-editor";
-        public const string CraftManifestationGroupRemover = "craft-manifestation-group-remover";
-        #endregion
-
-        #region DesignManifestationGroup
-        public const string DesignManifestationGroupViewer = "design-manifestation-group-viewer";
-        public const string DesignManifestationGroupCreator = "design-manifestation-group-creator";
-        public const string DesignManifestationGroupEditor = "design-manifestation-group-editor";
-        public const string DesignManifestationGroupRemover = "design-manifestation-group-remover";
-        #endregion
-
-        #region ServiceLineGroup
-        public const string ServiceLineGroupViewer = "service-line-group-viewer";
-        public const string ServiceLineGroupCreator = "service-line-group-creator";
-        public const string ServiceLineGroupEditor = "service-line-group-editor";
-        public const string ServiceLineGroupRemover = "service-line-group-remover";
-        #endregion
-
         #region ArtWork
         public const string ArtWorkViewer = "art-work-viewer";
         public const string ArtWorkCreator = "art-work-creator";

@@ -67,10 +67,6 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<AdministrativeRole, Guid>, AdministrativeRoleRepository>();
             services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
             services.AddScoped<IEntityRepository<Resolution, Guid>, ResolutionRepository>();
-            services.AddScoped<IEntityRepository<ArtisticManifestationGroup, Guid>, ArtisticManifestationGroupRepository>();
-            services.AddScoped<IEntityRepository<CraftManifestationGroup, Guid>, CraftManifestationGroupRepository>();
-            services.AddScoped<IEntityRepository<DesignManifestationGroup, Guid>, DesignManifestationGroupRepository>();
-            services.AddScoped<IEntityRepository<ServiceLineGroup, Guid>, ServiceLineGroupRepository>();
             services.AddScoped<IEntityRepository<ArtisticManifestation, Guid>, ArtisticManifestationRepository>();
             services.AddScoped<IEntityRepository<CraftManifestation, Guid>, CraftManifestationRepository>();
             services.AddScoped<IEntityRepository<DesignManifestation, Guid>, DesignManifestationRepository>();

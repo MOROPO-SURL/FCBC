@@ -52,14 +52,6 @@
 
         internal const string ResolutionManagement = "resolution-management";
 
-        internal const string ArtisticManifestationGroupManagement = "artistic-manifestation-group-management";
-
-        internal const string CraftManifestationGroupManagement = "craft-manifestation-group-management";
-
-        internal const string DesignManifestationGroupManagement = "design-manifestation-group-management";
-
-        internal const string ServiceLineGroupManagement = "service-line-group-management";
-
         internal const string ArtWorkManagement = "art-work-management";
 
         internal const string CraftWorkManagement = "craft-work-management";

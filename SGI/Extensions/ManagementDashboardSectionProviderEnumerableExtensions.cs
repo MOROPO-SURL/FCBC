@@ -312,42 +312,6 @@ namespace MOROPO.FCBC.SGI.Extensions
                 }
             };
 
-            var manifestionGroupsSection = new List<ManagementDashboardSectionViewModel>
-            {
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Artes Plásticas",
-                    Controller = "artisticmanifestationgroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.ArtisticManifestationGroupViewer
-                },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Artesanía",
-                    Controller = "craftmanifestationgroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.CraftManifestationGroupViewer
-                },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Diseño",
-                    Controller = "designmanifestationgroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.DesignManifestationGroupViewer
-                },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Servicios",
-                    Controller = "servicelinegroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.ServiceLineGroupViewer
-                }
-            };
-
             var techniquesSection = new List<ManagementDashboardSectionViewModel>
             {
                 new ManagementDashboardSectionViewModel
@@ -391,10 +355,8 @@ namespace MOROPO.FCBC.SGI.Extensions
                 { "Obras", worksSection },
                 { "SKIP-2", null },
                 { "Manifestaciones", manifestationsSection },
-                { "SKIP-3", null },
-                { "Grupos de Manifestaciones", manifestionGroupsSection },
                 { "Técnicas", techniquesSection },
-                { "SKIP-4", null },
+                { "SKIP-3", null },
                 { "Auxiliares", complementsSection }
             };
         }

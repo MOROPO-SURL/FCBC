@@ -6,8 +6,6 @@
 
         public string Name { get; set; }
 
-        public ServiceLineGroupDisplayViewModel Group { get; set; }
-
         public string Description { get; set; }
 
         public void Import(Persistence.Entities.ServiceLine entity)

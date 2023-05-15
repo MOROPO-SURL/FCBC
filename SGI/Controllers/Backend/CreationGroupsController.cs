@@ -17,7 +17,6 @@ using System.Linq;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.FCBC.SGI.Models.Filter;
-using MOROPO.SAPRESSC.Middleware.Region.Persistence.EF.Repositories;
 using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using MOROPO.FCBC.SGI.RegionConst;
 using Microsoft.EntityFrameworkCore;
@@ -34,39 +33,31 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository;
         private readonly IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository;
         private readonly IEntityRepository<Artist, Guid> artistRepository;
-        private readonly IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository;
         private readonly IEntityRepository<CraftManifestation, Guid> craftManifestationRepository;
-        private readonly IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository;
         private readonly IEntityRepository<DesignManifestation, Guid> designManifestationRepository;
-        private readonly IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository;
         private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
-        private readonly IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository;
         private readonly IEntityRepository<Agreement, Guid> agreementRepository;
         private readonly IEntityRepository<Award, Guid> awardRepository;
         private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
         private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
-        private readonly IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository;
+        private readonly IEntityRepository<CreationGroupAttachment, Guid> attachmentRepository;
         private readonly IEntityRepository<State, Guid> stateRepository;
         private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<Critic, Guid> criticRepository;
 
-        public CreationGroupsController(IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<DesignManifestationGroup, Guid> designManifestationGroupRepository, IEntityRepository<ServiceLineGroup, Guid> serviceLineGroupRepository, IEntityRepository<Award, Guid> awardRepository,
-            IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Agreement, Guid> agreementRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<ArtisticManifestationGroup, Guid> artisticManifestationGroupRepository) : base(repository, localizer, logger)
+        public CreationGroupsController(IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<Award, Guid> awardRepository,
+            IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Agreement, Guid> agreementRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, Guid> imageRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
             this.imageFileManagerFacade = imageFileManagerFacade;
             this.imageRepository = imageRepository;
             this.artisticManifestationRepository = artisticManifestationRepository;
             this.artistRepository = artistRepository;
-            this.artisticManifestationGroupRepository = artisticManifestationGroupRepository;
             this.craftManifestationRepository = craftManifestationRepository;
-            this.craftManifestationGroupRepository = craftManifestationGroupRepository;
             this.designManifestationRepository = designManifestationRepository;
-            this.designManifestationGroupRepository = designManifestationGroupRepository;
             this.serviceLineRepository = serviceLineRepository;
-            this.serviceLineGroupRepository = serviceLineGroupRepository;
             this.agreementRepository = agreementRepository;
             this.awardRepository = awardRepository;
             this.distintionsRepository = distintionsRepository;
@@ -449,7 +440,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -480,30 +471,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             return RedirectToAction("members", new { key = entity.Id });
-        }
-
-        private void PopulateSelectableManifestationGroups(ArtisticManifestationGroup group, List<ArtisticManifestation> selectedArtisticManifestations, Dictionary<ArtisticManifestationGroup, SAPRESSC.Core.Common.Models.View.SelectionDescriptedItemInputViewModel<System.Guid>[]> groups)
-        {
-            var artisticManifestations = artisticManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
-
-            if (artisticManifestations.Length > 0)
-            {
-                groups.Add(group, artisticManifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = selectedArtisticManifestations.Any(entity => entity.Id == item.Id),
-                    Description = null
-                }).ToArray());
-            }
-
-            var children = artisticManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
-
-            foreach (var child in children)
-            {
-                PopulateSelectableManifestationGroups(child, selectedArtisticManifestations, groups);
-            }
-
         }
 
         [Route("edit/members/remove")]
@@ -973,25 +940,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             var entity = Repository.Get(key);
 
-            var rootManisfestationGroups = artisticManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
-
-            var groups = new Dictionary<ArtisticManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
-
-            foreach (var group in rootManisfestationGroups)
-            {
-                PopulateArtisticManifestationSelectableGroups(group, entity.ArtisticManifestationBrigdes.Select(item => item.Manifestation).ToList(), groups);
-            }
-
             var model = new GroupArtisticManisfestationsInputViewModel
             {
-                UngroupManifestations = artisticManifestationRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                Manifestations = artisticManifestationRepository.GetAll().ToArray().Select(item => new SelectionDescriptedItemInputViewModel<Guid>
                 {
                     Id = item.Id,
                     Label = item.Name,
                     Selected = entity.ArtisticManifestationBrigdes.Any(bridge => bridge.ManifestationId == item.Id),
                     Description = item.Description
                 }).ToArray(),
-                SelectGroups = groups,
                 Group = new CreationGroupDisplayViewModel()
             };
 
@@ -1007,25 +964,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             var entity = Repository.Get(key);
 
-            var rootManisfestationGroups = craftManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
-
-            var groups = new Dictionary<CraftManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
-
-            foreach (var group in rootManisfestationGroups)
-            {
-                PopulateCraftManifestationSelectableGroups(group, entity.CraftManifestationBridges.Select(item => item.Manifestation).ToList(), groups);
-            }
-
             var model = new GroupCraftManisfestationsInputViewModel
             {
-                UngroupManifestations = craftManifestationRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                Manifestations = craftManifestationRepository.GetAll().Select(item => new SelectionDescriptedItemInputViewModel<Guid>
                 {
                     Id = item.Id,
                     Label = item.Name,
                     Selected = entity.CraftManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
                     Description = item.Description
                 }).ToArray(),
-                SelectGroups = groups,
                 Group = new CreationGroupDisplayViewModel()
             };
 
@@ -1041,25 +988,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             var entity = Repository.Get(key);
 
-            var rootManisfestationGroups = designManifestationGroupRepository.FindBy(e => e.Parent == null).ToArray();
-
-            var groups = new Dictionary<DesignManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
-
-            foreach (var group in rootManisfestationGroups)
-            {
-                PopulateDesignManifestationSelectableGroups(group, entity.DesignManifestationBridges.Select(item => item.Manifestation).ToList(), groups);
-            }
-
             var model = new GroupDesignManisfestationsInputViewModel
             {
-                UngroupManifestations = designManifestationRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                Manifestations = designManifestationRepository.GetAll().ToArray().Select(item => new SelectionDescriptedItemInputViewModel<Guid>
                 {
                     Id = item.Id,
                     Label = item.Name,
                     Selected = entity.DesignManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
                     Description = item.Description
                 }).ToArray(),
-                SelectGroups = groups,
                 Group = new CreationGroupDisplayViewModel()
             };
 
@@ -1075,25 +1012,15 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         {
             var entity = Repository.Get(key);
 
-            var rootManisfestationGroups = serviceLineGroupRepository.FindBy(e => e.Parent == null).ToArray();
-
-            var groups = new Dictionary<ServiceLineGroup, SelectionDescriptedItemInputViewModel<Guid>[]>();
-
-            foreach (var group in rootManisfestationGroups)
-            {
-                PopulateServiceLineSelectableGroups(group, entity.ServiceLineBridges.Select(item => item.Line).ToList(), groups);
-            }
-
             var model = new GrouptServiceLinesInputViewModel
             {
-                UngroupManifestations = serviceLineRepository.FindBy(item => item.GroupId == null).Select(item => new SelectionDescriptedItemInputViewModel<Guid>
+                Manifestations = serviceLineRepository.GetAll().ToArray().Select(item => new SelectionDescriptedItemInputViewModel<Guid>
                 {
                     Id = item.Id,
                     Label = item.Name,
                     Selected = entity.ServiceLineBridges.Any(bridge => bridge.LineId == item.Id),
                     Description = item.Description
                 }).ToArray(),
-                SelectGroups = groups,
                 Group = new CreationGroupDisplayViewModel()
             };
 
@@ -1125,7 +1052,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.ArtisticManifestationBrigdes.Clear();
 
-            foreach (var item in modelInput.UngroupManifestations)
+            foreach (var item in modelInput.Manifestations)
             {
                 if (!item.Selected) continue;
 
@@ -1166,7 +1093,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.CraftManifestationBridges.Clear();
 
-            foreach (var item in modelInput.UngroupManifestations)
+            foreach (var item in modelInput.Manifestations)
             {
                 if (!item.Selected) continue;
 
@@ -1207,7 +1134,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.DesignManifestationBridges.Clear();
 
-            foreach (var item in modelInput.UngroupManifestations)
+            foreach (var item in modelInput.Manifestations)
             {
                 if (!item.Selected) continue;
 
@@ -1248,7 +1175,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             entity.ServiceLineBridges.Clear();
 
-            foreach (var item in modelInput.UngroupManifestations)
+            foreach (var item in modelInput.Manifestations)
             {
                 if (!item.Selected) continue;
 
@@ -1469,98 +1396,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             if (awads.Count() > 0)
             {
                 modelInput.SelectCritics = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName }).ToArray();
-            }
-        }
-
-        private void PopulateArtisticManifestationSelectableGroups(ArtisticManifestationGroup group, List<ArtisticManifestation> selectedItems, Dictionary<ArtisticManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
-        {
-            var manifestations = artisticManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
-
-            if (manifestations.Length > 0)
-            {
-                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
-                    Description = item.Description
-                }).ToArray());
-            }
-
-            var children = artisticManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
-
-            foreach (var child in children)
-            {
-                PopulateArtisticManifestationSelectableGroups(child, selectedItems, groups);
-            }
-        }
-
-        private void PopulateCraftManifestationSelectableGroups(CraftManifestationGroup group, List<CraftManifestation> selectedItems, Dictionary<CraftManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
-        {
-            var manifestations = craftManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
-
-            if (manifestations.Length > 0)
-            {
-                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
-                    Description = item.Description
-                }).ToArray());
-            }
-
-            var children = craftManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
-
-            foreach (var child in children)
-            {
-                PopulateCraftManifestationSelectableGroups(child, selectedItems, groups);
-            }
-        }
-
-        private void PopulateDesignManifestationSelectableGroups(DesignManifestationGroup group, List<DesignManifestation> selectedItems, Dictionary<DesignManifestationGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
-        {
-            var manifestations = designManifestationRepository.FindBy(item => item.GroupId == group.Id).ToArray();
-
-            if (manifestations.Length > 0)
-            {
-                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
-                    Description = item.Description
-                }).ToArray());
-            }
-
-            var children = designManifestationGroupRepository.FindBy(item => item.ParentId == group.Id);
-
-            foreach (var child in children)
-            {
-                PopulateDesignManifestationSelectableGroups(child, selectedItems, groups);
-            }
-        }
-
-        private void PopulateServiceLineSelectableGroups(ServiceLineGroup group, List<ServiceLine> selectedItems, Dictionary<ServiceLineGroup, SelectionDescriptedItemInputViewModel<Guid>[]> groups)
-        {
-            var manifestations = serviceLineRepository.FindBy(item => item.GroupId == group.Id).ToArray();
-
-            if (manifestations.Length > 0)
-            {
-                groups.Add(group, manifestations.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = selectedItems.Any(entity => entity.Id == item.Id),
-                    Description = item.Description
-                }).ToArray());
-            }
-
-            var children = serviceLineGroupRepository.FindBy(item => item.ParentId == group.Id);
-
-            foreach (var child in children)
-            {
-                PopulateServiceLineSelectableGroups(child, selectedItems, groups);
             }
         }
 

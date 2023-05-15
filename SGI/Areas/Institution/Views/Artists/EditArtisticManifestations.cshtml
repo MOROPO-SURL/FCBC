@@ -71,36 +71,13 @@
                 <div class="card-body">
 
                     <div class="row">
-                        @foreach (var item in Model.UngroupManifestations)
+                        @foreach (var item in Model.Manifestations)
                         {
                             <div class="col-md-4">
-                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
+                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("Manifestations[{0}]", selectableIndex++))
                             </div>
                         }
                     </div>
-
-                    @if (Model.SelectGroups != null && Model.SelectGroups.Count > 0)
-                    {
-                        foreach (var group in Model.SelectGroups)
-                        {
-                            <div class="card mt-4">
-                                <div class="card-header">
-                                    <h5>@group.Key.Name</h5>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="row">
-                                        @foreach (var item in group.Value)
-                                        {
-                                            <div class="col-md-4">
-                                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
                 </div>
             </div>
         </div>

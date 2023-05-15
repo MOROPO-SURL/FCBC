@@ -26,35 +26,6 @@
     Layout = "_BackendLayout";
 }
 
-@section styles {
-    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
-}
-
-    @section scripts {
-    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var selectedNode;
-            var dataId = $("#GroupId").val();
-            var tree = $('#tree').tree({
-                uiLibrary: 'bootstrap4',
-                dataSource: @Html.Raw(Model.SerializedTree),
-                primaryKey: 'id',
-                border: true
-            });
-            selectedNode = tree.getNodeById(dataId);
-            tree.expandAll();
-            tree.on('select', function (e, node, id) {
-                $('#GroupId').val(id);
-            });
-            tree.on('unselect', function (e, node, id) {
-                $('#GroupId').val(null);
-            });
-            tree.select(selectedNode);
-        });
-    </script>
-}
-
 @using (Html.BeginForm("edit", "designmanifestations", new { Area = "manifestations", key = string.Empty }, FormMethod.Post, true, null))
 {
     @Html.ValidationSummary(true)
@@ -73,12 +44,6 @@
                         @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger", style = "display: inline-block;" })
                     </div>
-                </div>
-                <div class="col-md-6" style="margin-bottom: 20px;">
-                    @Html.LabelFor(model => model.GroupId, new { @class = "control-label" })
-                    @Html.HiddenFor(model => model.GroupId)
-                    <div id="tree"></div>
-                    @Html.ValidationMessageFor(model => model.GroupId, null, new { @class = "text-danger", style = "display: inline-block;" })
                 </div>
             </div>
             <div style="margin-bottom: 20px;">
