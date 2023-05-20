@@ -73,7 +73,6 @@ namespace MOROPO.FCBC.SGI.Models.Filter
 
                     Expression<System.Func<Persistence.Entities.Artist, bool>> ManisfestationExpression = entity => entity.ArtisticManifestationBridges.Any(bridge => bridge.ManifestationId == System.Guid.Parse(ManisfestationId)) ||
                         entity.CraftManifestationBridges.Any(bridge => bridge.ManifestationId == System.Guid.Parse(ManisfestationId)) ||
-                        entity.DesignManifestationBridges.Any(bridge => bridge.ManifestationId == System.Guid.Parse(ManisfestationId)) ||
                         entity.ServiceLineBridges.Any(bridge => bridge.LineId == System.Guid.Parse(ManisfestationId));
 
                     if (expression == null)

@@ -34,7 +34,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository;
         private readonly IEntityRepository<Artist, Guid> artistRepository;
         private readonly IEntityRepository<CraftManifestation, Guid> craftManifestationRepository;
-        private readonly IEntityRepository<DesignManifestation, Guid> designManifestationRepository;
         private readonly IEntityRepository<ServiceLine, Guid> serviceLineRepository;
         private readonly IEntityRepository<Agreement, Guid> agreementRepository;
         private readonly IEntityRepository<Award, Guid> awardRepository;
@@ -47,7 +46,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<Critic, Guid> criticRepository;
 
-        public CreationGroupsController(IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<DesignManifestation, Guid> designManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<Award, Guid> awardRepository,
+        public CreationGroupsController(IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<Award, Guid> awardRepository,
             IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Agreement, Guid> agreementRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, Guid> imageRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
@@ -56,7 +55,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.artisticManifestationRepository = artisticManifestationRepository;
             this.artistRepository = artistRepository;
             this.craftManifestationRepository = craftManifestationRepository;
-            this.designManifestationRepository = designManifestationRepository;
             this.serviceLineRepository = serviceLineRepository;
             this.agreementRepository = agreementRepository;
             this.awardRepository = awardRepository;
@@ -896,16 +894,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private void PopulateManifestations(CreationGroupFilterModel filter)
         {
             var artistManifestations = artisticManifestationRepository.GetAll();
-            var ArtistGroup = new SelectListGroup { Name = "Artística" };
+            var ArtistGroup = new SelectListGroup { Name = "Artes Visuales" };
 
             var craftManifestations = craftManifestationRepository.GetAll();
-            var CraftGroup = new SelectListGroup { Name = "Artesanía" };
-
-            var designManifestations = designManifestationRepository.GetAll();
-            var DesignGroup = new SelectListGroup { Name = "Diseño" };
+            var CraftGroup = new SelectListGroup { Name = "Artes Aplicadas" };
 
             var serviceManifestations = serviceLineRepository.GetAll();
-            var ServiceGroup = new SelectListGroup { Name = "Servico" };
+            var ServiceGroup = new SelectListGroup { Name = "Servicios" };
 
             foreach (var artisticManifestation in artistManifestations)
             {
@@ -915,11 +910,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             foreach (var craftManifestation in craftManifestations)
             {
                 filter.Manisfestations.Add(new SelectListItem { Value = craftManifestation.Id.ToString(), Text = craftManifestation.Name, Group = CraftGroup });
-            }
-
-            foreach (var designManifestation in designManifestations)
-            {
-                filter.Manisfestations.Add(new SelectListItem { Value = designManifestation.Id.ToString(), Text = designManifestation.Name, Group = DesignGroup });
             }
 
             foreach (var serviceManifestation in serviceManifestations)
@@ -971,30 +961,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Id = item.Id,
                     Label = item.Name,
                     Selected = entity.CraftManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
-                    Description = item.Description
-                }).ToArray(),
-                Group = new CreationGroupDisplayViewModel()
-            };
-
-            model.Group.Import(entity);
-
-            return View(model);
-        }
-
-        [HttpGet]
-        [Route("edit/{key}/designmanifestations")]
-        [RequirePermissions(Permission.ArtistEditor)]
-        public ActionResult EditDesignManifestations(Guid key)
-        {
-            var entity = Repository.Get(key);
-
-            var model = new GroupDesignManisfestationsInputViewModel
-            {
-                Manifestations = designManifestationRepository.GetAll().ToArray().Select(item => new SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = entity.DesignManifestationBridges.Any(bridge => bridge.ManifestationId == item.Id),
                     Description = item.Description
                 }).ToArray(),
                 Group = new CreationGroupDisplayViewModel()
@@ -1109,47 +1075,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
 
             return RedirectToAction("editcraftmanifestations", new { key = entity.Id });
-        }
-
-        [HttpPost]
-        [Route("edit/{key}/designmanifestations")]
-        [RequirePermissions(Permission.ArtistEditor)]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditDesignManifestations(Guid key, GroupDesignManisfestationsInputViewModel modelInput)
-        {
-            CreationGroup entity = null;
-
-            try
-            {
-                entity = Repository.Get(key);
-            }
-            catch { }
-
-            if (entity == null)
-            {
-                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
-
-                return GetDefaultActionResult();
-            }
-
-            entity.DesignManifestationBridges.Clear();
-
-            foreach (var item in modelInput.Manifestations)
-            {
-                if (!item.Selected) continue;
-
-                entity.DesignManifestationBridges.Add(new CreationGroupDesignManifestationBridge
-                {
-                    GroupId = entity.Id,
-                    ManifestationId = item.Id
-                });
-            }
-
-            Repository.Update(entity, User.Identity.Name);
-
-            SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
-
-            return RedirectToAction("editdesignmanifestations", new { key = entity.Id });
         }
 
         [HttpPost]

@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.GrouptServiceLinesInputViewModel
 
 @{
-    ViewData["Title"] = "Editar Grupos de Creación (Manifestaciones de Servicio)";
+    ViewData["Title"] = "Editar Grupos de Creación (Manifestaciones de Servicios)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -117,13 +117,10 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="editartisticmanifestations" asp-route-key="@Model.Group.Id">Artísticas</a>
+                            <a class="nav-link" asp-action="editartisticmanifestations" asp-route-key="@Model.Group.Id">Artes Visuales</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="editcraftmanifestations" asp-route-key="@Model.Group.Id">Artesanales</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="editdesignmanifestations" asp-route-key="@Model.Group.Id">Diseño</a>
+                            <a class="nav-link" asp-action="editcraftmanifestations" asp-route-key="@Model.Group.Id">Artes Aplicadas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Servicios</a>

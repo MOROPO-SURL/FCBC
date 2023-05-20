@@ -2022,4 +2022,10 @@
   <data name="Manifestation" xml:space="preserve">
     <value>Manifestación</value>
   </data>
+  <data name="Association" xml:space="preserve">
+    <value>Asociación</value>
+  </data>
+  <data name="SpecificEducation" xml:space="preserve">
+    <value>Institución Educativa</value>
+  </data>
 </root>
