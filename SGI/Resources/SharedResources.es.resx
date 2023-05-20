@@ -1564,16 +1564,16 @@
     <value>Usuario que puede modificar servicio</value>
   </data>
   <data name="service-line-creator" xml:space="preserve">
-    <value>Agregar Linea de Servicio</value>
+    <value>Agregar Línea de Servicio</value>
   </data>
   <data name="service-line-creator-description" xml:space="preserve">
-    <value>Usuario que puede agregar linea de servicio</value>
+    <value>Usuario que puede agregar línea de servicio</value>
   </data>
   <data name="service-line-editor" xml:space="preserve">
-    <value>Modificar Linea de Servicio</value>
+    <value>Modificar Línea de Servicio</value>
   </data>
   <data name="service-line-editor-description" xml:space="preserve">
-    <value>Usuario que puede modificar linea de servicio</value>
+    <value>Usuario que puede modificar línea de servicio</value>
   </data>
   <data name="service-line-group-creator" xml:space="preserve">
     <value>Agregar Grupo de Linea de Servicio</value>
@@ -1603,19 +1603,19 @@
     <value>Usuario que puede visualizar grupos de lineas de servicios</value>
   </data>
   <data name="service-line-management" xml:space="preserve">
-    <value>Getionar Lineas de Servicio</value>
+    <value>Getionar Líneas de Servicio</value>
   </data>
   <data name="service-line-remover" xml:space="preserve">
-    <value>Eliminar Linea de Servicio</value>
+    <value>Eliminar Línea de Servicio</value>
   </data>
   <data name="service-line-remover-description" xml:space="preserve">
-    <value>Usuario que puede eliminar linea de servicio</value>
+    <value>Usuario que puede eliminar línea de servicio</value>
   </data>
   <data name="service-line-viewer" xml:space="preserve">
-    <value>Visualizar Lineas de Servicios</value>
+    <value>Visualizar Líneas de Servicios</value>
   </data>
   <data name="service-line-viewer-description" xml:space="preserve">
-    <value>Usuario que puede visualizar lineas de servicios</value>
+    <value>Usuario que puede visualizar líneas de servicios</value>
   </data>
   <data name="service-management" xml:space="preserve">
     <value>Gestionar Servicios</value>
@@ -1801,7 +1801,7 @@
     <value>Peso de la obra</value>
   </data>
   <data name="ServiceLine" xml:space="preserve">
-    <value>Linea de servicio</value>
+    <value>Línea de Servicio</value>
   </data>
   <data name="activity-creator" xml:space="preserve">
     <value>Agregar Actividad</value>
@@ -2018,5 +2018,8 @@
   </data>
   <data name="History" xml:space="preserve">
     <value>Historia</value>
+  </data>
+  <data name="Manifestation" xml:space="preserve">
+    <value>Manifestación</value>
   </data>
 </root>

@@ -24,10 +24,10 @@
         #endregion
 
         #region DesignManifestation
-        public const string DesignManifestationViewer = "design-manifestation-viewer";
-        public const string DesignManifestationCreator = "design-manifestation-creator";
-        public const string DesignManifestationEditor = "design-manifestation-editor";
-        public const string DesignManifestationRemover = "design-manifestation-remover";
+        //public const string DesignManifestationViewer = "design-manifestation-viewer";
+        //public const string DesignManifestationCreator = "design-manifestation-creator";
+        //public const string DesignManifestationEditor = "design-manifestation-editor";
+        //public const string DesignManifestationRemover = "design-manifestation-remover";
         #endregion
 
         #region ServiceLine
@@ -87,10 +87,10 @@
         #endregion
 
         #region DesignTechnique
-        public const string DesignTechniqueViewer = "design-technique-viewer";
-        public const string DesignTechniqueCreator = "design-technique-creator";
-        public const string DesignTechniqueEditor = "design-technique-editor";
-        public const string DesignTechniqueRemover = "design-technique-remover";
+        //public const string DesignTechniqueViewer = "design-technique-viewer";
+        //public const string DesignTechniqueCreator = "design-technique-creator";
+        //public const string DesignTechniqueEditor = "design-technique-editor";
+        //public const string DesignTechniqueRemover = "design-technique-remover";
         #endregion
 
         #region ServiceTechnique
@@ -185,10 +185,10 @@
         #endregion
 
         #region DesignWork
-        public const string DesignWorkViewer = "design-work-viewer";
-        public const string DesignWorkCreator = "design-work-creator";
-        public const string DesignWorkEditor = "design-work-editor";
-        public const string DesignWorkRemover = "design-work-remover";
+        //public const string DesignWorkViewer = "design-work-viewer";
+        //public const string DesignWorkCreator = "design-work-creator";
+        //public const string DesignWorkEditor = "design-work-editor";
+        //public const string DesignWorkRemover = "design-work-remover";
         #endregion
 
         #region ServiceWork

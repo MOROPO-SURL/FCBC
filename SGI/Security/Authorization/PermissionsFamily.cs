@@ -8,7 +8,7 @@
 
         internal const string ArtisticManifestationManagement = "artistic-manifestation-management";
 
-        internal const string DesignManifestationManagement = "design-manifestation-management";
+        //internal const string DesignManifestationManagement = "design-manifestation-management";
 
         internal const string CraftManifestationManagement = "craft-manifestation-management";
 
@@ -28,7 +28,7 @@
 
         internal const string CraftTechniqueManagement = "craft-technique-management";
 
-        internal const string DesignTechniqueManagement = "design-technique-management";
+        //internal const string DesignTechniqueManagement = "design-technique-management";
 
         internal const string ServiceTechniqueManagement = "service-technique-management";
 
@@ -56,7 +56,7 @@
 
         internal const string CraftWorkManagement = "craft-work-management";
 
-        internal const string DesignWorkManagement = "design-work-management";
+        //internal const string DesignWorkManagement = "design-work-management";
 
         internal const string ServiceWorkManagement = "service-work-management";
 

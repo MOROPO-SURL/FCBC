@@ -4,18 +4,20 @@
 {
     <fieldset>
         <legend class="border-bottom">Filtro de Obras</legend>
-        <div class="row">
-            <div class="col-sm-3 mb-2">
-                @Html.LabelFor(model => model.Title, new { @class = "control-label" })
-                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
-            </div>
-            <div class="col-sm-3 mb-2">
-                @Html.LabelFor(model => model.ManifestationId, new { @class = "control-label" })
-                @Html.DropDownListFor(model => model.ManifestationId, Model.Manifestation, new { @class = "selectpicker", data_live_search = "true"})
-            </div>
-            <div class="col-sm-3 mb-2">
-                @Html.LabelFor(model => model.AuthorId, new { @class = "control-label" })
-                @Html.DropDownListFor(model => model.AuthorId, Model.Author, new { @class = "selectpicker", data_live_search = "true"})
+        <div style="margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-sm-3 mb-2">
+                    @Html.LabelFor(model => model.Title, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3 mb-2">
+                    @Html.LabelFor(model => model.ManifestationId, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.ManifestationId, Model.Manifestation, new { @class = "selectpicker", data_live_search = "true"})
+                </div>
+                <div class="col-sm-3 mb-2">
+                    @Html.LabelFor(model => model.AuthorId, new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.AuthorId, Model.Author, new { @class = "selectpicker", data_live_search = "true"})
+                </div>
             </div>
         </div>
 
