@@ -15,15 +15,15 @@
                     @Html.HiddenFor(model => model.ArtistDisplay.Id)
 
                     <div class="row">
-                        <div class="col-md-6" style="margin-bottom: 20px;">
-                            @Html.LabelFor(model => model.Context, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.Context, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Context, null, new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="col-md-6 mb-3">
                             @Html.LabelFor(model => model.AwardId, new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.AwardId, Model.SelectAwards, new { @class = "form-control"})
                             @Html.ValidationMessageFor(model => model.AwardId, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Context, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Context, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Context, null, new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>

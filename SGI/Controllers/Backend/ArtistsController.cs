@@ -50,10 +50,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Recognition, Guid> recognitionRepository;
         private readonly IEntityRepository<Distinction, Guid> distintionsRepository;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
-        private readonly IEntityRepository<ArtistAttachment, System.Guid> attachmentRepository;
-        private readonly IEntityRepository<Critic, System.Guid> criticRepository;
+        private readonly IEntityRepository<ArtistAttachment, Guid> attachmentRepository;
+        private readonly IEntityRepository<Critic, Guid> criticRepository;
+        private readonly IEntityRepository<ArtistValoration, Guid> artistValorationRepository;
 
         public ArtistsController(
+            IEntityRepository<ArtistValoration, Guid> artistValorationRepository,
             IEntityRepository<ServiceLine, Guid> serviceLineRepository,
             IEntityRepository<DesignManifestation, Guid> designManifestationRepository,
             IEntityRepository<CraftManifestation, Guid> craftManifestationRepository,
@@ -93,6 +95,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
             this.criticRepository = criticRepository;
+            this.artistValorationRepository = artistValorationRepository;
         }
 
         [RequirePermissions(Permission.ArtistViewer)]
@@ -1225,7 +1228,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         [Route("edit/{key}/ArtistAwards")]
         [RequirePermissions(Permission.ArtistEditor)]
-        public IActionResult ArtistAwards(System.Guid key)
+        public IActionResult ArtistAwards(Guid key)
         {
             try
             {
@@ -1235,17 +1238,19 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 {
                     ArtistDisplay = new ArtistDisplayViewModel()  
                 };
+
                 PopulateAwards(resultModel);
+
                 resultModel.ArtistDisplay.Import(entity);                
 
                 return View(resultModel);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
         }
@@ -1320,7 +1325,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
@@ -1332,7 +1337,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
             }
             else
             {
@@ -1348,222 +1353,219 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("ArtistAwards", new { key = entity.Id });
         }
 
-        //#region Criterion
-        //[Route("edit/{key}/EditArtisticCriterion")]
-        //[RequirePermissions(Permission.ArtistEditor)]
-        //public IActionResult EditArtisticCriterion(System.Guid key)
-        //{
-        //    try
-        //    {
-        //        var entity = Repository.Get(key);
-
-        //        var resultModel = new ArtistCriterionManageViewModel
-        //        {
-        //            ArtistDisplay = new ArtistDisplayViewModel()
-        //        };
-        //        PopulateCritics(resultModel);
-        //        resultModel.ArtistDisplay.Import(entity);
-
-        //        return View(resultModel);
-        //    }
-        //    catch (System.Exception e)
-        //    {
-        //        logger.LogError(e.InnerException, e.Message);
-        //    }
-
-        //    SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //    return GetDefaultActionResult();
-        //}
-
-        //[Route("edit/Criterion/add")]
-        //[RequirePermissions(Permission.ArtistEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult AddArtistCriterion(ArtistCriterionManageViewModel modelInput)
-        //{
-        //    Artist entity = null;
-        //    Critic critic = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelInput.ArtistDisplay.Id);
-        //        critic = criticRepository.Get(modelInput.CriticId);
-
-        //        modelInput.ArtistDisplay.Import(entity);                
-        //    }
-        //    catch { }
-
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //        return GetDefaultActionResult();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        entity.ArtistAssessmentBridges.Add(new ArtistAssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
-
-        //        Repository.Update(entity, User.Identity.Name);
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
-
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
-
-        //    return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
-        //}
+        #region Criterion
         
-
-        //[Route("edit/Criterion/update")]
-        //[RequirePermissions(Permission.ArtistEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult UpdateArtistCriterion(ArtistAssessmentBridgeDisplayViewModel modelInput)
-        //{
-        //    Artist entity = null;
-        //    Critic critic = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelInput.ArtistId);
-        //        critic = criticRepository.Get(modelInput.CriticUpdateId);
-               
-        //    }
-        //    catch { }
-
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //        return GetDefaultActionResult();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        var artistAssessmentBridge = entity.ArtistAssessmentBridges.FirstOrDefault(a => a.ArtistId == modelInput.ArtistId && a.CriticId == modelInput.CriticId);
-        //        entity.ArtistAssessmentBridges.Remove(artistAssessmentBridge);
-
-        //        entity.ArtistAssessmentBridges.Add(new ArtistAssessmentBridge { Artist = entity, Critic = critic, ArtistId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
-
-        //        Repository.Update(entity, User.Identity.Name);
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
-
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
-
-        //    return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
-        //}
-
-        //[Route("edit/Criterion/delete")]
-        //[RequirePermissions(Permission.ArtistEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult DeleteArtistCriterion(ArtistCriterionDisplayViewModel modelDisplay)
-        //{
-        //    Artist entity = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelDisplay.ArtistId);
-
-        //    }
-        //    catch { }
-
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //        return GetDefaultActionResult();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        var artistCriterion = entity.ArtistAssessmentBridges.First(a => a.ArtistId == modelDisplay.ArtistId && a.CriticId == modelDisplay.CriticId);
-        //        entity.ArtistAssessmentBridges.Remove(artistCriterion);
-
-        //        Repository.Update(entity, User.Identity.Name);
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
-
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
-
-        //    return RedirectToAction("EditArtisticCriterion", new { key = entity.Id });
-        //}
-
-        //#endregion
-
-        private void PopulateCritics(ArtistCriterionManageViewModel modelInput)
+        [Route("edit/{key}/criteria")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public IActionResult EditCriteria(Guid key)
         {
-            var awads = criticRepository.GetAll();
-
-            if (awads.Count() > 0)
+            try
             {
-                modelInput.SelectCritics = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name+" "+ item.Identity.LastName }).ToArray();
+                var entity = Repository.Get(key);
+
+                var resultModel = new ArtistCriterionViewModel
+                {
+                    Artist = new ArtistDisplayViewModel(),
+                    Criterials = artistValorationRepository.FindBy(item => item.CreatorId == entity.Id).ToArray().Select(item =>
+                    {
+                        var _model = new CriterialDisplayViewModel
+                        {
+                            Id = item.Id,
+                            Declaration = item.Declaration,
+                            DeclaredAt = item.DeclaredAt,
+                            Critic = new CriticDisplayViewModel()
+                        };
+
+                        _model.Critic.Import(item.Critic);
+
+                        return _model;
+                    }).ToArray(),
+                    CriticSelectListItems = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName }).ToArray()
+                };
+
+                resultModel.Artist.Import(entity);
+
+                return View(resultModel);
             }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
         }
+
+        [Route("edit/{key}/criteria/add")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCriterion(Guid key, CriterialInputViewModel modelInput)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+                
+                var critic = criticRepository.Get(modelInput.CriticId);
+
+                if (ModelState.IsValid)
+                {
+                    artistValorationRepository.Add(new ArtistValoration
+                    {
+                        Critic = critic,
+                        CriticId = modelInput.CriticId,
+                        Creator = entity,
+                        CreatorId = critic.Id,
+                        DeclaredAt = modelInput.DateOfCriterion,
+                        Declaration = modelInput.Criterion
+                    }, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+
+        [Route("edit/{key}/criteria/edit")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCriterion(Guid key, CriterialInputViewModel modelInput)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var criterion = artistValorationRepository.Get(modelInput.Id);
+
+                if (ModelState.IsValid)
+                {
+                    criterion.DeclaredAt = modelInput.DateOfCriterion;
+                    criterion.Declaration = modelInput.Criterion;
+
+                    artistValorationRepository.Update(criterion, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("edit/{key}/criteria/delete")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCriterion(Guid key, Guid criterionId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var criterion = artistValorationRepository.Get(criterionId);
+
+                if (ModelState.IsValid)
+                {
+                    artistValorationRepository.Delete(criterion, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();            
+        }
+
+        #endregion
 
         private void PopulateAwards(ArtistAwardManageViewModel modelInput)
         {
-            var awads = awardRepository.GetAll();
-
-            if (awads.Count() > 0)
-            {
-                modelInput.SelectAwards = awardRepository.GetAll().Select( item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name  }).ToArray();
-            }
+            modelInput.SelectAwards = awardRepository.GetAll().ToArray().Select( item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name }).ToArray();
         }
 
         private void PopulateAwards(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
         {
-            var awads = awardRepository.GetAll();
+            var awads = awardRepository.GetAll().ToArray();
             
 
             if (awads.Count() > 0)

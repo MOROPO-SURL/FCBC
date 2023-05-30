@@ -1,0 +1,43 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CriterialInputViewModel
+
+<div class="modal fade" id="edit-criterion-@Model.Id" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit-criterion-@Model.Id-title">Modificar Valoración</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("EditCriterion", "artists", new { key = Model.OwnerId }, FormMethod.Post, true, null))
+            {
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.DateOfCriterion, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DateOfCriterion, Model.DateOfCriterion.ToShortDateString(), new { @class = "form-control datepicker-form-control" })
+                            @Html.ValidationMessageFor(model => model.DateOfCriterion, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(model => model.CriticId, new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.CriticId, Model.CriticSelectListItems, new { @class = "form-control"})
+                            @Html.ValidationMessageFor(model => model.CriticId, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.Criterion, new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.Criterion, 8, 1, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Criterion, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Modificar</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
