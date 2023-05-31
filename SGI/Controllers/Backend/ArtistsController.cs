@@ -52,10 +52,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<ArtistAttachment, Guid> attachmentRepository;
         private readonly IEntityRepository<Critic, Guid> criticRepository;
-        private readonly IEntityRepository<ArtistValoration, Guid> artistValorationRepository;
+        private readonly IEntityRepository<ArtistValoration, Guid> valorationRepository;
 
         public ArtistsController(
-            IEntityRepository<ArtistValoration, Guid> artistValorationRepository,
+            IEntityRepository<ArtistValoration, Guid> valorationRepository,
             IEntityRepository<ServiceLine, Guid> serviceLineRepository,
             IEntityRepository<DesignManifestation, Guid> designManifestationRepository,
             IEntityRepository<CraftManifestation, Guid> craftManifestationRepository,
@@ -95,7 +95,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
             this.criticRepository = criticRepository;
-            this.artistValorationRepository = artistValorationRepository;
+            this.valorationRepository = valorationRepository;
         }
 
         [RequirePermissions(Permission.ArtistViewer)]
@@ -1372,7 +1372,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 var resultModel = new ArtistCriterionViewModel
                 {
                     Artist = new ArtistDisplayViewModel(),
-                    Criterials = artistValorationRepository.FindBy(item => item.CreatorId == entity.Id).ToArray().Select(item =>
+                    Criterials = valorationRepository.FindBy(item => item.CreatorId == entity.Id).ToArray().Select(item =>
                     {
                         var _model = new CriterialDisplayViewModel
                         {
@@ -1417,12 +1417,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 if (ModelState.IsValid)
                 {
-                    artistValorationRepository.Add(new ArtistValoration
+                    valorationRepository.Add(new ArtistValoration
                     {
                         Critic = critic,
                         CriticId = modelInput.CriticId,
                         Creator = entity,
-                        CreatorId = critic.Id,
+                        CreatorId = entity.Id,
                         DeclaredAt = modelInput.DateOfCriterion,
                         Declaration = modelInput.Criterion
                     }, User.Identity.Name);
@@ -1469,14 +1469,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 var entity = Repository.Get(key);
 
-                var criterion = artistValorationRepository.Get(modelInput.Id);
+                var criterion = valorationRepository.Get(modelInput.Id);
 
                 if (ModelState.IsValid)
                 {
                     criterion.DeclaredAt = modelInput.DateOfCriterion;
                     criterion.Declaration = modelInput.Criterion;
 
-                    artistValorationRepository.Update(criterion, User.Identity.Name);
+                    valorationRepository.Update(criterion, User.Identity.Name);
 
                     SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
                 }
@@ -1519,11 +1519,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 var entity = Repository.Get(key);
 
-                var criterion = artistValorationRepository.Get(criterionId);
+                var criterion = valorationRepository.Get(criterionId);
 
                 if (ModelState.IsValid)
                 {
-                    artistValorationRepository.Delete(criterion, User.Identity.Name);
+                    valorationRepository.Delete(criterion, User.Identity.Name);
 
                     SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
                 }

@@ -45,8 +45,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Municipality, Guid> municipalityRepository;
         private readonly IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository;
         private readonly IEntityRepository<Critic, Guid> criticRepository;
+        private readonly IEntityRepository<CreationGroupValoration, Guid> valorationRepository;
 
-        public CreationGroupsController(IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<Award, Guid> awardRepository,
+        public CreationGroupsController(IEntityRepository<CreationGroupValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<MunicipalityRegion, Guid> municipalityRegionRepository, IEntityRepository<State, Guid> stateRepository, IEntityRepository<Municipality, Guid> municipalityRepository, IEntityRepository<CreationGroupAttachment, System.Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Artist, Guid> artistRepository, IEntityRepository<CreationGroup, Guid> repository, IEntityRepository<ArtisticManifestation, Guid> artisticManifestationRepository, IEntityRepository<CraftManifestation, Guid> craftManifestationRepository, IEntityRepository<ServiceLine, Guid> serviceLineRepository, IEntityRepository<Award, Guid> awardRepository,
             IEntityRepository<Recognition, Guid> recognitionRepository, IEntityRepository<Distinction, Guid> distintionsRepository, IStringLocalizer<CreationGroupsController> localizer, IEntityRepository<Agreement, Guid> agreementRepository, ILogger<CreationGroupsController> logger, IEntityRepository<OrganizationIdentity, Guid> organizationIdentityRepository, IImageFileManagerFacade imageFileManagerFacade, IEntityRepository<Image, Guid> imageRepository) : base(repository, localizer, logger)
         {
             this.organizationIdentityRepository = organizationIdentityRepository;
@@ -66,6 +67,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.municipalityRepository = municipalityRepository;
             this.municipalityRegionRepository = municipalityRegionRepository;
             this.criticRepository = criticRepository;
+            this.valorationRepository = valorationRepository;
         }
 
         [RequirePermissions(Permission.CreationGroupViewer)]
@@ -1118,210 +1120,203 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             return RedirectToAction("editservicelines", new { key = entity.Id });
         }
 
-        #region Criterion
-        //[Route("edit/{key}/EditGroupCriterion")]
-        //[RequirePermissions(Permission.CreationGroupEditor)]
-        //public IActionResult EditGroupCriterion(System.Guid key)
-        //{
-        //    try
-        //    {
-        //        var entity = Repository.Get(key);
-
-        //        var resultModel = new GroupCriterionManageViewModel
-        //        {
-        //            GroupDisplay = new CreationGroupDisplayViewModel()
-        //        };
-        //        PopulateCritics(resultModel);
-        //        resultModel.GroupDisplay.Import(entity);
-
-        //        return View(resultModel);
-        //    }
-        //    catch (System.Exception e)
-        //    {
-        //        logger.LogError(e.InnerException, e.Message);
-        //    }
-
-        //    SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //    return GetDefaultActionResult();
-        //}
-
-        //[Route("edit/Criterion/add")]
-        //[RequirePermissions(Permission.CreationGroupEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult AddGroupCriterion(GroupCriterionManageViewModel modelInput)
-        //{
-        //    CreationGroup entity = null;
-        //    Critic critic = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelInput.GroupDisplay.Id);
-        //        critic = criticRepository.Get(modelInput.CriticId);
-
-        //        modelInput.GroupDisplay.Import(entity);
-        //    }
-        //    catch { }
-
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //        return GetDefaultActionResult();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        entity.GroupAssessmentBridges.Add(new GroupAssessmentBridge { CreationGroup = entity, Critic = critic, GroupId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
-
-        //        Repository.Update(entity, User.Identity.Name);
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
-
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
-
-        //    return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
-        //}
-
-        //[Route("edit/Criterion/update")]
-        //[RequirePermissions(Permission.CreationGroupEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult UpdateGroupCriterion(GroupAssessmentBridgeDisplayViewModel modelInput)
-        //{
-        //    CreationGroup entity = null;
-        //    Critic critic = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelInput.GroupId);
-        //        critic = criticRepository.Get(modelInput.CriticUpdateId);
-
-        //    }
-        //    catch { }
-
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //        return GetDefaultActionResult();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        var groupAssessmentBridge = entity.GroupAssessmentBridges.FirstOrDefault(a => a.GroupId == modelInput.GroupId && a.CriticId == modelInput.CriticId);
-        //        entity.GroupAssessmentBridges.Remove(groupAssessmentBridge);
-
-        //        entity.GroupAssessmentBridges.Add(new GroupAssessmentBridge { CreationGroup = entity, Critic = critic, GroupId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
-
-        //        Repository.Update(entity, User.Identity.Name);
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
-
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
-
-        //    return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
-        //}
-
-        //[Route("edit/Criterion/delete")]
-        //[RequirePermissions(Permission.CreationGroupEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult DeleteGroupCriterion(GroupCriterionDisplayViewModel modelDisplay)
-        //{
-        //    CreationGroup entity = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelDisplay.GroupId);
-
-        //    }
-        //    catch { }
-
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
-
-        //        return GetDefaultActionResult();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        var groupCriterion = entity.GroupAssessmentBridges.First(a => a.GroupId == modelDisplay.GroupId && a.CriticId == modelDisplay.CriticId);
-        //        entity.GroupAssessmentBridges.Remove(groupCriterion);
-
-        //        Repository.Update(entity, User.Identity.Name);
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
-
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
-
-        //    return RedirectToAction("EditGroupCriterion", new { key = entity.Id });
-        //}
-
         #endregion
 
-        private void PopulateCritics(GroupCriterionManageViewModel modelInput)
-        {
-            var awads = criticRepository.GetAll();
+        #region Criteria
 
-            if (awads.Count() > 0)
+        [Route("edit/{key}/criteria")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        public IActionResult EditCriteria(Guid key)
+        {
+            try
             {
-                modelInput.SelectCritics = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName, Selected = item.Id == modelInput.CriticId }).ToArray();
+                var entity = Repository.Get(key);
+
+                var resultModel = new CreationGroupCriteriaViewModel
+                {
+                    CreationGroup = new CreationGroupDisplayViewModel(),
+                    Criterials = valorationRepository.FindBy(item => item.CreationGroupId == entity.Id).ToArray().Select(item =>
+                    {
+                        var _model = new CriterialDisplayViewModel
+                        {
+                            Id = item.Id,
+                            Declaration = item.Declaration,
+                            DeclaredAt = item.DeclaredAt,
+                            Critic = new CriticDisplayViewModel()
+                        };
+
+                        _model.Critic.Import(item.Critic);
+
+                        return _model;
+                    }).ToArray(),
+                    CriticSelectListItems = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName }).ToArray()
+                };
+
+                resultModel.CreationGroup.Import(entity);
+
+                return View(resultModel);
             }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
         }
 
-        private void PopulateCriticsEditModal(GroupCriterionManageViewModel modelInput)
+        [Route("edit/{key}/criteria/add")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCriterion(Guid key, CriterialInputViewModel modelInput)
         {
-            var awads = criticRepository.GetAll();
-
-            if (awads.Count() > 0)
+            try
             {
-                modelInput.SelectCritics = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName }).ToArray();
+                var entity = Repository.Get(key);
+
+                var critic = criticRepository.Get(modelInput.CriticId);
+
+                if (ModelState.IsValid)
+                {
+                    valorationRepository.Add(new CreationGroupValoration
+                    {
+                        Critic = critic,
+                        CriticId = modelInput.CriticId,
+                        CreationGroup = entity,
+                        CreationGroupId = entity.Id,
+                        DeclaredAt = modelInput.DateOfCriterion,
+                        Declaration = modelInput.Criterion
+                    }, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
             }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+
+        [Route("edit/{key}/criteria/edit")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCriterion(Guid key, CriterialInputViewModel modelInput)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var criterion = valorationRepository.Get(modelInput.Id);
+
+                if (ModelState.IsValid)
+                {
+                    criterion.DeclaredAt = modelInput.DateOfCriterion;
+                    criterion.Declaration = modelInput.Criterion;
+
+                    valorationRepository.Update(criterion, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [Route("edit/{key}/criteria/delete")]
+        [RequirePermissions(Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCriterion(Guid key, Guid criterionId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var criterion = valorationRepository.Get(criterionId);
+
+                if (ModelState.IsValid)
+                {
+                    valorationRepository.Delete(criterion, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
         }
 
         #endregion
@@ -1622,31 +1617,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateAwards(CreationGroupAwardManageViewModel modelInput)
         {
-            var awads = awardRepository.GetAll();
-
-            if (awads.Count() > 0)
-            {
-                modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name }).ToArray();
-            }
-        }
-
-        private void PopulateAwards(Artist entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
-        {
-            var awads = awardRepository.GetAll();
-
-
-            if (awads.Count() > 0)
-            {
-                awardsForSelecting.AddRange(awads.Select(item => new SelectionDescriptedItemInputViewModel<Guid>
-                {
-                    Id = item.Id,
-                    Label = item.Name,
-                    Selected = entity.ArtistAwards.Any(a => a.AwardId == item.Id),
-                    Description = item.Country.Name
-                }));
-            }
-
-        }        
+            modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name }).ToArray();
+        }      
 
         private void PopulateRecognitions(CreationGroup entity, List<SelectionDescriptedItemInputViewModel<Guid>> awardsForSelecting)
         {
