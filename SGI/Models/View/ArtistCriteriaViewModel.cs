@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtistCriterionViewModel
+    public class ArtistCriteriaViewModel
     {
         public ArtistDisplayViewModel Artist { get; set; }
 

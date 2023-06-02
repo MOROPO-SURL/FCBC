@@ -1369,7 +1369,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 var entity = Repository.Get(key);
 
-                var resultModel = new ArtistCriterionViewModel
+                var resultModel = new ArtistCriteriaViewModel
                 {
                     Artist = new ArtistDisplayViewModel(),
                     Criterials = valorationRepository.FindBy(item => item.CreatorId == entity.Id).ToArray().Select(item =>

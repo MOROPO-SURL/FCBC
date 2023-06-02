@@ -1125,7 +1125,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         #region Criteria
 
         [Route("edit/{key}/criteria")]
-        [RequirePermissions(Permission.ArtistEditor)]
+        [RequirePermissions(Permission.CreationGroupEditor)]
         public IActionResult EditCriteria(Guid key)
         {
             try
@@ -1167,7 +1167,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [Route("edit/{key}/criteria/add")]
-        [RequirePermissions(Permission.ArtistEditor)]
+        [RequirePermissions(Permission.CreationGroupEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddCriterion(Guid key, CriterialInputViewModel modelInput)
@@ -1223,7 +1223,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
 
         [Route("edit/{key}/criteria/edit")]
-        [RequirePermissions(Permission.ArtistEditor)]
+        [RequirePermissions(Permission.CreationGroupEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditCriterion(Guid key, CriterialInputViewModel modelInput)
@@ -1273,7 +1273,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [Route("edit/{key}/criteria/delete")]
-        [RequirePermissions(Permission.ArtistEditor)]
+        [RequirePermissions(Permission.CreationGroupEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCriterion(Guid key, Guid criterionId)

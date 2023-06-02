@@ -68,7 +68,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "WeightUnitMeasurement")]
         public System.Guid? WeightUnitMeasurementId { get; set; }
 
-        public ValorationDisplayViewModel[] Valorations { get; set; }
+        public CriterialDisplayViewModel[] Valorations { get; set; }
 
         public void Import(ArtWork entity)
         {
@@ -111,7 +111,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             }).ToArray();
             Valorations = entity.Valorations.Select(item =>
             {
-                var model = new ValorationDisplayViewModel
+                var model = new CriterialDisplayViewModel
                 {
                     Id = item.Id,
                     Critic = new CriticDisplayViewModel(),

@@ -51,7 +51,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ICollection<CreationGroupCraftManifestationBridge> CraftManifestationBridges { get; set; } = new List<CreationGroupCraftManifestationBridge>();
         public ICollection<CreationGroupServiceLineBridge> ServiceManifestationBridges { get; set; } = new List<CreationGroupServiceLineBridge>();
 
-        public ValorationDisplayViewModel[] Valorations { get; set; }
+        public CriterialDisplayViewModel[] Valorations { get; set; }
 
         public void Import(CreationGroup entity)
         {

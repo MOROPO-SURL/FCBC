@@ -66,7 +66,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ICollection<ArtistDesignManifestationBridge> DesignManifestationBridges { get; set; }
         public ICollection<ArtistServiceLineBridge> ServiceLineBridges { get; set; }
         
-        public ValorationDisplayViewModel[] Valorations { get; set; }
+        public CriterialDisplayViewModel[] Valorations { get; set; }
 
         public ICollection<ArtistAward> ArtistAwards { get; set; }
 

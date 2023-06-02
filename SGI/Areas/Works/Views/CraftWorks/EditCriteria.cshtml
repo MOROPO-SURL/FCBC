@@ -1,0 +1,171 @@
+﻿@using MOROPO.FCBC.SGI.Models.View
+@model MOROPO.FCBC.SGI.Models.View.CraftWorkCriteriaViewModel
+
+@{
+    ViewData["Title"] = "Modificar Obra de Artes Aplicadas (Valoraciones)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras de Artes Aplicadas",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link href="~/lib/gijgo/combined/css/gijgo.css" rel="stylesheet" type="text/css" />
+}
+
+@section scripts {
+    <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $('input.datepicker-form-control').datepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            header: true,
+            footer: true,
+            format: 'dd/mm/yyyy'
+        });
+    </script>
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>Modificar Obra de Artes Aplicadas</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editauthors" asp-route-key="@Model.Work.Id">Autores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active">Trayectoria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Work)
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="CraftWorkAwards" asp-route-key="@Model.Work.Id">Premios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active">Valoraciones</a>
+                    </li>
+                </ul>
+            </div>
+                
+            @await Html.PartialAsync("_AddCriterionPartial", new MOROPO.FCBC.SGI.Models.View.CriterialInputViewModel
+            {
+                CriticSelectListItems = Model.CriticSelectListItems,
+                OwnerId = Model.Work.Id
+            })
+
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Fecha")</th>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Critic")</th>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Criterion")</th>
+                        <th class="border-top-0" style="width: 1px; white-space: nowrap;">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Criterials.Length > 0)
+                    {
+                        foreach (var item in Model.Criterials)
+                        {
+                            <tr>
+                                <td>@item.DeclaredAt.Value.ToShortDateString()</td>
+                                <td>@item.Critic.Name @item.Critic.LastName</td>
+                                <td>@item.Declaration</td>
+                                <td style="vertical-align: middle;">
+                                    <div class="btn-group btn-group-sm">
+                                        <a role="button" href="#" class="btn btn-sm btn-light" data-toggle="modal" data-target="#edit-criterion-@item.Id">Modificar</a>
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-criterion-@item.Id">Eliminar</a>                                                                                               
+                                    </div>
+                                    @await Html.PartialAsync("_EditCriterionPartial", new MOROPO.FCBC.SGI.Models.View.CriterialInputViewModel
+                                    {
+                                        Id = item.Id,
+                                        OwnerId = Model.Work.Id, 
+                                        CriticId = item.Critic.Id, 
+                                        CriticSelectListItems = Model.CriticSelectListItems, 
+                                        Criterion = item.Declaration, 
+                                        DateOfCriterion = item.DeclaredAt.Value
+                                    })
+                                    <div class="modal fade" id="delete-criterion-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Eliminar Valoración</h5>
+                                                </div>
+                                                @using (Html.BeginForm("DeleteCriterion", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, null))
+                                                {
+                                                    @Html.Hidden("criterionId", item.Id)
+
+                                                    <div class="modal-body">
+                                                        <p class="mb-0">Está seguro que desea eliminar esta valoración?</p>
+                                                    </div>
+
+                                                    <div class="modal-footer" style="margin-top: 0;">
+                                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-criterion-@Model.Work.Id">Agregar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+
+
+

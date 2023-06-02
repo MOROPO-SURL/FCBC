@@ -133,9 +133,8 @@
                 <thead>
                     <tr>
                         <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Nombre")</th>
-                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("País")</th>
-                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Descripción")</th>
-                        <th class="border-top-0" style="width: 1px; white-space: nowrap;">Acciones</th>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Context")</th>
+                        <th class="border-top-0" style="width: 1px; white-space: nowrap;">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,9 +143,8 @@
                         @foreach (var item in Model.Group.CreationGroupAwards)
                         {
                             <tr>
-                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
-                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
-                                <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Context</td>
+                                <td style="vertical-align: middle;">@item.Award.Name</td>
+                                <td style="vertical-align: middle;">@item.Context</td>
                                 <td style="vertical-align: middle;">
                                     <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
                                     @await Html.PartialAsync("DeleteAwardPartial", new CreationGroupAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, GroupId = Model.Group.Id})
