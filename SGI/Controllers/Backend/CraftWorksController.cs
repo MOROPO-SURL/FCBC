@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
@@ -401,112 +402,98 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequirePermissions(Permission.CraftWorkEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddCraftWorkAwards(CraftWorkAwardManageViewModel modelInput)
+        public IActionResult AddCraftWorkAward(Guid key, Guid awardId, string context)
         {
-            CraftWork entity = null;
-            Award award = null;
             try
             {
-                entity = Repository.Get(modelInput.CraftWorkDisplay.Id);
-                award = awardRepository.Get(modelInput.AwardId);
+                var entity = Repository.Get(key);
 
-                modelInput.CraftWorkDisplay.Import(entity);
+                var award = awardRepository.Get(awardId);
+
+                if (ModelState.IsValid)
+                {
+                    entity.Awards.Add(new CraftWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, Context = context });
+
+                    Repository.Update(entity, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("craftworkawards", new { key = entity.Id });
             }
-            catch { }
-
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            catch {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
-
-            if (ModelState.IsValid)
-            {
-                entity.Awards.Add(new CraftWorkAward { Work = entity, Award = award, WorkId = entity.Id, AwardId = award.Id, Context = modelInput.Context, Year = modelInput.Year });
-
-                Repository.Update(entity, User.Identity.Name);
-
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
-
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
-
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
-
-            return RedirectToAction("CraftWorkAwards", new { key = entity.Id });
         }
 
         [Route("edit/Awards/delete")]
         [RequirePermissions(Permission.CraftWorkEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteCraftWorkAwards(CraftWorkAwardDisplayViewModel modelDisplay)
+        public IActionResult DeleteCraftWorkAward(Guid key, Guid id)
         {
-            CraftWork entity = null;
             try
             {
-                entity = Repository.Get(modelDisplay.CraftWorkId);
+                var entity = Repository.Get(key);
+
+                if (ModelState.IsValid)
+                {
+                    var craftWorkAward = entity.Awards.First(a => a.Id == id);
+
+                    entity.Awards.Remove(craftWorkAward);
+
+                    Repository.Update(entity, User.Identity.Name);
+
+                    SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
+
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
+
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
+
+                return RedirectToAction("craftworkawards", new { key = entity.Id });
 
             }
-            catch { }
-
-            if (entity == null)
-            {
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+            catch {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
                 return GetDefaultActionResult();
             }
-
-            if (ModelState.IsValid)
-            {
-                var craftWorkAward = entity.Awards.First(a => a.Id == modelDisplay.Id);
-                entity.Awards.Remove(craftWorkAward);
-
-                Repository.Update(entity, User.Identity.Name);
-
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-            }
-            else
-            {
-                var messages = new List<string>();
-
-                foreach (var item in ModelState)
-                {
-                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
-
-                    foreach (var error in item.Value.Errors)
-                    {
-                        messages.Add(error.ErrorMessage);
-                    }
-                }
-
-                SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-            }
-
-            return RedirectToAction("CraftWorkAwards", new { key = entity.Id });
         }
 
         private void PopulateAwards(CraftWorkAwardManageViewModel modelInput)
         {
-            var awads = awardRepository.GetAll();
-
-            if (awads.Count() > 0)
-            {
-                modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name + " - " + item.Country.Name }).ToArray();
-            }
+            modelInput.SelectAwards = awardRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Name }).ToArray();
         }
 
         #endregion
