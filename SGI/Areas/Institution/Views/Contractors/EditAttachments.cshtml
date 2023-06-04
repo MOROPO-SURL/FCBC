@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.ContractorAttachmentsDisplayViewModel
 
 @{
-    ViewData["Title"] = "Editar Contratista (Archivos)";
+    ViewData["Title"] = "Modificar Contratista (Archivos)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -12,7 +12,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Contratista",
+            Caption = "Administración de Contratistas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -26,10 +26,10 @@
 
 <div class="card" style="margin-bottom: 20px;">
     <div class="card-header">
-        <h4>Editar Contratista</h4>
+        <h4>Modificar Contratista</h4>
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link" asp-action="edit" asp-route-key="@Model.ContractorDisplay.Id">Información</a>
+                <a class="nav-link" asp-action="edit" asp-route-key="@Model.ContractorDisplay.Id">Generales</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-action="contacts" asp-route-key="@Model.ContractorDisplay.Id">Contactos</a>
