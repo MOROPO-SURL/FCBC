@@ -47,26 +47,47 @@
         </div>
         
         <div class="card-body">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-" style="margin-bottom: 20px;">
-                    <div class="card">
-                        @if (Model.Association.ImageId != System.Guid.Empty)
-                        {
-                            <img class="img-thumbnail" src="~/media/images/@Model.Association.ImageId.@Model.Association.ImageExtension" />
-                        }
-                        else
-                        {
-                            <img class="img-thumbnail" src="~/img/default-person-picture.jpg"/>
-                        }
-
-                        <div class="col-lg-10 col-md-9 col-sm-9">
-                            <dl style="margin-bottom: 0;">
-                                <dt class="text-secondary">@GlobalViewLocalizationHelper.Localize("Name", ViewLocalizer)</dt>
-                                <dd>@Model.Association.OrganizationIdentityName</dd>
+            <div class="alert alert-dark mb-4">
+                <details>
+                    <summary class="h4 mb-0">@Model.Association.Name</summary>
+                    <hr />
+                    <div class="row no-gutters">
+                        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                            @if (Model.Association.ImageId != null)
+                            {
+                                <img class="img-thumbnail" src="~/media/images/@Model.Association.ImageId.@Model.Association.ImageExtension" />
+                            }
+                            else
+                            {
+                                <img class="img-thumbnail" src="~/img/default-organization-picture.png" />
+                            }
+                        </div>
+                        <div class="col-lg-10 col-md-8 col-sm-6">
+                            <dl>
+                                <dt>Fecha de Creación</dt>
+                                @if (Model.Association.BornDate == null)
+                                {
+                                    <dd>--</dd>
+                                }
+                                else
+                                {
+                                    <dd>@Model.Association.BornDate.Value.ToShortDateString()</dd>
+                                }
+                            </dl>
+                            <dl class="mb-0">
+                                <dt>Acerca de</dt>
+                                @if (Model.Association.About == null)
+                                {
+                                    <dd>--</dd>
+                                }
+                                else
+                                {
+                                    <dd>@Model.Association.About</dd>
+                                }
                             </dl>
                         </div>
                     </div>
-                </div>
+                </details>
             </div>
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 20px;">

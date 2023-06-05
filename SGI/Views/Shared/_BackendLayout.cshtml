@@ -21,8 +21,7 @@
         }
     </style>
 
-    @RenderSection("styles", false)
-    
+    @RenderSection("styles", false)    
 }
 
 @section scripts {
@@ -58,7 +57,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navigationNavbar">
-            <input class="form-control form-control-plaintext" type="text" placeholder="Search" aria-label="Search">
+            <input class="form-control form-control-plaintext disabled bg-transparent d-none d-md-block" disabled="disabled" type="text" aria-label="Search">
             <form asp-action="logout" asp-controller="account" asp-area="security" asp-antiforgery="true" class="nav form-inline">
                 <ul class="navbar-nav justify-content-end">
                     <li>
@@ -69,15 +68,19 @@
                     </li>
                 </ul>
             </form>
+            <h5 class="d-block d-md-none text-light mt-1">Navegación</h5>
+            <div class="d-block d-md-none bg-light p-0 pb-4">
+                @await Component.InvokeAsync("DashboardSidebar")
+            </div>
         </div>
     </nav>
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 col-md-3 bg-light" style="padding: 0;">
+            <div class="col-lg-2 col-md-3 d-none d-md-block bg-light" style="padding: 0;">
                 @await Component.InvokeAsync("DashboardSidebar")
             </div>
-                <div role="main" class="col-lg-10 col-md-9 ml-sm-auto px-4" style="padding-top: 24px; margin-top: 56px; max-height: Calc(100vh - 56px); overflow: auto;">
+            <div role="main" class="col ml-sm-auto px-4" style="padding-top: 24px; margin-top: 56px; max-height: Calc(100vh - 56px); overflow: auto;">
                 @if (ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] != null)
                 {
                     <nav aria-label="breadcrumb">

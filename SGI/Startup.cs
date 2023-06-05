@@ -136,6 +136,8 @@ namespace MOROPO.FCBC.SGI
 
             services.AddScoped<SAPRESSC.Core.Web.Security.Providers.Facade.IIdentityProviderFacade, SAPRESSC.Middleware.Security.Essential.Web.Common.Managers.IdentityManager>();
             services.AddScoped<SAPRESSC.Core.Web.Security.Managers.Facade.IUserProfileManagerFacade, Managers.UserProfileManager>();
+
+            services.AddSingleton<SAPRESSC.Core.Web.Security.Providers.Facade.IRoleIdProviderFacade>(SAPRESSC.Core.Security.Common.Web.Frontend.Providers.RoleMemoryProvider.Instance);
             #endregion
 
             #region Globalization configuration
@@ -238,6 +240,13 @@ namespace MOROPO.FCBC.SGI
                 app.UseExceptionHandler("/error");
 
                 app.UseHsts();
+            }
+
+            var atStartUpRoles = dbContext.Set<SAPRESSC.Core.Security.Common.Persistence.Entities.Role>().Include(e => e.PermissionBridges).ThenInclude(b => b.Permission).ToArray();
+
+            foreach (var item in atStartUpRoles)
+            {
+                SAPRESSC.Core.Security.Common.Web.Frontend.Providers.RoleMemoryProvider.Instance.Roles.Add(item);
             }
 
             app.UseStaticFiles();
