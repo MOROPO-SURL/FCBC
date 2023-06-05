@@ -22,12 +22,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Persistence.Entities.Gallery, Persistence.Enumerations.GalleryId> galleryRepository;
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IImageFileManagerFacade imageFileManager;
+        private readonly IEntityRepository<Persistence.Entities.Employee, System.Guid> employeeRepository;
 
-        public GalleryController(IImageFileManagerFacade imageFileManager, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<Persistence.Entities.Gallery, Persistence.Enumerations.GalleryId> galleryRepository, Microsoft.Extensions.Localization.IStringLocalizer<GalleryController> localizer, ILogger<GalleryController> logger) : base(localizer, logger)
+        public GalleryController(IEntityRepository<Persistence.Entities.Employee, System.Guid> employeeRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<Persistence.Entities.Gallery, Persistence.Enumerations.GalleryId> galleryRepository, Microsoft.Extensions.Localization.IStringLocalizer<GalleryController> localizer, ILogger<GalleryController> logger) : base(localizer, logger)
         {
             this.galleryRepository = galleryRepository;
             this.imageRepository = imageRepository;
             this.imageFileManager = imageFileManager;
+            this.employeeRepository = employeeRepository;
         }
 
         [RequirePermissions(Security.Authorization.Permission.GalleryViewer)]
@@ -405,6 +407,84 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 default:
                     return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-cloud-question\"></span>");
             }
+        }
+
+        #endregion
+
+        #region Employees
+
+        [Route("edit/employees")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        public IActionResult Employees()
+        {
+            var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+            var members = entity.EmployeeBridges.Select(b => b.Employee).ToArray();
+
+            var notMemberArtist = employeeRepository.GetAll().ToArray();
+
+            if (members.Count() != 0)
+            {
+                notMemberArtist = notMemberArtist.Except(members).ToArray();
+            }
+
+            var resultModel = new GalleryEmployeesManageViewModel
+            {
+                NotMemberSelectListItems = notMemberArtist.Select(n => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = n.Id.ToString(), Text = n.Identity.Name + " " + n.Identity.LastName }).ToArray(),
+                Members = members.Select(item =>
+                {
+                    var model = new EmployeeDisplayViewModel();
+
+                    model.Import(item);
+
+                    return model;
+                }).ToArray()
+            };
+
+            return View(resultModel);
+        }
+
+        [Route("edit/employees/add")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddMember(System.Guid employeeId)
+        {
+            var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+            entity.EmployeeBridges.Add(new Persistence.Entities.GalleryEmployeeBridge { GalleryId = entity.Id, EmployeeId = employeeId });
+
+            galleryRepository.Update(entity, User.Identity.Name);
+
+            SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+
+            return RedirectToAction("employees");
+        }
+
+        [Route("edit/employees/remove")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveMember(System.Guid employeeId)
+        {
+            try
+            {
+                var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+                var bridge = entity.EmployeeBridges.First(b => b.EmployeeId == employeeId);
+
+                entity.EmployeeBridges.Remove(bridge);
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("employees");
         }
 
         #endregion
