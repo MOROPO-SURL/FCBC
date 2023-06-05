@@ -2028,4 +2028,22 @@
   <data name="SpecificEducation" xml:space="preserve">
     <value>Institución Educativa</value>
   </data>
+  <data name="Histoy" xml:space="preserve">
+    <value>Historia</value>
+  </data>
+  <data name="Mission" xml:space="preserve">
+    <value>Misión</value>
+  </data>
+  <data name="SocialObject" xml:space="preserve">
+    <value>Objeto Social</value>
+  </data>
+  <data name="Vision" xml:space="preserve">
+    <value>Visión</value>
+  </data>
+  <data name="EndAt" xml:space="preserve">
+    <value>Fecha de fin</value>
+  </data>
+  <data name="StartAt" xml:space="preserve">
+    <value>Fecha de inicio</value>
+  </data>
 </root>

@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -165,5 +169,244 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 entity.Identity.Image = image;
             }
         }
+
+        #region Contacts
+
+        [Route("edit/contacts")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        public IActionResult Contacts()
+        {
+            var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+            var resultModel = new ArtistContactsManageViewModel
+            {
+                PhoneContacts = entity.Identity.OrganizationPhoneContactItemBridges.Select(bridge => new ArtistPhoneContactDisplayViewModel
+                {
+                    Id = bridge.ContactItemId,
+                    Label = bridge.ContactItem.Label,
+                    Number = bridge.ContactItem.PhoneNumber
+                }).ToList(),
+                EmailContacts = entity.Identity.OrganizationEmailContactItemBridges.Select(bridge => new ArtistEmailContactDisplayViewModel
+                {
+                    Id = bridge.ContactItemId,
+                    Label = bridge.ContactItem.Label,
+                    Address = bridge.ContactItem.EmailAddress
+                }).ToList(),
+                SocialContacts = entity.Identity.OrganizationSocialContactItemBridges.Select(bridge => new ArtistSocialContactDisplayViewModel
+                {
+                    Id = bridge.ContactItemId,
+                    Label = bridge.ContactItem.Label,
+                    SocialId = bridge.ContactItem.SocialId,
+                    Icon = GetIcon(bridge.ContactItem.SocialId)
+                }).ToList()
+            };
+
+            return View(resultModel);
+        }
+
+        [Route("edit/contacts/phone/add")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddPhoneContact(ArtistPhoneContactInputViewModel modelInput)
+        {
+            if (ModelState.IsValid)
+            {
+                var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+                entity.Identity.OrganizationPhoneContactItemBridges.Add(new OrganizationPhoneContactItemBridge { OrganizationId = entity.IdentityId.Value, ContactItem = new PhoneContactItem { Label = modelInput.Label, PhoneNumber = modelInput.Number } });
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts");
+        }
+
+        [Route("edit/contacts/phone/delete")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePhoneContact(ArtistPhoneContactDisplayViewModel modelDisplay)
+        {
+            try
+            {
+                var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+                var bridge = entity.Identity.OrganizationPhoneContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.Identity.OrganizationPhoneContactItemBridges.Remove(bridge);
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts");
+        }
+
+        [Route("edit/contacts/email/add")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddEmailContact(ArtistEmailContactInputViewModel modelInput)
+        {
+            if (ModelState.IsValid)
+            {
+                var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+                entity.Identity.OrganizationEmailContactItemBridges.Add(new OrganizationEmailContactItemBridge { OrganizationId = entity.IdentityId.Value, ContactItem = new EmailContactItem { Label = modelInput.Label, EmailAddress = modelInput.Address } });
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts");
+        }
+
+        [Route("edit/contacts/email/delete")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteEmailContact(ArtistEmailContactDisplayViewModel modelDisplay)
+        {
+            try
+            {
+                var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+                var bridge = entity.Identity.OrganizationEmailContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.Identity.OrganizationEmailContactItemBridges.Remove(bridge);
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts");
+        }
+
+        [Route("edit/contacts/social/add")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddSocialContact(ArtistSocialContactInputViewModel modelInput)
+        {
+            if (ModelState.IsValid)
+            {
+                var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+                entity.Identity.OrganizationSocialContactItemBridges.Add(new OrganizationSocialContactItemBridge { OrganizationId = entity.IdentityId.Value, ContactItem = new SocialContactItem { Label = modelInput.Label, SocialId = modelInput.SocialId } });
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("contacts");
+        }
+
+        [Route("edit/contacts/social/delete")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteSocialContact(ArtistSocialContactDisplayViewModel modelDisplay)
+        {
+            try
+            {
+                var entity = galleryRepository.Get(Persistence.Enumerations.GalleryId.Amalia);
+
+                var bridge = entity.Identity.OrganizationSocialContactItemBridges.First(b => b.ContactItemId == modelDisplay.Id);
+
+                entity.Identity.OrganizationSocialContactItemBridges.Remove(bridge);
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "Cambios aplicados con éxito.", null);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("contacts");
+        }
+
+        private Microsoft.AspNetCore.Html.HtmlString GetIcon(string socialId)
+        {
+            switch (socialId)
+            {
+                case string x when x.Contains("facebook.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-facebook\"></span>");
+                case string x when x.Contains("twitter.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-twitter\"></span>");
+                case string x when x.Contains("instagram.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-instagram\"></span>");
+                case string x when x.Contains("linkedin.com"):
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-linkedin\"></span>");
+                default:
+                    return new Microsoft.AspNetCore.Html.HtmlString("<span class=\"social-icon mdi mdi-cloud-question\"></span>");
+            }
+        }
+
+        #endregion
     }
 }

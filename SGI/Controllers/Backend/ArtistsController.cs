@@ -18,14 +18,8 @@ using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MOROPO.FCBC.SGI.Extensions;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
-using MOROPO.SAPRESSC.Core.Persistence.Entities;
-using MOROPO.SAPRESSC.Core.Web.Frontend;
-using System.Net.Mail;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
