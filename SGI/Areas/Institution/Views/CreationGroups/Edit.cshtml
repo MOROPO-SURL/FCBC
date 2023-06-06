@@ -43,7 +43,7 @@
     <script src="~/js/Views/CreationGroups/Edit.js"></script>
     <script src="~/lib/gijgo/combined/js/gijgo.js" type="text/javascript"></script>
     <script type="text/javascript">
-        $('#CreateDate').datepicker({
+        $('#CreatedAt').datepicker({
             uiLibrary: 'bootstrap4',
             modal: true,
             header: true,
@@ -80,6 +80,7 @@
                 });
             }
         });
+
         var creationDate = new Date(creationDatepicker.value().replace(/(\d+[/])(\d+[/])/, '$2$1'));
         var minDate = new Date(creationDate.setDate(creationDate.getDate() + 1));
 
