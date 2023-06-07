@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ServiceWorkDisplayViewModel
 
 @{
-    ViewData["Title"] = "Eliminar Obra de Diseño";
+    ViewData["Title"] = "Eliminar Obra de Servicio";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Obras de Diseño",
+            Caption = "Administración de Obras de Servicio",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -37,6 +37,6 @@
     @Html.HiddenFor(model => model.Id)
     <div>
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
     </div>
 }
