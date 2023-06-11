@@ -397,6 +397,13 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
         private void SetupMoveMarks()
         {
+            var material = Application.Current.ResourceCache.GetMaterial("Materials/Leather_Beige.xml");
+
+            //material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Leather_Pouf_Sofa_BaseColor.png"));
+            ////material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Leather_Pouf_Sofa_Normal.png"));
+            ////material.SetTexture(TextureUnit.Emissive, Application.Current.ResourceCache.GetTexture2D("Textures/Leather_Pouf_Sofa_AO.png"));
+            //material.SetTechnique(0u, CoreAssets.Techniques.PBR.PBRDiff);
+
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
 
@@ -411,13 +418,15 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     {
                         var moveMarkNode = CreateChild();
 
-                        moveMarkNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 0.25f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
-                        moveMarkNode.Scale = new Vector3(FLOOR_TILE_SIZE / 2, 0.5f, FLOOR_TILE_SIZE / 2);
+                        moveMarkNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 3.36f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+                        
+                        moveMarkNode.SetScale(16.0f);
 
                         var movementMarkComponent = moveMarkNode.CreateComponent<MoveMark>();
 
-                        movementMarkComponent.Model = CoreAssets.Models.Cylinder;
-                        movementMarkComponent.Material = Material.FromColor(Color.Green);
+                        movementMarkComponent.Model = Application.Current.ResourceCache.GetModel("Models/Leather_Pouf_Sofa.mdl");
+                        movementMarkComponent.Material = material;
+                        movementMarkComponent.CastShadows = true;
                     }
                 }
             }

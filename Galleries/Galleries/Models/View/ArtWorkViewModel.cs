@@ -13,5 +13,7 @@
         public SGI.API.Common.Models.CreatorDisplayApiModel[] Creators { get; set; }
 
         public int Year { get; set; }
+
+        public string About { get; set; }
     }
 }

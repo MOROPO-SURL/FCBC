@@ -7,14 +7,74 @@
         <ResourceDictionary>
             <Color x:Key="MainContrastTextColor">#cbab71</Color>
 
-            <Style TargetType="Label">
+            <x:Double x:Key="HeaderRequestWidth">360</x:Double>
+            <x:Double x:Key="BodyContentSectionHeaderTitleLabelFontSize">32</x:Double>
+            <x:Double x:Key="PersonFirstNameLabelFontSize">27</x:Double>
+
+            <Style TargetType="Label" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontFamily" Value="Rotis SemiSans Std Regular" />
+            </Style>
+
+            <Style TargetType="Button" ApplyToDerivedTypes="True">
+                <Setter Property="FontSize" Value="21" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="FontFamily" Value="Utopia Regular" />
+            </Style>
+
+            <Style TargetType="BoxView" x:Key="SeparatorBoxViewStyle">
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="Color" Value="Black" />
+            </Style>
+
+            <Style TargetType="Label" x:Key="HeaderTitleLabelStyle">
+                <Setter Property="Text" Value="Galería Amalia" />
+                <Setter Property="TextColor" Value="{StaticResource MainContrastTextColor}" />
+                <Setter Property="FontSize" Value="52" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontFamily" Value="Utopia Bold" />
+            </Style>
+
+            <Style TargetType="Label" x:Key="HeaderSubTitleLabelStyle">
+                <Setter Property="TextColor" Value="{StaticResource MainContrastTextColor}" />
+                <Setter Property="FontSize" Value="36" />
+                <Setter Property="FontFamily" Value="Utopia Regular" />
+            </Style>
+
+            <Style TargetType="Label" x:Key="HeaderSubTitleCaptionLabelStyle">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="28" />
             </Style>
 
             <Style TargetType="Button" x:Key="HeaderButtonStyle">
                 <Setter Property="TextColor" Value="#9c4237" />
                 <Setter Property="BackgroundColor" Value="{StaticResource MainContrastTextColor}" />
-            </Style>            
+                <Setter Property="FontSize" Value="21" />
+                <Setter Property="FontFamily" Value="Utopia Regular" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="HeightRequest" Value="56" />
+            </Style>
+
+            <Style TargetType="StackLayout" x:Key="BodyContentStackLayoutStyle">
+                <Setter Property="Spacing" Value="0" />
+            </Style>
+
+            <Style TargetType="StackLayout" x:Key="BodyContentSectionHeaderStackLayoutStyle">
+                <Setter Property="Margin" Value="10,10,10,0" />
+                <Setter Property="Spacing" Value="0" />
+            </Style>
+
+            <Style TargetType="Label" x:Key="BodyContentSectionHeaderTitleLabelStyle">
+                <Setter Property="Margin" Value="10,10,10,8" />
+                <Setter Property="FontSize" Value="{StaticResource BodyContentSectionHeaderTitleLabelFontSize}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontFamily" Value="Utopia Bold" />
+            </Style>
+
+            <Style TargetType="BoxView" x:Key="BodyContentSectionHeaderSeparatorBoxViewStyle" BasedOn="{StaticResource SeparatorBoxViewStyle}">
+                <Setter Property="Margin" Value="10,0" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -42,7 +42,7 @@ namespace MOROPO.FCBC.Galleries.Pages
                     {
                         virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                         {
-                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
+                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
                         });
 
                         BindingContextPageModel.IsBusy = false;
@@ -82,6 +82,15 @@ namespace MOROPO.FCBC.Galleries.Pages
             virtualRoomPresenter?.Dispose();
 
             virtualRoomPresenter = null;
+        }
+
+        private void CloseButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            if (BindingContextPageModel.TargetArtWork == null) return;
+            
+            BindingContextPageModel.TargetArtWork = null;
+
+            virtualRoomPresenter.BindSceneEvents();
         }
     }
 }
