@@ -14,5 +14,10 @@
             Name = entity.Name;
             Description = entity.Description;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

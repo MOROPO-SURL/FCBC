@@ -16,6 +16,7 @@
             <converters:CreatorDisplayApiModelToImageSourceConverter x:Key="CreatorDisplayApiModelToImageSourceConverter" />
 
             <sscxftoolkitpresentationconverters:NotNullToBooleanConverter x:Key="NotNullToBooleanConverter" />
+            <sscxftoolkitpresentationconverters:NotNullOrEmptyStringToBooleanConverter x:Key="NotNullOrEmptyStringToBooleanConverter" />
             <sscxftoolkitpresentationconverters:EnumerationToJoinedStringBindingConverter x:Key="EnumerationToJoinedStringBindingConverter" Placeholder="No se defnieron tecnícas para esta obra" Separator=", " />
 
             <Style TargetType="Label" ApplyToDerivedTypes="True">
@@ -45,7 +46,7 @@
                         <Label 
                             Text="{Binding Path=TargetArtWork.Title}"
                             FontSize="28" />
-                        <Label Text="Creador" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
+                        <Label Text="Creador(es)" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
                         <StackLayout
                             BindableLayout.ItemsSource="{Binding Path=TargetArtWork.Creators}">
                             <BindableLayout.EmptyView>
@@ -86,14 +87,16 @@
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
-                        <Label Text="Técnicas" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
+                        <Label Text="Técnica(s)" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
                         <Label 
-                            Text="{Binding Path=TargetArtWork.ArtTechniques, Converter={StaticResource EnumerationToJoinedStringBindingConverter}}" />
+                            Text="{Binding Path=TargetArtWork.Techniques, Converter={StaticResource EnumerationToJoinedStringBindingConverter}}" />
                         <Label Text="Año" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
                         <Label 
+                            Margin="0,0,0,12"
                             Text="{Binding Path=TargetArtWork.Year}" />
                         <Label 
-                            Margin="0,12" 
+                            IsVisible="{Binding Path=TargetArtWork.About, Converter={StaticResource NotNullOrEmptyStringToBooleanConverter}}"
+                            Margin="0,0,0,12"
                             Text="{Binding Path=TargetArtWork.About}"
                             LineBreakMode="TailTruncation"
                             MaxLines="3" />

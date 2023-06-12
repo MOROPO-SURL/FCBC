@@ -2,7 +2,6 @@
 <sscxftoolkitmvvmpages:ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
     xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
@@ -15,11 +14,24 @@
         <ResourceDictionary>
             <converters:ExibitDetailPageHeightToImageViewerHeightConverter x:Key="ExibitDetailPageHeightToImageViewerHeightConverter" />
             <converters:ImageViewModelToImageSourceConverter x:Key="ImageViewModelToImageSourceConverter" />
+            <converters:CreatorDisplayApiModelToImageSourceConverter x:Key="CreatorDisplayApiModelToImageSourceConverter" />
+
+            <sscxftoolkitpresentationconverters:NotNullOrEmptyStringToBooleanConverter x:Key="NotNullOrEmptyStringToBooleanConverter" />
+            <sscxftoolkitpresentationconverters:IfNullOrEmptyToStringConverter x:Key="IfNullOrEmptyToStringConverter" StringReplacement="--" />
+            <sscxftoolkitpresentationconverters:EnumerationToJoinedStringBindingConverter x:Key="CommonEnumerationToJoinedStringBindingConverter" Placeholder="--" Separator=", " />
+            <sscxftoolkitpresentationconverters:EnumerationToJoinedStringBindingConverter x:Key="AwardEnumerationToJoinedStringBindingConverter" Placeholder="--" Separator="; " />
+            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="FormCol3BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="475" ChildAbsoluteHorizontalMargin="20" />
+            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="FormCol6BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="950" ChildAbsoluteHorizontalMargin="20" />
+            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="PersonBindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="180" ChildAbsoluteHorizontalMargin="20" />
+
+            <Style TargetType="Label" x:Key="FieldCaptionLabel">
+                <Setter Property="FontFamily" Value="Utopia Bold" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout Spacing="0">
                 <Grid 
                     Padding="20"
                     BackgroundColor="Black"
@@ -34,11 +46,107 @@
                             CacheDuration="8760:00:00" />
                     </ContentView>
                 </Grid>
-                <Label 
-                    Text="{Binding Path=Title}"
-                    HorizontalTextAlignment="Center"
-                    Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
-                <Label Text="{Binding Path=Manifestation.Name, StringFormat='Artes Visuales, {0}'}" />
+                <StackLayout Spacing="20" Margin="20">
+                    <Label 
+                        Text="{Binding Path=Title}"
+                        Margin="0,10"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
+                    <Label Text="{Binding Path=About}" IsVisible="{Binding Path=About, Converter={StaticResource NotNullOrEmptyStringToBooleanConverter}}" />
+                    <BoxView Style="{StaticResource SeparatorBoxViewStyle}" />
+                </StackLayout>
+                <Label Text="Creador(es)" Style="{StaticResource FieldCaptionLabel}" Margin="20,0" />
+                <FlexLayout
+                    Margin="10"
+                    Wrap="Wrap"
+                    AlignItems="Start"
+                    AlignContent="Start"
+                    BindableLayout.ItemsSource="{Binding Path=Creators}">
+                    <BindableLayout.EmptyView>
+                        <Label
+                            Margin="10"
+                            Text="No se han especificado creadores"
+                            TextColor="DimGray" />
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Margin="10" WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource PersonBindingLayoutWidthToResponsiveChildWidthConverter}}">
+                                <icplugin:CircleImage
+                                    HeightRequest="80" WidthRequest="80"
+                                    Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
+                                    BorderThickness="2"
+                                    BorderColor="Snow" />
+                                <Label 
+                                    FontSize="25"
+                                    Text="{Binding Path=Name}"
+                                    HorizontalTextAlignment="Center" />
+                                <Label 
+                                    Text="{Binding Path=LastName}"
+                                    HorizontalTextAlignment="Center" />                                        
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+                <FlexLayout
+                    Margin="10"
+                    Wrap="Wrap"
+                    AlignItems="Start"
+                    AlignContent="Start">
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Manifestación" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=Manifestation.Name, StringFormat='Artes Visuales, {0}'}" />
+                    </StackLayout>
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Año" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=Year}" />
+                    </StackLayout>
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Colección" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=Collection, Converter={StaticResource IfNullOrEmptyToStringConverter}}" />
+                    </StackLayout>
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Ubicación" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=Location, Converter={StaticResource IfNullOrEmptyToStringConverter}}" />
+                    </StackLayout>
+                </FlexLayout>
+                <FlexLayout
+                    Margin="10"
+                    Wrap="Wrap"
+                    AlignItems="Start"
+                    AlignContent="Start">
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Técnica(s)" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=Techniques, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
+                    </StackLayout>
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Materiales" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=Materials, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
+                    </StackLayout>
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Temáticas" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=Themathics, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
+                    </StackLayout>
+                    <StackLayout 
+                        Margin="10"
+                        WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        <Label Text="Premios" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Binding Path=ArtWorkAwards, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
+                    </StackLayout>
+                </FlexLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

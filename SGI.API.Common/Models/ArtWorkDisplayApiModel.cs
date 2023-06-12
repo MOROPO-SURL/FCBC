@@ -8,6 +8,10 @@
 
         public int Year { get; set; }
 
+        public string Collection { get; set; }
+
+        public string Location { get; set; }
+
         public ImageDisplayApiModel FeatureImage { get; set; }
 
         public ArtWorkManifestationDisplayApiModel Manifestation { get; set; }
@@ -23,6 +27,8 @@
         public decimal? Weight { get; set; }
 
         public UnitMeasurementDisplayApiModel WeightUnitMeasurement { get; set; }
+
+        public string About { get; set; }
 
         public ArtWorkTechniqueDisplayApiModel[] ArtTechniques { get; set; }
 
@@ -43,11 +49,14 @@
             Id = entity.Id;
             Title = entity.Title;
             Year = entity.BornYear;
+            Collection = entity.Collection;
+            Location = entity.Location;
             Manifestation = new ArtWorkManifestationDisplayApiModel();
             Profundity = entity.Profundity;
             Height = entity.Height;
             Width = entity.Width;
             Weight = entity.Weight;
+            About = entity.About;
 
             Manifestation.Import(entity.Manifestation);
 

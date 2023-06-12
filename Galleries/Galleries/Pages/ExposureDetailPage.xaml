@@ -73,7 +73,7 @@
                         <BindableLayout.EmptyView>
                             <Label
                                 Margin="10"
-                                Text="No hay curadores disponibles en este momento"
+                                Text="No se han especificado curadores"
                                 HorizontalTextAlignment="Center"
                                 TextColor="DimGray" />
                         </BindableLayout.EmptyView>

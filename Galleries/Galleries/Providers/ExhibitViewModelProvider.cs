@@ -40,10 +40,23 @@ namespace MOROPO.FCBC.Galleries.Providers
                             Extension = _model.FeatureImage.Extension
                         },
                         Creators = _model.Creators,
-                        ArtTechniques = _model.ArtTechniques.Select(item => item.ToString()).ToArray(),
+                        Techniques = _model.ArtTechniques.ToArray(),
                         Year = _model.Year,
+                        Collection = _model.Collection,
+                        Location = _model.Location,
                         Manifestation = _model.Manifestation,
-                        About = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                        About = _model.About,
+                        Width = _model.Width,
+                        Height = _model.Height,
+                        Profundity = _model.Profundity,
+                        DimensionsUnitMeasurement = _model.DimensionsUnitMeasurement,
+                        Weight = _model.Weight,
+                        WeightUnitMeasurement = _model.WeightUnitMeasurement,
+                        Images = _model.Images,
+                        Materials = _model.Materials,
+                        Themathics = _model.Themathics,
+                        ArtWorkAwards = _model.ArtWorkAwards,
+                        Valorations = _model.Valorations
                     };
 
                     var url = string.Format("{0}media/images/{1}.{2}", Constants.Networking.SGI_BASE_URL, _model.FeatureImage.Id, _model.FeatureImage.Extension);
