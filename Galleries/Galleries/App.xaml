@@ -5,6 +5,7 @@
     x:Class="MOROPO.FCBC.Galleries.App">
     <Application.Resources>
         <ResourceDictionary>
+            <Color x:Key="PrimaryColor">#9c4237</Color>
             <Color x:Key="MainContrastTextColor">#cbab71</Color>
 
             <x:Double x:Key="HeaderRequestWidth">360</x:Double>
@@ -47,12 +48,15 @@
                 <Setter Property="FontSize" Value="28" />
             </Style>
 
-            <Style TargetType="Button" x:Key="HeaderButtonStyle">
-                <Setter Property="TextColor" Value="#9c4237" />
+            <Style TargetType="Button" x:Key="AccentButtonStyle">
+                <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
                 <Setter Property="BackgroundColor" Value="{StaticResource MainContrastTextColor}" />
                 <Setter Property="FontSize" Value="21" />
-                <Setter Property="FontFamily" Value="Utopia Regular" />
                 <Setter Property="Padding" Value="10" />
+                <Setter Property="FontFamily" Value="Utopia Regular" />
+            </Style>
+
+            <Style TargetType="Button" x:Key="HeaderButtonStyle" BasedOn="{StaticResource AccentButtonStyle}">
                 <Setter Property="HeightRequest" Value="56" />
             </Style>
 

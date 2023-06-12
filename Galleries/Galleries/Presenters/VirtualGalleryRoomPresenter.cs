@@ -64,6 +64,8 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
         public void PresentArtworkDetailFor(Models.View.ArtWorkViewModel model)
         {
+            if (!isEventHandlingBind) return;
+
             UnbindSceneEvents();
 
             ExposureRoomPageModel.TargetArtWork = model;

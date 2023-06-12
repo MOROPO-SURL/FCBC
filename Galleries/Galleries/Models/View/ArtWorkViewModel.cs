@@ -15,5 +15,7 @@
         public int Year { get; set; }
 
         public string About { get; set; }
+
+        public SGI.API.Common.Models.ArtWorkManifestationDisplayApiModel Manifestation { get; set; }
     }
 }

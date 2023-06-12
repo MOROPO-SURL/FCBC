@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sscxftoolkitmvvmpages:ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
+    xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
+    xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
+    xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
+    xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    x:Class="MOROPO.FCBC.Galleries.Pages.ExibitDetailPage"
+    Title="Detalles de Obra Expuesta"
+    BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ExibitDetailPageHeightToImageViewerHeightConverter x:Key="ExibitDetailPageHeightToImageViewerHeightConverter" />
+            <converters:ImageViewModelToImageSourceConverter x:Key="ImageViewModelToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Grid 
+                    Padding="20"
+                    BackgroundColor="Black"
+                    HeightRequest="{Binding Source={RelativeSource Mode=Self}, Path=Width, Converter={StaticResource ExibitDetailPageHeightToImageViewerHeightConverter}}">
+                    <ContentView 
+                        Padding="4" 
+                        BackgroundColor="White"
+                        HorizontalOptions="Center" VerticalOptions="Center">
+                        <ffimageloadingforms:CachedImage
+                            Source="{Binding Path=FeatureImage, Converter={StaticResource ImageViewModelToImageSourceConverter}}"
+                            CacheType="Disk"
+                            CacheDuration="8760:00:00" />
+                    </ContentView>
+                </Grid>
+                <Label 
+                    Text="{Binding Path=Title}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
+                <Label Text="{Binding Path=Manifestation.Name, StringFormat='Artes Visuales, {0}'}" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</sscxftoolkitmvvmpages:ContentPage>

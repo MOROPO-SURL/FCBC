@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.Galleries.Presenters;
+using MOROPO.FCBC.SGI.API.Common.Models;
 using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
 
 namespace MOROPO.FCBC.Galleries.Pages
@@ -90,7 +91,23 @@ namespace MOROPO.FCBC.Galleries.Pages
             
             BindingContextPageModel.TargetArtWork = null;
 
-            virtualRoomPresenter.BindSceneEvents();
+            System.Threading.Tasks.Task.Delay(System.TimeSpan.FromMilliseconds(500)).ContinueWith(_ => Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                virtualRoomPresenter.BindSceneEvents();
+            }));
+        }
+
+        private void ExibitDetailButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPushModalPageAsync(new ExibitDetailPage(BindingContextPageModel.TargetArtWork)).ContinueWith(_ =>
+            {
+                BindingContextPageModel.TargetArtWork = null;
+
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    virtualRoomPresenter.BindSceneEvents();
+                });
+            });
         }
     }
 }

@@ -26,7 +26,7 @@
             <Style TargetType="Label" x:Key="FieldCaptionLabel">
                 <Setter Property="TextColor" Value="LightGray" />
                 <Setter Property="FontSize" Value="16" />
-                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontFamily" Value="Utopia Bold" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -97,7 +97,11 @@
                             Text="{Binding Path=TargetArtWork.About}"
                             LineBreakMode="TailTruncation"
                             MaxLines="3" />
-                        <Button HorizontalOptions="Center" Text="Saber más ..." />
+                        <Button 
+                            HorizontalOptions="Center" 
+                            Style="{StaticResource AccentButtonStyle}"
+                            Text="Detalles"
+                            Clicked="ExibitDetailButton_Clicked" />
                     </StackLayout>
                     <Button
                         HorizontalOptions="End" VerticalOptions="Start"
