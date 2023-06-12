@@ -1,6 +1,6 @@
 ﻿namespace MOROPO.FCBC.SGI.API.Common.Models
 {
-    public class ArtTechniqueDisplayApiModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.ArtisticTechnique, System.Guid>
+    public class ArtWorkTechniqueDisplayApiModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.ArtisticTechnique, System.Guid>
     {
         public System.Guid Id { get; set; }
 

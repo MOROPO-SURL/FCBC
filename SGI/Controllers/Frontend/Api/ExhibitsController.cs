@@ -85,20 +85,55 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
                     Width = bridge.ArtWork.FeatureImage.Width,
                     Height = bridge.ArtWork.FeatureImage.Height
                 };
-                _model.ArtTechniques = bridge.ArtWork.TechniqueBridges.Select(bridg3 => new ArtTechniqueDisplayApiModel
+                _model.Images = bridge.ArtWork.ImageBridges.Select(_bridge => new ImageDisplayApiModel
                 {
-                    Id = bridg3.TechniqueId,
-                    Name = bridg3.Technique.Name,
-                    Description = bridg3.Technique.Description
+                    Id = _bridge.ImageId,
+                    Extension = _bridge.Image.ContentType.ContentTypeToExtension(),
+                    Width = _bridge.Image.Width,
+                    Height = _bridge.Image.Height
                 }).ToArray();
-                _model.Creators = bridge.ArtWork.CreatorBridges.Select(bridg3 => new CreatorDisplayApiModel
+                _model.ArtTechniques = bridge.ArtWork.TechniqueBridges.Select(_bridge => new ArtWorkTechniqueDisplayApiModel
                 {
-                    Id = bridg3.CreatorId,
-                    Name = bridg3.Creator.Identity.Name,
-                    LastName = bridg3.Creator.Identity.LastName,
-                    Sex = bridg3.Creator.Identity.Sex,
-                    ImageId = bridg3.Creator.Identity.ImageId,
-                    ImageExtension = bridg3.Creator.Identity.Image?.ContentType.ContentTypeToExtension()
+                    Id = _bridge.TechniqueId,
+                    Name = _bridge.Technique.Name,
+                    Description = _bridge.Technique.Description
+                }).ToArray();
+                _model.Creators = bridge.ArtWork.CreatorBridges.Select(_bridge => new CreatorDisplayApiModel
+                {
+                    Id = _bridge.CreatorId,
+                    Name = _bridge.Creator.Identity.Name,
+                    LastName = _bridge.Creator.Identity.LastName,
+                    Sex = _bridge.Creator.Identity.Sex,
+                    ImageId = _bridge.Creator.Identity.ImageId,
+                    ImageExtension = _bridge.Creator.Identity.Image?.ContentType.ContentTypeToExtension()
+                }).ToArray();
+                _model.Materials = bridge.ArtWork.MaterialBridges.Select(_bridge => new MaterialDisplayApiModel
+                {
+                    Id = _bridge.MaterialId,
+                    Name = _bridge.Material.Name,
+                    Description = _bridge.Material.Description
+                }).ToArray();
+                _model.Themathics = bridge.ArtWork.ThematicBridges.Select(_bridge => new ThemathicDisplayApiModel
+                {
+                    Id = _bridge.ThematicId,
+                    Name = _bridge.Thematic.Name,
+                    Description = _bridge.Thematic.Description
+                }).ToArray();
+                _model.Valorations = bridge.ArtWork.Valorations.Select(_entity => 
+                {
+                    var __model = new ValorationDisplayApiModel();
+
+                    __model.Import(_entity);
+
+                    return __model;
+                }).ToArray();
+                _model.ArtWorkAwards = bridge.ArtWork.Awards.Select(_entity =>
+                {
+                    var __model = new ArtWorkAwardDisplayApiModel();
+
+                    __model.Import(_entity);
+
+                    return __model;
                 }).ToArray();
 
                 return _model;

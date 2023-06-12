@@ -41,7 +41,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             SetupWalls();
 
-            SetupMoveMarks();
+            SetupSeatPositions();
 
             SetupArtworkFrames(Providers.ExhibitViewModelProvider.Instance.GetExhibits());
 
@@ -220,76 +220,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
         
         private void SetupLights()
         {
-            //var floorLightNode = CreateChild();
-
-            //floorLightNode.SetDirection(new Vector3(0.0f, -1.0f, 0.0f));
-
-            //var floorLightComponent = floorLightNode.CreateComponent<Light>();
-
-            //floorLightComponent.LightType = LightType.Directional;
-            //floorLightComponent.Brightness = 0.3f;
-
-            var verticalMovement = -0.15f;
-            var wallBrightness = 1.0f;
-
-            #region North
-            var floorNorthWallLightNode = CreateChild();
-
-            floorNorthWallLightNode.SetDirection(new Vector3(0.0f, verticalMovement, 1.0f));
-
-            var floorNorthWallLightComponent = floorNorthWallLightNode.CreateComponent<Light>();
-
-            floorNorthWallLightComponent.LightType = LightType.Directional;
-            floorNorthWallLightComponent.Color = Color.White;
-            floorNorthWallLightComponent.Brightness = wallBrightness;
-            #endregion
-
-            #region West
-            var floorWestWallLightNode = CreateChild();
-
-            floorWestWallLightNode.SetDirection(new Vector3(1.0f, verticalMovement, 0.0f));
-
-            var floorWestWallLightComponent = floorWestWallLightNode.CreateComponent<Light>();
-
-            floorWestWallLightComponent.LightType = LightType.Directional;
-            floorWestWallLightComponent.Color = Color.White;
-            floorWestWallLightComponent.Brightness = wallBrightness;
-            #endregion
-
-            #region East
-            var floorEastWallLightNode = CreateChild();
-
-            floorEastWallLightNode.SetDirection(new Vector3(-1.0f, verticalMovement, 0.0f));
-
-            var floorEastWallLightComponent = floorEastWallLightNode.CreateComponent<Light>();
-
-            floorEastWallLightComponent.LightType = LightType.Directional;
-            floorEastWallLightComponent.Color = Color.White;
-            floorEastWallLightComponent.Brightness = wallBrightness;
-            #endregion
-
-            #region South
-            var floorSouthWallLightNode = CreateChild();
-
-            floorSouthWallLightNode.SetDirection(new Vector3(0.0f, verticalMovement, -1.0f));
-
-            var floorSouthWallLightComponent = floorSouthWallLightNode.CreateComponent<Light>();
-
-            floorSouthWallLightComponent.LightType = LightType.Directional;
-            floorSouthWallLightComponent.Color = Color.White;
-            floorSouthWallLightComponent.Brightness = wallBrightness;
-            #endregion
-
-            var roofLightNode = CreateChild();
-
-            roofLightNode.SetDirection(new Vector3(0.0f, 1.0f, 0.0f));
-
-            var roofLightComponent = roofLightNode.CreateComponent<Light>();
-
-            roofLightComponent.LightType = LightType.Directional;
-            roofLightComponent.Color = Color.White;
-            roofLightComponent.Brightness = 0.45f;
-
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
 
@@ -306,10 +236,12 @@ namespace MOROPO.FCBC.Galleries.Scenes
                         var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
                         roofPointLightComponent.LightType = LightType.Point;
-                        roofPointLightComponent.CastShadows = false;
-                        roofPointLightComponent.Brightness = 0.15f;
+                        roofPointLightComponent.UsePhysicalValues = false;
+                        roofPointLightComponent.CastShadows = true;
+                        roofPointLightComponent.Brightness = 0.65f;
                         roofPointLightComponent.Color = Color.White;
-                        roofPointLightComponent.Range = 145.0f;
+                        roofPointLightComponent.Range = 200.0f;
+                        roofPointLightComponent.SpecularIntensity = 3;
 
                         var roofLightLampNode = CreateChild();
 
@@ -335,10 +267,12 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
                     roofPointLightComponent.LightType = LightType.Point;
-                    roofPointLightComponent.CastShadows = false;
-                    roofPointLightComponent.Brightness = 0.15f;
+                    roofPointLightComponent.UsePhysicalValues = false;
+                    roofPointLightComponent.CastShadows = true;
+                    roofPointLightComponent.Brightness = 0.65f;
                     roofPointLightComponent.Color = Color.White;
-                    roofPointLightComponent.Range = 140.0f;
+                    roofPointLightComponent.Range = 200.0f;
+                    roofPointLightComponent.SpecularIntensity = 3;
 
                     var roofLightLampNode = CreateChild();
 
@@ -395,38 +329,129 @@ namespace MOROPO.FCBC.Galleries.Scenes
             floorComponent.Material = material;
         }
 
-        private void SetupMoveMarks()
+        private void SetupSeatPositions()
         {
-            var material = Application.Current.ResourceCache.GetMaterial("Materials/Leather_Beige.xml");
+            var seatUniformScale = 15.0f;
 
-            //material.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Leather_Pouf_Sofa_BaseColor.png"));
-            ////material.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Leather_Pouf_Sofa_Normal.png"));
-            ////material.SetTexture(TextureUnit.Emissive, Application.Current.ResourceCache.GetTexture2D("Textures/Leather_Pouf_Sofa_AO.png"));
-            //material.SetTechnique(0u, CoreAssets.Techniques.PBR.PBRDiff);
+            var material = Application.Current.ResourceCache.GetMaterial("Materials/Leather_Beige.xml");
+            var model = Application.Current.ResourceCache.GetModel("Models/Leather_Pouf_Sofa.mdl");
 
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
+
+            var flootSegmentSize = FLOOR_TILE_SIZE + FLOOR_TILE_SPACING;
 
             for (int y = pivotNegative; y <= pivotPositive; y += 2)
             {
                 for (int x = pivotNegative; x <= pivotPositive; x += 2)
                 {
-                    if (x == 0 && y == 0 ||
-                        System.Math.Abs(x) == 6 && System.Math.Abs(y) == 6 ||
+                    if (System.Math.Abs(x) == 6 && System.Math.Abs(y) == 6 ||
                         x == 0 && System.Math.Abs(y) == 6 ||
                         System.Math.Abs(x) == 6 && y == 0)
                     {
-                        var moveMarkNode = CreateChild();
+                        var centerSeatNode = CreateChild();
 
-                        moveMarkNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 3.36f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+                        centerSeatNode.Position = new Vector3(x * flootSegmentSize, 3.36f, y * flootSegmentSize);
                         
-                        moveMarkNode.SetScale(16.0f);
+                        centerSeatNode.SetScale(seatUniformScale);
 
-                        var movementMarkComponent = moveMarkNode.CreateComponent<MoveMark>();
+                        var centerSeatComponent = centerSeatNode.CreateComponent<MoveMark>();
 
-                        movementMarkComponent.Model = Application.Current.ResourceCache.GetModel("Models/Leather_Pouf_Sofa.mdl");
-                        movementMarkComponent.Material = material;
-                        movementMarkComponent.CastShadows = true;
+                        centerSeatComponent.Model = model;
+                        centerSeatComponent.Material = material;
+                        centerSeatComponent.CastShadows = true;
+
+                        if (x == 0 || y == 0)
+                        {
+                            var leftSeatMiddleNode = CreateChild();
+
+                            leftSeatMiddleNode.Position = new Vector3(x == 0 ? -1 * flootSegmentSize : x * flootSegmentSize, 3.36f, y == 0 ? -1 * flootSegmentSize : y * flootSegmentSize);
+
+                            leftSeatMiddleNode.SetScale(seatUniformScale);
+
+                            var leftSeatMiddleComponent = leftSeatMiddleNode.CreateComponent<MoveMark>();
+
+                            leftSeatMiddleComponent.Model = model;
+                            leftSeatMiddleComponent.Material = material;
+                            leftSeatMiddleComponent.CastShadows = true;
+
+                            var rightMidddleSeatNode = CreateChild();
+
+                            rightMidddleSeatNode.Position = new Vector3(x == 0 ? flootSegmentSize : x * flootSegmentSize, 3.36f, y == 0 ? flootSegmentSize : y * flootSegmentSize);
+
+                            rightMidddleSeatNode.SetScale(seatUniformScale);
+
+                            var rightSeatMiddleComponent = rightMidddleSeatNode.CreateComponent<MoveMark>();
+
+                            rightSeatMiddleComponent.Model = model;
+                            rightSeatMiddleComponent.Material = material;
+                            rightSeatMiddleComponent.CastShadows = true;
+                        }
+
+                        if (x != 0 && y != 0)
+                        {
+                            for (int i = 0; i < 2; i++)
+                            {
+                                var pivot1X = i == 0 ? x : x + (x > 0 ? -1 : 1);
+                                var pivot1Y = i == 1 ? y : y + (y > 0 ? -1 : 1);
+
+                                var pivot2X = i == 0 ? x : x + (x > 0 ? -2 : 2);
+                                var pivot2Y = i == 1 ? y : y + (y > 0 ? -2 : 2);
+
+                                if (i == 0)
+                                {
+                                    var leftSeat1CornerNode = CreateChild();
+
+                                    leftSeat1CornerNode.Position = new Vector3(pivot1X * flootSegmentSize, 3.36f, pivot1Y * flootSegmentSize);
+
+                                    leftSeat1CornerNode.SetScale(seatUniformScale);
+
+                                    var leftSeat1CornetComponent = leftSeat1CornerNode.CreateComponent<MoveMark>();
+
+                                    leftSeat1CornetComponent.Model = model;
+                                    leftSeat1CornetComponent.Material = material;
+                                    leftSeat1CornetComponent.CastShadows = true;
+
+                                    var leftSeat2CornerNode = CreateChild();
+
+                                    leftSeat2CornerNode.Position = new Vector3(pivot2X * flootSegmentSize, 3.36f, pivot2Y * flootSegmentSize);
+
+                                    leftSeat2CornerNode.SetScale(seatUniformScale);
+
+                                    var leftSeat2CornetComponent = leftSeat2CornerNode.CreateComponent<MoveMark>();
+
+                                    leftSeat2CornetComponent.Model = model;
+                                    leftSeat2CornetComponent.Material = material;
+                                    leftSeat2CornetComponent.CastShadows = true;
+                                }
+                                else if (i == 1)
+                                {
+                                    var rightSeat1CornerNode = CreateChild();
+
+                                    rightSeat1CornerNode.Position = new Vector3(pivot1X * flootSegmentSize, 3.36f, pivot1Y * flootSegmentSize);
+
+                                    rightSeat1CornerNode.SetScale(seatUniformScale);
+
+                                    var rightSeat1CornerComponent = rightSeat1CornerNode.CreateComponent<MoveMark>();
+
+                                    rightSeat1CornerComponent.Model = model;
+                                    rightSeat1CornerComponent.Material = material;
+                                    rightSeat1CornerComponent.CastShadows = true;
+
+                                    var rightSeat2CornerNode = CreateChild();
+
+                                    rightSeat2CornerNode.Position = new Vector3(pivot2X * flootSegmentSize, 3.36f, pivot2Y * flootSegmentSize);
+
+                                    rightSeat2CornerNode.SetScale(seatUniformScale);
+
+                                    var rightSeat2CornerComponent = rightSeat2CornerNode.CreateComponent<MoveMark>();
+
+                                    rightSeat2CornerComponent.Model = model;
+                                    rightSeat2CornerComponent.Material = material;
+                                    rightSeat2CornerComponent.CastShadows = true;
+                                }
+                            }
+                        }
                     }
                 }
             }
