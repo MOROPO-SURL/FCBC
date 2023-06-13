@@ -52,7 +52,11 @@ namespace MOROPO.FCBC.Galleries.Providers
                         DimensionsUnitMeasurement = _model.DimensionsUnitMeasurement,
                         Weight = _model.Weight,
                         WeightUnitMeasurement = _model.WeightUnitMeasurement,
-                        Images = _model.Images,
+                        Images = _model.Images.Where(item => item.Id != _model.FeatureImage.Id).Select(item => new Models.View.ImageViewModel
+                        {
+                            Id = item.Id,
+                            Extension = item.Extension
+                        }).ToArray(),
                         Materials = _model.Materials,
                         Themathics = _model.Themathics,
                         ArtWorkAwards = _model.ArtWorkAwards,

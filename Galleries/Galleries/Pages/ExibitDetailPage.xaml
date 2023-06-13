@@ -12,12 +12,17 @@
     BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <OnIdiom x:Key="XYX" x:TypeArguments="x:Double" Default="320" Desktop="950" />
+
             <converters:ExibitDetailPageHeightToImageViewerHeightConverter x:Key="ExibitDetailPageHeightToImageViewerHeightConverter" />
             <converters:ImageViewModelToImageSourceConverter x:Key="ImageViewModelToImageSourceConverter" />
             <converters:CreatorDisplayApiModelToImageSourceConverter x:Key="CreatorDisplayApiModelToImageSourceConverter" />
+            <converters:CriticDisplayApiModelToImageSourceConverter x:Key="CriticDisplayApiModelToImageSourceConverter" />
 
+            <sscxftoolkitpresentationconverters:NotNullToBooleanConverter x:Key="NotNullToBooleanConverter" />
             <sscxftoolkitpresentationconverters:NotNullOrEmptyStringToBooleanConverter x:Key="NotNullOrEmptyStringToBooleanConverter" />
             <sscxftoolkitpresentationconverters:IfNullOrEmptyToStringConverter x:Key="IfNullOrEmptyToStringConverter" StringReplacement="--" />
+            <sscxftoolkitpresentationconverters:EnumerableEmptyToBooleanConverter x:Key="EnumerableEmptyToBooleanConverter" Inverse="True" />
             <sscxftoolkitpresentationconverters:EnumerationToJoinedStringBindingConverter x:Key="CommonEnumerationToJoinedStringBindingConverter" Placeholder="--" Separator=", " />
             <sscxftoolkitpresentationconverters:EnumerationToJoinedStringBindingConverter x:Key="AwardEnumerationToJoinedStringBindingConverter" Placeholder="--" Separator="; " />
             <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="FormCol3BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="475" ChildAbsoluteHorizontalMargin="20" />
@@ -30,7 +35,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView Orientation="Vertical">
             <StackLayout Spacing="0">
                 <Grid 
                     Padding="20"
@@ -147,6 +152,87 @@
                         <Label Text="{Binding Path=ArtWorkAwards, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                     </StackLayout>
                 </FlexLayout>
+                <StackLayout
+                    IsVisible="{Binding Path=Images, Converter={StaticResource EnumerableEmptyToBooleanConverter}}"
+                    Margin="20,0" 
+                    Spacing="10">
+                    <Label Text="Imágenes" Style="{StaticResource FieldCaptionLabel}" />
+                    <BoxView Style="{StaticResource SeparatorBoxViewStyle}" />
+                    <ScrollView Orientation="Horizontal">
+                        <FlexLayout
+                            Padding="10"
+                            HeightRequest="400"
+                            BindableLayout.ItemsSource="{Binding Path=Images}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ContentView 
+                                            HorizontalOptions="Center" VerticalOptions="Center"
+                                            BackgroundColor="LightGray" 
+                                            Margin="10" Padding="4">
+                                            <ffimageloadingforms:CachedImage
+                                                Source="{Binding Path=., Converter={StaticResource ImageViewModelToImageSourceConverter}}"
+                                                CacheType="Disk"
+                                                CacheDuration="8760:00:00" />
+                                        </ContentView>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </ScrollView>
+                </StackLayout>
+                <StackLayout 
+                    IsVisible="{Binding Path=Valorations, Converter={StaticResource EnumerableEmptyToBooleanConverter}}"
+                    Margin="20,0,20,20">
+                    <Label Text="Valoraciones" Style="{StaticResource FieldCaptionLabel}" />
+                    <BoxView Margin="0,0,0,10" Style="{StaticResource SeparatorBoxViewStyle}" />
+                    <StackLayout
+                        Spacing="30"
+                        BindableLayout.ItemsSource="{Binding Path=Valorations}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <icplugin:CircleImage
+                                        Grid.Column="0" Grid.RowSpan="2"
+                                        VerticalOptions="Center"
+                                        HeightRequest="80" WidthRequest="80"
+                                        Source="{Binding Path=Critic, Converter={StaticResource CriticDisplayApiModelToImageSourceConverter}}"
+                                        BorderThickness="2"
+                                        BorderColor="Snow" />
+                                    <Label 
+                                        Grid.Column="1" Grid.Row="0"
+                                        VerticalOptions="Center"
+                                        FontSize="25"
+                                        Text="{Binding Path=Critic.Name}" />
+                                    <Label
+                                        IsVisible="{Binding Path=Critic.LastName, Converter={StaticResource NotNullToBooleanConverter}}"
+                                        Grid.Column="2" Grid.Row="0"
+                                        Margin="2,0,0,0"
+                                        VerticalOptions="Center"
+                                        Text="{Binding Path=Critic.LastName}" />
+                                    <Label 
+                                        IsVisible="{Binding Path=DeclaredAt, Converter={StaticResource NotNullToBooleanConverter}}"
+                                        Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"
+                                        VerticalOptions="Center"
+                                        Text="{Binding Path=DeclaredAt, StringFormat='{0:d/MM/yyyy}'}" />
+                                    <Label
+                                        Grid.ColumnSpan="3" Grid.Row="2"
+                                        Text="{Binding Path=Declaration}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </StackLayout>                
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -125,6 +125,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
 
                     __model.Import(_entity);
 
+                    __model.Critic.ImageExtension = _entity.Critic.Identity.Image.ContentType.ContentTypeToExtension();
+
                     return __model;
                 }).ToArray();
                 _model.ArtWorkAwards = bridge.ArtWork.Awards.Select(_entity =>

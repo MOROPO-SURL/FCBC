@@ -40,7 +40,7 @@ namespace MOROPO.FCBC.Galleries.Models.View
 
         public MaterialDisplayApiModel[] Materials { get; set; }
 
-        public ImageDisplayApiModel[] Images { get; set; }
+        public ImageViewModel[] Images { get; set; }
 
         public ArtWorkAwardDisplayApiModel[] ArtWorkAwards { get; set; }
 
