@@ -14,6 +14,10 @@
 
         public string ImageExtension { get; set; }
 
+        public string Alias { get; set; }
+
+        public string About { get; set; }
+
         public void Import(Persistence.Entities.Critic entity)
         {
             Id = entity.Id;
@@ -21,6 +25,15 @@
             LastName = entity.Identity.LastName;
             Sex = entity.Identity.Sex;
             ImageId = entity.Identity.ImageId;
+            Alias = entity.Identity.Alias;
+            About = entity.Identity.About;
+        }
+
+        public override string ToString()
+        {
+            if (LastName != null) return string.Format("{0} {1}", Name, LastName);
+
+            return Name;
         }
     }
 }

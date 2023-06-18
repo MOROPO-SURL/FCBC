@@ -1,5 +1,4 @@
 ﻿using MOROPO.FCBC.Galleries.Presenters;
-using MOROPO.FCBC.SGI.API.Common.Models;
 using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
 
 namespace MOROPO.FCBC.Galleries.Pages

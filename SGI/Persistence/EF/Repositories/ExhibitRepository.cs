@@ -24,6 +24,9 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.Valorations).ThenInclude(award => award.Critic).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.FeatureImage)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.CreatorBridges).ThenInclude(bridge => bridge.Creator).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image)
+                .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.CreatorBridges).ThenInclude(bridge => bridge.Creator).ThenInclude(entity => entity.ArtisticManifestationBridges).ThenInclude(bridge => bridge.Manifestation)
+                .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.CreatorBridges).ThenInclude(bridge => bridge.Creator).ThenInclude(entity => entity.CraftManifestationBridges).ThenInclude(bridge => bridge.Manifestation)
+                .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.CreatorBridges).ThenInclude(bridge => bridge.Creator).ThenInclude(entity => entity.ServiceLineBridges).ThenInclude(bridge => bridge.Line)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.CreationGroupBridges).ThenInclude(bridge => bridge.CreationGroup).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image);
         }
     }

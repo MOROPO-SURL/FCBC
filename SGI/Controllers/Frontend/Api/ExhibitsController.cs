@@ -105,7 +105,31 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
                     LastName = _bridge.Creator.Identity.LastName,
                     Sex = _bridge.Creator.Identity.Sex,
                     ImageId = _bridge.Creator.Identity.ImageId,
-                    ImageExtension = _bridge.Creator.Identity.Image?.ContentType.ContentTypeToExtension()
+                    ImageExtension = _bridge.Creator.Identity.Image?.ContentType.ContentTypeToExtension(),
+                    ArtWorkManifestations = _bridge.Creator.ArtisticManifestationBridges.Select(__bridge =>
+                    {
+                        var __model = new ArtWorkManifestationDisplayApiModel();
+
+                        __model.Import(__bridge.Manifestation);
+
+                        return __model;
+                    }).ToArray(),
+                    CraftWorkManifestations = _bridge.Creator.CraftManifestationBridges.Select(__bridge =>
+                    {
+                        var __model = new CraftWorkManifestationDisplayApiModel();
+
+                        __model.Import(__bridge.Manifestation);
+
+                        return __model;
+                    }).ToArray(),
+                    ServiceManifestations = _bridge.Creator.ServiceLineBridges.Select(__bridge =>
+                    {
+                        var __model = new ServiceManifestationDisplayApiModel();
+
+                        __model.Import(__bridge.Line);
+
+                        return __model;
+                    }).ToArray()
                 }).ToArray();
                 _model.Materials = bridge.ArtWork.MaterialBridges.Select(_bridge => new MaterialDisplayApiModel
                 {

@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.API.Common.Models
+﻿using System.Linq;
+
+namespace MOROPO.FCBC.SGI.API.Common.Models
 {
     public class CreatorDisplayApiModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.Artist, System.Guid>
     {
@@ -14,6 +16,20 @@
 
         public string ImageExtension { get; set; }
 
+        public string Alias { get; set; }
+
+        public string About { get; set; }
+
+        public string Brand { get; set; }
+
+        public Persistence.Enumerations.WorkPlace WorkPlace { get; set; }
+
+        public ArtWorkManifestationDisplayApiModel[] ArtWorkManifestations { get; set; }
+
+        public CraftWorkManifestationDisplayApiModel[] CraftWorkManifestations { get; set; }
+
+        public ServiceManifestationDisplayApiModel[] ServiceManifestations { get; set; }
+
         public void Import(Persistence.Entities.Artist entity)
         {
             Id = entity.Id;
@@ -21,6 +37,9 @@
             LastName = entity.Identity.LastName;
             Sex = entity.Identity.Sex;
             ImageId = entity.Identity.ImageId;
+            Alias = entity.Identity.Alias;
+            About = entity.Identity.About;
+            Brand = entity.Brand;
         }
 
         public override string ToString()
