@@ -72,7 +72,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
 
             model.Import(entity);
 
-            model.ArtWorks = entity.ArtWorkBridges.Select(bridge =>
+            model.ArtWorks = entity.ArtWorkBridges.Where(bridge => bridge.ArtWork.FeatureImage != null).Select(bridge =>
             {
                 var _model = new ArtWorkDisplayApiModel();
 

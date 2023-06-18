@@ -12,6 +12,8 @@
             <x:Double x:Key="BodyContentSectionHeaderTitleLabelFontSize">32</x:Double>
             <x:Double x:Key="PersonFirstNameLabelFontSize">27</x:Double>
 
+            <OnPlatform x:TypeArguments="x:Double" Default="21" Android="16" WinPhone="21"  x:Key="ButtonFontSize" />
+
             <Style TargetType="Label" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="24" />
@@ -19,7 +21,7 @@
             </Style>
 
             <Style TargetType="Button" ApplyToDerivedTypes="True">
-                <Setter Property="FontSize" Value="21" />
+                <Setter Property="FontSize" Value="{StaticResource ButtonFontSize}" />
                 <Setter Property="Padding" Value="10" />
                 <Setter Property="FontFamily" Value="Utopia Regular" />
             </Style>
@@ -51,7 +53,7 @@
             <Style TargetType="Button" x:Key="AccentButtonStyle">
                 <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
                 <Setter Property="BackgroundColor" Value="{StaticResource MainContrastTextColor}" />
-                <Setter Property="FontSize" Value="21" />
+                <Setter Property="FontSize" Value="{StaticResource ButtonFontSize}" />
                 <Setter Property="Padding" Value="10" />
                 <Setter Property="FontFamily" Value="Utopia Regular" />
             </Style>

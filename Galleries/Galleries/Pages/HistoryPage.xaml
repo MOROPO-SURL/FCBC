@@ -10,12 +10,10 @@
             <StackLayout Margin="20">
                 <Label
                     Margin="0,30"
-                    Text="Galería Amalia"
-                    FontSize="40"
-                    FontAttributes="Bold"
+                    Style="{StaticResource HeaderTitleLabelStyle}"
                     TextColor="#9c4237"
                     HorizontalTextAlignment="Center" />
-                <Label x:Name="HistoryLabel" FontSize="Medium" />
+                <Label x:Name="HistoryLabel" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

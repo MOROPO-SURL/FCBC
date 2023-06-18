@@ -17,7 +17,16 @@
         <ResourceDictionary>
             <converters:EmployeeDisplayApiModelToImageSourceConverter x:Key="EmployeeDisplayApiModelToImageSourceConverter" />
 
+            <sscxftoolkitpresentationconverters:NullToStringConverter x:Key="TextColorNullToStringConverter" TrueValue="DimGray" FalseValue="Black" />
+            <sscxftoolkitpresentationconverters:NotNullToBooleanConverter x:Key="NotNullToBooleanConverter" />
+            <sscxftoolkitpresentationconverters:IfNullOrEmptyToStringConverter x:Key="IfNullOrEmptyToStringConverter" StringReplacement="--" />
+            <sscxftoolkitpresentationconverters:IfNullOrEmptyToStringConverter x:Key="EmployeecAboutIfNullOrEmptyToStringConverter" StringReplacement="No contamos con información acerca de este trabjador por el momento" />
             <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="180" ChildAbsoluteHorizontalMargin="20" />
+            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="ButtonsBindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="200" ChildAbsoluteHorizontalMargin="20" />
+
+            <Style TargetType="Label" x:Key="FieldCaptionLabel">
+                <Setter Property="FontFamily" Value="Utopia Bold" />
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -83,6 +92,9 @@
                                     Margin="10" Padding="0"
                                     WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}">
                                     <StackLayout Margin="0,8" Spacing="0">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="EmployeeView_Tapped" />
+                                        </StackLayout.GestureRecognizers>
                                         <icplugin:CircleImage
                                             Grid.Column="0"
                                             HorizontalOptions="Center"
@@ -105,6 +117,85 @@
                     </FlexLayout>
                 </StackLayout>
             </ScrollView>
+            <ContentView 
+                IsVisible="{Binding Path=PresentedEmployee, Converter={StaticResource NotNullToBooleanConverter}}"
+                BackgroundColor="#A9000000">
+                <ScrollView Orientation="Vertical">
+                    <Grid>
+                        <Frame
+                            VerticalOptions="Center" HorizontalOptions="Center"
+                            Padding="0" Margin="20"
+                            WidthRequest="600"
+                            BackgroundColor="White">
+                            <Grid>
+                                <StackLayout Spacing="0">
+                                    <StackLayout Margin="20,20,20,0">
+                                        <icplugin:CircleImage
+                                            HorizontalOptions="Center"
+                                            Margin="20,30,20,10"
+                                            HeightRequest="240" WidthRequest="240"
+                                            Source="{Binding Path=PresentedEmployee, Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
+                                            BorderThickness="2"
+                                            BorderColor="Snow" />
+                                        <Label 
+                                            Text="Trabajador" 
+                                            Margin="10,0,10,20"
+                                            HorizontalTextAlignment="Center"
+                                            Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
+                                        <Label Text="Nombre(s)" Style="{StaticResource FieldCaptionLabel}" />
+                                        <Label 
+                                            VerticalOptions="Center"
+                                            FontSize="25"
+                                            Text="{Binding Path=PresentedEmployee.Name}" />
+                                        <Label 
+                                            Margin="0,4,0,0"
+                                            Text="Apellidos" Style="{StaticResource FieldCaptionLabel}" />
+                                        <Label 
+                                            VerticalOptions="Center"
+                                            Text="{Binding Path=PresentedEmployee.LastName, Converter={StaticResource IfNullOrEmptyToStringConverter}}" />
+                                        <Label 
+                                            Margin="0,4,0,0"
+                                            Text="Acerca de" Style="{StaticResource FieldCaptionLabel}" />
+                                        <Label 
+                                            Text="{Binding Path=PresentedEmployee.About, Converter={StaticResource EmployeecAboutIfNullOrEmptyToStringConverter}}"
+                                            TextColor="{Binding Path=PresentedEmployee.About, Converter={StaticResource TextColorNullToStringConverter}}" />
+                                        <Label 
+                                            Margin="0,4,0,0"
+                                            Text="Contactar" Style="{StaticResource FieldCaptionLabel}" />
+                                        <BoxView Style="{StaticResource SeparatorBoxViewStyle}" />
+                                    </StackLayout>
+                                    <FlexLayout
+                                        Margin="10"
+                                        Wrap="Wrap"
+                                        AlignItems="Start" AlignContent="Start">
+                                        <Button 
+                                            WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource ButtonsBindingLayoutWidthToResponsiveChildWidthConverter}}"
+                                            Margin="10"
+                                            Text="Correo Electrónico"
+                                            Clicked="EmployeeEmailContactButton_Clicked" />
+                                        <Button 
+                                            WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource ButtonsBindingLayoutWidthToResponsiveChildWidthConverter}}"
+                                            Margin="10"
+                                            Text="Llamada Telefónica"
+                                            Clicked="EmployeePhoneContactButton_Clicked" />
+                                    </FlexLayout>
+                                </StackLayout>
+                                <Button
+                                    HorizontalOptions="End" VerticalOptions="Start"
+                                    Padding="10"
+                                    BackgroundColor="Transparent"
+                                    Text="&#xf5ad;"
+                                    TextColor="Black"
+                                    FontSize="Medium"
+                                    FontFamily="Material Design Icons"
+                                    BorderWidth="0"
+                                    WidthRequest="48" HeightRequest="48"
+                                    Clicked="DismissPresentedEmployeeButton_Clicked" />
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </ScrollView>
+            </ContentView>
             <views:BusyView />
         </Grid>
     </ContentPage.Content>

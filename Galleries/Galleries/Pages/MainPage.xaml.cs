@@ -27,7 +27,7 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         private void ContactHeaderButton_Clicked(object sender, System.EventArgs eventArgs)
         {
-            this.NavigationPushPageAsync(new ContactPage());
+            this.NavigationPushPageAsync(new ContactPage(BindingContextPageModel));
         }
 
         private void HistoryHeaderButton_Clicked(object sender, System.EventArgs eventArgs)
@@ -63,6 +63,9 @@ namespace MOROPO.FCBC.Galleries.Pages
                         BindingContextPageModel.History = getGalleryTask.Result.History;
                         BindingContextPageModel.BornDate = getGalleryTask.Result.BornDate;
                         BindingContextPageModel.ImageSource = getGalleryTask.Result.ImageId == null ? null : Xamarin.Forms.ImageSource.FromUri(new System.Uri(string.Format("{0}media/images/{1}.{2}", Constants.Networking.SGI_BASE_URL, getGalleryTask.Result.ImageId, getGalleryTask.Result.ImageExtension)));
+                        BindingContextPageModel.EmailContacts = getGalleryTask.Result.EmailContacts;
+                        BindingContextPageModel.PhoneContacts = getGalleryTask.Result.PhoneContacts;
+                        BindingContextPageModel.WebContacts = getGalleryTask.Result.WebContacts;
 
                         BindingContextPageModel.IsBusy = false;
 
