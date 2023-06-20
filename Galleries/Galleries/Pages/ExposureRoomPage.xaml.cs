@@ -42,7 +42,11 @@ namespace MOROPO.FCBC.Galleries.Pages
                     {
                         virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                         {
-                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
+                            DelayedStart = false,
+                            HighDpi = true,
+                            LimitFps = true,
+                            ResourcePrefixPaths = new[] { "Resources" }
                         });
 
                         BindingContextPageModel.IsBusy = false;

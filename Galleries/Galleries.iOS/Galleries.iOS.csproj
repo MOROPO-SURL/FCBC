@@ -74,6 +74,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\CustomFrameRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -130,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SkiaSharp.Views.Forms">
-      <Version>2.80.3</Version>
+      <Version>2.88.3</Version>
     </PackageReference>
     <PackageReference Include="UrhoSharp.Forms">
       <Version>1.9.67</Version>
@@ -141,8 +142,8 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.6" />
     <PackageReference Include="UrhoSharp">
       <Version>1.9.67</Version>
     </PackageReference>
@@ -153,5 +154,30 @@
       <Project>{F6DC946D-3E89-4E50-97BD-87D0F0FF4163}</Project>
       <Name>Galleries</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
+    <Folder Include="Renderers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Assets\Materials\Leather_Beige.xml" />
+    <BundleResource Include="Assets\Models\Leather_Pouf_Sofa.mdl" />
+    <BundleResource Include="Assets\Textures\Geometric_wallpaper_ambientOcclusion.jpg" />
+    <BundleResource Include="Assets\Textures\Geometric_wallpaper_basecolor.jpg" />
+    <BundleResource Include="Assets\Textures\Geometric_wallpaper_normal.jpg" />
+    <BundleResource Include="Assets\Textures\Geometric_wallpaper_roughness.jpg" />
+    <BundleResource Include="Assets\Textures\Identity_Primary_FCBC.jpg" />
+    <BundleResource Include="Assets\Textures\Leather_Pouf_Sofa_AO.png" />
+    <BundleResource Include="Assets\Textures\Leather_Pouf_Sofa_BaseColor.png" />
+    <BundleResource Include="Assets\Textures\Leather_Pouf_Sofa_Normal.png" />
+    <BundleResource Include="Assets\Textures\Marble_Carrara_003_COLOR.jpg" />
+    <BundleResource Include="Assets\Textures\Marble_Carrara_003_NORM.jpg" />
+    <BundleResource Include="Assets\Textures\Marble_Carrara_003_ROUGH.jpg" />
+    <BundleResource Include="Assets\Textures\Plaster_Rough_001_COLOR.jpg" />
+    <BundleResource Include="Assets\Textures\Plaster_Rough_001_NORM.jpg" />
+    <BundleResource Include="Assets\Textures\Plaster_Rough_001_ROUGH.jpg" />
+    <BundleResource Include="Assets\Textures\Wood_024_basecolor.jpg" />
+    <BundleResource Include="Assets\Textures\Wood_024_normal.jpg" />
+    <BundleResource Include="Assets\Textures\Wood_024_roughness.jpg" />
   </ItemGroup>
 </Project>

@@ -35,19 +35,19 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             SetupLights();
 
-            SetupFloor();
+            //SetupFloor();
 
-            SetupRoof();
+            //SetupRoof();
 
-            SetupWalls();
+            //SetupWalls();
 
-            SetupSeatPositions();
+            //SetupSeatPositions();
 
-            SetupArtworkFrames(Providers.ExhibitViewModelProvider.Instance.GetExhibits());
+            //SetupArtworkFrames(Providers.ExhibitViewModelProvider.Instance.GetExhibits());
 
-            SetupIdentyFrames();
+            //SetupIdentyFrames();
 
-            SetupVintages();
+            //SetupVintages();
         }
 
         public override Camera MainCamera => mainCamera;
