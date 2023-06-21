@@ -2,7 +2,7 @@
 @model MOROPO.FCBC.SGI.Models.View.CraftWorkAwardManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Obra de Artesanía (Premios)";
+    ViewData["Title"] = "Modificar Obra de Artes Aplicadas (Premios)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -13,7 +13,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Obras de Artesanía",
+            Caption = "Administración de Obras de Artes Aplicadas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -44,7 +44,7 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            <h4>Editar Obra de Artesanía</h4>
+            <h4>@ViewData["Title"]</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link" asp-action="edit" asp-route-key="@Model.CraftWorkDisplay.Id">Generales</a>
@@ -75,55 +75,108 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Premios</a>
+                            <a class="nav-link active" href="#">Premiaciones</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="EditWorkCriterion" asp-route-key="@Model.CraftWorkDisplay.Id">Valoraciones</a>
+                            <a class="nav-link" asp-action="EditCriteria" asp-route-key="@Model.CraftWorkDisplay.Id">Valoraciones</a>
                         </li>
                     </ul>
                 </div>
-                <div class="card-body">
-                    <a class="btn btn-primary btn-sm float-right mb-1" href="#" data-toggle="modal" data-target="#add-award-@Model.CraftWorkDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a>
-                    @await Html.PartialAsync("AddCraftWorkAwards", Model)
 
-                    <table class="table" style="margin: 0;">
-                        <thead>
-                            <tr>
-                                <th>@GlobalViewLocalizationHelper.Localize("Nombre")</th>
-                                <th>@GlobalViewLocalizationHelper.Localize("País")</th>
-                                <th>@GlobalViewLocalizationHelper.Localize("Año")</th>
-                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.CraftWorkDisplay.Awards.Count > 0)
-                            {
-                                @foreach (var item in Model.CraftWorkDisplay.Awards)
-                                {
-                                    <tr>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Year</td>
-                                        <td style="vertical-align: middle;">
-                                            <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
-                                            @await Html.PartialAsync("DeleteCraftWorkAwards", new CraftWorkAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, CraftWorkId = Model.CraftWorkDisplay.Id})
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
+                <table class="table" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Award")</th>
+                            <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Context")</th>
+                            <th class="border-top-0" style="width: 1px; white-space: nowrap;">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CraftWorkDisplay.Awards.Count > 0)
+                        {
+                            @foreach (var item in Model.CraftWorkDisplay.Awards)
                             {
                                 <tr>
-                                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Award")">@item.Award.Name</td>
+                                    <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Context")">@item.Context</td>
+                                    <td style="vertical-align: middle;">
+                                        <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-@item.Id">Eliminar</a>
+                                        <div class="modal fade" id="delete-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="delete-emailcontact-@item.Id-title">Eliminar Premiación</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                        @using (Html.BeginForm("deletecraftworkaward", "craftworks", new { key = Model.CraftWorkDisplay.Id }, FormMethod.Post, true, null))
+                                                    {
+                                                        @Html.Hidden("id", item.Id)
+
+                                                        <div class="modal-body">
+                                                            <p class="mb-0">Está seguro que desea eliminar la premiación a el premio @item.Award.Name @item.Context?</p>
+                                                        </div>
+
+                                                        <div class="modal-footer" style="margin-top: 0;">
+                                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
+
                             }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="card-footer">
+            <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-award-@Model.CraftWorkDisplay.Id">Agregar</a>
             <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+        </div>
+
+        <div class="modal fade" id="add-award-@Model.CraftWorkDisplay.Id" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add-award-@Model.CraftWorkDisplay.Id-title">Agregar Premiación</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("addcraftworkaward", "craftworks", new { key = Model.CraftWorkDisplay.Id }, FormMethod.Post, true, null))
+                    {
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-md-0 mb-sm-3">
+                                    @Html.Label("awardId", GlobalViewLocalizationHelper.Localize("Award"), new { @class = "control-label" })
+                                    @Html.DropDownList("awardId", Model.SelectAwards, new { @class = "form-control"})
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.Label("context", GlobalViewLocalizationHelper.Localize("Context"), new { @class = "control-label" })
+                                    @Html.TextBox("context", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 

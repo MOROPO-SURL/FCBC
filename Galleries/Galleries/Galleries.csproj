@@ -14,6 +14,15 @@
   <ItemGroup>
     <None Remove="Assets\Font\IconmonstrIconic.ttf" />
     <None Remove="Assets\Font\materialdesignicons-webfont.ttf" />
+    <None Remove="Assets\Font\Rotis-Semi-Sans-Std-46-Light-Italic.otf" />
+    <None Remove="Assets\Font\Rotis-Semi-Sans-Std-55-Regular.otf" />
+    <None Remove="Assets\Font\Rotis-Semi-Sans-Std-56-Italic.otf" />
+    <None Remove="Assets\Font\Rotis-Semi-Sans-Std-65-Bold.otf" />
+    <None Remove="Assets\Font\Rotis-Semi-Sans-Std-75-Extra-Bold.otf" />
+    <None Remove="Assets\Font\Utopia-Bold.otf" />
+    <None Remove="Assets\Font\Utopia-BoldItalic.otf" />
+    <None Remove="Assets\Font\Utopia-Italic.otf" />
+    <None Remove="Assets\Font\Utopia-Regular.otf" />
     <None Remove="Assets\Image\DefaultGalleyBanner.jpg" />
     <None Remove="Assets\Image\Identity_Primary_FCBC.png" />
   </ItemGroup>
@@ -21,6 +30,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Font\IconmonstrIconic.ttf" />
     <EmbeddedResource Include="Assets\Font\materialdesignicons-webfont.ttf" />
+    <EmbeddedResource Include="Assets\Font\Rotis-Semi-Sans-Std-55-Regular.otf" />
+    <EmbeddedResource Include="Assets\Font\Rotis-Semi-Sans-Std-46-Light-Italic.otf" />
+    <EmbeddedResource Include="Assets\Font\Rotis-Semi-Sans-Std-56-Italic.otf" />
+    <EmbeddedResource Include="Assets\Font\Rotis-Semi-Sans-Std-65-Bold.otf" />
+    <EmbeddedResource Include="Assets\Font\Rotis-Semi-Sans-Std-75-Extra-Bold.otf" />
+    <EmbeddedResource Include="Assets\Font\Utopia-Bold.otf" />
+    <EmbeddedResource Include="Assets\Font\Utopia-BoldItalic.otf" />
+    <EmbeddedResource Include="Assets\Font\Utopia-Italic.otf" />
+    <EmbeddedResource Include="Assets\Font\Utopia-Regular.otf" />
     <EmbeddedResource Include="Assets\Image\DefaultGalleyBanner.jpg" />
     <EmbeddedResource Include="Assets\Image\Identity_Primary_FCBC.png" />
   </ItemGroup>
@@ -28,7 +46,7 @@
   <ItemGroup>
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
     <PackageReference Include="SSCXFToolKit.Mvvm" Version="0.4.10-alpha" />
-    <PackageReference Include="SSCXFToolKit.Presentation" Version="0.6.2" />
+    <PackageReference Include="SSCXFToolKit.Presentation" Version="0.6.3" />
     <PackageReference Include="UrhoSharp.Forms" Version="1.9.67" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
@@ -38,6 +56,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Pages\ContactPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\ExibitDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ExposureDetailPage.xaml">

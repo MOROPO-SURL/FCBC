@@ -13,7 +13,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public string Title { get; set; }
 
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "RequiredValidationErrorMessage")]
-        [System.ComponentModel.DataAnnotations.Display(Name = "CraftManifestation")]
+        [System.ComponentModel.DataAnnotations.Display(Name = "Manifestation")]
         public System.Guid? ManifestationId { get; set; }
 
         public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvailableManifestations { get; set; }

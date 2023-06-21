@@ -25,9 +25,8 @@
      data-Creator-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CreatorCount))"
      data-Creation-Group-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CreationGroupCount))"
      data-Contractor-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CreationGroupCount))"
-     data-Art-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.WorkCount))"
-     data-Craft-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CraftWorkCount))"
-     data-Design-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.DesignWorkCount))"
+     data-Art-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ArtWorkCount))"
+     data-Craft-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CraftWorkCount))"s
      data-Service-Work-Count="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ServiceWorkCount))"
      data-Manifestations-Names="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.manifestationsNames))"
      data-Manifestations-Counts="@(Newtonsoft.Json.JsonConvert.SerializeObject(Model.ManifestationsCounts))">
@@ -54,7 +53,7 @@
 
 @section scripts {
     <script src="~/lib/chartjs/chart.min.js"></script>
-    <script src="~/js/Views/Dashboard/Index.cshtml.js"></script>
+    <script src="~/js/Views/Dashboard/Index.cshtml.js?v=2"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $(window).scroll(function () {
@@ -157,7 +156,7 @@
         <div class="card bg-light">
             <div class="card-body">
                 <h5>Obras</h5>
-                @Model.WorkCount
+                @Model.ArtWorkCount
             </div>
         </div>
     </div>

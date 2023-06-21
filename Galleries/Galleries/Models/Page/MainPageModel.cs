@@ -20,5 +20,11 @@
         public Xamarin.Forms.ImageSource ImageSource { get => image; set => SetProperty(ref image, value); }
 
         public System.Collections.Generic.List<SGI.API.Common.Models.ExposureDisplayApiModel> Exposures { get => exposures; set => SetProperty(ref exposures, value); }
+
+        public SGI.API.Common.Models.EmailContactItemDisplayApiModel[] EmailContacts { get; set; }
+
+        public SGI.API.Common.Models.PhoneContactItemDisplayApiModel[] PhoneContacts { get; set; }
+
+        public SGI.API.Common.Models.WebContactItemDisplayApiModel[] WebContacts { get; set; }
     }
 }

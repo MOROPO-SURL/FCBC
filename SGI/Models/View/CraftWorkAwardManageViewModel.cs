@@ -13,11 +13,5 @@ namespace MOROPO.FCBC.SGI.Models.View
         public System.Guid AwardId { get; set; }
 
         public ICollection<SelectListItem> SelectAwards { get; set; } = new List<SelectListItem>();
-
-        [Display(Name = "Context")]
-        public string Context { get; set; }
-
-        [Display(Name = "Year")]
-        public int Year { get; set; }
     }
 }

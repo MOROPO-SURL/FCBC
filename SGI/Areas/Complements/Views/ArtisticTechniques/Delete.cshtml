@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ArtisticTechniqueDisplayViewModel;
 
 @{
-    ViewData["Title"] = "Eliminar Técnica Artística";
+    ViewData["Title"] = "Eliminar Técnica para Artes Visuales";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Técnicas Artísticas",
+            Caption = "Administración de Técnicas para Artes Visuales",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -26,13 +26,13 @@
     Layout = "_BackendLayout";
 }
 
-<h3>Esta seguro que desea eliminar la técnica artística detallada a continuación?</h3>
+<h3>Esta seguro que desea eliminar la técnica para artes visuales detallada a continuación?</h3>
 <dl>
-    <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+    <dt>Nombre</dt>
     <dd>@Html.DisplayFor(model => model.Name)</dd>
 </dl>
 <dl>
-    <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+    <dt>Descripción</dt>
     <dd>
     @if (Model.Description != null)
     {

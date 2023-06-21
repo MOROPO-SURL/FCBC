@@ -2,7 +2,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ArtWorkAwardManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Obra de Artes Plásticas (Premios)";
+    ViewData["Title"] = "Modificar Obra de Artes Visuales (Premios)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -13,7 +13,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Obras de Artes Plásticas",
+            Caption = "Administración de Obras de Artes Visuales",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -27,7 +27,7 @@
 
 <div class="card" style="margin-bottom: 20px;">
     <div class="card-header">
-        <h4>Editar Obra de Artes Plásticas</h4>
+        <h4>@ViewData["Title"]</h4>
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
                 <a class="nav-link" asp-action="edit" asp-route-key="@Model.ArtWork.Id">Generales</a>
@@ -61,7 +61,7 @@
                         <a class="nav-link active" href="#">Premiaciones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="EditWorkCriterion" asp-route-key="@Model.ArtWork.Id">Valoraciones</a>
+                        <a class="nav-link" asp-action="EditCriteria" asp-route-key="@Model.ArtWork.Id">Valoraciones</a>
                     </li>
                 </ul>
             </div>
@@ -97,7 +97,7 @@
                                                 @Html.Hidden("id", item.Id)
 
                                                 <div class="modal-body">
-                                                    <p class="mb-0">Está seguro que desea eliminar la premieación a el premio @item.Award.Name @item.Context?</p>
+                                                    <p class="mb-0">Está seguro que desea eliminar la premiación a el premio @item.Award.Name @item.Context?</p>
                                                 </div>
 
                                                 <div class="modal-footer" style="margin-top: 0;">

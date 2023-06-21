@@ -13,7 +13,7 @@
     BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="240" ChildAbsoluteHorizontalMargin="10" />
+            <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="400" ChildAbsoluteHorizontalMargin="20" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
@@ -35,7 +35,7 @@
     <ContentPage.Content>
         <Grid>
             <ScrollView Orientation="Vertical">
-                <StackLayout Spacing="0">
+                <StackLayout Style="{StaticResource BodyContentStackLayoutStyle}">
                     <Grid>
                         <ffimageloadingforms:CachedImage
                             HeightRequest="{Binding Source={Reference HeaderContentContainer}, Path=Height}"
@@ -47,19 +47,17 @@
                         <StackLayout
                             x:Name="HeaderContentContainer"
                             HorizontalOptions="Center" 
-                            WidthRequest="300" 
+                            WidthRequest="{StaticResource HeaderRequestWidth}" 
                             Margin="10,30">
                             <Label
-                                Text="Galería Amalia"
-                                FontSize="40"
-                                FontAttributes="Bold"
-                                TextColor="{StaticResource MainContrastTextColor}"
+                                Style="{StaticResource HeaderTitleLabelStyle}"
                                 HorizontalTextAlignment="Center" />
                             <Label
+                                Margin="0,18"
                                 Text="{Binding Path=About}"
                                 HorizontalTextAlignment="Center"
                                 TextColor="{StaticResource MainContrastTextColor}" />
-                            <Grid ColumnSpacing="4" Margin="0,10,0,0">
+                            <Grid ColumnSpacing="4">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
@@ -84,24 +82,20 @@
                             </Grid>
                         </StackLayout>
                     </Grid>
-                    <Label 
-                        Text="Salas Expositivas"
-                        TextColor="Black"
-                        Margin="10,10,10,5"
-                        FontSize="Medium"
-                        FontAttributes="Bold" />
-                    <BoxView
-                        Margin="10,0"
-                        Color="Black"
-                        HeightRequest="1" />
+                    <StackLayout Style="{StaticResource BodyContentSectionHeaderStackLayoutStyle}">
+                        <Label 
+                            Text="Salas Expositivas"
+                            Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
+                        <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />                        
+                    </StackLayout>
                     <FlexLayout
-                        Margin="5"
+                        Margin="10"
                         Wrap="Wrap"
                         AlignItems="Start" AlignContent="Start"
                         BindableLayout.ItemsSource="{Binding Path=Exposures}">
                         <BindableLayout.EmptyView>
                             <Label
-                                Margin="5"
+                                Margin="10"
                                 Text="No existen salas expositivas disponibles en este momento"
                                 HorizontalTextAlignment="Center"
                                 TextColor="DimGray" />
@@ -109,20 +103,22 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <Frame
-                                    Margin="5" Padding="0"
+                                    Margin="10" Padding="0"
                                     BackgroundColor="WhiteSmoke"
                                     HasShadow="true"
                                     WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}"
-                                    HeightRequest="180">
-                                    <StackLayout Margin="20,15">
+                                    HeightRequest="260">
+                                    <StackLayout Margin="20,15" Spacing="10">
                                         <Label 
                                             Text="{Binding Path=Name}"
-                                            FontSize="Large" />
+                                            FontSize="32"
+                                            LineBreakMode="TailTruncation" />
                                         <Label
                                             VerticalOptions="StartAndExpand"
                                             Text="{Binding Path=Description}"
+                                            TextColor="DimGray"
                                             LineBreakMode="TailTruncation"
-                                            MaxLines="3" />
+                                            MaxLines="4" />
                                         <Button
                                             Text="Detalles"
                                             Clicked="ExposureDetailButton_Clicked" />

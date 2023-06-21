@@ -6,7 +6,7 @@ namespace MOROPO.FCBC.Galleries.Presenters
     internal class VirtualGalleryRoomPresenter : Application
     {
         protected const float TOUCH_SENSITIVITY = 2;
-        protected const float MOVEMENT_SIZE = 2.0f;
+        protected const float MOVEMENT_SIZE = 40.0f;
         protected const float MOVEMENT_SPEED = 0.25f;
 
         private float yaw;
@@ -27,6 +27,9 @@ namespace MOROPO.FCBC.Galleries.Presenters
         {
             base.Start();
 
+            Log.LogLevel = LogLevel.Warning;
+            Log.LogMessage += e => System.Diagnostics.Debug.WriteLine($"[Urho] {e.Message}"); ;
+
             scene = new Scenes.SquareRoomScene(this);
 
             Input.Enabled = true;
@@ -46,9 +49,10 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
             Renderer.SetViewport(0, viewport);
 
-            scene.MainCamera.Node.RunActionsAsync(new RepeatForever(new RotateBy(duration: 1.0f, deltaAngleX: 0.0f, deltaAngleY: 3.0f, deltaAngleZ: 0.0f)));
+            // TODO Decide if return this behavior!!
+            //scene.MainCamera.Node.RunActionsAsync(new RepeatForever(new RotateBy(duration: 1.0f, deltaAngleX: 0.0f, deltaAngleY: 3.0f, deltaAngleZ: 0.0f)));
 
-            showcaseStartAt = System.DateTime.Now;
+            //showcaseStartAt = System.DateTime.Now;
         }
 
         protected override void OnUpdate(float timeStep)
@@ -60,6 +64,8 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
         public void PresentArtworkDetailFor(Models.View.ArtWorkViewModel model)
         {
+            if (!isEventHandlingBind) return;
+
             UnbindSceneEvents();
 
             ExposureRoomPageModel.TargetArtWork = model;
@@ -163,11 +169,11 @@ namespace MOROPO.FCBC.Galleries.Presenters
             }
             else if (obj.Key == Key.Q)
             {
-                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y + 2f, cameraNode.Position.Z)));
+                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y + MOVEMENT_SIZE / 2, cameraNode.Position.Z)));
             }
             else if (obj.Key == Key.Z)
             {
-                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y - 2f, cameraNode.Position.Z)));
+                cameraNode.RunActions(new MoveTo(MOVEMENT_SPEED, new Vector3(cameraNode.Position.X, cameraNode.Position.Y - MOVEMENT_SIZE / 2, cameraNode.Position.Z)));
             }
             else if (obj.Key == Key.W)
             {

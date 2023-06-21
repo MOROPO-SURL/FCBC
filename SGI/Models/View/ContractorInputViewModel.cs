@@ -60,7 +60,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ContractorInputViewModel()
         {
-            BornDate = System.DateTime.Now.Date.AddYears(-16);
+            BornDate = System.DateTime.Now.Date;
         }
 
         public Contractor Export()

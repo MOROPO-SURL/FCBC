@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
-using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
@@ -1108,210 +1107,202 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         #endregion
 
         #region Criterion
-        //[Route("edit/{key}/editworkcriterion")]
-        //[RequirePermissions(Permission.ArtWorkEditor)]
-        //public IActionResult EditWorkCriterion(Guid key)
-        //{
-        //    try
-        //    {
-        //        var entity = Repository.Get(key);
 
-        //        var model = new ArtWorkValorationsViewModel
-        //        {
-        //            Work = new ArtWorkDisplayViewModel(),
-        //            Valorations = valorationRepository.FindBy(item => item.WorkId == key).Select(item =>
-        //            {
-        //                var result = new ValorationDisplayViewModel
-        //                {
-        //                    Id = item.Id,
-        //                    Critic = new CriticDisplayViewModel(),
-        //                    DeclaredAt = item.DeclaredAt,
-        //                    Declaration = item.Declaration
-        //                };
+        [Route("edit/{key}/criteria")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public IActionResult EditCriteria(Guid key)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
 
-        //                result.Critic.Import(item.Critic);
+                var resultModel = new ArtWorkCriteriaViewModel
+                {
+                    Work = new ArtWorkDisplayViewModel(),
+                    Criterials = valorationRepository.FindBy(item => item.WorkId == entity.Id).ToArray().Select(item =>
+                    {
+                        var _model = new CriterialDisplayViewModel
+                        {
+                            Id = item.Id,
+                            Declaration = item.Declaration,
+                            DeclaredAt = item.DeclaredAt,
+                            Critic = new CriticDisplayViewModel()
+                        };
 
-        //                return result;
-        //            }).ToArray()
-        //        };
+                        _model.Critic.Import(item.Critic);
 
-        //        PopulateCritics(model);
+                        return _model;
+                    }).ToArray(),
+                    CriticSelectListItems = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = item.Identity.Name + " " + item.Identity.LastName }).ToArray()
+                };
 
-        //        model.Work.Import(entity);
+                resultModel.Work.Import(entity);
 
-        //        return View(model);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        logger.LogError(e.InnerException, e.Message);
-        //    }
+                return View(resultModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
 
-        //    SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
-        //    return GetDefaultActionResult();
-        //}
+            return GetDefaultActionResult();
+        }
 
-        //[Route("edit/Criterion/add")]
-        //[RequirePermissions(Permission.ArtWorkEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult AddWorkCriterion(ArtWorkValorationsViewModel modelInput)
-        //{
-        //    ArtWork entity = null;
-        //    Critic critic = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelInput.Work.Id);
-        //        critic = criticRepository.Get(modelInput.CriticId);
+        [Route("edit/{key}/criteria/add")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCriterion(Guid key, CriterialInputViewModel modelInput)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
 
-        //        modelInput.Work.Import(entity);
-        //    }
-        //    catch { }
+                var critic = criticRepository.Get(modelInput.CriticId);
 
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                if (ModelState.IsValid)
+                {
+                    valorationRepository.Add(new ArtWorkValoration
+                    {
+                        Critic = critic,
+                        CriticId = modelInput.CriticId,
+                        Work = entity,
+                        WorkId = entity.Id,
+                        DeclaredAt = modelInput.DateOfCriterion,
+                        Declaration = modelInput.Criterion
+                    }, User.Identity.Name);
 
-        //        return GetDefaultActionResult();
-        //    }
+                    SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        entity.WorkAssessmentBridges.Add(new ArtWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfCriterion });
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-        //        Repository.Update(entity, User.Identity.Name);
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
 
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
 
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
 
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
+            return GetDefaultActionResult();
+        }
 
-        //    return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
-        //}
 
-        //[Route("edit/Criterion/update")]
-        //[RequirePermissions(Permission.ArtWorkEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult UpdateWorkCriterion(ArtWorkAssessmentBridgeDisplayViewModel modelInput)
-        //{
-        //    ArtWork entity = null;
-        //    Critic critic = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelInput.WorkId);
-        //        critic = criticRepository.Get(modelInput.CriticUpdateId);
+        [Route("edit/{key}/criteria/edit")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCriterion(Guid key, CriterialInputViewModel modelInput)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
 
-        //    }
-        //    catch { }
+                var criterion = valorationRepository.Get(modelInput.Id);
 
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                if (ModelState.IsValid)
+                {
+                    criterion.DeclaredAt = modelInput.DateOfCriterion;
+                    criterion.Declaration = modelInput.Criterion;
 
-        //        return GetDefaultActionResult();
-        //    }
+                    valorationRepository.Update(criterion, User.Identity.Name);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        var workAssessmentBridge = entity.WorkAssessmentBridges.FirstOrDefault(a => a.WorkId == modelInput.WorkId && a.CriticId == modelInput.CriticId);
-        //        entity.WorkAssessmentBridges.Remove(workAssessmentBridge);
+                    SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
 
-        //        entity.WorkAssessmentBridges.Add(new ArtWorkAssessmentBridge { Work = entity, Critic = critic, WorkId = entity.Id, CriticId = critic.Id, Criterion = modelInput.Criterion, DateOfAssessment = modelInput.DateOfAssessment });
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-        //        Repository.Update(entity, User.Identity.Name);
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
 
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
 
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
 
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
+            return GetDefaultActionResult();
+        }
 
-        //    return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
-        //}
+        [Route("edit/{key}/criteria/delete")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCriterion(Guid key, Guid criterionId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
 
-        //[Route("edit/Criterion/delete")]
-        //[RequirePermissions(Permission.ArtWorkEditor)]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult DeleteWorkCriterion(ValorationDisplayViewModel modelDisplay)
-        //{
-        //    ArtWork entity = null;
-        //    try
-        //    {
-        //        entity = Repository.Get(modelDisplay.Id);
+                var criterion = valorationRepository.Get(criterionId);
 
-        //    }
-        //    catch { }
+                if (ModelState.IsValid)
+                {
+                    valorationRepository.Delete(criterion, User.Identity.Name);
 
-        //    if (entity == null)
-        //    {
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, GetNotFoundMessage());
+                    SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+                }
+                else
+                {
+                    var messages = new List<string>();
 
-        //        return GetDefaultActionResult();
-        //    }
+                    foreach (var item in ModelState)
+                    {
+                        if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        var workCriterion = entity.WorkAssessmentBridges.First(a => a.WorkId == modelDisplay.Id && a.CriticId == modelDisplay.CriticId);
-        //        entity.WorkAssessmentBridges.Remove(workCriterion);
+                        foreach (var error in item.Value.Errors)
+                        {
+                            messages.Add(error.ErrorMessage);
+                        }
+                    }
 
-        //        Repository.Update(entity, User.Identity.Name);
+                    SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                }
 
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
-        //    }
-        //    else
-        //    {
-        //        var messages = new List<string>();
+                return RedirectToAction("EditCriteria", new { key = entity.Id });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
 
-        //        foreach (var item in ModelState)
-        //        {
-        //            if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
-        //            foreach (var error in item.Value.Errors)
-        //            {
-        //                messages.Add(error.ErrorMessage);
-        //            }
-        //        }
-
-        //        SetDefaultNotification(MOROPO.SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
-        //    }
-
-        //    return RedirectToAction("EditWorkCriterion", new { key = entity.Id });
-        //}
+            return GetDefaultActionResult();
+        }
 
         #endregion
-
-        private void PopulateCritics(ArtWorkValorationsViewModel modelInput)
-        {
-            modelInput.SelectCritics = criticRepository.GetAll().Select(item => new SelectListItem { Value = item.Id.ToString(), Text = string.IsNullOrEmpty(item.Identity.LastName) ? item.Identity.Name : string.Format("{0} {1}", item.Identity.Name, item.Identity.LastName) }).ToArray();
-        }
     }
 }

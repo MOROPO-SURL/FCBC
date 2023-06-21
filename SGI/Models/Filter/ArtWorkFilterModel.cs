@@ -7,13 +7,13 @@ using System.Linq.Expressions;
 
 namespace MOROPO.FCBC.SGI.Models.Filter
 {
-    public class ArtWorkFilterModel : SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<MOROPO.FCBC.SGI.Persistence.Entities.ArtWork, System.Guid>
+    public class ArtWorkFilterModel : SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<Persistence.Entities.ArtWork, System.Guid>
     {
 
         [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [Display(Name = "ArtManifestation")]
+        [Display(Name = "Manifestation")]
         public string ManifestationId { get; set; }
         public ICollection<SelectListItem> Manifestation { get; set; }
 
@@ -21,7 +21,7 @@ namespace MOROPO.FCBC.SGI.Models.Filter
         public string AuthorId { get; set; }
         public ICollection<SelectListItem> Author { get; set; }
 
-        public System.Linq.Expressions.Expression<System.Func<Persistence.Entities.ArtWork, bool>> GetSelector()
+        public Expression<System.Func<Persistence.Entities.ArtWork, bool>> GetSelector()
         {
             Expression<System.Func<Persistence.Entities.ArtWork, bool>> expression = null;
 

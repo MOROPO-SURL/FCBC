@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ArtWorkInputViewModel
 
 @{
-    ViewData["Title"] = "Agregar Obra de Artes Plásticas";
+    ViewData["Title"] = "Agregar Obra de Artes Visuales";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Obras de Artes Plásticas",
+            Caption = "Administración de Obras de Artes Visuales",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -128,7 +128,7 @@
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Agregar</button>
-            <a class="btn btn-ligth" href="@Url.Action("index")">Cancelar</a>
+            <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
         </div>
     </div>
 }

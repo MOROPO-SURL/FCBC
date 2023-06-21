@@ -41,7 +41,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<ServiceWorkAward> Awards { get; set; }
 
-        public ValorationDisplayViewModel[] Valorations { get; set; }
+        public CriterialDisplayViewModel[] Valorations { get; set; }
 
         public void Import(ServiceWork entity)
         {
