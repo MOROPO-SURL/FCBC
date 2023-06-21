@@ -6,7 +6,7 @@ namespace MOROPO.FCBC.Galleries.Presenters
     internal class VirtualGalleryRoomPresenter : Application
     {
         protected const float TOUCH_SENSITIVITY = 2;
-        protected const float MOVEMENT_SIZE = 40.0f;
+        protected const float MOVEMENT_SIZE = 10.0f;
         protected const float MOVEMENT_SPEED = 0.25f;
 
         private float yaw;

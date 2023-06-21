@@ -5,13 +5,13 @@
     x:Class="MOROPO.FCBC.Galleries.App">
     <Application.Resources>
         <ResourceDictionary>
-            <OnPlatform x:TypeArguments="Font" x:Key="PrimaryFontRegular" Default="Utopia Regular">
+            <OnPlatform x:TypeArguments="x:String" x:Key="PrimaryFontRegular" Default="Utopia Regular">
                 <On Platform="macOS" Value="Utopia, Regular" />
             </OnPlatform>
-            <OnPlatform x:TypeArguments="Font" x:Key="PrimaryFontBold" Default="Utopia Bold">
+            <OnPlatform x:TypeArguments="x:String" x:Key="PrimaryFontBold" Default="Utopia Bold">
                 <On Platform="macOS" Value="Utopia, Bold" />
             </OnPlatform>
-            <OnPlatform x:TypeArguments="Font" x:Key="SecoundaryFontRegular" Default="Rotis SemiSans Std Regular">
+            <OnPlatform x:TypeArguments="x:String" x:Key="SecoundaryFontRegular" Default="Rotis SemiSans Std Regular">
                 <On Platform="macOS" Value="Rotis Semi Sans Std, 55 Regular" />
             </OnPlatform>
 
