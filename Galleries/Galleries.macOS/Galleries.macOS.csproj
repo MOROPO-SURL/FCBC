@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.props" Condition="Exists('..\..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{64B4B4CB-5B3E-4600-960F-204EA135A568}</ProjectGuid>
+    <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Galleries.macOS</RootNamespace>
+    <AssemblyName></AssemblyName>
+    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CodesigningKey>Mac Developer</CodesigningKey>
+    <CreatePackage>false</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <UseSGen>true</UseSGen>
+    <UseRefCounting>true</UseRefCounting>
+    <HttpClientHandler></HttpClientHandler>
+    <LinkMode>None</LinkMode>
+    <AOTMode>None</AOTMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants></DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>true</CreatePackage>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <UseSGen>true</UseSGen>
+    <UseRefCounting>true</UseRefCounting>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <LinkMode>None</LinkMode>
+    <HttpClientHandler></HttpClientHandler>
+    <AOTMode>None</AOTMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.Mac" />
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\..\packages\Xamarin.Forms.5.0.0.2578\lib\Xamarin.Mac\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\..\packages\Xamarin.Forms.5.0.0.2578\lib\Xamarin.Mac\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform.macOS">
+      <HintPath>..\..\packages\Xamarin.Forms.5.0.0.2578\lib\Xamarin.Mac\Xamarin.Forms.Platform.macOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\..\packages\Xamarin.Forms.5.0.0.2578\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="WebP.Mac">
+      <HintPath>..\..\packages\WebP.Touch.1.0.8\lib\Xamarin.Mac20\WebP.Mac.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Essentials">
+      <HintPath>..\..\packages\Xamarin.Essentials.1.7.6\lib\xamarinmac20\Xamarin.Essentials.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK" />
+    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="ImageCircle.Forms.Plugin">
+      <HintPath>..\..\packages\Xam.Plugins.Forms.ImageCircle.3.0.0.5\lib\netstandard2.0\ImageCircle.Forms.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>..\..\packages\SkiaSharp.2.88.3\lib\xamarinmac2.0\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp.Views.Mac">
+      <HintPath>..\..\packages\SkiaSharp.Views.2.88.3\lib\xamarinmac2.0\SkiaSharp.Views.Mac.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp.Views.Forms">
+      <HintPath>..\..\packages\SkiaSharp.Views.Forms.2.88.3\lib\xamarinmac2.0\SkiaSharp.Views.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="UrhoSharp.Forms">
+      <HintPath>..\..\packages\UrhoSharp.Forms.1.9.67\lib\netstandard2.0\UrhoSharp.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartSolucionesCuba.XFToolKit.Presentation">
+      <HintPath>..\..\packages\SSCXFToolKit.Presentation.0.6.3\lib\netstandard2.0\SmartSolucionesCuba.XFToolKit.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartSolucionesCuba.XFToolKit.Mvvm">
+      <HintPath>..\..\packages\SSCXFToolKit.Mvvm.0.4.10-alpha\lib\netstandard2.0\SmartSolucionesCuba.XFToolKit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.2.4.11.982\lib\Xamarin.Mac20\FFImageLoading.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.2.4.11.982\lib\Xamarin.Mac20\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.Forms.2.4.11.982\lib\Xamarin.Mac20\FFImageLoading.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms.Platform">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.Forms.2.4.11.982\lib\Xamarin.Mac20\FFImageLoading.Forms.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MOROPO.SAPRESSC.Core.Common">
+      <HintPath>..\..\packages\SAPRESSC.Core.Common.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Core.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="MOROPO.SAPRESSC.Core.Persistence">
+      <HintPath>..\..\packages\SAPRESSC.Core.Persistence.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Core.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="MOROPO.SAPRESSC.Core.Security.Common.Persistence">
+      <HintPath>..\..\packages\SAPRESSC.Core.Security.Common.Persistence.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Core.Security.Common.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="MOROPO.SAPRESSC.Core.Api.Connect">
+      <HintPath>..\..\packages\SAPRESSC.Core.Api.Connect.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Core.Api.Connect.dll</HintPath>
+    </Reference>
+    <Reference Include="MOROPO.SAPRESSC.Middleware.Media.Persistence">
+      <HintPath>..\..\packages\SAPRESSC.Middleware.Media.Persistence.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Middleware.Media.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="MOROPO.SAPRESSC.Middleware.Region.Persistence">
+      <HintPath>..\..\packages\SAPRESSC.Middleware.Region.Persistence.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Middleware.Region.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="MOROPO.SAPRESSC.Middleware.Identity.Persistence">
+      <HintPath>..\..\packages\SAPRESSC.Middleware.Identity.Persistence.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Middleware.Identity.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="UrhoSharp">
+      <HintPath>..\..\packages\UrhoSharp.1.9.67\lib\netstandard2.0\UrhoSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-128.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-128%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-16.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-16%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-256.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-256%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-32.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-32%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512%402x.png" />
+    <ImageAsset Include="Assets.xcassets\Contents.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galleries\Galleries.csproj">
+      <Name>Galleries</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Fonts\IconmonstrIconic.ttf" />
+    <BundleResource Include="Resources\Fonts\materialdesignicons-webfont.ttf" />
+    <BundleResource Include="Resources\Fonts\Rotis-Semi-Sans-Std-46-Light-Italic.otf" />
+    <BundleResource Include="Resources\Fonts\Rotis-Semi-Sans-Std-55-Regular.otf" />
+    <BundleResource Include="Resources\Fonts\Rotis-Semi-Sans-Std-56-Italic.otf" />
+    <BundleResource Include="Resources\Fonts\Rotis-Semi-Sans-Std-65-Bold.otf" />
+    <BundleResource Include="Resources\Fonts\Rotis-Semi-Sans-Std-75-Extra-Bold.otf" />
+    <BundleResource Include="Resources\Fonts\Utopia-Bold.otf" />
+    <BundleResource Include="Resources\Fonts\Utopia-BoldItalic.otf" />
+    <BundleResource Include="Resources\Fonts\Utopia-Italic.otf" />
+    <BundleResource Include="Resources\Fonts\Utopia-Regular.otf" />
+    <BundleResource Include="Resources\Assets\Materials\Leather_Beige.xml" />
+    <BundleResource Include="Resources\Assets\Models\Leather_Pouf_Sofa.mdl" />
+    <BundleResource Include="Resources\Assets\Textures\Geometric_wallpaper_ambientOcclusion.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Geometric_wallpaper_basecolor.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Geometric_wallpaper_normal.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Geometric_wallpaper_roughness.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Identity_Primary_FCBC.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Leather_Pouf_Sofa_AO.png" />
+    <BundleResource Include="Resources\Assets\Textures\Leather_Pouf_Sofa_BaseColor.png" />
+    <BundleResource Include="Resources\Assets\Textures\Leather_Pouf_Sofa_Normal.png" />
+    <BundleResource Include="Resources\Assets\Textures\Marble_Carrara_003_COLOR.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Marble_Carrara_003_NORM.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Marble_Carrara_003_ROUGH.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Plaster_Rough_001_COLOR.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Plaster_Rough_001_NORM.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Plaster_Rough_001_ROUGH.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Wood_024_basecolor.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Wood_024_normal.jpg" />
+    <BundleResource Include="Resources\Assets\Textures\Wood_024_roughness.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Fonts\" />
+    <Folder Include="Resources\Assets\" />
+    <Folder Include="Resources\Assets\Models\" />
+    <Folder Include="Resources\Assets\Textures\" />
+    <Folder Include="Resources\Assets\Materials\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <Import Project="..\..\packages\SkiaSharp.NativeAssets.macOS.2.88.3\build\xamarinmac2.0\SkiaSharp.NativeAssets.macOS.targets" Condition="Exists('..\..\packages\SkiaSharp.NativeAssets.macOS.2.88.3\build\xamarinmac2.0\SkiaSharp.NativeAssets.macOS.targets')" />
+  <Import Project="..\..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets')" />
+  <Import Project="..\..\packages\UrhoSharp.1.9.67\build\xamarinmac2.0\UrhoSharp.targets" Condition="Exists('..\..\packages\UrhoSharp.1.9.67\build\xamarinmac2.0\UrhoSharp.targets')" />
+</Project>

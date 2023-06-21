@@ -85,13 +85,26 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 if (movementFloorTile != null)
                 {
                     mainCameraNode.RunActions(new Urho.Actions.EaseElastic(new Urho.Actions.MoveTo(1f, new Vector3(movementFloorTile.Node.Position.X, mainCameraNode.Position.Y, movementFloorTile.Node.Position.Z))));
+
+                    return;
                 }
 
-                var artWorkFrame = result.Value.Drawable as ArtworkFrame;
+                var artWorkFrame = result.Value.Drawable as ArtWorkFrame;
 
                 if (artWorkFrame != null)
                 {
                     presenter.PresentArtworkDetailFor(artWorkFrame.ArtWork);
+
+                    return;
+                }
+
+                var artWorkStripe = result.Value.Drawable as ArtWorkStripe;
+
+                if (artWorkStripe != null)
+                {
+                    presenter.PresentArtworkDetailFor(artWorkStripe.ArtWork);
+
+                    return;
                 }
             }
         }
@@ -554,17 +567,27 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
         private void SetupIdentyFrames()
         {
-            var identityFrameWight = 2.0f;
+            var identityFrameWeight = 2.0f;
 
             var identityFrameNode = CreateChild();
 
-            identityFrameNode.Position = new Vector3(0.0f, WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - identityFrameWight);
-            identityFrameNode.Scale = new Vector3(48.0f, 96.0f, identityFrameWight);
+            identityFrameNode.Position = new Vector3(0.0f, WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - identityFrameWeight);
+            identityFrameNode.Scale = new Vector3(46.0f, 98.0f, identityFrameWeight);
 
             var identityFrameComponent = identityFrameNode.CreateComponent<StaticModel>();
 
             identityFrameComponent.Model = CoreAssets.Models.Box;
-            identityFrameComponent.Material = Material.FromImage("Textures/Identity_Primary_FCBC.jpg");
+            identityFrameComponent.Material = Material.FromColor(Color.White);
+
+            var identitySpriteNode = CreateChild();
+
+            identitySpriteNode.Position = new Vector3(identityFrameNode.Position.X, identityFrameNode.Position.Y, identityFrameNode.Position.Z - identityFrameWeight / 2 - 1.0f);
+
+            identitySpriteNode.SetScale(4.0f);
+
+            var identitySpriteComponent = identitySpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+            identitySpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Textures/Identity_Primary_FCBC.jpg");
         }
 
         private void SetupArtworkFrames(Models.View.ExhibitViewModel[] exhibits)
@@ -587,8 +610,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var pictureFrameNode = CreateChild();
-
                 var frameWidth = referenceFrameWidth;
                 var frameHeight = frameWidth;
 
@@ -603,20 +624,33 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     frameHeight = artWork.FeatureImage.Height / zoom;
                 }
 
+                var pictureFrameNode = CreateChild();
+
                 pictureFrameNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f);
                 pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = Material.FromColor(Color.White);
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z - 1.0f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
             }
 
             // South Wall
@@ -649,17 +683,28 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureFrameNode.Position = new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f);
                 pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = Material.FromColor(Color.White);
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z + 1.0f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
             }
 
             // East Wall
@@ -692,17 +737,29 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
                 pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = Material.FromColor(Color.White);
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
+                pictureSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
             }
 
             // West Wall
@@ -735,17 +792,29 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureFrameNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
                 pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = Material.FromColor(Color.White);
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
+                pictureSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
             }
         }
     }
@@ -754,7 +823,12 @@ namespace MOROPO.FCBC.Galleries.Scenes
     {
     }
 
-    internal class ArtworkFrame : StaticModel
+    internal class ArtWorkFrame : StaticModel
+    {
+        public Models.View.ArtWorkViewModel ArtWork { get; set; }
+    }
+
+    internal class ArtWorkStripe : Urho.Urho2D.StaticSprite2D
     {
         public Models.View.ArtWorkViewModel ArtWork { get; set; }
     }

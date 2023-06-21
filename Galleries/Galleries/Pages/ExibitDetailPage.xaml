@@ -92,6 +92,7 @@
                                     </StackLayout.GestureRecognizers>
                                     <icplugin:CircleImage
                                         HeightRequest="96" WidthRequest="96"
+                                        HorizontalOptions="Center"
                                         Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
                                         BorderThickness="2"
                                         BorderColor="Snow" />
