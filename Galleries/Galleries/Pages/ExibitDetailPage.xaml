@@ -6,7 +6,6 @@
     xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
-    xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExibitDetailPage"
     x:TypeArguments="pagemodels:ExibitDetailPageModel"
@@ -54,10 +53,8 @@
                             Padding="4" 
                             BackgroundColor="White"
                             HorizontalOptions="Center" VerticalOptions="Center">
-                            <ffimageloadingforms:CachedImage
-                                Source="{Binding Path=Work.FeatureImage, Converter={StaticResource ImageViewModelToImageSourceConverter}}"
-                                CacheType="Disk"
-                                CacheDuration="8760:00:00" />
+                            <Image
+                                Source="{Binding Path=Work.FeatureImage, Converter={StaticResource ImageViewModelToImageSourceConverter}}" />
                         </ContentView>
                     </Grid>
                     <StackLayout Spacing="20" Margin="20">
@@ -260,10 +257,8 @@
                                                 HorizontalOptions="Center" VerticalOptions="Center"
                                                 BackgroundColor="LightGray" 
                                                 Margin="10" Padding="4">
-                                                <ffimageloadingforms:CachedImage
-                                                    Source="{Binding Path=., Converter={StaticResource ImageViewModelToImageSourceConverter}}"
-                                                    CacheType="Disk"
-                                                    CacheDuration="8760:00:00" />
+                                                <Image
+                                                    Source="{Binding Path=., Converter={StaticResource ImageViewModelToImageSourceConverter}}" />
                                             </ContentView>
                                         </Grid>
                                     </DataTemplate>
