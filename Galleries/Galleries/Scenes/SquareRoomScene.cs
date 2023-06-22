@@ -233,6 +233,81 @@ namespace MOROPO.FCBC.Galleries.Scenes
         
         private void SetupLights()
         {
+            #region Ambient Lights
+
+            var verticalMovement = -0.15f;
+            var wallBrightness = 0.30f;
+            var specularIntensity = 7;
+
+            #region Roof Ambient Light
+            var roofLightNode = CreateChild();
+
+            roofLightNode.SetDirection(new Vector3(0.0f, 1.0f, 0.0f));
+
+            var roofLightComponent = roofLightNode.CreateComponent<Light>();
+
+            roofLightComponent.LightType = LightType.Directional;
+            roofLightComponent.UsePhysicalValues = false;
+            roofLightComponent.CastShadows = false;
+            roofLightComponent.Brightness = 0.35f;
+            roofLightComponent.Color = Color.White;
+            roofLightComponent.SpecularIntensity = specularIntensity;
+            #endregion
+
+            #region North Ambient Light
+            var floorNorthWallLightNode = CreateChild();
+
+            floorNorthWallLightNode.SetDirection(new Vector3(0.0f, verticalMovement, 1.0f));
+
+            var floorNorthWallLightComponent = floorNorthWallLightNode.CreateComponent<Light>();
+
+            floorNorthWallLightComponent.LightType = LightType.Directional;
+            floorNorthWallLightComponent.Color = Color.White;
+            floorNorthWallLightComponent.Brightness = wallBrightness;
+            floorNorthWallLightComponent.SpecularIntensity = specularIntensity;
+            #endregion
+
+            #region West
+            var floorWestWallLightNode = CreateChild();
+
+            floorWestWallLightNode.SetDirection(new Vector3(1.0f, verticalMovement, 0.0f));
+
+            var floorWestWallLightComponent = floorWestWallLightNode.CreateComponent<Light>();
+
+            floorWestWallLightComponent.LightType = LightType.Directional;
+            floorWestWallLightComponent.Color = Color.White;
+            floorWestWallLightComponent.Brightness = wallBrightness;
+            floorWestWallLightComponent.SpecularIntensity = specularIntensity;
+            #endregion
+
+            #region East
+            var floorEastWallLightNode = CreateChild();
+
+            floorEastWallLightNode.SetDirection(new Vector3(-1.0f, verticalMovement, 0.0f));
+
+            var floorEastWallLightComponent = floorEastWallLightNode.CreateComponent<Light>();
+
+            floorEastWallLightComponent.LightType = LightType.Directional;
+            floorEastWallLightComponent.Color = Color.White;
+            floorEastWallLightComponent.Brightness = wallBrightness;
+            floorEastWallLightComponent.SpecularIntensity = specularIntensity;
+            #endregion
+
+            #region South
+            var floorSouthWallLightNode = CreateChild();
+
+            floorSouthWallLightNode.SetDirection(new Vector3(0.0f, verticalMovement, -1.0f));
+
+            var floorSouthWallLightComponent = floorSouthWallLightNode.CreateComponent<Light>();
+
+            floorSouthWallLightComponent.LightType = LightType.Directional;
+            floorSouthWallLightComponent.Color = Color.White;
+            floorSouthWallLightComponent.Brightness = wallBrightness;
+            floorSouthWallLightComponent.SpecularIntensity = specularIntensity;
+            #endregion
+
+            #endregion
+
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
 
@@ -244,27 +319,29 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     {
                         var roofPointLightNode = CreateChild();
 
-                        roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 25.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+                        roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 5.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 
                         var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
                         roofPointLightComponent.LightType = LightType.Point;
                         roofPointLightComponent.UsePhysicalValues = false;
                         roofPointLightComponent.CastShadows = true;
-                        roofPointLightComponent.Brightness = 0.65f;
+                        roofPointLightComponent.Brightness = 0.75f;
                         roofPointLightComponent.Color = Color.White;
                         roofPointLightComponent.Range = 200.0f;
-                        roofPointLightComponent.SpecularIntensity = 3;
+                        roofPointLightComponent.SpecularIntensity = 10;
 
                         var roofLightLampNode = CreateChild();
 
                         roofLightLampNode.Position = new Vector3(roofPointLightNode.Position.X - x / 4 * 1.5f, WALL_HEIGHT - 0.5f, roofPointLightNode.Position.Z - y / 4 * 1.5f);
-                        roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 4, 1.0f, FLOOR_TILE_SIZE / 4);
+                        roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 3, 2.0f, FLOOR_TILE_SIZE / 3);
 
                         var roofLightLampComponent = roofLightLampNode.CreateComponent<StaticModel>();
 
                         roofLightLampComponent.Model = CoreAssets.Models.Cylinder;
                         roofLightLampComponent.Material = Material.FromColor(Color.White);
+
+                        roofLightLampComponent.Material.SetTechnique(0, CoreAssets.Techniques.NoTextureUnlit);
                     }
                 }
             }
@@ -587,7 +664,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             var identitySpriteComponent = identitySpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
 
-            identitySpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Textures/Identity_Primary_FCBC.jpg");
+            identitySpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Identity_Primary_FCBC.jpg");
         }
 
         private void SetupArtworkFrames(Models.View.ExhibitViewModel[] exhibits)
@@ -651,6 +728,16 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f + 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // South Wall
@@ -698,6 +785,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var pictureSpriteNode = CreateChild();
 
                 pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z + 1.0f);
+                pictureSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
                 var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
 
@@ -705,6 +793,17 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f - 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // East Wall
@@ -760,6 +859,17 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f - 5.0f);
+                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // West Wall
@@ -815,6 +925,17 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z + pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f + 5.0f);
+                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
         }
     }

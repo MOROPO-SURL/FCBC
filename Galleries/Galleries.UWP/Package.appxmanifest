@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="MOROPO.FCBC.Galleries.UWP"
+    Name="MOROPO.FCBC.Camaguey.AmaliaGalley"
     Publisher="CN=MOROPO S.U.R.L."
     Version="0.1.0.0" />
 
@@ -35,8 +35,8 @@
         DisplayName="Galería Amalia"
         Square150x150Logo="Assets\Images\Square150x150Logo.png"
         Square44x44Logo="Assets\Images\Square44x44Logo.png"
-        Description="Salas vrtuales para la Gallería Amalia del Fondo Cubano de Bienes Culturales filial Camagüey"
-        BackgroundColor="transparent">
+        Description="Salas virtuales para la Gallería Amalia del Fondo Cubano de Bienes Culturales filial Camagüey"
+        BackgroundColor="#9c4237">
         <uap:DefaultTile Wide310x150Logo="Assets\Images\Wide310x150Logo.png" Square310x310Logo="Assets\Images\LargeTile.png" Square71x71Logo="Assets\Images\SmallTile.png" ShortName="Gallería Amalia">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
@@ -44,7 +44,7 @@
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\Images\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\Images\SplashScreen.png"  BackgroundColor="#9c4237"/>
       </uap:VisualElements>
     </Application>
   </Applications>
