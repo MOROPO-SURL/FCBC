@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3B1DBB09-3DCC-4DF1-93EA-AC594020D76B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MOROPO.FCBC.Galleries.UWP.Installer</RootNamespace>
+    <AssemblyName>AmaliaGallery.UWP.Installer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime">
+      <HintPath>C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.netcore.universalwindowsplatform\6.2.13\ref\uap10.0.15138\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.netcore.universalwindowsplatform\6.2.13\ref\uap10.0.15138\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Windows">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Enumerations\SetupMode.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Helpers\AppxBundleSetupHelper.cs" />
+    <Compile Include="Helpers\AssetSetupHelper.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\View\ProgressDetailViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\Add-AppDevPackage.ps1" />
+    <None Include="Resources\Add-AppDevPackage.resources\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\cs-CZ\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\de-DE\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\en-US\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\es-ES\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\fr-FR\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\it-IT\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\ja-JP\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\ko-KR\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\pl-PL\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\pt-BR\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\ru-RU\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\tr-TR\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\zh-CN\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Add-AppDevPackage.resources\zh-TW\Add-AppDevPackage.psd1" />
+    <None Include="Resources\Dependencies\arm64\Microsoft.NET.Native.Framework.2.2.appx" />
+    <None Include="Resources\Dependencies\arm64\Microsoft.NET.Native.Runtime.2.2.appx" />
+    <None Include="Resources\Dependencies\arm64\Microsoft.UI.Xaml.2.4.appx" />
+    <None Include="Resources\Dependencies\arm64\Microsoft.VCLibs.ARM64.14.00.appx" />
+    <None Include="Resources\Dependencies\arm\Microsoft.NET.Native.Framework.2.2.appx" />
+    <None Include="Resources\Dependencies\arm\Microsoft.NET.Native.Runtime.2.2.appx" />
+    <None Include="Resources\Dependencies\arm\Microsoft.UI.Xaml.2.4.appx" />
+    <None Include="Resources\Dependencies\arm\Microsoft.VCLibs.ARM.14.00.appx" />
+    <None Include="Resources\Dependencies\Win32\Microsoft.UI.Xaml.2.4.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x64\Microsoft.NET.Native.Framework.2.2.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x64\Microsoft.NET.Native.Runtime.2.2.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x64\Microsoft.UI.Xaml.2.4.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x64\Microsoft.VCLibs.x64.14.00.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x86\Microsoft.NET.Native.Framework.2.2.appx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x86\Microsoft.NET.Native.Runtime.2.2.appx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x86\Microsoft.UI.Xaml.2.4.appx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Dependencies\x86\Microsoft.VCLibs.x86.14.00.appx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Galleries.UWP_0.1.0.0_x86_x64_arm.appxbundle">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Galleries.UWP_0.1.0.0_x86_x64_arm.cer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Install.ps1" />
+    <None Include="Resources\TelemetryDependencies\LogSideloadingTelemetry.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\TelemetryDependencies\Microsoft.VisualStudio.RemoteControl.dll" />
+    <Content Include="Resources\TelemetryDependencies\Microsoft.VisualStudio.Telemetry.dll" />
+    <Content Include="Resources\TelemetryDependencies\Microsoft.VisualStudio.Utilities.Internal.dll" />
+    <Content Include="Resources\TelemetryDependencies\Newtonsoft.Json.dll" />
+    <Content Include="Resources\TelemetryDependencies\System.Runtime.CompilerServices.Unsafe.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\10.0.19041.0\Windows.Foundation.UniversalApiContract\10.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+    </Reference>
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\10.0.19041.0\Windows.Foundation.FoundationContract\4.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

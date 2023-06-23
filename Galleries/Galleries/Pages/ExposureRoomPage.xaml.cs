@@ -48,7 +48,7 @@ namespace MOROPO.FCBC.Galleries.Pages
                         BindingContextPageModel.IsBusy = false;
 
                         virtualRoomPresenter.ExposureRoomPageModel = BindingContextPageModel;
-                    });                    
+                    });                 
                 }
             });
         }

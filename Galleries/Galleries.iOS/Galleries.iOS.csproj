@@ -155,10 +155,7 @@
       <Name>Galleries</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
-    <Folder Include="Renderers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BundleResource Include="Assets\Materials\Leather_Beige.xml" />
     <BundleResource Include="Assets\Models\Leather_Pouf_Sofa.mdl" />
@@ -179,5 +176,9 @@
     <BundleResource Include="Assets\Textures\Wood_024_basecolor.jpg" />
     <BundleResource Include="Assets\Textures\Wood_024_normal.jpg" />
     <BundleResource Include="Assets\Textures\Wood_024_roughness.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Assets\Sprites\Identity_Primary_FCBC.jpg" />
+    <BundleResource Include="Assets\Sprites\Touch_Call_Action_Light.png" />
   </ItemGroup>
 </Project>
