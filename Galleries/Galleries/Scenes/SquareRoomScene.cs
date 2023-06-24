@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.Galleries.Scenes.Contract;
+using MOROPO.FCBC.Galleries.Extensions;
 using System.Linq;
 using Urho;
 
@@ -29,7 +30,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             mainCameraNode = CreateChild("Camera");
 
-            mainCameraNode.Position = new Vector3(0.0f, WALL_HEIGHT * 4 / 7, 0.0f);
+            mainCameraNode.Position = new Vector3(120.0f, WALL_HEIGHT * 4 / 7, 0.0f);
 
             mainCamera = mainCameraNode.CreateComponent<Camera>();
 
@@ -660,11 +661,11 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             identitySpriteNode.Position = new Vector3(identityFrameNode.Position.X, identityFrameNode.Position.Y, identityFrameNode.Position.Z - identityFrameWeight / 2 - 1.0f);
 
-            identitySpriteNode.SetScale(4.0f);
+            identitySpriteNode.SetScale(4.6f);
 
             var identitySpriteComponent = identitySpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
 
-            identitySpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Identity_Primary_FCBC.jpg");
+            identitySpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Identity_Primary_FCBC.png");
         }
 
         private void SetupArtworkFrames(Models.View.ExhibitViewModel[] exhibits)
@@ -691,6 +692,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var frameHeight = frameWidth;
 
                 var artWork = exhibit.ArtWorks[0];
+
+                artWork.FeatureImage.PowerOfTwoResize();
 
                 var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
 
@@ -729,15 +732,15 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
 
-                var interactiveIndicatorSpriteNode = CreateChild();
+                //var interactiveIndicatorSpriteNode = CreateChild();
 
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f + 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+                //interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f + 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
 
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
+                //interactiveIndicatorSpriteNode.SetScale(7.0f);
 
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+                //var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
 
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                //interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // South Wall
@@ -757,6 +760,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var frameHeight = frameWidth;
 
                 var artWork = exhibit.ArtWorks[0];
+
+                artWork.FeatureImage.PowerOfTwoResize();
 
                 var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
 
@@ -794,16 +799,16 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
 
-                var interactiveIndicatorSpriteNode = CreateChild();
+                //var interactiveIndicatorSpriteNode = CreateChild();
 
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f - 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
-                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+                //interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f - 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+                //interactiveIndicatorSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
+                //interactiveIndicatorSpriteNode.SetScale(7.0f);
 
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+                //var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
 
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                //interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // East Wall
@@ -823,6 +828,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var frameHeight = frameWidth;
 
                 var artWork = exhibit.ArtWorks[0];
+
+                artWork.FeatureImage.PowerOfTwoResize();
 
                 var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
 
@@ -860,16 +867,16 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
 
-                var interactiveIndicatorSpriteNode = CreateChild();
+                //var interactiveIndicatorSpriteNode = CreateChild();
 
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f - 5.0f);
-                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
+                //interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f - 5.0f);
+                //interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
 
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
+                //interactiveIndicatorSpriteNode.SetScale(7.0f);
 
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+                //var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
 
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                //interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // West Wall
@@ -889,6 +896,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var frameHeight = frameWidth;
 
                 var artWork = exhibit.ArtWorks[0];
+
+                artWork.FeatureImage.PowerOfTwoResize();
 
                 var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
 
@@ -926,16 +935,16 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
 
-                var interactiveIndicatorSpriteNode = CreateChild();
+                //var interactiveIndicatorSpriteNode = CreateChild();
 
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z + pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f + 5.0f);
-                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
+                //interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z + pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f + 5.0f);
+                //interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
 
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
+                //interactiveIndicatorSpriteNode.SetScale(7.0f);
 
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+                //var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
 
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                //interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
         }
     }

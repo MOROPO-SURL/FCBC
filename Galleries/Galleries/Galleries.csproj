@@ -25,6 +25,7 @@
     <None Remove="Assets\Font\Utopia-Regular.otf" />
     <None Remove="Assets\Image\DefaultGalleyBanner.jpg" />
     <None Remove="Assets\Image\Identity_Primary_FCBC.png" />
+    <None Remove="Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -89,5 +90,8 @@
     <Compile Update="Pages\ExposureRoomPage.xaml.cs">
       <DependentUpon>ExposureRoomPage.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>
