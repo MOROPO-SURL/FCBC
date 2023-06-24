@@ -70,7 +70,7 @@ namespace MOROPO.FCBC.Galleries.UWP.Installer.Wind0ws
 
                             MainActionButton.IsEnabled = true;
 
-                            System.Windows.MessageBox.Show("No fue posible continuar el proceso de instalación. Por favor intentelo más tarde.", "Aviso");
+                            System.Windows.MessageBox.Show(string.Format("El proceso de instalación no pudo realizarse de forma exitosamente.{0}{0}Detalles:{1}.", System.Environment.NewLine, _task.Exception.Message), "Error!");
                         }
                         else
                         {
@@ -78,7 +78,16 @@ namespace MOROPO.FCBC.Galleries.UWP.Installer.Wind0ws
 
                             MainActionButton.IsEnabled = true;
 
-                            System.Windows.MessageBox.Show(string.Format("El proceso de instalación a concluido exitosamente.{0}{0}Ya puedes disfrutar de la aplicación Galería Amalia buscándola en el menú Inicio de Windows 10.", System.Environment.NewLine), "Listo!");
+                            if (_task.Result.ExtendedErrorCode != null)
+                            {
+                                MainProgressBar.Value = 0;
+
+                                System.Windows.MessageBox.Show(string.Format("El proceso de instalación no pudo completarse de forma exitosamente.{0}{0}Detalles:{1}.", System.Environment.NewLine, _task.Result.ErrorText), "Error!");
+                            }
+                            else
+                            {
+                                System.Windows.MessageBox.Show(string.Format("El proceso de instalación a concluido exitosamente.{0}{0}Ya puedes disfrutar de la aplicación Galería Amalia buscándola en el menú Inicio de Windows 10.", System.Environment.NewLine), "Listo!");
+                            }
                         }
                     });
                 });
