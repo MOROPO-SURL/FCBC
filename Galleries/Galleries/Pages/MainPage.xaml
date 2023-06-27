@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
+    xmlns:converterts="clr-namespace:MOROPO.FCBC.Galleries.Converters"
     xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
@@ -13,6 +14,8 @@
     BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converterts:StringToEllipsedConverter x:Key="StringToEllipsedConverter" />
+
             <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="400" ChildAbsoluteHorizontalMargin="20" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -35,7 +38,7 @@
     <ContentPage.Content>
         <Grid>
             <ScrollView Orientation="Vertical">
-                <StackLayout Style="{StaticResource BodyContentStackLayoutStyle}">
+                <StackLayout Style="{StaticResource BodyContentStackLayoutStyle}" Padding="0,0,0,30">
                     <Grid>
                         <ffimageloadingforms:CachedImage
                             HeightRequest="{Binding Source={Reference HeaderContentContainer}, Path=Height}"
@@ -115,7 +118,7 @@
                                             LineBreakMode="TailTruncation" />
                                         <Label
                                             VerticalOptions="StartAndExpand"
-                                            Text="{Binding Path=Description}"
+                                            Text="{Binding Path=Description, Converter={StaticResource StringToEllipsedConverter}, ConverterParameter=136}"
                                             TextColor="DimGray"
                                             LineBreakMode="TailTruncation"
                                             MaxLines="4" />

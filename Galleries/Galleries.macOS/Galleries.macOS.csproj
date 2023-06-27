@@ -7,7 +7,7 @@
     <ProjectGuid>{64B4B4CB-5B3E-4600-960F-204EA135A568}</ProjectGuid>
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Galleries.macOS</RootNamespace>
+    <RootNamespace>MOROPO.FCBC.Galleries.macOS</RootNamespace>
     <AssemblyName></AssemblyName>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
@@ -86,9 +86,6 @@
     <Reference Include="SkiaSharp.Views.Forms">
       <HintPath>..\..\packages\SkiaSharp.Views.Forms.2.88.3\lib\xamarinmac2.0\SkiaSharp.Views.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="UrhoSharp.Forms">
-      <HintPath>..\..\packages\UrhoSharp.Forms.1.9.67\lib\netstandard2.0\UrhoSharp.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="SmartSolucionesCuba.XFToolKit.Presentation">
       <HintPath>..\..\packages\SSCXFToolKit.Presentation.0.6.3\lib\netstandard2.0\SmartSolucionesCuba.XFToolKit.Presentation.dll</HintPath>
     </Reference>
@@ -132,7 +129,10 @@
       <HintPath>..\..\packages\SAPRESSC.Middleware.Identity.Persistence.2.2.8.5\lib\netstandard2.0\MOROPO.SAPRESSC.Middleware.Identity.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="UrhoSharp">
-      <HintPath>..\..\packages\UrhoSharp.1.9.67\lib\netstandard2.0\UrhoSharp.dll</HintPath>
+      <HintPath>..\..\packages\UrhoSharp.1.9.67\lib\net45\UrhoSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Urho.Extensions.Cocoa">
+      <HintPath>..\..\packages\UrhoSharp.Cocoa.1.9.67\lib\net45\Urho.Extensions.Cocoa.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +157,13 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\UrhoSurfaceRenderer.cs" />
+    <Compile Include="Views\UrhoSurfaceView.cs" />
+    <Compile Include="Managers\NativeApplicationManager.cs" />
+    <Compile Include="ViewController.cs" />
+    <Compile Include="ViewController.designer.cs">
+      <DependentUpon>ViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galleries\Galleries.csproj">
@@ -181,7 +188,6 @@
     <BundleResource Include="Resources\Assets\Textures\Geometric_wallpaper_basecolor.jpg" />
     <BundleResource Include="Resources\Assets\Textures\Geometric_wallpaper_normal.jpg" />
     <BundleResource Include="Resources\Assets\Textures\Geometric_wallpaper_roughness.jpg" />
-    <BundleResource Include="Resources\Assets\Textures\Identity_Primary_FCBC.jpg" />
     <BundleResource Include="Resources\Assets\Textures\Leather_Pouf_Sofa_AO.png" />
     <BundleResource Include="Resources\Assets\Textures\Leather_Pouf_Sofa_BaseColor.png" />
     <BundleResource Include="Resources\Assets\Textures\Leather_Pouf_Sofa_Normal.png" />
@@ -194,6 +200,9 @@
     <BundleResource Include="Resources\Assets\Textures\Wood_024_basecolor.jpg" />
     <BundleResource Include="Resources\Assets\Textures\Wood_024_normal.jpg" />
     <BundleResource Include="Resources\Assets\Textures\Wood_024_roughness.jpg" />
+    <BundleResource Include="Resources\CoreData.pak" />
+    <BundleResource Include="Resources\Assets\Sprites\Touch_Call_Action_Light.png" />
+    <BundleResource Include="Resources\Assets\Sprites\Identity_Primary_FCBC.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -202,9 +211,19 @@
     <Folder Include="Resources\Assets\Models\" />
     <Folder Include="Resources\Assets\Textures\" />
     <Folder Include="Resources\Assets\Materials\" />
+    <Folder Include="Renderers\" />
+    <Folder Include="Views\" />
+    <Folder Include="Resources\Assets\Sprites\" />
+    <Folder Include="Managers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="..\..\..\..\..\..\..\Projects\UrhoLab\packages\UrhoSharp.1.9.67\native\Mac\libmono-urho.dylib">
+      <Kind>Dynamic</Kind>
+      <SmartLink>False</SmartLink>
+    </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Import Project="..\..\packages\SkiaSharp.NativeAssets.macOS.2.88.3\build\xamarinmac2.0\SkiaSharp.NativeAssets.macOS.targets" Condition="Exists('..\..\packages\SkiaSharp.NativeAssets.macOS.2.88.3\build\xamarinmac2.0\SkiaSharp.NativeAssets.macOS.targets')" />
   <Import Project="..\..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.5.0.0.2578\build\Xamarin.Forms.targets')" />
-  <Import Project="..\..\packages\UrhoSharp.1.9.67\build\xamarinmac2.0\UrhoSharp.targets" Condition="Exists('..\..\packages\UrhoSharp.1.9.67\build\xamarinmac2.0\UrhoSharp.targets')" />
+  <Import Project="..\..\packages\UrhoSharp.1.9.67\build\net45\UrhoSharp.targets" Condition="Exists('..\..\packages\UrhoSharp.1.9.67\build\net45\UrhoSharp.targets')" />
 </Project>

@@ -40,7 +40,7 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                     {
-                        virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
+                        virtualRoomPresenter = await MainUrhoSurface.Show(new Urho.ApplicationOptions("Assets")
                         {
                             Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
                         });

@@ -1,6 +1,6 @@
 ﻿using AppKit;
 
-namespace Galleries.macOS
+namespace MOROPO.FCBC.Galleries.macOS
 {
 	static class MainClass
 	{

@@ -1,11 +1,12 @@
-﻿using Urho;
+﻿using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
+using Urho;
 using Urho.Actions;
 
 namespace MOROPO.FCBC.Galleries.Presenters
 {
-    internal class VirtualGalleryRoomPresenter : Application
+    public class VirtualGalleryRoomPresenter : Application
     {
-        protected const float TOUCH_SENSITIVITY = 2;
+        protected const float TOUCH_SENSITIVITY = 0.25f;
         protected const float MOVEMENT_SIZE = 10.0f;
         protected const float MOVEMENT_SPEED = 0.25f;
 
@@ -17,6 +18,7 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
         private Scenes.Contract.AbstractRoomScene scene;
 
+        [Preserve]
         public VirtualGalleryRoomPresenter(ApplicationOptions options) : base(options)
         {
         }
@@ -27,12 +29,16 @@ namespace MOROPO.FCBC.Galleries.Presenters
         {
             base.Start();
 
+            Graphics.WindowTitle = "UrhoSharp Sample";
+
             Log.LogLevel = LogLevel.Warning;
             Log.LogMessage += e => System.Diagnostics.Debug.WriteLine($"[Urho] {e.Message}"); ;
 
             scene = new Scenes.SquareRoomScene(this);
 
             Input.Enabled = true;
+
+            UI.Cursor = new Urho.Gui.Cursor();
 
             BindSceneEvents();
 
@@ -73,8 +79,8 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
         public void BindSceneEvents()
         {
-            Input.TouchBegin += scene.SceneInput_TouchBegin;
-            Input.TouchEnd += scene.SceneInput_TouchEnd;
+            Input.MouseButtonDown += scene.SceneInput_TouchBegin;
+            Input.MouseButtonUp += scene.SceneInput_TouchEnd;
 
 #if DEBUG
             Input.KeyUp += Input_KeyUp;
@@ -85,8 +91,8 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
         private void UnbindSceneEvents()
         {
-            Input.TouchBegin -= scene.SceneInput_TouchBegin;
-            Input.TouchEnd -= scene.SceneInput_TouchEnd;
+            Input.MouseButtonDown -= scene.SceneInput_TouchBegin;
+            Input.MouseButtonUp -= scene.SceneInput_TouchEnd;
 
 #if DEBUG
             Input.KeyUp -= Input_KeyUp;
@@ -97,7 +103,7 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
         private void MoveCameraByTouches(float timeStep)
         {
-            if (!isEventHandlingBind || scene.MainCamera == null || Input.NumTouches <= 0) return;
+            if (!isEventHandlingBind || !Input.GetMouseButtonDown(MouseButton.Right)) return;
 
             if (showcaseStartAt != null)
             {
@@ -114,30 +120,15 @@ namespace MOROPO.FCBC.Galleries.Presenters
                 return;
             }
 
-            for (uint i = 0, num = Input.NumTouches; i < num; ++i)
-            {
-                var state = Input.GetTouch(i);
+            var mouseMove = Input.MouseMove;
 
-                if (state.TouchedElement != null) continue;
+            yaw += TOUCH_SENSITIVITY * mouseMove.X;
 
-                if (!state.Delta.IsEmpty)
-                {
-                    yaw += TOUCH_SENSITIVITY * scene.MainCamera.Fov / Graphics.Height * state.Delta.X;
+            pitch += TOUCH_SENSITIVITY * mouseMove.Y;
 
-                    pitch += TOUCH_SENSITIVITY * scene.MainCamera.Fov / Graphics.Height * state.Delta.Y;
+            pitch = MathHelper.Clamp(pitch, -90.0f, 90.0f);
 
-                    scene.MainCamera.Node.Rotation = new Quaternion(pitch, yaw, 0);
-                }
-                else
-                {
-                    var cursor = UI.Cursor;
-
-                    if (cursor != null && cursor.Visible)
-                    {
-                        cursor.Position = state.Position;
-                    }
-                }
-            }
+            scene.MainCamera.Node.Rotation = new Quaternion(pitch, yaw, 0);
         }
 
         internal void Input_KeyUp(KeyUpEventArgs obj)

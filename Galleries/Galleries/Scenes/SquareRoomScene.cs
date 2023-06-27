@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.Galleries.Scenes.Contract;
+using System;
 using System.Linq;
 using Urho;
 
@@ -52,19 +53,19 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
         public override Camera MainCamera => mainCamera;
 
-        public override void SceneInput_TouchBegin(TouchBeginEventArgs eventArgs)
+        public override void SceneInput_TouchBegin(MouseButtonDownEventArgs eventArgs)
         {
-            touchBeginX = eventArgs.X;
-            touchBeginY = eventArgs.Y;
+            touchBeginX = presenter.Input.MousePosition.X;
+            touchBeginY = presenter.Input.MousePosition.Y;
 
             isTouchBegin = true;
         }
 
-        public override void SceneInput_TouchEnd(TouchEndEventArgs eventArgs)
+        public override void SceneInput_TouchEnd(MouseButtonUpEventArgs eventArgs)
         {
             if (isTouchBegin)
             {
-                if (touchBeginX != eventArgs.X || touchBeginY != eventArgs.Y)
+                if (touchBeginX != presenter.Input.MousePosition.X || touchBeginY != presenter.Input.MousePosition.Y)
                 {
                     isTouchBegin = false;
 
@@ -74,7 +75,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             isTouchBegin = false;
 
-            var cameraRay = mainCamera.GetScreenRay((float)eventArgs.X / Application.Current.Graphics.Width, (float)eventArgs.Y / Application.Current.Graphics.Height);
+            var cameraRay = mainCamera.GetScreenRay((float)presenter.Input.MousePosition.X / Application.Current.Graphics.Width, (float)presenter.Input.MousePosition.Y / Application.Current.Graphics.Height);
 
             var result = octree.RaycastSingle(cameraRay);
 
