@@ -134,6 +134,9 @@
     <Reference Include="Urho.Extensions.Cocoa">
       <HintPath>..\..\packages\UrhoSharp.Cocoa.1.9.67\lib\net45\Urho.Extensions.Cocoa.dll</HintPath>
     </Reference>
+    <Reference Include="FFImageLoading.Transformations">
+      <HintPath>..\..\packages\Xamarin.FFImageLoading.Transformations.2.4.11.982\lib\Xamarin.Mac20\FFImageLoading.Transformations.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -160,10 +163,6 @@
     <Compile Include="Renderers\UrhoSurfaceRenderer.cs" />
     <Compile Include="Views\UrhoSurfaceView.cs" />
     <Compile Include="Managers\NativeApplicationManager.cs" />
-    <Compile Include="ViewController.cs" />
-    <Compile Include="ViewController.designer.cs">
-      <DependentUpon>ViewController.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galleries\Galleries.csproj">

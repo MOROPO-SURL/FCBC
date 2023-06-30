@@ -103,6 +103,11 @@ namespace MOROPO.FCBC.Galleries.Pages
             }
         }
 
+        private void BackButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPopPageAsync();
+        }
+
         private void Refresh()
         {
             BindingContextPageModel.IsBusy = true;

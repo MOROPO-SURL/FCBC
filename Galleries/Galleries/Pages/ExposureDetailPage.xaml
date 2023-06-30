@@ -8,11 +8,12 @@
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
     xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:ffimageloadingtransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExposureDetailPage"
     x:TypeArguments="pagemodels:ExposureDetailPageModel"
     Title="Exposición"
-    BackgroundColor="White">
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:EmployeeDisplayApiModelToImageSourceConverter x:Key="EmployeeDisplayApiModelToImageSourceConverter" />
@@ -30,8 +31,38 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid>
-            <ScrollView Orientation="Vertical">
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="92" />
+                <RowDefinition Height="1" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="10,40,10,10"
+                BackgroundColor="{StaticResource PrimaryColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Text="Exposición"
+                    TextColor="White"
+                    HorizontalTextAlignment="Center" />
+                <Button
+                    Grid.Column="0"
+                    HorizontalOptions="Start" VerticalOptions="Center"
+                    BackgroundColor="#78251A"
+                    Text="&#xFB0D;"
+                    TextColor="White"
+                    FontFamily="Material Design Icons"
+                    Clicked="BackButton_Clicked" />
+            </Grid>
+            <BoxView Grid.Row="1" Color="#78251A" />
+            <ScrollView Grid.Row="2" Orientation="Vertical">
                 <StackLayout Style="{StaticResource BodyContentStackLayoutStyle}">
                     <Grid>
                         <ffimageloadingforms:CachedImage
@@ -95,13 +126,17 @@
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="EmployeeView_Tapped" />
                                         </StackLayout.GestureRecognizers>
-                                        <icplugin:CircleImage
+                                        <ffimageloadingforms:CachedImage
                                             Grid.Column="0"
                                             HorizontalOptions="Center"
                                             HeightRequest="108" WidthRequest="108"
                                             Source="{Binding Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
-                                            BorderThickness="3"
-                                            BorderColor="Snow" />
+                                            CacheType="Disk"
+                                            CacheDuration="8760:00:00">
+                                            <ffimageloadingforms:CachedImage.Transformations>
+                                                <ffimageloadingtransformations:CircleTransformation BorderSize="3" BorderHexColor="#FFFAFA" />
+                                            </ffimageloadingforms:CachedImage.Transformations>
+                                        </ffimageloadingforms:CachedImage>
                                         <Label 
                                             Text="{Binding Path=Name}"
                                             HorizontalTextAlignment="Center"
@@ -117,7 +152,8 @@
                     </FlexLayout>
                 </StackLayout>
             </ScrollView>
-            <ContentView 
+            <ContentView
+                Grid.RowSpan="3"
                 IsVisible="{Binding Path=PresentedEmployee, Converter={StaticResource NotNullToBooleanConverter}}"
                 BackgroundColor="#A9000000">
                 <ScrollView Orientation="Vertical">
@@ -130,13 +166,18 @@
                             <Grid>
                                 <StackLayout Spacing="0">
                                     <StackLayout Margin="20,20,20,0">
-                                        <icplugin:CircleImage
+                                        <ffimageloadingforms:CachedImage
+                                            Grid.Column="0"
                                             HorizontalOptions="Center"
                                             Margin="20,30,20,10"
                                             HeightRequest="240" WidthRequest="240"
                                             Source="{Binding Path=PresentedEmployee, Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
-                                            BorderThickness="2"
-                                            BorderColor="Snow" />
+                                            CacheType="Disk"
+                                            CacheDuration="8760:00:00">
+                                            <ffimageloadingforms:CachedImage.Transformations>
+                                                <ffimageloadingtransformations:CircleTransformation BorderSize="3" BorderHexColor="#FFFAFA" />
+                                            </ffimageloadingforms:CachedImage.Transformations>
+                                        </ffimageloadingforms:CachedImage>
                                         <Label 
                                             Text="Trabajador" 
                                             Margin="10,0,10,20"
@@ -196,7 +237,7 @@
                     </Grid>
                 </ScrollView>
             </ContentView>
-            <views:BusyView />
+            <views:BusyView Grid.RowSpan="3" />
         </Grid>
     </ContentPage.Content>
 </sscxftoolkitmvvmpages:BindingContextedContentPage>

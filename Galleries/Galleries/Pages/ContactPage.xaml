@@ -7,77 +7,149 @@
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
     x:Class="MOROPO.FCBC.Galleries.Pages.ContactPage"
     x:TypeArguments="pagemodels:MainPageModel"
-    Title="Contacto">
+    Title="Contacto"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <sscxftoolkitpresentationconverters:BindingLayoutWidthToResponsiveChildWidthConverter x:Key="BindingLayoutWidthToResponsiveChildWidthConverter" ChildMinWidth="800" ChildAbsoluteHorizontalMargin="20" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView Orientation="Vertical">
-            <StackLayout Spacing="0">
-                <StackLayout Margin="20,40,20,0" Spacing="0">
-                    <Label
-                        Style="{StaticResource HeaderTitleLabelStyle}"
-                        TextColor="#9c4237"
-                        HorizontalTextAlignment="Center" />
-                    <Image x:Name="BrandImage" WidthRequest="300" />
-                </StackLayout>
-                <FlexLayout
-                    Margin="10"
-                    Wrap="Wrap"
-                    AlignItems="Start" AlignContent="Start">
-                    <StackLayout
-                        Margin="10"
-                        WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                        <Label 
-                            Text="Correo Electrónico"
-                            Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
-                        <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />
-                        <StackLayout BindableLayout.ItemsSource="{Binding Path=EmailContacts}">
-                            <BindableLayout.EmptyView>
-                                <Label
-                                    Margin="10"
-                                    Text="No hay contactos de correo electrónico definidos en este momento"
-                                    HorizontalTextAlignment="Center"
-                                    TextColor="DimGray" />
-                            </BindableLayout.EmptyView>
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="10" ColumnSpacing="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalOptions="Center" Text="{Binding Path=EmailAddress}" />
-                                        <Label Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Text="{Binding Path=Label}" TextColor="DimGray" />
-                                        <Button 
-                                            Grid.Column="1" Grid.Row="1" 
-                                            VerticalOptions="Center" 
-                                            Margin="5,0,0,0" 
-                                            Text="Escribir" 
-                                            WidthRequest="96"
-                                            Clicked="EmailContactItemActionButton_Clicked" />
-                                    </Grid>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </StackLayout>
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="92" />
+                <RowDefinition Height="1" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="10,40,10,10"
+                BackgroundColor="{StaticResource PrimaryColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Text="Contacto"
+                    TextColor="White"
+                    HorizontalTextAlignment="Center" />
+                <Button
+                    Grid.Column="0"
+                    HorizontalOptions="Start" VerticalOptions="Center"
+                    BackgroundColor="#78251A"
+                    Text="&#xFB0D;"
+                    TextColor="White"
+                    FontFamily="Material Design Icons"
+                    Clicked="BackButton_Clicked" />
+            </Grid>
+            <BoxView Grid.Row="1" Color="#78251A" />
+            <ScrollView Grid.Row="2" Orientation="Vertical">
+                <StackLayout Spacing="0">
+                    <StackLayout Margin="20,40,20,0" Spacing="0">
+                        <Label
+                            Style="{StaticResource HeaderTitleLabelStyle}"
+                            TextColor="#9c4237"
+                            HorizontalTextAlignment="Center" />
+                        <Image x:Name="BrandImage" WidthRequest="300" />
                     </StackLayout>
-                    <StackLayout
+                    <FlexLayout
                         Margin="10"
-                        WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                        Wrap="Wrap"
+                        AlignItems="Start" AlignContent="Start">
+                        <StackLayout
+                            Margin="10"
+                            WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                            <Label 
+                                Text="Correo Electrónico"
+                                Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
+                            <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />
+                            <StackLayout BindableLayout.ItemsSource="{Binding Path=EmailContacts}">
+                                <BindableLayout.EmptyView>
+                                    <Label
+                                        Margin="10"
+                                        Text="No hay contactos de correo electrónico definidos en este momento"
+                                        HorizontalTextAlignment="Center"
+                                        TextColor="DimGray" />
+                                </BindableLayout.EmptyView>
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="10" ColumnSpacing="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalOptions="Center" Text="{Binding Path=EmailAddress}" />
+                                            <Label Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Text="{Binding Path=Label}" TextColor="DimGray" />
+                                            <Button 
+                                                Grid.Column="1" Grid.Row="1" 
+                                                VerticalOptions="Center" 
+                                                Margin="5,0,0,0" 
+                                                Text="Escribir" 
+                                                WidthRequest="96"
+                                                Clicked="EmailContactItemActionButton_Clicked" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout
+                            Margin="10"
+                            WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource BindingLayoutWidthToResponsiveChildWidthConverter}}">
+                            <Label 
+                                Text="Teléfonos"
+                                Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
+                            <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />
+                            <StackLayout BindableLayout.ItemsSource="{Binding Path=PhoneContacts}">
+                                <BindableLayout.EmptyView>
+                                    <Label
+                                        Margin="10"
+                                        Text="No hay contactos de teléfono definidos en este momento"
+                                        HorizontalTextAlignment="Center"
+                                        TextColor="DimGray" />
+                                </BindableLayout.EmptyView>
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="10" ColumnSpacing="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalOptions="Center" Text="{Binding Path=PhoneNumber}" />
+                                            <Label Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Text="{Binding Path=Label}" TextColor="DimGray" />
+                                            <Button 
+                                                Grid.Column="1" Grid.Row="1" 
+                                                VerticalOptions="Center" 
+                                                Margin="5,0,0,0" 
+                                                Text="Llamar" 
+                                                WidthRequest="96"
+                                                Clicked="PhoneContactItemActionButton_Clicked" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </StackLayout>
+                    </FlexLayout>
+                    <StackLayout
+                        Margin="20">
                         <Label 
-                            Text="Teléfonos"
+                            Text="Sitios en Internet"
                             Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
                         <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />
-                        <StackLayout BindableLayout.ItemsSource="{Binding Path=PhoneContacts}">
+                        <StackLayout BindableLayout.ItemsSource="{Binding Path=WebContacts}">
                             <BindableLayout.EmptyView>
                                 <Label
-                                    Margin="10"
+                                    Margin="0,20"
                                     Text="No hay contactos de teléfono definidos en este momento"
                                     HorizontalTextAlignment="Center"
                                     TextColor="DimGray" />
@@ -93,61 +165,22 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalOptions="Center" Text="{Binding Path=PhoneNumber}" />
+                                        <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalOptions="Center" Text="{Binding Path=URL}" />
                                         <Label Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Text="{Binding Path=Label}" TextColor="DimGray" />
                                         <Button 
                                             Grid.Column="1" Grid.Row="1" 
                                             VerticalOptions="Center" 
                                             Margin="5,0,0,0" 
-                                            Text="Llamar" 
+                                            Text="Visitar" 
                                             WidthRequest="96"
-                                            Clicked="PhoneContactItemActionButton_Clicked" />
+                                            Clicked="WebContactItemActionButton_Clicked" />
                                     </Grid>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
                     </StackLayout>
-                </FlexLayout>
-                <StackLayout
-                    Margin="20">
-                    <Label 
-                        Text="Sitios en Internet"
-                        Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
-                    <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />
-                    <StackLayout BindableLayout.ItemsSource="{Binding Path=WebContacts}">
-                        <BindableLayout.EmptyView>
-                            <Label
-                                Margin="0,20"
-                                Text="No hay contactos de teléfono definidos en este momento"
-                                HorizontalTextAlignment="Center"
-                                TextColor="DimGray" />
-                        </BindableLayout.EmptyView>
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="10" ColumnSpacing="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.ColumnSpan="2" Grid.Row="0" VerticalOptions="Center" Text="{Binding Path=URL}" />
-                                    <Label Grid.Column="0" Grid.Row="1" VerticalOptions="Center" Text="{Binding Path=Label}" TextColor="DimGray" />
-                                    <Button 
-                                        Grid.Column="1" Grid.Row="1" 
-                                        VerticalOptions="Center" 
-                                        Margin="5,0,0,0" 
-                                        Text="Visitar" 
-                                        WidthRequest="96"
-                                        Clicked="WebContactItemActionButton_Clicked" />
-                                </Grid>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-        </ScrollView>
+            </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </sscxftoolkitmvvmpages:BindingContextedContentPage>

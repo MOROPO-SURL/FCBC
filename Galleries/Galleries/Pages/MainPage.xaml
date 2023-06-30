@@ -11,7 +11,8 @@
     x:Class="MOROPO.FCBC.Galleries.Pages.MainPage"
     x:TypeArguments="pagemodels:MainPageModel"
     Title="Inicio"
-    BackgroundColor="White">
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converterts:StringToEllipsedConverter x:Key="StringToEllipsedConverter" />
@@ -36,8 +37,38 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <ScrollView Orientation="Vertical">
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="92" />
+                <RowDefinition Height="1" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="10,40,10,10"
+                BackgroundColor="{StaticResource PrimaryColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Text="Inicio"
+                    TextColor="White"
+                    HorizontalTextAlignment="Center" />
+                <Button
+                    Grid.Column="2"
+                    HorizontalOptions="End" VerticalOptions="Center"
+                    BackgroundColor="#78251A"
+                    Text="&#xF450;"
+                    TextColor="White"
+                    FontFamily="Material Design Icons"
+                    Clicked="RefreshToolbarItem_Clicked" />
+            </Grid>
+            <BoxView Grid.Row="1" Color="#78251A" />
+            <ScrollView Grid.Row="2" Orientation="Vertical">
                 <StackLayout Style="{StaticResource BodyContentStackLayoutStyle}" Padding="0,0,0,30">
                     <Grid>
                         <ffimageloadingforms:CachedImage
@@ -132,7 +163,7 @@
                     </FlexLayout>
                 </StackLayout>
             </ScrollView>
-            <views:BusyView />
+            <views:BusyView Grid.RowSpan="3" />
         </Grid>
     </ContentPage.Content>
 </sscxftoolkitmvvmpages:BindingContextedContentPage>

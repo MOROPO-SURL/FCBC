@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.Galleries.Pages
+﻿using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
+
+namespace MOROPO.FCBC.Galleries.Pages
 {
     public partial class ExibitDetailPage : SmartSolucionesCuba.XFToolKit.Mvvm.Pages.BindingContextedContentPage<Models.Page.ExibitDetailPageModel>
     {
@@ -25,6 +27,11 @@
         private void DismissPresentedCriticButton_Clicked(object sender, System.EventArgs eventArgs)
         {
             BindingContextPageModel.PresentedCritic = null;
+        }
+
+        private void BackButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPopModalPageAsync();
         }
     }
 }

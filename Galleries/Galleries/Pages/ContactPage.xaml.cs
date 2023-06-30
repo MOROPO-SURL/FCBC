@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.SGI.API.Common.Models;
+using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
 
 namespace MOROPO.FCBC.Galleries.Pages
 {
@@ -27,6 +28,11 @@ namespace MOROPO.FCBC.Galleries.Pages
         private void WebContactItemActionButton_Clicked(object sender, System.EventArgs eventArgs)
         {
             Xamarin.Essentials.Browser.OpenAsync(new System.Uri(((sender as Xamarin.Forms.BindableObject).BindingContext as WebContactItemDisplayApiModel).URL), Xamarin.Essentials.BrowserLaunchMode.External);
+        }
+
+        private void BackButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPopPageAsync();
         }
     }
 }

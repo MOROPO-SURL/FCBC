@@ -7,7 +7,7 @@
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
     xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:ffimageloadingtransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExibitDetailPage"
     x:TypeArguments="pagemodels:ExibitDetailPageModel"
     Title="Detalles de Obra Expuesta"
@@ -43,8 +43,38 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid>
-            <ScrollView Orientation="Vertical">
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="92" />
+                <RowDefinition Height="1" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="10,40,10,10"
+                BackgroundColor="{StaticResource PrimaryColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Text="Detalles de Obra Expuesta"
+                    TextColor="White"
+                    HorizontalTextAlignment="Center" />
+                <Button
+                    Grid.Column="0"
+                    HorizontalOptions="Start" VerticalOptions="Center"
+                    BackgroundColor="#78251A"
+                    Text="&#xFB0D;"
+                    TextColor="White"
+                    FontFamily="Material Design Icons"
+                    Clicked="BackButton_Clicked" />
+            </Grid>
+            <BoxView Grid.Row="1" Color="#78251A" />
+            <ScrollView Grid.Row="2" Orientation="Vertical">
                 <StackLayout Spacing="0">
                     <Grid 
                         Padding="20"
@@ -90,12 +120,16 @@
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="CreatorView_Tapped" />
                                     </StackLayout.GestureRecognizers>
-                                    <icplugin:CircleImage
-                                        HeightRequest="96" WidthRequest="96"
+                                    <ffimageloadingforms:CachedImage
                                         HorizontalOptions="Center"
+                                        HeightRequest="96" WidthRequest="96"
                                         Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
-                                        BorderThickness="2"
-                                        BorderColor="Snow" />
+                                        CacheType="Disk"
+                                        CacheDuration="8760:00:00">
+                                        <ffimageloadingforms:CachedImage.Transformations>
+                                            <ffimageloadingtransformations:CircleTransformation BorderSize="3" BorderHexColor="#FFFAFA" />
+                                        </ffimageloadingforms:CachedImage.Transformations>
+                                    </ffimageloadingforms:CachedImage>
                                     <Label 
                                         FontSize="25"
                                         Text="{Binding Path=Name}"
@@ -290,17 +324,20 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <icplugin:CircleImage
+                                        <ffimageloadingforms:CachedImage
                                             Grid.Column="0"
                                             VerticalOptions="Center"
                                             HeightRequest="80" WidthRequest="80"
                                             Source="{Binding Path=Critic, Converter={StaticResource CriticDisplayApiModelToImageSourceConverter}}"
-                                            BorderThickness="2"
-                                            BorderColor="Snow">
-                                            <icplugin:CircleImage.GestureRecognizers>
+                                            CacheType="Disk"
+                                            CacheDuration="8760:00:00">
+                                            <ffimageloadingforms:CachedImage.Transformations>
+                                                <ffimageloadingtransformations:CircleTransformation BorderSize="2" BorderHexColor="#FFFAFA" />
+                                            </ffimageloadingforms:CachedImage.Transformations>
+                                            <ffimageloadingforms:CachedImage.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="CriticView_Tapped" />
-                                            </icplugin:CircleImage.GestureRecognizers>
-                                        </icplugin:CircleImage>
+                                            </ffimageloadingforms:CachedImage.GestureRecognizers>
+                                        </ffimageloadingforms:CachedImage>
                                         <StackLayout
                                             Grid.Column="1" Grid.Row="0"
                                             VerticalOptions="Center">
@@ -325,7 +362,8 @@
                     </StackLayout>                
                 </StackLayout>
             </ScrollView>
-            <ContentView 
+            <ContentView
+                Grid.RowSpan="3"
                 IsVisible="{Binding Path=., Converter={StaticResource NotNullToBooleanConverter}}"
                 BackgroundColor="#A9000000"
                 BindingContext="{Binding Path=PresentedCreator}">
@@ -338,13 +376,17 @@
                             BackgroundColor="White">
                             <Grid>                                
                                 <StackLayout Margin="20">
-                                    <icplugin:CircleImage
+                                    <ffimageloadingforms:CachedImage
                                         HorizontalOptions="Center"
                                         Margin="20,30,20,10"
                                         HeightRequest="240" WidthRequest="240"
                                         Source="{Binding Path=., Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
-                                        BorderThickness="2"
-                                        BorderColor="Snow" />
+                                        CacheType="Disk"
+                                        CacheDuration="8760:00:00">
+                                        <ffimageloadingforms:CachedImage.Transformations>
+                                            <ffimageloadingtransformations:CircleTransformation BorderSize="3" BorderHexColor="#FFFAFA" />
+                                        </ffimageloadingforms:CachedImage.Transformations>
+                                    </ffimageloadingforms:CachedImage>
                                     <Label 
                                         Text="Creador" 
                                         Margin="10,0,10,20"
@@ -412,6 +454,7 @@
                 </ScrollView>
             </ContentView>            
             <ContentView 
+                Grid.RowSpan="3"
                 IsVisible="{Binding Path=PresentedCritic, Converter={StaticResource NotNullToBooleanConverter}}"
                 BackgroundColor="#A9000000">
                 <ScrollView Orientation="Vertical">
@@ -423,13 +466,17 @@
                             BackgroundColor="White">
                             <Grid>                                
                                 <StackLayout Margin="20">
-                                    <icplugin:CircleImage
+                                    <ffimageloadingforms:CachedImage
                                         HorizontalOptions="Center"
                                         Margin="20,30,20,10"
                                         HeightRequest="240" WidthRequest="240"
                                         Source="{Binding Path=PresentedCritic, Converter={StaticResource CriticDisplayApiModelToImageSourceConverter}}"
-                                        BorderThickness="2"
-                                        BorderColor="Snow" />
+                                        CacheType="Disk"
+                                        CacheDuration="8760:00:00">
+                                        <ffimageloadingforms:CachedImage.Transformations>
+                                            <ffimageloadingtransformations:CircleTransformation BorderSize="3" BorderHexColor="#FFFAFA" />
+                                        </ffimageloadingforms:CachedImage.Transformations>
+                                    </ffimageloadingforms:CachedImage>
                                     <Label 
                                         Text="Crítico" 
                                         Margin="10,0,10,20"

@@ -4,17 +4,50 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     x:Class="MOROPO.FCBC.Galleries.Pages.HistoryPage"
-    Title="Historia">
+    Title="Historia"
+    NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <ScrollView Orientation="Vertical">
-            <StackLayout Margin="20">
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="92" />
+                <RowDefinition Height="1" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Padding="10,40,10,10"
+                BackgroundColor="{StaticResource PrimaryColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <Label
-                    Margin="0,30"
-                    Style="{StaticResource HeaderTitleLabelStyle}"
-                    TextColor="#9c4237"
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Text="Historia"
+                    TextColor="White"
                     HorizontalTextAlignment="Center" />
-                <Label x:Name="HistoryLabel" />
-            </StackLayout>
-        </ScrollView>
+                <Button
+                    Grid.Column="0"
+                    HorizontalOptions="Start" VerticalOptions="Center"
+                    BackgroundColor="#78251A"
+                    Text="&#xFB0D;"
+                    TextColor="White"
+                    FontFamily="Material Design Icons"
+                    Clicked="BackButton_Clicked" />
+            </Grid>
+            <BoxView Grid.Row="1" Color="#78251A" />
+            <ScrollView Grid.Row="2" Orientation="Vertical">
+                <StackLayout Padding="20">
+                    <Label
+                        Margin="0,30"
+                        Style="{StaticResource HeaderTitleLabelStyle}"
+                        TextColor="#9c4237"
+                        HorizontalTextAlignment="Center" />
+                    <Label x:Name="HistoryLabel" />
+                </StackLayout>
+            </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </sscxftoolkitmvvmpages:ContentPage>
