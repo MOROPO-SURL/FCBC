@@ -5,6 +5,16 @@
     x:Class="MOROPO.FCBC.Galleries.App">
     <Application.Resources>
         <ResourceDictionary>
+            <OnPlatform x:TypeArguments="x:String" x:Key="PrimaryFontRegular" Default="Utopia Regular">
+                <On Platform="macOS" Value="Utopia, Regular" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String" x:Key="PrimaryFontBold" Default="Utopia Bold">
+                <On Platform="macOS" Value="Utopia, Bold" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String" x:Key="SecoundaryFontRegular" Default="Rotis SemiSans Std Regular">
+                <On Platform="macOS" Value="Rotis Semi Sans Std, 55 Regular" />
+            </OnPlatform>
+
             <Color x:Key="PrimaryColor">#9c4237</Color>
             <Color x:Key="MainContrastTextColor">#cbab71</Color>
 
@@ -12,18 +22,22 @@
             <x:Double x:Key="BodyContentSectionHeaderTitleLabelFontSize">32</x:Double>
             <x:Double x:Key="PersonFirstNameLabelFontSize">27</x:Double>
 
-            <OnPlatform x:TypeArguments="x:Double" Default="21" Android="16" WinPhone="21"  x:Key="ButtonFontSize" />
+            <OnPlatform x:TypeArguments="x:Double" Default="21" x:Key="ButtonFontSize">
+                <On Platform="Android" Value="16" />
+            </OnPlatform>
 
             <Style TargetType="Label" ApplyToDerivedTypes="True">
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="24" />
-                <Setter Property="FontFamily" Value="Rotis SemiSans Std Regular" />
+                <Setter Property="FontFamily" Value="{StaticResource SecoundaryFontRegular}" />
             </Style>
 
             <Style TargetType="Button" ApplyToDerivedTypes="True">
                 <Setter Property="FontSize" Value="{StaticResource ButtonFontSize}" />
                 <Setter Property="Padding" Value="10" />
-                <Setter Property="FontFamily" Value="Utopia Regular" />
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFontRegular}" />
+                <Setter Property="BackgroundColor" Value="LightGray" />
+                <Setter Property="TextColor" Value="Black" />
             </Style>
 
             <Style TargetType="BoxView" x:Key="SeparatorBoxViewStyle">
@@ -36,13 +50,13 @@
                 <Setter Property="TextColor" Value="{StaticResource MainContrastTextColor}" />
                 <Setter Property="FontSize" Value="52" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="FontFamily" Value="Utopia Bold" />
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFontBold}" />
             </Style>
 
             <Style TargetType="Label" x:Key="HeaderSubTitleLabelStyle">
                 <Setter Property="TextColor" Value="{StaticResource MainContrastTextColor}" />
                 <Setter Property="FontSize" Value="36" />
-                <Setter Property="FontFamily" Value="Utopia Regular" />
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFontRegular}" />
             </Style>
 
             <Style TargetType="Label" x:Key="HeaderSubTitleCaptionLabelStyle">
@@ -55,7 +69,7 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource MainContrastTextColor}" />
                 <Setter Property="FontSize" Value="{StaticResource ButtonFontSize}" />
                 <Setter Property="Padding" Value="10" />
-                <Setter Property="FontFamily" Value="Utopia Regular" />
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFontRegular}" />
             </Style>
 
             <Style TargetType="Button" x:Key="HeaderButtonStyle" BasedOn="{StaticResource AccentButtonStyle}">
@@ -74,7 +88,7 @@
             <Style TargetType="Label" x:Key="BodyContentSectionHeaderTitleLabelStyle">
                 <Setter Property="Margin" Value="10,10,10,8" />
                 <Setter Property="FontSize" Value="{StaticResource BodyContentSectionHeaderTitleLabelFontSize}" />
-                <Setter Property="FontFamily" Value="Utopia Bold" />
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFontBold}" />
             </Style>
 
             <Style TargetType="BoxView" x:Key="BodyContentSectionHeaderSeparatorBoxViewStyle" BasedOn="{StaticResource SeparatorBoxViewStyle}">

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="200" android:versionName="0.2.0" package="moropo.fcbc.camaguey.galleries">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="300" android:versionName="0.3.0" package="moropo.fcbc.camaguey.galleries">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
-	<application android:label="Gallería Amalias" android:theme="@style/MainTheme" android:usesCleartextTraffic="true"></application>
+	<application android:label="Gallería Amalia" android:theme="@style/MainTheme" android:usesCleartextTraffic="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>
