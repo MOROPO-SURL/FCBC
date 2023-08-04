@@ -12,6 +12,10 @@
   <PropertyGroup>
 	<ApplicationManifest>app.manifest</ApplicationManifest>
 	<ApplicationIcon>app.ico</ApplicationIcon>
+	<Authors>MOROPO S.U.R.L.</Authors>
+	<Copyright>MOROPO S.U.R.L. 2023</Copyright>
+	<AssemblyVersion>0.4.0.0</AssemblyVersion>
+	<Version>0.4.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
