@@ -56,7 +56,11 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
             //try
             //{
-            //    scene.SaveXml(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "SquareRoomScene.xml"));
+            //    var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
+
+            //    System.Diagnostics.Debug.WriteLine(path);
+
+            //    scene.SaveXml(System.IO.Path.Combine(path, "SquareRoomScene.xml"));
             //}
             //catch (System.Exception _)
             //{

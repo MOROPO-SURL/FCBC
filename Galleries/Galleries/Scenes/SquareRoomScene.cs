@@ -33,6 +33,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             mainCamera = mainCameraNode.CreateComponent<Camera>();
 
+            mainCamera.FarClip = FLOOR_FULL_SIZE * 2;
+
             SetupLights();
 
             SetupFloor();
