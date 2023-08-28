@@ -68,6 +68,19 @@ namespace MOROPO.FCBC.Galleries.Presenters
             base.OnUpdate(timeStep);
         }
 
+        protected override void Stop()
+        {
+            UnbindSceneEvents();
+
+            scene.Clear();
+            scene.Remove();
+            scene.Dispose();
+
+            scene = null;
+
+            base.Stop();
+        }
+
         public void PresentArtworkDetailFor(Models.View.ArtWorkViewModel model)
         {
             if (!isEventHandlingBind) return;

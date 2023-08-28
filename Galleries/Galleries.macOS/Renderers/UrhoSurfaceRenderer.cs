@@ -22,5 +22,13 @@ namespace MOROPO.FCBC.Galleries.macOS.Renderers
 
             base.OnElementChanged(e);
         }
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    Control.Stop();
+        //    Control.Dispose();
+
+        //    base.Dispose(disposing);
+        //}
     }
 }

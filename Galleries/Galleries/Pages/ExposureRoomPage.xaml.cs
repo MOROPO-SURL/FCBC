@@ -1,4 +1,6 @@
-﻿using MOROPO.FCBC.Galleries.Presenters;
+﻿using System;
+using System.Threading.Tasks;
+using MOROPO.FCBC.Galleries.Presenters;
 using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
 
 namespace MOROPO.FCBC.Galleries.Pages
@@ -76,12 +78,12 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         protected override void DisposeUnmanagementResources()
         {
-            base.DisposeUnmanagementResources();
+            //base.DisposeUnmanagementResources();
 
-            virtualRoomPresenter?.Exit();
-            virtualRoomPresenter?.Dispose();
+            //virtualRoomPresenter?.Exit();
+            //virtualRoomPresenter?.Dispose();
 
-            virtualRoomPresenter = null;
+            //virtualRoomPresenter = null;
         }
 
         private void CloseButton_Clicked(object sender, System.EventArgs eventArgs)
@@ -106,6 +108,16 @@ namespace MOROPO.FCBC.Galleries.Pages
                 {
                     virtualRoomPresenter.BindSceneEvents();
                 });
+            });
+        }
+
+        private void BackButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            DisplayAlert("Confirmar", "Está seguro que desea abandonar la sala?", "Abandonar", "Continuar").ContinueWith(async task =>
+            {
+                if (!task.Result) return;
+
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() => this.NavigationPopModalPageAsync());
             });
         }
     }
