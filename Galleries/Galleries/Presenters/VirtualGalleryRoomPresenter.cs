@@ -53,6 +53,18 @@ namespace MOROPO.FCBC.Galleries.Presenters
             //scene.MainCamera.Node.RunActionsAsync(new RepeatForever(new RotateBy(duration: 1.0f, deltaAngleX: 0.0f, deltaAngleY: 3.0f, deltaAngleZ: 0.0f)));
 
             //showcaseStartAt = System.DateTime.Now;
+
+            //try
+            //{
+            //    var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
+
+            //    System.Diagnostics.Debug.WriteLine(path);
+
+            //    scene.SaveXml(System.IO.Path.Combine(path, "SquareRoomScene.xml"));
+            //}
+            //catch (System.Exception _)
+            //{
+            //}
         }
 
         protected override void OnUpdate(float timeStep)
