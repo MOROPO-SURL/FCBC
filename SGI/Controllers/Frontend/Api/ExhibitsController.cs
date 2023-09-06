@@ -4,7 +4,6 @@ using MOROPO.FCBC.SGI.API.Common.Models;
 using MOROPO.FCBC.SGI.API.Common.Models.Filter;
 using MOROPO.SAPRESSC.Core.Common.Models;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
-using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Extensions;
 using System.Linq;
 
