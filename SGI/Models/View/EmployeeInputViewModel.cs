@@ -50,9 +50,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Roles Administrativos")]
         public List<SelectionDescriptedItemInputViewModel<System.Guid>> SelectableRoles { get; set; } = new List<SelectionDescriptedItemInputViewModel<System.Guid>>();
 
+        [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "Address")]
         public string AddressPostal { get; set; }
-
 
         [Required(ErrorMessage = "RequiredValidationErrorMessage")]
         [Display(Name = "State")]
