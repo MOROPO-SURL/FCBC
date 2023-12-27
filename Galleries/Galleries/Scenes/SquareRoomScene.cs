@@ -676,6 +676,13 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             var referenceFrameWidth = 80f;
 
+            var pictureFrameComponentMaterial = new Material();
+
+            pictureFrameComponentMaterial.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_basecolor.jpg"));
+            pictureFrameComponentMaterial.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_normal.jpg"));
+            pictureFrameComponentMaterial.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_roughness.jpg"));
+            pictureFrameComponentMaterial.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
+
             int index = 1;
 
             // North Wall
@@ -718,7 +725,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = Material.FromColor(Color.White);
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
 
                 var pictureSpriteNode = CreateChild();
 
@@ -782,7 +789,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = Material.FromColor(Color.White);
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
 
                 var pictureSpriteNode = CreateChild();
 
@@ -848,7 +855,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = Material.FromColor(Color.White);
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
 
                 var pictureSpriteNode = CreateChild();
 
@@ -914,7 +921,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = Material.FromColor(Color.White);
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
 
                 var pictureSpriteNode = CreateChild();
 

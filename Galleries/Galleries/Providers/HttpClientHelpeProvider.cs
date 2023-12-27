@@ -23,11 +23,18 @@ namespace MOROPO.FCBC.Galleries.Providers
         {
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
             {
-                HttpClientHelper = new HttpClientHelper(Xamarin.Forms.DependencyService.Get<Providers.Facade.INativeHttpClientHandlerProviderFacade>().Get(), Constants.Networking.SGI_BASE_URL, null, () => new KeyValuePair<string, string>[] { new KeyValuePair<string, string>(SGI.API.Common.Constants.Authorization.API_KEY_HEADER_PROPERTY, Constants.Security.TOKEN) });
+                var handler = Xamarin.Forms.DependencyService.Get<Facade.INativeHttpClientHandlerProviderFacade>().Get();
+
+                handler.ServerCertificateCustomValidationCallback = (message, certificate, chain, errors) => true;
+
+                HttpClientHelper = new HttpClientHelper(handler, Constants.Networking.SGI_BASE_URL, null, () => new KeyValuePair<string, string>[] { new KeyValuePair<string, string>(SGI.API.Common.Constants.Authorization.API_KEY_HEADER_PROPERTY, Constants.Security.TOKEN) });
             }
             else
             {
-                HttpClientHelper = new HttpClientHelper(Constants.Networking.SGI_BASE_URL, null, () => new KeyValuePair<string, string>[] { new KeyValuePair<string, string>(SGI.API.Common.Constants.Authorization.API_KEY_HEADER_PROPERTY, Constants.Security.TOKEN) });
+                HttpClientHelper = new HttpClientHelper(new System.Net.Http.HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (message, certificate, chain, errors) => true
+                }, Constants.Networking.SGI_BASE_URL, null, () => new KeyValuePair<string, string>[] { new KeyValuePair<string, string>(SGI.API.Common.Constants.Authorization.API_KEY_HEADER_PROPERTY, Constants.Security.TOKEN) });
             }
         }
     }
