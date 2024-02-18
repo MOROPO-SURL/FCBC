@@ -4,6 +4,7 @@ using Urho;
 
 namespace MOROPO.FCBC.Galleries.Scenes
 {
+    [Preserve]
     internal class SquareRoomScene : AbstractRoomScene
     {
         private const float FLOOR_TILE_SIZE = 35.0f;
