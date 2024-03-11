@@ -149,7 +149,7 @@
                     </div>
                     <div>
                         <div class="btn-group btn-group-sm float-right">
-                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                            <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span><span>Detalles</span></button>
                             <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                             <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                         </div>
@@ -165,7 +165,7 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Tipos de Actividad</th>
+                    <th>Nombre</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
@@ -176,7 +176,7 @@
                         <td style="vertical-align: middle;">@item.Name</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span><span>Detalles</span></button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
@@ -290,7 +290,7 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Tipos de Actividad</th>
+                    <th>Nombre</th>
                     <th style="width: 184px;">Opciones</th>
                 </tr>
             </thead>

@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.ContractorContactsManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Contratista";
+    ViewData["Title"] = "Modificar Contratista (Contactos)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -12,7 +12,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Contratista",
+            Caption = "Administración de Contratistas",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -36,10 +36,10 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            <h4>@ViewData["Title"]</h4>
+            <h4>Moficiar Contratist</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("edit", @Model.Contractor.Id)">Información</a>
+                    <a class="nav-link" href="@Url.Action("edit", @Model.Contractor.Id)">Generales</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Contactos</a>
@@ -68,7 +68,7 @@
                             <tr>
                                 <th>@GlobalViewLocalizationHelper.Localize("Number")</th>
                                 <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
-                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                                <th style="width: 1px; white-space: nowrap;">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,7 +108,7 @@
                             <tr>
                                 <th>@GlobalViewLocalizationHelper.Localize("Email")</th>
                                 <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
-                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                                <th style="width: 1px; white-space: nowrap;">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,7 +152,7 @@
                             <th>@GlobalViewLocalizationHelper.Localize("Icon")</th>
                             <th>@GlobalViewLocalizationHelper.Localize("SocialMedia")</th>
                             <th>@GlobalViewLocalizationHelper.Localize("Label")</th>
-                            <th style="width: 1px; white-space: nowrap;">Acciones</th>
+                            <th style="width: 1px; white-space: nowrap;">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>

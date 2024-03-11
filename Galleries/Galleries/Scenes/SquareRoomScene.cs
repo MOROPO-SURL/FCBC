@@ -33,6 +33,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             mainCamera = mainCameraNode.CreateComponent<Camera>();
 
+            mainCamera.FarClip = FLOOR_FULL_SIZE * 2;
+
             SetupLights();
 
             SetupFloor();
@@ -41,7 +43,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             SetupWalls();
 
-            SetupMoveMarks();
+            SetupSeatPositions();
 
             SetupArtworkFrames(Providers.ExhibitViewModelProvider.Instance.GetExhibits());
 
@@ -85,13 +87,26 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 if (movementFloorTile != null)
                 {
                     mainCameraNode.RunActions(new Urho.Actions.EaseElastic(new Urho.Actions.MoveTo(1f, new Vector3(movementFloorTile.Node.Position.X, mainCameraNode.Position.Y, movementFloorTile.Node.Position.Z))));
+
+                    return;
                 }
 
-                var artWorkFrame = result.Value.Drawable as ArtworkFrame;
+                var artWorkFrame = result.Value.Drawable as ArtWorkFrame;
 
                 if (artWorkFrame != null)
                 {
                     presenter.PresentArtworkDetailFor(artWorkFrame.ArtWork);
+
+                    return;
+                }
+
+                var artWorkStripe = result.Value.Drawable as ArtWorkStripe;
+
+                if (artWorkStripe != null)
+                {
+                    presenter.PresentArtworkDetailFor(artWorkStripe.ArtWork);
+
+                    return;
                 }
             }
         }
@@ -220,19 +235,28 @@ namespace MOROPO.FCBC.Galleries.Scenes
         
         private void SetupLights()
         {
-            //var floorLightNode = CreateChild();
-
-            //floorLightNode.SetDirection(new Vector3(0.0f, -1.0f, 0.0f));
-
-            //var floorLightComponent = floorLightNode.CreateComponent<Light>();
-
-            //floorLightComponent.LightType = LightType.Directional;
-            //floorLightComponent.Brightness = 0.3f;
+            #region Ambient Lights
 
             var verticalMovement = -0.15f;
-            var wallBrightness = 1.0f;
+            var wallBrightness = 0.30f;
+            var specularIntensity = 7;
 
-            #region North
+            #region Roof Ambient Light
+            var roofLightNode = CreateChild();
+
+            roofLightNode.SetDirection(new Vector3(0.0f, 1.0f, 0.0f));
+
+            var roofLightComponent = roofLightNode.CreateComponent<Light>();
+
+            roofLightComponent.LightType = LightType.Directional;
+            roofLightComponent.UsePhysicalValues = false;
+            roofLightComponent.CastShadows = false;
+            roofLightComponent.Brightness = 0.35f;
+            roofLightComponent.Color = Color.White;
+            roofLightComponent.SpecularIntensity = specularIntensity;
+            #endregion
+
+            #region North Ambient Light
             var floorNorthWallLightNode = CreateChild();
 
             floorNorthWallLightNode.SetDirection(new Vector3(0.0f, verticalMovement, 1.0f));
@@ -242,6 +266,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             floorNorthWallLightComponent.LightType = LightType.Directional;
             floorNorthWallLightComponent.Color = Color.White;
             floorNorthWallLightComponent.Brightness = wallBrightness;
+            floorNorthWallLightComponent.SpecularIntensity = specularIntensity;
             #endregion
 
             #region West
@@ -254,6 +279,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             floorWestWallLightComponent.LightType = LightType.Directional;
             floorWestWallLightComponent.Color = Color.White;
             floorWestWallLightComponent.Brightness = wallBrightness;
+            floorWestWallLightComponent.SpecularIntensity = specularIntensity;
             #endregion
 
             #region East
@@ -266,6 +292,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             floorEastWallLightComponent.LightType = LightType.Directional;
             floorEastWallLightComponent.Color = Color.White;
             floorEastWallLightComponent.Brightness = wallBrightness;
+            floorEastWallLightComponent.SpecularIntensity = specularIntensity;
             #endregion
 
             #region South
@@ -278,17 +305,10 @@ namespace MOROPO.FCBC.Galleries.Scenes
             floorSouthWallLightComponent.LightType = LightType.Directional;
             floorSouthWallLightComponent.Color = Color.White;
             floorSouthWallLightComponent.Brightness = wallBrightness;
+            floorSouthWallLightComponent.SpecularIntensity = specularIntensity;
             #endregion
 
-            var roofLightNode = CreateChild();
-
-            roofLightNode.SetDirection(new Vector3(0.0f, 1.0f, 0.0f));
-
-            var roofLightComponent = roofLightNode.CreateComponent<Light>();
-
-            roofLightComponent.LightType = LightType.Directional;
-            roofLightComponent.Color = Color.White;
-            roofLightComponent.Brightness = 0.45f;
+            #endregion
 
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
@@ -301,25 +321,29 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     {
                         var roofPointLightNode = CreateChild();
 
-                        roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 25.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+                        roofPointLightNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT - 5.0f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
 
                         var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
                         roofPointLightComponent.LightType = LightType.Point;
-                        roofPointLightComponent.CastShadows = false;
-                        roofPointLightComponent.Brightness = 0.15f;
+                        roofPointLightComponent.UsePhysicalValues = false;
+                        roofPointLightComponent.CastShadows = true;
+                        roofPointLightComponent.Brightness = 0.75f;
                         roofPointLightComponent.Color = Color.White;
-                        roofPointLightComponent.Range = 145.0f;
+                        roofPointLightComponent.Range = 200.0f;
+                        roofPointLightComponent.SpecularIntensity = 10;
 
                         var roofLightLampNode = CreateChild();
 
                         roofLightLampNode.Position = new Vector3(roofPointLightNode.Position.X - x / 4 * 1.5f, WALL_HEIGHT - 0.5f, roofPointLightNode.Position.Z - y / 4 * 1.5f);
-                        roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 4, 1.0f, FLOOR_TILE_SIZE / 4);
+                        roofLightLampNode.Scale = new Vector3(FLOOR_TILE_SIZE / 3, 2.0f, FLOOR_TILE_SIZE / 3);
 
                         var roofLightLampComponent = roofLightLampNode.CreateComponent<StaticModel>();
 
                         roofLightLampComponent.Model = CoreAssets.Models.Cylinder;
                         roofLightLampComponent.Material = Material.FromColor(Color.White);
+
+                        roofLightLampComponent.Material.SetTechnique(0, CoreAssets.Techniques.NoTextureUnlit);
                     }
                 }
             }
@@ -335,10 +359,12 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     var roofPointLightComponent = roofPointLightNode.CreateComponent<Light>();
 
                     roofPointLightComponent.LightType = LightType.Point;
-                    roofPointLightComponent.CastShadows = false;
-                    roofPointLightComponent.Brightness = 0.15f;
+                    roofPointLightComponent.UsePhysicalValues = false;
+                    roofPointLightComponent.CastShadows = true;
+                    roofPointLightComponent.Brightness = 0.65f;
                     roofPointLightComponent.Color = Color.White;
-                    roofPointLightComponent.Range = 140.0f;
+                    roofPointLightComponent.Range = 200.0f;
+                    roofPointLightComponent.SpecularIntensity = 3;
 
                     var roofLightLampNode = CreateChild();
 
@@ -395,29 +421,129 @@ namespace MOROPO.FCBC.Galleries.Scenes
             floorComponent.Material = material;
         }
 
-        private void SetupMoveMarks()
+        private void SetupSeatPositions()
         {
+            var seatUniformScale = 15.0f;
+
+            var material = Application.Current.ResourceCache.GetMaterial("Materials/Leather_Beige.xml");
+            var model = Application.Current.ResourceCache.GetModel("Models/Leather_Pouf_Sofa.mdl");
+
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
+
+            var flootSegmentSize = FLOOR_TILE_SIZE + FLOOR_TILE_SPACING;
 
             for (int y = pivotNegative; y <= pivotPositive; y += 2)
             {
                 for (int x = pivotNegative; x <= pivotPositive; x += 2)
                 {
-                    if (x == 0 && y == 0 ||
-                        System.Math.Abs(x) == 6 && System.Math.Abs(y) == 6 ||
+                    if (System.Math.Abs(x) == 6 && System.Math.Abs(y) == 6 ||
                         x == 0 && System.Math.Abs(y) == 6 ||
                         System.Math.Abs(x) == 6 && y == 0)
                     {
-                        var moveMarkNode = CreateChild();
+                        var centerSeatNode = CreateChild();
 
-                        moveMarkNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), 0.25f, y * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
-                        moveMarkNode.Scale = new Vector3(FLOOR_TILE_SIZE / 2, 0.5f, FLOOR_TILE_SIZE / 2);
+                        centerSeatNode.Position = new Vector3(x * flootSegmentSize, 3.36f, y * flootSegmentSize);
+                        
+                        centerSeatNode.SetScale(seatUniformScale);
 
-                        var movementMarkComponent = moveMarkNode.CreateComponent<MoveMark>();
+                        var centerSeatComponent = centerSeatNode.CreateComponent<MoveMark>();
 
-                        movementMarkComponent.Model = CoreAssets.Models.Cylinder;
-                        movementMarkComponent.Material = Material.FromColor(Color.Green);
+                        centerSeatComponent.Model = model;
+                        centerSeatComponent.Material = material;
+                        centerSeatComponent.CastShadows = true;
+
+                        if (x == 0 || y == 0)
+                        {
+                            var leftSeatMiddleNode = CreateChild();
+
+                            leftSeatMiddleNode.Position = new Vector3(x == 0 ? -1 * flootSegmentSize : x * flootSegmentSize, 3.36f, y == 0 ? -1 * flootSegmentSize : y * flootSegmentSize);
+
+                            leftSeatMiddleNode.SetScale(seatUniformScale);
+
+                            var leftSeatMiddleComponent = leftSeatMiddleNode.CreateComponent<MoveMark>();
+
+                            leftSeatMiddleComponent.Model = model;
+                            leftSeatMiddleComponent.Material = material;
+                            leftSeatMiddleComponent.CastShadows = true;
+
+                            var rightMidddleSeatNode = CreateChild();
+
+                            rightMidddleSeatNode.Position = new Vector3(x == 0 ? flootSegmentSize : x * flootSegmentSize, 3.36f, y == 0 ? flootSegmentSize : y * flootSegmentSize);
+
+                            rightMidddleSeatNode.SetScale(seatUniformScale);
+
+                            var rightSeatMiddleComponent = rightMidddleSeatNode.CreateComponent<MoveMark>();
+
+                            rightSeatMiddleComponent.Model = model;
+                            rightSeatMiddleComponent.Material = material;
+                            rightSeatMiddleComponent.CastShadows = true;
+                        }
+
+                        if (x != 0 && y != 0)
+                        {
+                            for (int i = 0; i < 2; i++)
+                            {
+                                var pivot1X = i == 0 ? x : x + (x > 0 ? -1 : 1);
+                                var pivot1Y = i == 1 ? y : y + (y > 0 ? -1 : 1);
+
+                                var pivot2X = i == 0 ? x : x + (x > 0 ? -2 : 2);
+                                var pivot2Y = i == 1 ? y : y + (y > 0 ? -2 : 2);
+
+                                if (i == 0)
+                                {
+                                    var leftSeat1CornerNode = CreateChild();
+
+                                    leftSeat1CornerNode.Position = new Vector3(pivot1X * flootSegmentSize, 3.36f, pivot1Y * flootSegmentSize);
+
+                                    leftSeat1CornerNode.SetScale(seatUniformScale);
+
+                                    var leftSeat1CornetComponent = leftSeat1CornerNode.CreateComponent<MoveMark>();
+
+                                    leftSeat1CornetComponent.Model = model;
+                                    leftSeat1CornetComponent.Material = material;
+                                    leftSeat1CornetComponent.CastShadows = true;
+
+                                    var leftSeat2CornerNode = CreateChild();
+
+                                    leftSeat2CornerNode.Position = new Vector3(pivot2X * flootSegmentSize, 3.36f, pivot2Y * flootSegmentSize);
+
+                                    leftSeat2CornerNode.SetScale(seatUniformScale);
+
+                                    var leftSeat2CornetComponent = leftSeat2CornerNode.CreateComponent<MoveMark>();
+
+                                    leftSeat2CornetComponent.Model = model;
+                                    leftSeat2CornetComponent.Material = material;
+                                    leftSeat2CornetComponent.CastShadows = true;
+                                }
+                                else if (i == 1)
+                                {
+                                    var rightSeat1CornerNode = CreateChild();
+
+                                    rightSeat1CornerNode.Position = new Vector3(pivot1X * flootSegmentSize, 3.36f, pivot1Y * flootSegmentSize);
+
+                                    rightSeat1CornerNode.SetScale(seatUniformScale);
+
+                                    var rightSeat1CornerComponent = rightSeat1CornerNode.CreateComponent<MoveMark>();
+
+                                    rightSeat1CornerComponent.Model = model;
+                                    rightSeat1CornerComponent.Material = material;
+                                    rightSeat1CornerComponent.CastShadows = true;
+
+                                    var rightSeat2CornerNode = CreateChild();
+
+                                    rightSeat2CornerNode.Position = new Vector3(pivot2X * flootSegmentSize, 3.36f, pivot2Y * flootSegmentSize);
+
+                                    rightSeat2CornerNode.SetScale(seatUniformScale);
+
+                                    var rightSeat2CornerComponent = rightSeat2CornerNode.CreateComponent<MoveMark>();
+
+                                    rightSeat2CornerComponent.Model = model;
+                                    rightSeat2CornerComponent.Material = material;
+                                    rightSeat2CornerComponent.CastShadows = true;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -520,17 +646,27 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
         private void SetupIdentyFrames()
         {
-            var identityFrameWight = 2.0f;
+            var identityFrameWeight = 2.0f;
 
             var identityFrameNode = CreateChild();
 
-            identityFrameNode.Position = new Vector3(0.0f, WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - identityFrameWight);
-            identityFrameNode.Scale = new Vector3(48.0f, 96.0f, identityFrameWight);
+            identityFrameNode.Position = new Vector3(0.0f, WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - identityFrameWeight);
+            identityFrameNode.Scale = new Vector3(46.0f, 98.0f, identityFrameWeight);
 
             var identityFrameComponent = identityFrameNode.CreateComponent<StaticModel>();
 
             identityFrameComponent.Model = CoreAssets.Models.Box;
-            identityFrameComponent.Material = Material.FromImage("Textures/Identity_Primary_FCBC.jpg");
+            identityFrameComponent.Material = Material.FromColor(Color.White);
+
+            var identitySpriteNode = CreateChild();
+
+            identitySpriteNode.Position = new Vector3(identityFrameNode.Position.X, identityFrameNode.Position.Y, identityFrameNode.Position.Z - identityFrameWeight / 2 - 1.0f);
+
+            identitySpriteNode.SetScale(4.0f);
+
+            var identitySpriteComponent = identitySpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+            identitySpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Identity_Primary_FCBC.jpg");
         }
 
         private void SetupArtworkFrames(Models.View.ExhibitViewModel[] exhibits)
@@ -539,6 +675,13 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var pivotNegative = pivotPositive * -1;
 
             var referenceFrameWidth = 80f;
+
+            var pictureFrameComponentMaterial = new Material();
+
+            pictureFrameComponentMaterial.SetTexture(TextureUnit.Diffuse, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_basecolor.jpg"));
+            pictureFrameComponentMaterial.SetTexture(TextureUnit.Normal, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_normal.jpg"));
+            pictureFrameComponentMaterial.SetTexture(TextureUnit.Specular, Application.Current.ResourceCache.GetTexture2D("Textures/Wood_024_roughness.jpg"));
+            pictureFrameComponentMaterial.SetTechnique(0u, CoreAssets.Techniques.DiffNormalSpec);
 
             int index = 1;
 
@@ -552,8 +695,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 index += 1;
 
                 if (exhibit == null) continue;
-
-                var pictureFrameNode = CreateChild();
 
                 var frameWidth = referenceFrameWidth;
                 var frameHeight = frameWidth;
@@ -569,20 +710,43 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     frameHeight = artWork.FeatureImage.Height / zoom;
                 }
 
+                var pictureFrameNode = CreateChild();
+
                 pictureFrameNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f);
                 pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z - 1.0f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f + 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // South Wall
@@ -615,17 +779,40 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureFrameNode.Position = new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f);
                 pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z + 1.0f);
+                pictureSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f - 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // East Wall
@@ -658,17 +845,40 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
                 pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
+                pictureSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f - 5.0f);
+                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
 
             // West Wall
@@ -701,17 +911,40 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureFrameNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
                 pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
 
-                var boxObject = pictureFrameNode.CreateComponent<ArtworkFrame>();
+                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
-                boxObject.ArtWork = artWork;
+                pictureFrameComponent.ArtWork = artWork;
 
-                var urhoResourceImage = new Urho.Resources.Image();
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    urhoResourceImage.Load(urhoBuffer);
+                    artWorkSprite.Load(urhoBuffer);
 
-                boxObject.Model = CoreAssets.Models.Box;
-                boxObject.Material = Material.FromImage(urhoResourceImage);
+                pictureFrameComponent.Model = CoreAssets.Models.Box;
+                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                var pictureSpriteNode = CreateChild();
+
+                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
+                pictureSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
+
+                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+                pictureSpriteComponent.ArtWork = artWork;
+                pictureSpriteComponent.Sprite = artWorkSprite;
+
+                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
+
+                var interactiveIndicatorSpriteNode = CreateChild();
+
+                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z + pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f + 5.0f);
+                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
+
+                interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
             }
         }
     }
@@ -720,7 +953,12 @@ namespace MOROPO.FCBC.Galleries.Scenes
     {
     }
 
-    internal class ArtworkFrame : StaticModel
+    internal class ArtWorkFrame : StaticModel
+    {
+        public Models.View.ArtWorkViewModel ArtWork { get; set; }
+    }
+
+    internal class ArtWorkStripe : Urho.Urho2D.StaticSprite2D
     {
         public Models.View.ArtWorkViewModel ArtWork { get; set; }
     }

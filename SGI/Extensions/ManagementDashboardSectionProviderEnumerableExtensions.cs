@@ -39,7 +39,7 @@ namespace MOROPO.FCBC.SGI.Extensions
             {
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Artes Plásticas",
+                    Title = "Artes Visuales",
                     Controller = "artisticmanifestations",
                     Action = "index",
                     Area = "manifestations",
@@ -47,20 +47,20 @@ namespace MOROPO.FCBC.SGI.Extensions
                 },
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Artesanía",
+                    Title = "Artes Aplicadas",
                     Controller = "craftmanifestations",
                     Action = "index",
                     Area = "manifestations",
                     Role = Security.Authorization.Permission.CraftManifestationViewer
                 },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Diseño",
-                    Controller = "designmanifestations",
-                    Action = "index",
-                    Area = "manifestations",
-                    Role = Security.Authorization.Permission.DesignManifestationViewer
-                },
+                //new ManagementDashboardSectionViewModel
+                //{
+                //    Title = "Diseño",
+                //    Controller = "designmanifestations",
+                //    Action = "index",
+                //    Area = "manifestations",
+                //    Role = Security.Authorization.Permission.DesignManifestationViewer
+                //},
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Servicios",
@@ -129,7 +129,7 @@ namespace MOROPO.FCBC.SGI.Extensions
 
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Acuerdos del CA",
+                    Title = "Acuerdos",
                     Controller = "agreements",
                     Action = "index",
                     Area = "complements",
@@ -156,7 +156,7 @@ namespace MOROPO.FCBC.SGI.Extensions
 
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Roles Administartivos",
+                    Title = "Roles Administrativos",
                     Controller = "administrativeroles",
                     Action = "index",
                     Area = "complements",
@@ -280,71 +280,35 @@ namespace MOROPO.FCBC.SGI.Extensions
             {
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Artes Plásticas",
+                    Title = "Artes Visuales",
                     Controller = "artworks",
                     Action = "index",
                     Area = "works",
-                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
+                    Role = Security.Authorization.Permission.ArtWorkViewer
                 },
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Artesanía",
+                    Title = "Artes Aplicadas",
                     Controller = "craftworks",
                     Action = "index",
                     Area = "works",
-                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
+                    Role = Security.Authorization.Permission.CraftWorkViewer
                 },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Diseño",
-                    Controller = "designworks",
-                    Action = "index",
-                    Area = "works",
-                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
-                },
+                //new ManagementDashboardSectionViewModel
+                //{
+                //    Title = "Diseño",
+                //    Controller = "designworks",
+                //    Action = "index",
+                //    Area = "works",
+                //    Role = Security.Authorization.Permission.ArtisticManifestationViewer
+                //},
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Servicios",
                     Controller = "serviceworks",
                     Action = "index",
                     Area = "works",
-                    Role = Security.Authorization.Permission.ArtisticManifestationViewer
-                }
-            };
-
-            var manifestionGroupsSection = new List<ManagementDashboardSectionViewModel>
-            {
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Artes Plásticas",
-                    Controller = "artisticmanifestationgroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.ArtisticManifestationGroupViewer
-                },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Artesanía",
-                    Controller = "craftmanifestationgroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.CraftManifestationGroupViewer
-                },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Diseño",
-                    Controller = "designmanifestationgroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.DesignManifestationGroupViewer
-                },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Servicios",
-                    Controller = "servicelinegroups",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.ServiceLineGroupViewer
+                    Role = Security.Authorization.Permission.ServiceWorkViewer
                 }
             };
 
@@ -352,7 +316,7 @@ namespace MOROPO.FCBC.SGI.Extensions
             {
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Artes Plásticas",
+                    Title = "Artes Visuales",
                     Controller = "artistictechniques",
                     Action = "index",
                     Area = "complements",
@@ -360,20 +324,20 @@ namespace MOROPO.FCBC.SGI.Extensions
                 },
                 new ManagementDashboardSectionViewModel
                 {
-                    Title = "Artesanía",
+                    Title = "Artes Aplicadas",
                     Controller = "crafttechniques",
                     Action = "index",
                     Area = "complements",
                     Role = Security.Authorization.Permission.CraftTechniqueViewer
                 },
-                new ManagementDashboardSectionViewModel
-                {
-                    Title = "Diseño",
-                    Controller = "designtechniques",
-                    Action = "index",
-                    Area = "complements",
-                    Role = Security.Authorization.Permission.DesignTechniqueViewer
-                },
+                //new ManagementDashboardSectionViewModel
+                //{
+                //    Title = "Diseño",
+                //    Controller = "designtechniques",
+                //    Action = "index",
+                //    Area = "complements",
+                //    Role = Security.Authorization.Permission.DesignTechniqueViewer
+                //},
                 new ManagementDashboardSectionViewModel
                 {
                     Title = "Servicios",
@@ -391,10 +355,7 @@ namespace MOROPO.FCBC.SGI.Extensions
                 { "Obras", worksSection },
                 { "SKIP-2", null },
                 { "Manifestaciones", manifestationsSection },
-                { "SKIP-3", null },
-                { "Grupos de Manifestaciones", manifestionGroupsSection },
                 { "Técnicas", techniquesSection },
-                { "SKIP-4", null },
                 { "Auxiliares", complementsSection }
             };
         }

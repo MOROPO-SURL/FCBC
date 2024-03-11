@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupDistintionManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Grupos de Creación (Distinciones)";
+    ViewData["Title"] = "Modificar Grupo de Creación (Distinciones)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -30,7 +30,7 @@
 
     <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            <h4>Editar Grupos de Creación</h4>
+            <h4>Modificar Grupo de Creación</h4>
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Generales</a>
@@ -126,7 +126,7 @@
                             <a class="nav-link active" asp-route-key="@Model.Group.Id">Distinciones</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="EditGroupCriterion" asp-route-key="@Model.Group.Id">Valoraciones</a>
+                            <a class="nav-link" asp-action="EditCriteria" asp-route-key="@Model.Group.Id">Valoraciones</a>
                         </li>
                     </ul>
                 </div>

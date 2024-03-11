@@ -27,12 +27,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Contractor, System.Guid> contractorRepository;
         private readonly IEntityRepository<ArtWork, System.Guid> artWorkRepository;
         private readonly IEntityRepository<CraftWork, System.Guid> craftWorkRepository;
-        private readonly IEntityRepository<DesignWork, System.Guid> designWorkRepository;
         private readonly IEntityRepository<ServiceWork, System.Guid> serviceWorkRepository;
 
         private static readonly string[] DAYS_OF_WEEK = new[] { "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
 
-        public DashboardController(IEntityRepository<ServiceWork, System.Guid> serviceWorkRepository, IEntityRepository<DesignWork, System.Guid> designWorkRepository, IEntityRepository<CraftWork, System.Guid> craftWorkRepository, IEntityRepository<ArtWork, System.Guid> artWorkRepository, IEntityRepository<Contractor, System.Guid> contractorRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<User, string> userRepository, IEnumerable<SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> managementDashboardSectionProviders, Microsoft.Extensions.Localization.IStringLocalizer<DashboardController> localizer, ILogger<DashboardController> logger, IEntityRepository<SAPRESSC.Core.Persistence.EF.Entities.Trace, long> traceRepository) : base(localizer, logger)
+        public DashboardController(IEntityRepository<ServiceWork, System.Guid> serviceWorkRepository, IEntityRepository<CraftWork, System.Guid> craftWorkRepository, IEntityRepository<ArtWork, System.Guid> artWorkRepository, IEntityRepository<Contractor, System.Guid> contractorRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<User, string> userRepository, IEnumerable<SAPRESSC.Core.Web.Backend.Providers.Facade.IManagementDashboardSectionProviderFacade> managementDashboardSectionProviders, Microsoft.Extensions.Localization.IStringLocalizer<DashboardController> localizer, ILogger<DashboardController> logger, IEntityRepository<SAPRESSC.Core.Persistence.EF.Entities.Trace, long> traceRepository) : base(localizer, logger)
         {
             this.managementDashboardSectionProviders = managementDashboardSectionProviders;
             this.userRepository = userRepository;
@@ -42,7 +41,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.contractorRepository = contractorRepository;
             this.artWorkRepository = artWorkRepository;
             this.craftWorkRepository = craftWorkRepository;
-            this.designWorkRepository = designWorkRepository;
             this.serviceWorkRepository = serviceWorkRepository;
         }
 
@@ -60,15 +58,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 CreatorCount = creatorRepository.Count(),
                 CreationGroupCount = creationGroupRepository.Count(),
                 ContractorCount = contractorRepository.Count(),
-                WorkCount = artWorkRepository.Count(),
+                ArtWorkCount = artWorkRepository.Count(),
                 CraftWorkCount = craftWorkRepository.Count(),
-                DesignWorkCount = designWorkRepository.Count(),
                 ServiceWorkCount = serviceWorkRepository.Count()
             };
 
             var tracesByUsers = new Dictionary<string, long>();
 
-            foreach (MOROPO.SAPRESSC.Core.Persistence.EF.Entities.Trace trace in traces)
+            foreach (SAPRESSC.Core.Persistence.EF.Entities.Trace trace in traces)
             {
                 if (!tracesByUsers.ContainsKey(trace.Author))
                 {
@@ -97,11 +94,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             foreach (CraftWork work in craftWorkRepository.GetAll())
-            {
-                PopulateManifestationsDictionary(manifestations, work.Manifestation.Name);
-            }
-
-            foreach (DesignWork work in designWorkRepository.GetAll())
             {
                 PopulateManifestationsDictionary(manifestations, work.Manifestation.Name);
             }

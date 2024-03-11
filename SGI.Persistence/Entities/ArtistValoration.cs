@@ -2,6 +2,11 @@
 {
     public class ArtistValoration : SAPRESSC.Core.Persistence.Entities.IEntity<System.Guid>
     {
+        public ArtistValoration()
+        {
+            Id = System.Guid.NewGuid();
+        }
+
         [System.ComponentModel.DataAnnotations.Key]
         public System.Guid Id { get; set; }
 

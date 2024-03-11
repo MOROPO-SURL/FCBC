@@ -4,6 +4,8 @@
     {
         public System.Guid Id { get; set; }
 
+        public string Extension { get; set; }
+
         public int Width { get; set; }
 
         public int Height { get; set; }

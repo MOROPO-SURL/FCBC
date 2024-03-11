@@ -10,13 +10,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Display(Name = "ArtisticManifestationGroup")]
-        public System.Guid? GroupId { get; set; }
-
         [System.ComponentModel.DataAnnotations.Display(Name = "Description")]
         public string Description { get; set; }
-
-        public string SerializedTree { get; set; }
 
         public ArtisticManifestation Export()
         {
@@ -31,14 +26,12 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             Id = entity.Id;
             Name = entity.Name;
-            GroupId = entity.GroupId;
             Description = entity.Description;
         }
 
         public void Mergue(ArtisticManifestation entity)
         {
             entity.Name = Name;
-            entity.GroupId = GroupId;
             entity.Description = Description;
         }
     }

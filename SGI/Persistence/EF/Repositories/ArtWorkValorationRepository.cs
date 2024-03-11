@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MOROPO.FCBC.SGI.Persistence.Entities;
-using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
@@ -10,7 +8,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
         {
         }
 
-        protected override IQueryable<ArtWorkValoration> GetQueryableDbSet()
+        protected override System.Linq.IQueryable<Entities.ArtWorkValoration> GetQueryableDbSet()
         {
             return base.GetQueryableDbSet()
                 .Include(entity => entity.Critic).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image);

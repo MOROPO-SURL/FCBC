@@ -3,9 +3,9 @@
 @using (Html.BeginForm("filter", "traces", new { Area = "security" }, FormMethod.Post, true, null))
 {
     <fieldset>
-        <legend class="border-bottom">Filtro de Trazas</legend>
+        <legend class="border-bottom">Filtro de Registros</legend>
         <div class="mb-4">
-            @Html.Label("Id", "Nombre de Usuario", new { @class = "control-label" })
+            @Html.Label("Id", "Autor", new { @class = "control-label" })
             @Html.TextBoxFor(model => model.Id, new { @class = "form-control" })
         </div>
         <div>

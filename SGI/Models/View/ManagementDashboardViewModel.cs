@@ -24,9 +24,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         public int CreatorCount { get; set; }
         public int CreationGroupCount { get; set; }
         public int ContractorCount { get; set; }
-        public int WorkCount { get; set; }
+        public int ArtWorkCount { get; set; }
         public int CraftWorkCount { get; set; }
-        public int DesignWorkCount { get; set; }
         public int ServiceWorkCount { get; set; }
 
         public List<string> manifestationsNames { get; set; }

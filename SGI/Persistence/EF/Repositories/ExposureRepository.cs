@@ -12,7 +12,9 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
         protected override IQueryable<Entities.Exposure> GetQueryableDbSet()
         {
             return base.GetQueryableDbSet()
-                .Include(entity => entity.EmployeeCuratorshipBridges).ThenInclude(bridge => bridge.Employee).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image);
+                .Include(entity => entity.EmployeeCuratorshipBridges).ThenInclude(bridge => bridge.Employee).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image)
+                .Include(entity => entity.EmployeeCuratorshipBridges).ThenInclude(bridge => bridge.Employee).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.PersonEmailContactItemBridges).ThenInclude(bridge => bridge.ContactItem)
+                .Include(entity => entity.EmployeeCuratorshipBridges).ThenInclude(bridge => bridge.Employee).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.PersonPhoneContactItemBridges).ThenInclude(bridge => bridge.ContactItem);
         }
 
         public override System.Func<Entities.Exposure, object> GetPagingOrderSelector()

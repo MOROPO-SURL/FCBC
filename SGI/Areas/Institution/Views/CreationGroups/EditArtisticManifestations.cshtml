@@ -1,7 +1,7 @@
 ﻿@model MOROPO.FCBC.SGI.Models.View.GroupArtisticManisfestationsInputViewModel
 
 @{
-    ViewData["Title"] = "Editar Grupos de Creación (Manifestaciones Artísticas)";
+    ViewData["Title"] = "Editar Grupos de Creación (Manifestaciones de Artes Visuales)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -121,13 +121,10 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Artísticas</a>
+                            <a class="nav-link active" href="#">Artes Visuales</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="editcraftmanifestations" asp-route-key="@Model.Group.Id">Artesanales</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="editdesignmanifestations" asp-route-key="@Model.Group.Id">Diseño</a>
+                            <a class="nav-link" asp-action="editcraftmanifestations" asp-route-key="@Model.Group.Id">Artes Aplicadas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="editservicelines" asp-route-key="@Model.Group.Id">Servicios</a>
@@ -136,36 +133,13 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @foreach (var item in Model.UngroupManifestations)
+                        @foreach (var item in Model.Manifestations)
                         {
                             <div class="col-md-4">
-                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
+                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("Manifestations[{0}]", selectableIndex++))
                             </div>
                         }
                     </div>
-
-                    @if (Model.SelectGroups != null && Model.SelectGroups.Count > 0)
-                    {
-                        foreach (var group in Model.SelectGroups)
-                        {
-                            <div class="card mt-4">
-                                <div class="card-header">
-                                    <h5>@group.Key.Name</h5>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="row">
-                                        @foreach (var item in group.Value)
-                                        {
-                                            <div class="col-md-4">
-                                                @Html.EditorFor(model => item, "SelectionDescriptedGuidIDItemInputViewModel", string.Format("UngroupManifestations[{0}]", selectableIndex++))
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
                 </div>
             </div>
         </div>

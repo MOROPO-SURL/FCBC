@@ -67,10 +67,6 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<AdministrativeRole, Guid>, AdministrativeRoleRepository>();
             services.AddScoped<IEntityRepository<Employee, Guid>, EmployeeRepository>();
             services.AddScoped<IEntityRepository<Resolution, Guid>, ResolutionRepository>();
-            services.AddScoped<IEntityRepository<ArtisticManifestationGroup, Guid>, ArtisticManifestationGroupRepository>();
-            services.AddScoped<IEntityRepository<CraftManifestationGroup, Guid>, CraftManifestationGroupRepository>();
-            services.AddScoped<IEntityRepository<DesignManifestationGroup, Guid>, DesignManifestationGroupRepository>();
-            services.AddScoped<IEntityRepository<ServiceLineGroup, Guid>, ServiceLineGroupRepository>();
             services.AddScoped<IEntityRepository<ArtisticManifestation, Guid>, ArtisticManifestationRepository>();
             services.AddScoped<IEntityRepository<CraftManifestation, Guid>, CraftManifestationRepository>();
             services.AddScoped<IEntityRepository<DesignManifestation, Guid>, DesignManifestationRepository>();
@@ -100,6 +96,11 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<Gallery, GalleryId>, GalleryRepository>();
             services.AddScoped<IEntityRepository<Exposure, Guid>, ExposureRepository>();
             services.AddScoped<IEntityRepository<Exhibit, Guid>, ExhibitRepository>();
+            services.AddScoped<IEntityRepository<ArtistValoration, Guid>, ArtistValorationRepository>();
+            services.AddScoped<IEntityRepository<CreationGroupValoration, Guid>, CreationGroupValorationRepository>();
+            services.AddScoped<IEntityRepository<ArtWorkValoration, Guid>, ArtWorkValorationRepository>();
+            services.AddScoped<IEntityRepository<CraftWorkValoration, Guid>, CraftWorkValorationRepository>();
+            services.AddScoped<IEntityRepository<ServiceWorkValoration, Guid>, ServiceWorkValorationRepository>();
 
             services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IImageFileManagerFacade, Managers.RelativeImageFileManager>();
             services.AddSingleton<SAPRESSC.Middleware.Media.Web.Common.Managers.Facade.IThumbnailFileManagerFacade, Managers.RelativeThumbnailFileManager>();

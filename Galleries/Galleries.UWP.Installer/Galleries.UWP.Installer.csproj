@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Instalador Galería Amalia</AssemblyName>
+    <RootNamespace>MOROPO.FCBC.Galleries.UWP.Installer</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+	<ApplicationIcon>app.ico</ApplicationIcon>
+	<Authors>MOROPO S.U.R.L.</Authors>
+	<Copyright>MOROPO S.U.R.L. 2023</Copyright>
+	<AssemblyVersion>0.4.0.0</AssemblyVersion>
+	<Version>0.4.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Image\StoreLogo.scale-400.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="app.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Image\StoreLogo.scale-400.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\AmaliaGallery.appxbundle">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\AmaliaGallery.cer">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x64\Microsoft.NET.Native.Framework.2.2.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x64\Microsoft.NET.Native.Runtime.2.2.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x64\Microsoft.UI.Xaml.2.4.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x64\Microsoft.VCLibs.x64.14.00.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x86\Microsoft.NET.Native.Framework.2.2.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x86\Microsoft.NET.Native.Runtime.2.2.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x86\Microsoft.UI.Xaml.2.4.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Dependencies\x86\Microsoft.VCLibs.x86.14.00.appx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

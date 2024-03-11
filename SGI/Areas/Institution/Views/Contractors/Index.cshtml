@@ -19,19 +19,8 @@
     Layout = "_BackendLayout";
 }
 
-@section styles {
-    <style type="text/css">
-        .integrity-icon {
-            font-size: 18px;
-            top: 2px;
-            margin-left: 8px;
-            margin-right: 8px;
-        }
-    </style>
-}
-
-    <a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
-    <div class="clearfix" style="margin-bottom: 20px;"></div>
+<a class="btn btn-primary float-right" href="@Url.Action("create")"><span class="mdi mdi-plus"></span> Agregar</a>
+<div class="clearfix" style="margin-bottom: 20px;"></div>
 
 @if (Model.MaxPageCount > 0)
 {
@@ -139,13 +128,13 @@
             <div class="card-body text-justify">
                 <div class="mb-2">
                     <span class="font-weight-bold">
-                        Organización:
+                        Nombre:
                     </span>
                     @item.OrganizationIdentityName
                 </div>
                 <div class="mb-2">
                     <span class="font-weight-bold">
-                        Tipo De Contrato:
+                        Tipo:
                     </span>
                     @item.ContractKindName
                 </div>
@@ -157,7 +146,7 @@
                 </div>
                 <div>
                     <div class="btn-group btn-group-sm float-right">
-                        <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                        <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span> Detalles</button>
                         <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                         <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                     </div>
@@ -172,8 +161,8 @@
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Organización</th>
-                    <th>Tipo De Contrato</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
                     <th>Marca o Sello</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
@@ -187,7 +176,7 @@
                         <td style="vertical-align: middle;" title="brand">@item.Brand</td>
                         <td style="vertical-align: middle;">
                             <div class="btn-group btn-group-sm">
-                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-file-eye-outline  "></span><span>Detalles</span></button>
+                                <button class="btn btn-light" title="@Model" data-toggle="modal" data-target="#descrip-@item.Id"><span class="mdi mdi-eye"></span> Detalles</button>
                                 <a role="button" href="@Url.Action("edit", new { key = item.Id })" class="btn btn-light" title="Editar"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
                                 <a role="button" href="@Url.Action("delete", new {key = item.Id})" class="btn btn-danger"><span class="mdi mdi-trash-can-outline"></span> Eliminar</a>
                             </div>
@@ -301,15 +290,15 @@ else
         <table class="table" style="margin: 0;">
             <thead>
                 <tr>
-                    <th>Organización</th>
-                    <th>Tipo de Contrato</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
                     <th>Marca o Sello</th>
                     <th style="width: 1px;">Opciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="6"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                    <td colspan="4"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
                 </tr>
             </tbody>
         </table>

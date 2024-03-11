@@ -33,14 +33,21 @@
 </dl>
 <dl>
     <dt>@Html.DisplayNameFor(model => model.Description)</dt>
-    <dd>@Html.DisplayFor(model => model.Description)</dd>
+    @if (string.IsNullOrEmpty(Model.Description))
+    {
+        <dd>--</dd>
+    }
+    else
+    {
+        <dd>@Model.Description</dd>
+    }
 </dl>
-@using (Html.BeginForm("delete", "administrativeroles", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
+@using (Html.BeginForm("delete", "materials", new { Area = "complements", key = string.Empty }, FormMethod.Post, true, null))
 {
     @Html.HiddenFor(model => model.Id)
     <div>
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a class="btn btn-default" href="@Url.Action("index")">Cancelar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Cancelar</a>
     </div>
 }
 

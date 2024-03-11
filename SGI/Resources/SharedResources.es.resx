@@ -1564,16 +1564,16 @@
     <value>Usuario que puede modificar servicio</value>
   </data>
   <data name="service-line-creator" xml:space="preserve">
-    <value>Agregar Linea de Servicio</value>
+    <value>Agregar Línea de Servicio</value>
   </data>
   <data name="service-line-creator-description" xml:space="preserve">
-    <value>Usuario que puede agregar linea de servicio</value>
+    <value>Usuario que puede agregar línea de servicio</value>
   </data>
   <data name="service-line-editor" xml:space="preserve">
-    <value>Modificar Linea de Servicio</value>
+    <value>Modificar Línea de Servicio</value>
   </data>
   <data name="service-line-editor-description" xml:space="preserve">
-    <value>Usuario que puede modificar linea de servicio</value>
+    <value>Usuario que puede modificar línea de servicio</value>
   </data>
   <data name="service-line-group-creator" xml:space="preserve">
     <value>Agregar Grupo de Linea de Servicio</value>
@@ -1603,19 +1603,19 @@
     <value>Usuario que puede visualizar grupos de lineas de servicios</value>
   </data>
   <data name="service-line-management" xml:space="preserve">
-    <value>Getionar Lineas de Servicio</value>
+    <value>Getionar Líneas de Servicio</value>
   </data>
   <data name="service-line-remover" xml:space="preserve">
-    <value>Eliminar Linea de Servicio</value>
+    <value>Eliminar Línea de Servicio</value>
   </data>
   <data name="service-line-remover-description" xml:space="preserve">
-    <value>Usuario que puede eliminar linea de servicio</value>
+    <value>Usuario que puede eliminar línea de servicio</value>
   </data>
   <data name="service-line-viewer" xml:space="preserve">
-    <value>Visualizar Lineas de Servicios</value>
+    <value>Visualizar Líneas de Servicios</value>
   </data>
   <data name="service-line-viewer-description" xml:space="preserve">
-    <value>Usuario que puede visualizar lineas de servicios</value>
+    <value>Usuario que puede visualizar líneas de servicios</value>
   </data>
   <data name="service-management" xml:space="preserve">
     <value>Gestionar Servicios</value>
@@ -1801,7 +1801,7 @@
     <value>Peso de la obra</value>
   </data>
   <data name="ServiceLine" xml:space="preserve">
-    <value>Linea de servicio</value>
+    <value>Línea de Servicio</value>
   </data>
   <data name="activity-creator" xml:space="preserve">
     <value>Agregar Actividad</value>
@@ -1937,5 +1937,113 @@
   </data>
   <data name="ServiceManifestation" xml:space="preserve">
     <value>Manifestación de Servicio</value>
+  </data>
+  <data name="ExpirateAt" xml:space="preserve">
+    <value>Fecha de Expiración</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="apikey-creator" xml:space="preserve">
+    <value>Agregar Llaves API</value>
+  </data>
+  <data name="apikey-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden agregar Llaves API en el sistema</value>
+  </data>
+  <data name="apikey-editor" xml:space="preserve">
+    <value>Modificar Llaves API</value>
+  </data>
+  <data name="apikey-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar Llaves API en el sistema</value>
+  </data>
+  <data name="apikey-management" xml:space="preserve">
+    <value>Gestionar Llaves API</value>
+  </data>
+  <data name="apikey-remover" xml:space="preserve">
+    <value>Eliminar Llaves API</value>
+  </data>
+  <data name="apikey-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar Llaves API en el sistema</value>
+  </data>
+  <data name="apikey-viewer" xml:space="preserve">
+    <value>Visualizar Llaves API</value>
+  </data>
+  <data name="apikey-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar Llaves API en el sistema</value>
+  </data>
+  <data name="exposure-creator" xml:space="preserve">
+    <value>Agregar Exposiciones</value>
+  </data>
+  <data name="exposure-creator-description" xml:space="preserve">
+    <value>Usuarios que pueden agregar Exposiciones en el sistema</value>
+  </data>
+  <data name="exposure-editor" xml:space="preserve">
+    <value>Modificar Exposiciones</value>
+  </data>
+  <data name="exposure-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar Exposiciones en el sistema</value>
+  </data>
+  <data name="exposure-management" xml:space="preserve">
+    <value>Gestionar Exposiciones</value>
+  </data>
+  <data name="exposure-remover" xml:space="preserve">
+    <value>Eliminar Exposiciones</value>
+  </data>
+  <data name="exposure-remover-description" xml:space="preserve">
+    <value>Usuarios que pueden eliminar Exposiciones en el sistema</value>
+  </data>
+  <data name="exposure-viewer" xml:space="preserve">
+    <value>Visualizar Exposiciones</value>
+  </data>
+  <data name="exposure-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar Exposiciones en el sistema</value>
+  </data>
+  <data name="gallery-editor" xml:space="preserve">
+    <value>Modificar Galería</value>
+  </data>
+  <data name="gallery-editor-description" xml:space="preserve">
+    <value>Usuarios que pueden modificar la Galería en el sistema</value>
+  </data>
+  <data name="gallery-management" xml:space="preserve">
+    <value>Gestionar Gelería</value>
+  </data>
+  <data name="gallery-viewer" xml:space="preserve">
+    <value>Visualizar la Galería</value>
+  </data>
+  <data name="gallery-viewer-description" xml:space="preserve">
+    <value>Usuarios que pueden visualizar la Galería en el sistema</value>
+  </data>
+  <data name="FoundatedAt" xml:space="preserve">
+    <value>Fecha de Fundación</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Historia</value>
+  </data>
+  <data name="Manifestation" xml:space="preserve">
+    <value>Manifestación</value>
+  </data>
+  <data name="Association" xml:space="preserve">
+    <value>Asociación</value>
+  </data>
+  <data name="SpecificEducation" xml:space="preserve">
+    <value>Institución Educativa</value>
+  </data>
+  <data name="Histoy" xml:space="preserve">
+    <value>Historia</value>
+  </data>
+  <data name="Mission" xml:space="preserve">
+    <value>Misión</value>
+  </data>
+  <data name="SocialObject" xml:space="preserve">
+    <value>Objeto Social</value>
+  </data>
+  <data name="Vision" xml:space="preserve">
+    <value>Visión</value>
+  </data>
+  <data name="EndAt" xml:space="preserve">
+    <value>Fecha de fin</value>
+  </data>
+  <data name="StartAt" xml:space="preserve">
+    <value>Fecha de inicio</value>
   </data>
 </root>

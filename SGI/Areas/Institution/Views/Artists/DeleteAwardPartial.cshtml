@@ -12,13 +12,10 @@
             @using (Html.BeginForm("DeleteArtistAwards", "artists", null, FormMethod.Post, true, null))
             {
                 @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.ArtistId)
-
-               
+                @Html.HiddenFor(model => model.ArtistId)               
 
                 <div class="modal-body">
-                    <p>Está seguro que desea eliminar el Premio @Model.AwardName</p><br>
-                    <p>@Model.Context</p>
+                    <p class="mb-0">Está seguro que desea eliminar este premio?</p>
                 </div>
 
                 <div class="modal-footer" style="margin-top: 0;">

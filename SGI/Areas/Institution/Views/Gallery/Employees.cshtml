@@ -1,0 +1,187 @@
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+
+@model MOROPO.FCBC.SGI.Models.View.GalleryEmployeesManageViewModel
+
+@{
+    ViewData["Title"] = "Modicficar Galería (Representantes)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Galería",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Modicficar (Representantes)"
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/lib/bootstrap-combobox/css/bootstrap-combobox.css" />
+    <style type="text/css">
+        #ImageFile {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .member-img {
+            width: 85%;
+            max-height: 330px;
+        }
+
+        .dropdown-toggle {
+            border-radius: 0.25rem;
+            border: 1px solid #ced4da;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: -1px;
+            line-height: 36px;
+        }
+
+        .dropdown-toggle::after {
+            margin: 0 5px;
+        }
+
+        ul.dropdown-menu{
+            width: 100%;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="~/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+    <script type="text/javascript">
+        $('.member-select').combobox();
+    </script>
+
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>Modificar Galería</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit")">Información</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("contacts")">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Representantes</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body"> 
+        @if (Model.Members.Length != 0)
+        {
+            <div class="row">
+                @foreach (var item in Model.Members)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4" style="margin-bottom: 20px;">
+                        @if (item.ImageId != System.Guid.Empty)
+                        {
+                            <img src="~/media/images/@item.ImageId.@item.ImageExtension" class="img-fluid img-thumbnail rounded-circle" />
+                        }
+                        else
+                        {
+                            <img src="~/img/default-person-picture.jpg" class="img-fluid img-thumbnail rounded-circle" />
+                        }
+                        <div class="text-center mt-2">
+                            @if (string.IsNullOrEmpty(item.LastName))
+                            {
+                                <div>@item.Name</div>
+                            }
+                            else
+                            {
+                                <div>@item.Name @item.LastName</div>
+                            }
+                            <div class="mt-2">
+                                <button role="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-member-@item.Id"><span class="mdi mdi-trash-can-outline"></span>Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="delete-member-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="delete-member-@item.Id-title">Eliminar Representante</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @using (Html.BeginForm("removemember", "gallery", null, FormMethod.Post, true, null))
+                                {
+                                    @Html.Hidden("employeeId", item.Id)
+
+                                    <div class="modal-body">
+                                        <p class="mb-0">Está seguro que desea eliminar este representante?</p>
+                                    </div>
+
+                                    <div class="modal-footer" style="margin-top: 0;">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-muted font-italic">Sin elementos para mostrar, haga clic en el botón Agregar para comenzar ...</div>
+        }
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-member">Agregar</button>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+    <div class="modal fade" id="add-member" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-member-title">Agregar Representante</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("addmember", "gallery", null, FormMethod.Post, true, null))
+                {
+                    <div class="modal-body">
+                        @if (Model.NotMemberSelectListItems.Length > 0)
+                        {
+                            <div>
+                                @Html.Label("employeeId", "Trabajador", new { @class = "control-label" })
+                                @Html.DropDownList("employeeId", Model.NotMemberSelectListItems, "Escribar para buscar empleado ...", new { @class = "form-control member-select" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-muted font-italic">No hay más trabajadores que puedan ser incluidos</div>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        @if(Model.NotMemberSelectListItems.Length > 0)
+                        {
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                        }
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

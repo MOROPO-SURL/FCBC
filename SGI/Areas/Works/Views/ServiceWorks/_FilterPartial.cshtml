@@ -3,7 +3,7 @@
 @using (Html.BeginForm("filter", "serviceworks", new { Area = "works" }, FormMethod.Post, true, null))
 {
     <fieldset>
-        <legend>Filtro de Obras de servicio</legend>
+        <legend>Filtro de Obras</legend>
         <div style="margin-bottom: 20px;">
             <div class="row">
                 <div class="col-sm-3">
@@ -22,7 +22,8 @@
         </div>
 
         <div>
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
+            <button type="submit" class="btn btn-sm btn-primary"><span class="mdi mdi-filter"></span> Filtrar</button>
+            <button type="button" class="btn btn-sm btn-light filter-form-reseter"><span class="mdi mdi-filter-remove-outline"></span> Limpiar</button>
         </div>
     </fieldset>
 }

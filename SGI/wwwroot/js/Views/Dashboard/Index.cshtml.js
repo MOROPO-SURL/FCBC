@@ -8,7 +8,6 @@ const CreationGroupCount = JSON.parse(varScope.attr('data-Creation-Group-Count')
 const ContractorCount = JSON.parse(varScope.attr('data-Contractor-Count'));
 const ArtWorkCount = JSON.parse(varScope.attr('data-Art-Work-Count'));
 const CraftWorkCount = JSON.parse(varScope.attr('data-Craft-Work-Count'));
-const DesignWorkCount = JSON.parse(varScope.attr('data-Design-Work-Count'));
 const ServiceWorkCount = JSON.parse(varScope.attr('data-Service-Work-Count'));
 const manifestationsNames = JSON.parse(varScope.attr('data-Manifestations-Names'));
 const ManifestationsCounts = JSON.parse(varScope.attr('data-Manifestations-Counts'));
@@ -104,19 +103,17 @@ const pieChart = new Chart(
 
 const dataDoughnut = {
     labels: [
-        'Artes Plásticas',
-        'Artesanía',
-        'Diseño',
+        'Artes Visuales',
+        'Artes Aplicadas',
         'Servicios'
     ],
     datasets: [{
         label: '',
-        data: [ArtWorkCount, CraftWorkCount, DesignWorkCount, ServiceWorkCount],
+        data: [ArtWorkCount, CraftWorkCount, ServiceWorkCount],
         backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)'
+            'rgb(255, 205, 86)'
         ],
         hoverOffset: 4
     }]

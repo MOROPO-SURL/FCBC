@@ -7,8 +7,6 @@ using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -17,11 +15,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
     [Area("manifestations")]
     public class CraftManifestationsController : AbstractEntityManagementController<CraftManifestation, Guid, CraftManifestationInputViewModel, CraftManifestationDisplayViewModel>
     {
-        private readonly IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository;
-
-        public CraftManifestationsController(IEntityRepository<CraftManifestationGroup, Guid> craftManifestationGroupRepository, IEntityRepository<CraftManifestation, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<CraftManifestationsController> localizer, ILogger<CraftManifestationsController> logger) : base(repository, localizer, logger)
+        public CraftManifestationsController(IEntityRepository<CraftManifestation, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<CraftManifestationsController> localizer, ILogger<CraftManifestationsController> logger) : base(repository, localizer, logger)
         {
-            this.craftManifestationGroupRepository = craftManifestationGroupRepository;
         }
 
         [RequirePermissions(Permission.CraftManifestationViewer)]
@@ -64,83 +59,6 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         public override IActionResult Delete(CraftManifestationDisplayViewModel displayModel)
         {
             return base.Delete(displayModel);
-        }
-
-        protected override void ConfigureCreate(CraftManifestationInputViewModel modelInput)
-        {
-            PopulateTree(modelInput);
-        }
-
-        protected override void ConfigurePostFailCreateValidation(CraftManifestationInputViewModel modelInput)
-        {
-            PopulateTree(modelInput);
-        }
-
-        protected override void ConfigureEdit(CraftManifestation entity, CraftManifestationInputViewModel modelInput)
-        {
-            PopulateTree(modelInput);
-        }
-
-        protected override void ConfigurePostFailEditValidation(CraftManifestation entity, CraftManifestationInputViewModel modelInput)
-        {
-            PopulateTree(modelInput);
-        }
-
-        protected override void PopulateViewModelDisplayExtras(CraftManifestationDisplayViewModel modelDisplay, CraftManifestation entity)
-        {
-            base.PopulateViewModelDisplayExtras(modelDisplay, entity);
-
-            if (entity.GroupId == null) return;
-
-            var group = craftManifestationGroupRepository.Get(entity.GroupId.Value);
-
-            modelDisplay.Group = new CraftManifestationGroupDisplayViewModel();
-
-            modelDisplay.Group.Import(group);
-
-            CompleteManifestationGroup(group, modelDisplay.Group);
-        }
-
-        private void CompleteManifestationGroup(CraftManifestationGroup entity, CraftManifestationGroupDisplayViewModel displayModel)
-        {
-            if (entity.ParentId == null) return;
-
-            var parent = craftManifestationGroupRepository.Get(entity.Id);
-
-            displayModel.Parent = new CraftManifestationGroupDisplayViewModel();
-
-            displayModel.Parent.Import(parent);
-
-            CompleteManifestationGroup(entity.Parent, displayModel.Parent);
-        }
-
-        private void PopulateTree(CraftManifestationInputViewModel modelInput)
-        {
-            var groups = craftManifestationGroupRepository.GetAll().ToList();
-
-            modelInput.SerializedTree = Newtonsoft.Json.JsonConvert.SerializeObject(GetTree(groups, null));
-        }
-
-        private List<object> GetTree(List<CraftManifestationGroup> groups, Guid? parentId)
-        {
-            var result = new List<object>();
-
-            groups = craftManifestationGroupRepository.GetAll().Where(m => m.ParentId == parentId).ToList();
-
-            if (!(groups.Count() == 0))
-            {
-                foreach (var group in groups)
-                {
-                    result.Add(new
-                    {
-                        id = group.Id,
-                        text = group.Name,
-                        children = GetTree(groups, group.Id)
-                    });
-                }
-            }
-
-            return result;
         }
     }
 }

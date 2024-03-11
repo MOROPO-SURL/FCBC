@@ -83,10 +83,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<CraftManifestation> CraftManifestations { get; set; }
         public DbSet<DesignManifestation> DesignManifestations { get; set; }
         public DbSet<ServiceLine> ServiceLines { get; set; }
-        public DbSet<ArtisticManifestationGroup> ArtisticManifestationGroups { get; set; }
-        public DbSet<CraftManifestationGroup> CraftManifestationGroups { get; set; }
-        public DbSet<DesignManifestationGroup> DesignManifestationGroups { get; set; }
-        public DbSet<ServiceLineGroup> ServiceLineGroups { get; set; }
         public DbSet<ArtistArtisticManifestationBridge> ArtistArtisticManifestationBridges { get; set; }
         public DbSet<ArtistCraftManifestationBridge> ArtistCraftManifestationBridges { get; set; }
         public DbSet<ArtistDesignManifestationBridge> ArtistDesignManifestationBridges { get; set; }

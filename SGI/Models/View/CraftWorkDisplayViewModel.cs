@@ -40,7 +40,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public ICollection<CraftWorkAward> Awards { get; set; }
 
-        public ValorationDisplayViewModel[] Valorations { get; set; }
+        public CriterialDisplayViewModel[] Valorations { get; set; }
 
         public void Import(CraftWork entity)
         {

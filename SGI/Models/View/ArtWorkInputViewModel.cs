@@ -112,7 +112,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.BornYear = BornYear.Value;
             entity.About = About;
             entity.ManifestationId = ManifestationId.Value;
-            entity.FeatureImageId = FeatureImageId;
             entity.Collection = Collection;
             entity.Location = Location;
             entity.Price = Price;

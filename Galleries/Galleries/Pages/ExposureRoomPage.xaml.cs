@@ -42,13 +42,13 @@ namespace MOROPO.FCBC.Galleries.Pages
                     {
                         virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                         {
-                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
+                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
                         });
 
                         BindingContextPageModel.IsBusy = false;
 
                         virtualRoomPresenter.ExposureRoomPageModel = BindingContextPageModel;
-                    });                    
+                    });                 
                 }
             });
         }
@@ -82,6 +82,31 @@ namespace MOROPO.FCBC.Galleries.Pages
             virtualRoomPresenter?.Dispose();
 
             virtualRoomPresenter = null;
+        }
+
+        private void CloseButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            if (BindingContextPageModel.TargetArtWork == null) return;
+            
+            BindingContextPageModel.TargetArtWork = null;
+
+            System.Threading.Tasks.Task.Delay(System.TimeSpan.FromMilliseconds(500)).ContinueWith(_ => Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                virtualRoomPresenter.BindSceneEvents();
+            }));
+        }
+
+        private void ExibitDetailButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            this.NavigationPushModalPageAsync(new ExibitDetailPage(BindingContextPageModel.TargetArtWork)).ContinueWith(_ =>
+            {
+                BindingContextPageModel.TargetArtWork = null;
+
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    virtualRoomPresenter.BindSceneEvents();
+                });
+            });
         }
     }
 }

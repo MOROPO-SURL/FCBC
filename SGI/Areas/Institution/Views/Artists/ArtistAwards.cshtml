@@ -2,7 +2,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ArtistAwardManageViewModel
 
 @{
-    ViewData["Title"] = "Editar Creador (Premios)";
+    ViewData["Title"] = "Modificar Creador (Premios)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -25,112 +25,87 @@
     Layout = "_BackendLayout";
 }
 
-@section styles {
-    <style type="text/css">
-        #ImageFile {
-            width: 0;
-            height: 0;
-            overflow: hidden;
-        }
-
-        .social-icon {
-            font-size: 18px;
-            top: 2px;
-            margin-left: 8px;
-            margin-right: 8px;
-        }
-    </style>
-}
-
-    <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">
-            <h4>Editar Creador</h4>
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("edit", @Model.ArtistDisplay.Id)">Generales</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("contacts", @Model.ArtistDisplay.Id)">Contactos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.ArtistDisplay.Id)">Manifestaciones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active">Trayectoria</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("editattachments", @Model.ArtistDisplay.Id)">Archivos</a>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body">
-            @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.ArtistDisplay)
-            <div class="card">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs">
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>Modificar Creador</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.ArtistDisplay.Id)">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("contacts", @Model.ArtistDisplay.Id)">Contactos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.ArtistDisplay.Id)">Manifestaciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active">Trayectoria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editattachments", @Model.ArtistDisplay.Id)">Archivos</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.ArtistDisplay)
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Premios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="EditArtisticRecognitions" asp-route-key="@Model.ArtistDisplay.Id">Reconocimientos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="EditArtisticDistintions" asp-route-key="@Model.ArtistDisplay.Id">Distinciones</a>
+                    </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Premios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="EditArtisticRecognitions" asp-route-key="@Model.ArtistDisplay.Id">Reconocimientos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="EditArtisticDistintions" asp-route-key="@Model.ArtistDisplay.Id">Distinciones</a>
-                        </li>
-                         <li class="nav-item">
-                            <a class="nav-link" asp-action="EditArtisticCriterion" asp-route-key="@Model.ArtistDisplay.Id">Valoraciones</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                <div style="margin-bottom: 20px;">
-                    <div class="page-header">
-                        <h4>Premios<a class="btn btn-primary btn-sm float-right" href="#" data-toggle="modal" data-target="#add-award-@Model.ArtistDisplay.Id"><span class="mdi mdi-plus"></span> Agregar</a></h4>
-                    </div>
-
-                    @await Html.PartialAsync("AddAwardsPartial", Model)
-
-                    <table class="table" style="margin: 0;">
-                        <thead>
-                            <tr>
-                                <th>@GlobalViewLocalizationHelper.Localize("Nombre")</th>
-                                <th>@GlobalViewLocalizationHelper.Localize("País")</th>
-                                <th>@GlobalViewLocalizationHelper.Localize("Descripción")</th>
-                                <th style="width: 1px; white-space: nowrap;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.ArtistDisplay.ArtistAwards.Count > 0)
-                            {
-                                @foreach (var item in Model.ArtistDisplay.ArtistAwards)
-                                {
-                                    <tr>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("String")">@item.Award.Name</td>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Award.Country.Name</td>
-                                        <td style="vertical-align: middle;" title="@GlobalViewLocalizationHelper.Localize("Label")">@item.Context</td>
-                                        <td style="vertical-align: middle;">
-                                            <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
-                                            @await Html.PartialAsync("DeleteAwardPartial", new ArtistAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, ArtistId = Model.ArtistDisplay.Id})
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                </div>
+                        <a class="nav-link" asp-action="EditCriteria" asp-route-key="@Model.ArtistDisplay.Id">Valoraciones</a>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <div class="card-footer">
-            <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+
+            @await Html.PartialAsync("AddAwardsPartial", Model)
+
+            <table class="table" style="margin: 0;">
+                <thead>
+                    <tr>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Nombre")</th>
+                        <th class="border-top-0">@GlobalViewLocalizationHelper.Localize("Contexto")</th>
+                        <th class="border-top-0" style="width: 1px; white-space: nowrap;">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ArtistDisplay.ArtistAwards.Count > 0)
+                    {
+                        @foreach (var item in Model.ArtistDisplay.ArtistAwards)
+                        {
+                            <tr>
+                                <td style="vertical-align: middle;">@item.Award.Name</td>
+                                <td style="vertical-align: middle;">@item.Context</td>
+                                <td style="vertical-align: middle;">
+                                    <a role="button" href="#" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-award-@item.Id">Eliminar</a>
+                                    @await Html.PartialAsync("DeleteAwardPartial", new ArtistAwardDisplayViewModel { Id = item.Id, AwardName = item.Award.Name, Context = item.Context, ArtistId = Model.ArtistDisplay.Id})
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3"><p style="margin: 0 5px;" class="text-muted">Sin elementos que mostrar</p></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
+    <div class="card-footer">
+        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-award-@Model.ArtistDisplay.Id">Agregar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
 
 
 

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace MOROPO.FCBC.SGI.Models.Filter
 {
-    public class ServiceWorkFilterModel : SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork, System.Guid>
+    public class ServiceWorkFilterModel : SAPRESSC.Core.Persistence.Models.Filter.IEntityFilterModel<Persistence.Entities.ServiceWork, System.Guid>
     {
 
         [Display(Name = "Title")]
@@ -21,7 +21,7 @@ namespace MOROPO.FCBC.SGI.Models.Filter
         public string AuthorId { get; set; }
         public ICollection<SelectListItem> Author { get; set; }
 
-        public System.Linq.Expressions.Expression<System.Func<Persistence.Entities.ServiceWork, bool>> GetSelector()
+        public Expression<System.Func<Persistence.Entities.ServiceWork, bool>> GetSelector()
         {
             Expression<System.Func<Persistence.Entities.ServiceWork, bool>> expression = null;
 
