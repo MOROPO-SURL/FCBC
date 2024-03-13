@@ -444,6 +444,41 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artworkvalorations");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkVideo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contenttype");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("ispublic");
+
+                    b.Property<long>("Length")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_artworkvideos");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_artworkvideos_workid");
+
+                    b.ToTable("artworkvideos");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Artist", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3470,6 +3505,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Valorations")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_artworkvalorations_artworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkVideo", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "Work")
+                        .WithMany("Videos")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_artworkvideos_artworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

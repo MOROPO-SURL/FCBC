@@ -30,6 +30,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<CreationGroup, System.Guid> creationGroupRepository;
         private readonly IEntityRepository<Image, System.Guid> imageRepository;
         private readonly IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository;
+        private readonly IEntityRepository<ArtWorkVideo, System.Guid> videoRepository;
         private readonly IImageFileManagerFacade imageFileManager;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<Award, Guid> awardRepository;
@@ -37,7 +38,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Critic, Guid> criticRepository;
         private readonly IEntityRepository<ArtWorkValoration, Guid> valorationRepository;
 
-        public ArtWorksController(IEntityRepository<ArtWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IImageFileManagerFacade imageFileManager, IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<UnitMeasurement, System.Guid> unitMeasurementRepository, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository, IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<ArtWork, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ArtWorksController> localizer, ILogger<ArtWorksController> logger) : base(repository, localizer, logger)
+        public ArtWorksController(IEntityRepository<ArtWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IImageFileManagerFacade imageFileManager, IEntityRepository<ArtWorkAttachment, System.Guid> attachmentRepository, IEntityRepository<ArtWorkVideo, System.Guid> videoRepository, IEntityRepository<Image, System.Guid> imageRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<UnitMeasurement, System.Guid> unitMeasurementRepository, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ArtisticTechnique, System.Guid> techniqueRepository, IEntityRepository<ArtisticManifestation, System.Guid> manifestationRepository, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<ArtWork, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ArtWorksController> localizer, ILogger<ArtWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
             this.techniqueRepository = techniqueRepository;
@@ -48,6 +49,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.creationGroupRepository = creationGroupRepository;
             this.imageRepository = imageRepository;
             this.attachmentRepository = attachmentRepository;
+            this.videoRepository = videoRepository;
             this.imageFileManager = imageFileManager;
             this.attachmentFileManager = attachmentFileManager;
             this.awardRepository = awardRepository;
@@ -1298,6 +1300,194 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        #endregion
+
+        #region Videos
+
+        [HttpGet]
+        [Route("edit/{key}/videos")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public ActionResult EditVideos(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var model = new ArtWorkVideosDisplayViewModel
+            {
+                Work = new ArtWorkDisplayViewModel(),
+                Videos = entity.Videos.Select(item =>
+                {
+                    var result = new VideoDisplayViewModel();
+
+                    result.Import(item);
+
+                    return result;
+                }).ToArray()
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public IActionResult AddVideo(System.Guid key, VideoInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var video = new ArtWorkVideo
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                WorkId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(video.Id, memoryStream.ToArray(), video.ContentType);
+
+                            videoRepository.Add(video, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("EditVideos", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("EditVideos", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public IActionResult DeleteVideo(System.Guid key, System.Guid videoId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var video = entity.Videos.First(e => e.Id == videoId);
+
+                videoRepository.Delete(video, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(video);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("EditVideos", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("EditVideos", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+
+        [HttpPost]
+        [Route("edit/{key}/{videoId}/videos/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public FileResult DownloadVideo(System.Guid key, System.Guid videoId)
+        {
+
+            var entity = Repository.Get(key);
+            var video = entity.Videos.FirstOrDefault(att => att.Id == videoId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(video);
+            var extension = video.ContentType.Split('/');
+            var fileName = video.Name + "." + extension[1];
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public IActionResult EditVideo(System.Guid key, VideoInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ArtWorkVideo val = videoRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        videoRepository.Update(val, base.User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("EditVideos", new { key });
+                    }
+                    catch (Exception ex2)
+                    {
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("EditVideos", new { key });
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
