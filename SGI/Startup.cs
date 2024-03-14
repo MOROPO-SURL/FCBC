@@ -87,6 +87,7 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<CraftWorkVideo, Guid>, CraftWorkVideoRepository>();
             services.AddScoped<IEntityRepository<DesignWorkAttachment, Guid>, DesignWorkAttachmentRepository>();
             services.AddScoped<IEntityRepository<ServiceWorkAttachment, Guid>, ServiceWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<ServiceWorkVideo, Guid>, ServiceWorkVideoRepository>();
             services.AddScoped<IEntityRepository<ActivityKind, Guid>, ActivityKindRepository>();
             services.AddScoped<IEntityRepository<Activity, Guid>, ActivityRepository>();
             services.AddScoped<IEntityRepository<Agreement, Guid>, AgreementRepository>();

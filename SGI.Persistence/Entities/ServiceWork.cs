@@ -10,6 +10,7 @@
             MaterialBridges = new System.Collections.Generic.List<ServiceWorkMaterialBridge>();
             ThematicBridges = new System.Collections.Generic.List<ServiceWorkThematicBridge>();
             Attachments = new System.Collections.Generic.List<ServiceWorkAttachment>();
+            Videos = new System.Collections.Generic.List<ServiceWorkVideo>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("LineId")]
@@ -28,5 +29,6 @@
         public System.Collections.Generic.List<ServiceWorkThematicBridge> ThematicBridges { get; set; }
 
         public System.Collections.Generic.List<ServiceWorkAttachment> Attachments { get; set; }
+        public System.Collections.Generic.List<ServiceWorkVideo> Videos { get; set; }
     }
 }

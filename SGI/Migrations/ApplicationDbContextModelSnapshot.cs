@@ -2481,6 +2481,41 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("serviceworkvalorations");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkVideo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contenttype");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("ispublic");
+
+                    b.Property<long>("Length")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_serviceworkvideos");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_serviceworkvideos_workid");
+
+                    b.ToTable("serviceworkvideos");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4544,6 +4579,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_serviceworkvalorations_serviceworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkVideo", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "Work")
+                        .WithMany("Videos")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_serviceworkvideos_serviceworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
