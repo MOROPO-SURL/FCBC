@@ -166,5 +166,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<Gallery> Galleries { get; set; }
         public DbSet<GalleryEmployeeBridge> GalleryEmployeeBridges { get; set; }
         public DbSet<ArtWorkVideo> ArtWorkVideos { get; set; }  
+        public DbSet<CraftWorkVideo> CraftWorkVideos { get; set; }  
     }
 }

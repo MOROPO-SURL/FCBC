@@ -12,6 +12,7 @@
             CreationGroupBridges = new System.Collections.Generic.List<CraftWorkCreationGroupBridge>();
             MaterialBridges = new System.Collections.Generic.List<CraftWorkMaterialBridge>();
             Attachments = new System.Collections.Generic.List<CraftWorkAttachment>();
+            Videos = new System.Collections.Generic.List<CraftWorkVideo>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ManifestationId")]
@@ -30,5 +31,6 @@
         public System.Collections.Generic.List<CraftWorkCreationGroupBridge> CreationGroupBridges { get; set; }
         public System.Collections.Generic.List<CraftWorkMaterialBridge> MaterialBridges { get; set; }
         public System.Collections.Generic.List<CraftWorkAttachment> Attachments { get; set; }
+        public System.Collections.Generic.List<CraftWorkVideo> Videos { get; set; }
     }
 }

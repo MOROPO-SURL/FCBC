@@ -1231,6 +1231,41 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("craftworkvalorations");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkVideo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contenttype");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("ispublic");
+
+                    b.Property<long>("Length")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_craftworkvideos");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_craftworkvideos_workid");
+
+                    b.ToTable("craftworkvideos");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3886,6 +3921,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_craftworkvalorations_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkVideo", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("Videos")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworkvideos_craftworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
