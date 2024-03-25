@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
@@ -946,7 +947,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             try
             {
                 var entity = Repository.Get(key);
-                
+
                 var award = awardRepository.Get(awardId);
 
                 if (ModelState.IsValid)
@@ -976,7 +977,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 return RedirectToAction("artworkawards", new { key = entity.Id });
             }
-            catch 
+            catch
             {
                 SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
@@ -990,7 +991,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [ValidateAntiForgeryToken]
         public IActionResult DeleteArtWorkAward(Guid key, Guid id)
         {
-                try
+            try
             {
                 var entity = Repository.Get(key);
 
@@ -1491,6 +1492,151 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
+        }
+
+        #endregion
+
+        #region Language
+        [Route("edit/{key}/languages")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        public ActionResult EditLanguages(System.Guid key)
+        {
+            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+
+            foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
+            {
+                languages.Add(language);
+            }
+
+            var entity = Repository.Get(key);
+
+            var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
+
+            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();                   
+
+            var resultModel = new ArtWorkLanguageManagerViewModel
+            {
+                Work = new ArtWorkDisplayViewModel()
+            };
+
+            resultModel.Work.Import(entity);
+
+            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
+
+            var translations = entity.Translations;
+
+            resultModel.Translations = translations.Select( item =>
+            {
+                var model = new ArtWorkTranslationDisplayViewModel {
+                    ArtWorkLanguege = new ArtWorkLanguageDisplayViewModel
+                    {
+                        ArtWorkId = item.ArtWorkId,
+                        Name = item.Name,
+                        TranslatableLanguage = item.TranslatableLanguage
+                    }
+                };
+
+                model.Import(item);
+
+                return model;
+            }).ToArray();
+
+            return View(resultModel);
+        }
+
+        [Route("edit/languages/add")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddLanguage(ArtWorkLanguagesInputViewModel modelInput)
+        {
+            ArtWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.ArtWorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+            
+
+            if (ModelState.IsValid)
+            {
+                entity.Translations.Add(new ArtWorkTranslation { ArtWorkId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
+
+        [Route("edit/languages/remove")]
+        [RequirePermissions(Permission.ArtWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteLanguage(System.Guid ArtWorkId, TranslatableLanguage translatableLanguage)
+        {
+            ArtWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(ArtWorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Translations.First(b => b.ArtWorkId == ArtWorkId && b.TranslatableLanguage == translatableLanguage);
+
+                entity.Translations.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
         }
 
         #endregion

@@ -411,6 +411,33 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artworkthematicbridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ArtWorkId")
+                        .HasColumnName("artworkid");
+
+                    b.Property<Guid?>("ArtWorkId1")
+                        .HasColumnName("artworkid1");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ArtWorkId")
+                        .HasName("pk_artworktranslations");
+
+                    b.HasIndex("ArtWorkId")
+                        .HasName("ix_artworktranslations_artworkid");
+
+                    b.HasIndex("ArtWorkId1")
+                        .HasName("ix_artworktranslations_artworkid1");
+
+                    b.ToTable("artworktranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkValoration", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3561,6 +3588,20 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_artworkthematicbridges_artworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "ArtWork")
+                        .WithMany()
+                        .HasForeignKey("ArtWorkId")
+                        .HasConstraintName("fk_artworktranslations_artworks_artworkid")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork")
+                        .WithMany("Translations")
+                        .HasForeignKey("ArtWorkId1")
+                        .HasConstraintName("fk_artworktranslations_artworks_artworkid1");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkValoration", b =>
