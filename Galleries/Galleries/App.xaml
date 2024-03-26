@@ -18,7 +18,9 @@
             <Color x:Key="PrimaryColor">#9c4237</Color>
             <Color x:Key="MainContrastTextColor">#cbab71</Color>
 
-            <x:Double x:Key="HeaderRequestWidth">360</x:Double>
+            <OnPlatform x:Key="HeaderRequestWidth" x:TypeArguments="x:Double" Default="360">
+                <On Platform="UWP" Value="800" />
+            </OnPlatform>
             <x:Double x:Key="BodyContentSectionHeaderTitleLabelFontSize">32</x:Double>
             <x:Double x:Key="PersonFirstNameLabelFontSize">27</x:Double>
 

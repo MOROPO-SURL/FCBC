@@ -54,7 +54,7 @@
                                 HorizontalTextAlignment="Center" />
                             <Label
                                 Margin="0,18"
-                                Text="{Binding Path=About}"
+                                Text="{Binding Path=About, TargetNullValue='Et lorem dolor placerat at sed zzril sed lorem gubergren at euismod elitr invidunt dolore dolor aliquyam at diam sanctus'}"
                                 HorizontalTextAlignment="Center"
                                 TextColor="{StaticResource MainContrastTextColor}" />
                             <Grid ColumnSpacing="4">

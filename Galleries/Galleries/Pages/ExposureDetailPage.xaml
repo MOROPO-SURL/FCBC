@@ -71,7 +71,7 @@
                         Margin="20,20,20,0"
                         Text="{Binding Path=Exposure.Description}" />
                     <StackLayout Style="{StaticResource BodyContentSectionHeaderStackLayoutStyle}">
-                        <Label Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" Text="Curadores" />
+                        <Label Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" Text="Especialistas" />
                         <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />                        
                     </StackLayout>
                     <FlexLayout
@@ -138,7 +138,7 @@
                                             BorderThickness="2"
                                             BorderColor="Snow" />
                                         <Label 
-                                            Text="Trabajador" 
+                                            Text="Especialista" 
                                             Margin="10,0,10,20"
                                             HorizontalTextAlignment="Center"
                                             Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />

@@ -1,6 +1,8 @@
 ﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -69,8 +71,25 @@ namespace MOROPO.FCBC.Galleries.UWP
                 // parameter
                 rootFrame.Navigate(typeof(Pages.MainPage), e.Arguments);
             }
-            // Ensure the current window is active
+
+#if DEBUG
+
+            float DPI = Windows.Graphics.Display.DisplayInformation.GetForCurrentView().LogicalDpi;
+
+            Windows.UI.ViewManagement.ApplicationView.PreferredLaunchWindowingMode = Windows.UI.ViewManagement.ApplicationViewWindowingMode.PreferredLaunchViewSize;
+
+            var desiredSize = new Windows.Foundation.Size(((float)280 * 96.0f / DPI), ((float)960 * 96.0f / DPI));
+
+            Windows.UI.ViewManagement.ApplicationView.PreferredLaunchViewSize = desiredSize;
+
+#endif
+
             Window.Current.Activate();
+#if DEBUG
+
+            bool result = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TryResizeView(desiredSize);
+
+#endif
         }
 
         /// <summary>
