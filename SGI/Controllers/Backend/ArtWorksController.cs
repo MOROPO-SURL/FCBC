@@ -1548,13 +1548,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequirePermissions(Permission.ArtWorkEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddLanguage(ArtWorkLanguagesInputViewModel modelInput)
+        public IActionResult AddLanguage(WorkLanguagesInputViewModel modelInput)
         {
             ArtWork entity = null;
 
             try
             {
-                entity = Repository.Get(modelInput.ArtWorkId);
+                entity = Repository.Get(modelInput.WorkId);
             }
             catch { }
 

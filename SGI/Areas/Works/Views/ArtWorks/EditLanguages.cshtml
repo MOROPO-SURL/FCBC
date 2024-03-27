@@ -72,9 +72,9 @@
                     </div>
                     @using (Html.BeginForm("AddLanguage", "artworks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
                     {
-                        var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.ArtWorkLanguagesInputViewModel();
+                        var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.WorkLanguagesInputViewModel();
                         artWorkLanguagesInputViewModel.NotSelectedLanguages = Model.NotSelectedLanguage;
-                        artWorkLanguagesInputViewModel.ArtWorkId = Model.Work.Id;
+                        artWorkLanguagesInputViewModel.WorkId = Model.Work.Id;
 
                         @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddLanguageModalBodyPartial", artWorkLanguagesInputViewModel)
                         <div class="modal-footer">

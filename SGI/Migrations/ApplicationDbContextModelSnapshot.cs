@@ -419,9 +419,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ArtWorkId")
                         .HasColumnName("artworkid");
 
-                    b.Property<Guid?>("ArtWorkId1")
-                        .HasColumnName("artworkid1");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");
@@ -431,9 +428,6 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.HasIndex("ArtWorkId")
                         .HasName("ix_artworktranslations_artworkid");
-
-                    b.HasIndex("ArtWorkId1")
-                        .HasName("ix_artworktranslations_artworkid1");
 
                     b.ToTable("artworktranslations");
                 });
@@ -1223,6 +1217,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("ix_craftworkthematicbridges_thematicid");
 
                     b.ToTable("craftworkthematicbridges");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("CraftWorkId")
+                        .HasColumnName("craftworkid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "CraftWorkId")
+                        .HasName("pk_craftworktranslations");
+
+                    b.HasIndex("CraftWorkId")
+                        .HasName("ix_craftworktranslations_craftworkid");
+
+                    b.ToTable("craftworktranslations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkValoration", b =>
@@ -3593,15 +3608,10 @@ namespace MOROPO.FCBC.SGI.Migrations
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkTranslation", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork", "ArtWork")
-                        .WithMany()
+                        .WithMany("Translations")
                         .HasForeignKey("ArtWorkId")
                         .HasConstraintName("fk_artworktranslations_artworks_artworkid")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtWork")
-                        .WithMany("Translations")
-                        .HasForeignKey("ArtWorkId1")
-                        .HasConstraintName("fk_artworktranslations_artworks_artworkid1");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtWorkValoration", b =>
@@ -3982,6 +3992,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("ThematicBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_craftworkthematicbridges_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "CraftWork")
+                        .WithMany("Translations")
+                        .HasForeignKey("CraftWorkId")
+                        .HasConstraintName("fk_craftworktranslations_craftworks_craftworkid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
