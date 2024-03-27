@@ -2490,6 +2490,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("serviceworkthematicbridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ServiceWorkId")
+                        .HasColumnName("serviceworkid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ServiceWorkId")
+                        .HasName("pk_serviceworktranslations");
+
+                    b.HasIndex("ServiceWorkId")
+                        .HasName("ix_serviceworktranslations_serviceworkid");
+
+                    b.ToTable("serviceworktranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkValoration", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4624,6 +4645,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("ThematicBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_serviceworkthematicbridges_serviceworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWorkTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceWork", "ServiceWork")
+                        .WithMany("Translations")
+                        .HasForeignKey("ServiceWorkId")
+                        .HasConstraintName("fk_serviceworktranslations_serviceworks_serviceworkid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
