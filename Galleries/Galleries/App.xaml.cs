@@ -4,6 +4,16 @@
     {
         public App()
         {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InstalledUICulture;
+
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+            {
+                FFImageLoading.ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
+                {
+                    HttpClient = new System.Net.Http.HttpClient(Xamarin.Forms.DependencyService.Get<Providers.Facade.INativeHttpClientHandlerProviderFacade>().Get())
+                });
+            }
+
             InitializeComponent();
 
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)

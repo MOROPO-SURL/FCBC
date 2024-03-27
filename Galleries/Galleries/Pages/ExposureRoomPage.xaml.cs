@@ -26,7 +26,7 @@ namespace MOROPO.FCBC.Galleries.Pages
 
             IsEnabled = true;
 
-            var exhibitsApiConnectClient = new SGI.API.Connect.Clients.ExhibitConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
+            var exhibitsApiConnectClient = new SGI.API.Connect.Clients.ExhibitConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance);
 
             exhibitsApiConnectClient.FilterAsync(new SGI.API.Common.Models.Filter.ExhibitFilterApiModel { ExposureId = exposureId }).ContinueWith(async task =>
             {

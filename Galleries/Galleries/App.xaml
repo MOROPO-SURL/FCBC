@@ -48,7 +48,6 @@
             </Style>
 
             <Style TargetType="Label" x:Key="HeaderTitleLabelStyle">
-                <Setter Property="Text" Value="Galería Amalia" />
                 <Setter Property="TextColor" Value="{StaticResource MainContrastTextColor}" />
                 <Setter Property="FontSize" Value="52" />
                 <Setter Property="FontAttributes" Value="Bold" />

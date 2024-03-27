@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace MOROPO.FCBC.Galleries.Providers
 {
-    public sealed class HttpClientHelpeProvider : SAPRESSC.Core.Api.Connect.Providers.Facade.IHttpClientHelperProviderFacade
+    public sealed class HttpClientHelperProvider : SAPRESSC.Core.Api.Connect.Providers.Facade.IHttpClientHelperProviderFacade
     {
-        private static HttpClientHelpeProvider instance;
+        private static HttpClientHelperProvider instance;
 
-        public static HttpClientHelpeProvider Instance
+        public static HttpClientHelperProvider Instance
         {
             get 
             {                
-                if (instance == null) instance = new HttpClientHelpeProvider();
+                if (instance == null) instance = new HttpClientHelperProvider();
 
                 return instance;
             }
@@ -19,7 +19,7 @@ namespace MOROPO.FCBC.Galleries.Providers
 
         public HttpClientHelper HttpClientHelper { get; private set; }
 
-        private HttpClientHelpeProvider()
+        private HttpClientHelperProvider()
         {
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
             {
