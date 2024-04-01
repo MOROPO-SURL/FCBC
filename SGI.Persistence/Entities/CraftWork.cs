@@ -14,6 +14,7 @@
             Attachments = new System.Collections.Generic.List<CraftWorkAttachment>();
             Videos = new System.Collections.Generic.List<CraftWorkVideo>();
             Translations = new System.Collections.Generic.List<CraftWorkTranslation>();
+            ThreeDimensional = new System.Collections.Generic.List<CraftWorkThreeDimensional>();
         }
 
         [System.ComponentModel.DataAnnotations.Schema.ForeignKey("ManifestationId")]
@@ -34,5 +35,6 @@
         public System.Collections.Generic.List<CraftWorkAttachment> Attachments { get; set; }
         public System.Collections.Generic.List<CraftWorkVideo> Videos { get; set; }
         public System.Collections.Generic.List<CraftWorkTranslation> Translations { get; set; }
+        public System.Collections.Generic.List<CraftWorkThreeDimensional> ThreeDimensional { get; set; }
     }
 }

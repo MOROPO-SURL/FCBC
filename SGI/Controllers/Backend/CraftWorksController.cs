@@ -16,6 +16,7 @@ using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -37,11 +38,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository;
         private readonly IEntityRepository<CraftWorkVideo, System.Guid> videoRepository;
+        private readonly IEntityRepository<CraftWorkThreeDimensional, System.Guid> threeDimensionalRepository;
         private readonly IEntityRepository<Thematic, Guid> thematicRepository;
         private readonly IEntityRepository<Critic, Guid> criticRepository;
         private readonly IEntityRepository<CraftWorkValoration, Guid> valorationRepository;
 
-        public CraftWorksController(IEntityRepository<CraftWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, IEntityRepository<CraftWorkVideo, System.Guid> videoRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
+        public CraftWorksController(IEntityRepository<CraftWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, IEntityRepository<CraftWorkVideo, System.Guid> videoRepository, IEntityRepository<CraftWorkThreeDimensional, System.Guid> threeDimensionalRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
             IEntityRepository<CraftWork, Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
@@ -55,6 +57,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.materialRepository = materialRepository;
             this.attachmentFileManager = attachmentFileManager;
             this.videoRepository = videoRepository;
+            this.threeDimensionalRepository = threeDimensionalRepository;
             this.attachmentRepository = attachmentRepository;
             this.thematicRepository = thematicRepository;
             this.criticRepository = criticRepository;
@@ -1598,6 +1601,223 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
+
+        #endregion
+
+        #region ThreeDimensional
+
+        [HttpGet]
+        [Route("edit/{key}/threeDimensionals")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public ActionResult EditThreeDimensionals(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var work = new CraftWorkDisplayViewModel();
+
+            var threeDimensionals = entity.ThreeDimensional.Select(item =>
+            {
+                var result = new ThreeDimensionalDisplayViewModel();
+
+                result.Import(item);
+
+                return result;
+            }).ToArray();
+
+            var model = new CraftWorkThreeDimensionalDisplayViewModel
+            {
+                Work = work,
+                ThreeDimensionals = threeDimensionals
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/threeDimensionals/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult AddThreeDimensional(System.Guid key, ThreeDimensionalInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var video = new CraftWorkThreeDimensional
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                WorkId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(video.Id, memoryStream.ToArray(), video.ContentType);
+
+                            threeDimensionalRepository.Add(video, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("EditThreeDimensionals", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("EditThreeDimensionals", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/threeDimensionals/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult DeleteThreeDimensional(System.Guid key, System.Guid threeDimensionalId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var video = entity.ThreeDimensional.First(e => e.Id == threeDimensionalId);
+
+                threeDimensionalRepository.Delete(video, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(video);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("EditThreeDimensionals", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("EditThreeDimensionals", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+
+        [HttpPost]
+        [Route("edit/{key}/{threeDimensionalId}/threeDimensionals/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult DownloadThreeDimensional(Guid key, Guid threeDimensionalId)
+        {
+            var entity = Repository.Get(key);
+            var threeDimensional = entity.ThreeDimensional.FirstOrDefault(att => att.Id == threeDimensionalId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(threeDimensional);
+            var contentType = GetContentTypeFromExtension(threeDimensional.Name);
+
+            if (fileBytes == null || contentType == null)
+            {
+                return NotFound();
+            }
+
+            return File(fileBytes, contentType, threeDimensional.Name);
+        }
+
+        private string GetContentTypeFromExtension(string fileName)
+        {
+            var extension = Path.GetExtension(fileName);
+
+            switch (extension.ToLower())
+            {
+                case ".blend":
+                    return "application/x-blender";
+                case ".3ds":
+                    return "image/x-3ds";
+                case ".dae":
+                    return "model/vnd.collada+xml";
+                case ".fbx":
+                    return "application/octet-stream";
+                case ".mdl":
+                    return "application/mdl";
+                case ".obj":
+                    return "application/obj";
+                default:
+                    return "application/octet-stream"; // Cambia según tus necesidades
+            }
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/threeDimensionals/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult EditThreeDimensional(System.Guid key, ThreeDimensionalInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    CraftWorkThreeDimensional val = threeDimensionalRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        threeDimensionalRepository.Update(val, base.User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("EditThreeDimensionals", new { key });
+                    }
+                    catch (Exception ex2)
+                    {
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("EditThreeDimensionals", new { key });
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
         }
 
         #endregion

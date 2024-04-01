@@ -1240,6 +1240,41 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("craftworkthematicbridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkThreeDimensional", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnName("contenttype");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnName("ispublic");
+
+                    b.Property<long>("Length")
+                        .HasColumnName("length");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("WorkId")
+                        .HasColumnName("workid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_craftworkthreedimensionals");
+
+                    b.HasIndex("WorkId")
+                        .HasName("ix_craftworkthreedimensionals_workid");
+
+                    b.ToTable("craftworkthreedimensionals");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkTranslation", b =>
                 {
                     b.Property<int>("TranslatableLanguage")
@@ -4043,6 +4078,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("ThematicBridges")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_craftworkthematicbridges_craftworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftWorkThreeDimensional", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftWork", "Work")
+                        .WithMany("ThreeDimensional")
+                        .HasForeignKey("WorkId")
+                        .HasConstraintName("fk_craftworkthreedimensionals_craftworks_workid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
