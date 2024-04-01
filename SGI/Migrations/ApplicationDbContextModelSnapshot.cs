@@ -759,6 +759,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("artistservicelinebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ArtistId")
+                        .HasColumnName("artistid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ArtistId")
+                        .HasName("pk_artisttranslations");
+
+                    b.HasIndex("ArtistId")
+                        .HasName("ix_artisttranslations_artistid");
+
+                    b.ToTable("artisttranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistValoration", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3814,6 +3835,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("LineId")
                         .HasConstraintName("fk_artistservicelinebridges_servicelines_lineid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtistTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Artist", "Artist")
+                        .WithMany("Translations")
+                        .HasForeignKey("ArtistId")
+                        .HasConstraintName("fk_artisttranslations_artists_artistid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
