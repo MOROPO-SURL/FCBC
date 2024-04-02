@@ -18,7 +18,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
                 .Include(entity => entity.Identity).ThenInclude(entity => entity.OrganizationPhoneContactItemBridges).ThenInclude(bridge => bridge.ContactItem)
                 .Include(entity => entity.Identity).ThenInclude(entity => entity.OrganizationSocialContactItemBridges).ThenInclude(bridge => bridge.ContactItem)
                 .Include(entity => entity.Identity).ThenInclude(entity => entity.OrganizationWebSiteContactItemBridges).ThenInclude(bridge => bridge.ContactItem)
-                .Include(entity => entity.EmployeeBridges).ThenInclude(bridge => bridge.Employee).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image);
+                .Include(entity => entity.EmployeeBridges).ThenInclude(bridge => bridge.Employee).ThenInclude(entity => entity.Identity).ThenInclude(entity => entity.Image)
+                .Include(entity => entity.Translations);
         }
     }
 }

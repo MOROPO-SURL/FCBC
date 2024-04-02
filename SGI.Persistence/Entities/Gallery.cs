@@ -1,10 +1,13 @@
-﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
+﻿using System.Collections.Generic;
+
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class Gallery : SAPRESSC.Core.Persistence.Entities.IEntity<Enumerations.GalleryId>
     {
         public Gallery()
         {
             EmployeeBridges = new System.Collections.Generic.List<GalleryEmployeeBridge>();
+            Translations = new List<GalleryTranslation>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -15,6 +18,7 @@
 
         public string History { get; set; }
 
-        public System.Collections.Generic.List<GalleryEmployeeBridge> EmployeeBridges { get; set; } 
+        public System.Collections.Generic.List<GalleryEmployeeBridge> EmployeeBridges { get; set; }
+        public List<GalleryTranslation> Translations { get; set; }
     }
 }
