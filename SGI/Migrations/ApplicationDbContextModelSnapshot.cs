@@ -870,6 +870,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("associations");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.AssociationTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("AssociationId")
+                        .HasColumnName("associationid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "AssociationId")
+                        .HasName("pk_associationtranslations");
+
+                    b.HasIndex("AssociationId")
+                        .HasName("ix_associationtranslations_associationid");
+
+                    b.ToTable("associationtranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Award", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3945,6 +3966,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithOne()
                         .HasForeignKey("MOROPO.FCBC.SGI.Persistence.Entities.Association", "IdentityId")
                         .HasConstraintName("fk_associations_organizationidentities_identityid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.AssociationTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Association", "Association")
+                        .WithMany("Translations")
+                        .HasForeignKey("AssociationId")
+                        .HasConstraintName("fk_associationtranslations_associations_associationid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
