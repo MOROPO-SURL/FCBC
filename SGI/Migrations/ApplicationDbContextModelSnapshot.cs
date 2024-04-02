@@ -1587,6 +1587,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("creationgroupservicelinebridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("CreationGroupId")
+                        .HasColumnName("creationgroupid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "CreationGroupId")
+                        .HasName("pk_creationgrouptranslations");
+
+                    b.HasIndex("CreationGroupId")
+                        .HasName("ix_creationgrouptranslations_creationgroupid");
+
+                    b.ToTable("creationgrouptranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupValoration", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4263,6 +4284,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("LineId")
                         .HasConstraintName("fk_creationgroupservicelinebridges_servicelines_lineid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroupTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CreationGroup", "CreationGroup")
+                        .WithMany("Translations")
+                        .HasForeignKey("CreationGroupId")
+                        .HasConstraintName("fk_creationgrouptranslations_creationgroups_creationgroupid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

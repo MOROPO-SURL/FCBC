@@ -20,6 +20,7 @@ using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using MOROPO.FCBC.SGI.RegionConst;
 using Microsoft.EntityFrameworkCore;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -1821,7 +1822,153 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
-        }        
+        }
+
+        #endregion
+
+        #region Language
+        [Route("edit/{key}/languages")]
+        [RequirePermissions(Permission.CreationGroupEditor)]
+        public ActionResult EditLanguages(System.Guid key)
+        {
+            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+
+            foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
+            {
+                languages.Add(language);
+            }
+
+            var entity = Repository.Get(key);
+
+            var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
+
+            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();
+
+            var resultModel = new CreationGroupLanguageManagerViewModel
+            {
+                CreationGroup = new CreationGroupDisplayViewModel()
+            };
+
+            resultModel.CreationGroup.Import(entity);
+
+            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
+
+            var translations = entity.Translations;
+
+            resultModel.Translations = translations.Select(item =>
+            {
+                var model = new CreationGroupTranslationDisplayViewModel
+                {
+                    CreationGroupLanguege = new CreationGroupLanguageDisplayViewModel
+                    {
+                        CreationGroupId = item.CreationGroupId,
+                        Name = item.Name,
+                        TranslatableLanguage = item.TranslatableLanguage
+                    }
+                };
+
+                model.Import(item);
+
+                return model;
+            }).ToArray();
+
+            return View(resultModel);
+        }
+
+        [Route("edit/languages/add")]
+        [RequirePermissions(Permission.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddLanguage(InstitutionsLanguagesInputViewModel modelInput)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.GeneralId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                entity.Translations.Add(new CreationGroupTranslation { CreationGroupId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
+
+        [Route("edit/languages/remove")]
+        [RequirePermissions(Permission.CreationGroupEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteLanguage(System.Guid CreationGroupId, TranslatableLanguage translatableLanguage)
+        {
+            CreationGroup entity = null;
+
+            try
+            {
+                entity = Repository.Get(CreationGroupId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Translations.First(b => b.CreationGroupId == CreationGroupId && b.TranslatableLanguage == translatableLanguage);
+
+                entity.Translations.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
 
         #endregion
 

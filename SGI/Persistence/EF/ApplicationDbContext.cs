@@ -173,5 +173,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ServiceWorkTranslation> ServiceWorkTranslations { get; set; }
         public DbSet<ArtistTranslation> ArtistTranslations { get; set; }
         public DbSet<CraftWorkThreeDimensional> CraftWorkThreeDimensionals { get; set; }
+        public DbSet<CreationGroupTranslation> CreationGroupTranslations { get; set; }
     }
 }
