@@ -2195,6 +2195,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("exposureemployeecuratorshipbridges");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ExposureTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ExposureId")
+                        .HasColumnName("exposureid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ExposureId")
+                        .HasName("pk_exposuretranslations");
+
+                    b.HasIndex("ExposureId")
+                        .HasName("ix_exposuretranslations_exposureid");
+
+                    b.ToTable("exposuretranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Gallery", b =>
                 {
                     b.Property<int>("Id")
@@ -4638,6 +4659,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("EmployeeCuratorshipBridges")
                         .HasForeignKey("ExposureId")
                         .HasConstraintName("fk_exposureemployeecuratorshipbridges_exposures_exposureid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ExposureTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Exposure", "Exposure")
+                        .WithMany("Translations")
+                        .HasForeignKey("ExposureId")
+                        .HasConstraintName("fk_exposuretranslations_exposures_exposureid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

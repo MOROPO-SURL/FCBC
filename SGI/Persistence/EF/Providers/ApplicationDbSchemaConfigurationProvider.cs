@@ -74,7 +74,8 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                     new Configurators.ArtistTranslationEntityTypeConfigurator(),
                     new Configurators.CreationGroupTranslationEntityTypeConfigurator(),
                     new Configurators.GalleryTranslationEntityTypeConfigurator(),
-                    new Configurators.AssociationTranslationEntityTypeConfigurator()
+                    new Configurators.AssociationTranslationEntityTypeConfigurator(),
+                    new Configurators.ExposureTranslationEntityTypeConfigurator()
                 };
             }
         }
