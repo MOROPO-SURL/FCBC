@@ -72,6 +72,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("activitykinds");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ActivityTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ActivityId")
+                        .HasColumnName("activityid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ActivityId")
+                        .HasName("pk_activitytranslations");
+
+                    b.HasIndex("ActivityId")
+                        .HasName("ix_activitytranslations_activityid");
+
+                    b.ToTable("activitytranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.AdministrativeRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3601,6 +3622,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .HasConstraintName("fk_activities_images_imageid");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ActivityTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Activity", "Activity")
+                        .WithMany("Translations")
+                        .HasForeignKey("ActivityId")
+                        .HasConstraintName("fk_activitytranslations_activities_activityid")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ApiKeyPermissionBridge", b =>

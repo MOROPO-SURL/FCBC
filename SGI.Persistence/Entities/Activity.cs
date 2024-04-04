@@ -7,6 +7,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public Activity()
         {
             Id = System.Guid.NewGuid();
+            Translations = new System.Collections.Generic.List<ActivityTranslation>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -26,5 +27,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public System.Guid ActivityKindId { get; set; }
 
         public string Description { get; set; }
+        public System.Collections.Generic.List<ActivityTranslation> Translations { get; set; }
     }
 }

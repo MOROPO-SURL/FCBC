@@ -177,5 +177,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<GalleryTranslation> GalleryTranslations { get; set; }
         public DbSet<AssociationTranslation> AssociationTranslations { get; set; }
         public DbSet<ExposureTranslation> ExposureTranslations { get; set; }
+        public DbSet<ActivityTranslation> ActivityTranslations { get; set; }
     }
 }
