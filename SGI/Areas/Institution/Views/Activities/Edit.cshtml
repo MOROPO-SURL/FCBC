@@ -77,7 +77,16 @@
     @Html.HiddenFor(model => model.ImageExtension);
 
     <div class="card mb-3">
-        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4>
+         <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="EditLanguages" asp-route-key="@Model.Id">Idiomas</a>
+                </li>
+         </ul>
+        </div>
 
         <div class="card-body">
             <div class="row">

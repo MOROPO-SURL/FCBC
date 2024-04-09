@@ -1,0 +1,146 @@
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+
+@model MOROPO.FCBC.SGI.Models.View.ExposureLanguageManagerViewModel
+
+@{
+    ViewData["Title"] = "Modificar Exposición (Idiomas)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Exposición",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>@ViewData["Title"]</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("edit", @Model.Exposure.Id)">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editemployees", @Model.Exposure.Id)">Curadores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editexhibits", @Model.Exposure.Id)">Obras</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Idiomas</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-dark mb-4">
+            <details>
+                <summary class="h4 mb-0">@Model.Exposure.Name</summary>
+                <hr />
+                <dl class="mb-0">
+                    <dt>Descripción</dt>
+                    @if (Model.Exposure.Description == null)
+                    {
+                        <dd>-</dd>
+                    }
+                    else
+                    {
+                        <dd>@Model.Exposure.Description</dd>
+                    }
+                </dl>
+            </details>
+        </div>
+        <div class="modal fade" id="add-attachment" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add-attachment-title">Agregar Idioma</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("AddLanguage", "Exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                    {
+                        var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.InstitutionsLanguagesInputViewModel();
+                        artWorkLanguagesInputViewModel.NotSelectedLanguages = Model.NotSelectedLanguage;
+                        artWorkLanguagesInputViewModel.GeneralId = Model.Exposure.Id;
+
+                        @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddInstitutionsLanguageModalBodyPartial", artWorkLanguagesInputViewModel)
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.Translations.Count() <= 0)
+        {
+            <p class="text-muted mb-0">Sin elementos que mostrar</p>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var item in Model.Translations)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="modal fade" id="delete-attachment-@item.Exposure.Id-@item.TranslatableLanguage.ToString()" tabindex="-1" role="dialog" aria-labelledby="delete-attachment-@item.Exposure.Id-lable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    @using (Html.BeginForm("DeleteLanguage", "Exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                    {
+
+                                        @Html.Hidden("ExposureId", Model.Exposure.Id)
+                                        @Html.Hidden("translatableLanguage", item.TranslatableLanguage)
+
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="delete-attachment-@item.Exposure.Id-lable">Eliminar Idioma</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Esta seguro que desea eliminar el idioma @item.TranslatableLanguage?</p>
+                                        </div>
+                                        <div class="modal-footer" style="margin-top: 0;">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+
+                            <h4>@item.ExposureLanguege.Name</h4>
+
+                            <p style="color: #6c757d; word-wrap: break-word;">@item.ExposureLanguege.TranslatableLanguage.ToString()</p>
+                            <div class="mt-3">
+                                <div class="btn-group btn-group-sm">
+                                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-attachment-@item.Exposure.Id-@item.TranslatableLanguage.ToString()">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-attachment">Agregar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,123 @@
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+
+@model MOROPO.FCBC.SGI.Models.View.ActivityLanguageManagerViewModel
+
+@{
+    ViewData["Title"] = "Editar Actividad (Idiomas)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Actividades",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>@ViewData["Title"]</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Edit" asp-route-key="@Model.Activity.Id">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="EditLanguages" asp-route-key="@Model.Activity.Id">Idiomas</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">       
+        <div class="modal fade" id="add-attachment" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add-attachment-title">Agregar Idioma</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("AddLanguage", "Activities", new { key = Model.Activity.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                    {
+                        var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.InstitutionsLanguagesInputViewModel();
+                        artWorkLanguagesInputViewModel.NotSelectedLanguages = Model.NotSelectedLanguage;
+                        artWorkLanguagesInputViewModel.GeneralId = Model.Activity.Id;
+
+                        @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddInstitutionsLanguageModalBodyPartial", artWorkLanguagesInputViewModel)
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.Translations.Count() <= 0)
+        {
+            <p class="text-muted mb-0">Sin elementos que mostrar</p>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var item in Model.Translations)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="modal fade" id="delete-attachment-@item.Activity.Id-@item.TranslatableLanguage.ToString()" tabindex="-1" role="dialog" aria-labelledby="delete-attachment-@item.Activity.Id-lable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    @using (Html.BeginForm("DeleteLanguage", "Activities", new { key = Model.Activity.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                    {
+
+                                        @Html.Hidden("ActivityId", Model.Activity.Id)
+                                        @Html.Hidden("translatableLanguage", item.TranslatableLanguage)
+
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="delete-attachment-@item.Activity.Id-lable">Eliminar Idioma</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Esta seguro que desea eliminar el idioma @item.TranslatableLanguage?</p>
+                                        </div>
+                                        <div class="modal-footer" style="margin-top: 0;">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+
+                            <h4>@item.ActivityLanguege.Name</h4>
+
+                            <p style="color: #6c757d; word-wrap: break-word;">@item.ActivityLanguege.TranslatableLanguage.ToString()</p>
+                            <div class="mt-3">
+                                <div class="btn-group btn-group-sm">
+                                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-attachment-@item.Activity.Id-@item.TranslatableLanguage.ToString()">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-attachment">Agregar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+

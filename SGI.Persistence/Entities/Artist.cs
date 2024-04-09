@@ -18,6 +18,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             ArtistAwards = new List<ArtistAward>();
             ArtistRecognitionBridges = new List<ArtistRecognitionBridge>();
             ArtistDistinctionBridges = new List<ArtistDistinctionBridge>();
+            Translations = new List<ArtistTranslation>();
         }
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -74,5 +75,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ICollection<ArtistRecognitionBridge> ArtistRecognitionBridges { get; set; }
         
         public ICollection<ArtistDistinctionBridge> ArtistDistinctionBridges { get; set; }
+
+        public List<ArtistTranslation> Translations { get; set; }
     }
 }

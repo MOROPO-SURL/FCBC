@@ -15,6 +15,8 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
             Valorations = new List<ArtWorkValoration>();
             Awards = new List<ArtWorkAward>();
             Attachments = new List<ArtWorkAttachment>();
+            Videos = new List<ArtWorkVideo>();
+            Translations = new List<ArtWorkTranslation>();
         }
 
         public string Collection { get; set; }
@@ -56,5 +58,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public List<ArtWorkAward> Awards { get; set; }
 
         public List<ArtWorkAttachment> Attachments { get; set; }       
+        public List<ArtWorkVideo> Videos { get; set; }       
+        public List<ArtWorkTranslation> Translations { get; set; }       
     }
 }

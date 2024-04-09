@@ -7,6 +7,7 @@ using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
@@ -15,6 +16,7 @@ using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -35,11 +37,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Material, Guid> materialRepository;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository;
+        private readonly IEntityRepository<CraftWorkVideo, System.Guid> videoRepository;
+        private readonly IEntityRepository<CraftWorkThreeDimensional, System.Guid> threeDimensionalRepository;
         private readonly IEntityRepository<Thematic, Guid> thematicRepository;
         private readonly IEntityRepository<Critic, Guid> criticRepository;
         private readonly IEntityRepository<CraftWorkValoration, Guid> valorationRepository;
 
-        public CraftWorksController(IEntityRepository<CraftWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
+        public CraftWorksController(IEntityRepository<CraftWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<CraftWorkAttachment, Guid> attachmentRepository, IEntityRepository<CraftWorkVideo, System.Guid> videoRepository, IEntityRepository<CraftWorkThreeDimensional, System.Guid> threeDimensionalRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<CraftManifestation, System.Guid> manifestationRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, Guid> awardRepository, IEntityRepository<Artist, Guid> creatorRepository, IEntityRepository<CreationGroup, Guid> creationGroupRepository, IEntityRepository<CraftTechnique, Guid> techniqueRepository, IEntityRepository<Material, Guid> materialRepository,
             IEntityRepository<CraftWork, Guid> repository, IStringLocalizer<CraftWorksController> localizer, ILogger<CraftWorksController> logger) : base(repository, localizer, logger)
         {
             this.manifestationRepository = manifestationRepository;
@@ -52,6 +56,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.techniqueRepository = techniqueRepository;
             this.materialRepository = materialRepository;
             this.attachmentFileManager = attachmentFileManager;
+            this.videoRepository = videoRepository;
+            this.threeDimensionalRepository = threeDimensionalRepository;
             this.attachmentRepository = attachmentRepository;
             this.thematicRepository = thematicRepository;
             this.criticRepository = criticRepository;
@@ -1254,6 +1260,561 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        #endregion
+
+        #region Videos
+
+        [HttpGet]
+        [Route("edit/{key}/videos")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public ActionResult EditVideos(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var work = new CraftWorkDisplayViewModel();
+
+            var videos = entity.Videos.Select(item =>
+            {
+                var result = new VideoDisplayViewModel();
+
+                result.Import(item);
+
+                return result;
+            }).ToArray();
+
+            var model = new CraftWorkVideosDisplayViewModel
+            {
+                Work = work,
+                Videos = videos
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult AddVideo(System.Guid key, VideoInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var video = new CraftWorkVideo
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                WorkId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(video.Id, memoryStream.ToArray(), video.ContentType);
+
+                            videoRepository.Add(video, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("EditVideos", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("EditVideos", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult DeleteVideo(System.Guid key, System.Guid videoId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var video = entity.Videos.First(e => e.Id == videoId);
+
+                videoRepository.Delete(video, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(video);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("EditVideos", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("EditVideos", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+
+        [HttpPost]
+        [Route("edit/{key}/{videoId}/videos/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public FileResult DownloadVideo(System.Guid key, System.Guid videoId)
+        {
+
+            var entity = Repository.Get(key);
+            var video = entity.Videos.FirstOrDefault(att => att.Id == videoId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(video);
+            var extension = video.ContentType.Split('/');
+            var fileName = video.Name + "." + extension[1];
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult EditVideo(System.Guid key, VideoInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    CraftWorkVideo val = videoRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        videoRepository.Update(val, base.User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("EditVideos", new { key });
+                    }
+                    catch (Exception ex2)
+                    {
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("EditVideos", new { key });
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        #endregion
+
+        #region Language
+        [Route("edit/{key}/languages")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public ActionResult EditLanguages(System.Guid key)
+        {
+            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+
+            foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
+            {
+                languages.Add(language);
+            }
+
+            var entity = Repository.Get(key);
+
+            var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
+
+            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();
+
+            var resultModel = new CraftWorkLanguageManagerViewModel
+            {
+                Work = new CraftWorkDisplayViewModel()
+            };
+
+            resultModel.Work.Import(entity);
+
+            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
+
+            var translations = entity.Translations;
+
+            resultModel.Translations = translations.Select(item =>
+            {
+                var model = new CraftWorkTranslationDisplayViewModel
+                {
+                    CraftWorkLanguege = new CraftWorkLanguageDisplayViewModel
+                    {
+                        CraftWorkId = item.CraftWorkId,
+                        Name = item.Name,
+                        TranslatableLanguage = item.TranslatableLanguage
+                    }
+                };
+
+                model.Import(item);
+
+                return model;
+            }).ToArray();
+
+            return View(resultModel);
+        }
+
+        [Route("edit/languages/add")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddLanguage(WorkLanguagesInputViewModel modelInput)
+        {
+            CraftWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.WorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                entity.Translations.Add(new CraftWorkTranslation { CraftWorkId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
+
+        [Route("edit/languages/remove")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteLanguage(System.Guid CraftWorkId, TranslatableLanguage translatableLanguage)
+        {
+            CraftWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(CraftWorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Translations.First(b => b.CraftWorkId == CraftWorkId && b.TranslatableLanguage == translatableLanguage);
+
+                entity.Translations.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
+
+        #endregion
+
+        #region ThreeDimensional
+
+        [HttpGet]
+        [Route("edit/{key}/threeDimensionals")]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public ActionResult EditThreeDimensionals(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var work = new CraftWorkDisplayViewModel();
+
+            var threeDimensionals = entity.ThreeDimensional.Select(item =>
+            {
+                var result = new ThreeDimensionalDisplayViewModel();
+
+                result.Import(item);
+
+                return result;
+            }).ToArray();
+
+            var model = new CraftWorkThreeDimensionalDisplayViewModel
+            {
+                Work = work,
+                ThreeDimensionals = threeDimensionals
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/threeDimensionals/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult AddThreeDimensional(System.Guid key, ThreeDimensionalInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var video = new CraftWorkThreeDimensional
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                WorkId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(video.Id, memoryStream.ToArray(), video.ContentType);
+
+                            threeDimensionalRepository.Add(video, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("EditThreeDimensionals", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("EditThreeDimensionals", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/threeDimensionals/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult DeleteThreeDimensional(System.Guid key, System.Guid threeDimensionalId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var video = entity.ThreeDimensional.First(e => e.Id == threeDimensionalId);
+
+                threeDimensionalRepository.Delete(video, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(video);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("EditThreeDimensionals", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("EditThreeDimensionals", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+
+        [HttpPost]
+        [Route("edit/{key}/{threeDimensionalId}/threeDimensionals/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult DownloadThreeDimensional(Guid key, Guid threeDimensionalId)
+        {
+            var entity = Repository.Get(key);
+            var threeDimensional = entity.ThreeDimensional.FirstOrDefault(att => att.Id == threeDimensionalId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(threeDimensional);
+            var contentType = GetContentTypeFromExtension(threeDimensional.Name);
+
+            if (fileBytes == null || contentType == null)
+            {
+                return NotFound();
+            }
+
+            return File(fileBytes, contentType, threeDimensional.Name);
+        }
+
+        private string GetContentTypeFromExtension(string fileName)
+        {
+            var extension = Path.GetExtension(fileName);
+
+            switch (extension.ToLower())
+            {
+                case ".blend":
+                    return "application/x-blender";
+                case ".3ds":
+                    return "image/x-3ds";
+                case ".dae":
+                    return "model/vnd.collada+xml";
+                case ".fbx":
+                    return "application/octet-stream";
+                case ".mdl":
+                    return "application/mdl";
+                case ".obj":
+                    return "application/obj";
+                default:
+                    return "application/octet-stream"; // Cambia según tus necesidades
+            }
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/threeDimensionals/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.CraftWorkEditor)]
+        public IActionResult EditThreeDimensional(System.Guid key, ThreeDimensionalInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    CraftWorkThreeDimensional val = threeDimensionalRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        threeDimensionalRepository.Update(val, base.User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("EditThreeDimensionals", new { key });
+                    }
+                    catch (Exception ex2)
+                    {
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("EditThreeDimensionals", new { key });
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
