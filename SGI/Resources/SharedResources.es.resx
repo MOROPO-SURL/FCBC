@@ -2046,4 +2046,7 @@
   <data name="StartAt" xml:space="preserve">
     <value>Fecha de inicio</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Lenguaje</value>
+  </data>
 </root>

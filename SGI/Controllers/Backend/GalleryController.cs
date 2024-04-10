@@ -497,12 +497,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         #endregion
 
-        #region Language
-        [Route("edit/{key}/languages")]
+        #region Translations
+        [Route("edit/{key}/translations")]
         [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
-        public ActionResult EditLanguages(Persistence.Enumerations.GalleryId key)
+        public ActionResult EditTranslations(Persistence.Enumerations.GalleryId key)
         {
-            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+            var languages = new List<Persistence.Enumerations.TranslatableLanguage>();
 
             foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
             {
@@ -513,44 +513,34 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
 
-            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();
-
-            var resultModel = new GalleryLanguageManagerViewModel
+            var resultModel = new GalleryTranslationsManagementViewModel
             {
-                Gallery = new GalleryDisplayViewModel()
+                Gallery = new GalleryDisplayViewModel(),
+                NotSelectedLanguages = languages.Except(languagesSelected).ToArray(),
+                Translations = entity.Translations.Select(item =>
+                {
+                    var model = new GalleryTranslationDisplayViewModel
+                    {
+                        TranslatableLanguage = item.TranslatableLanguage,
+                        Name = item.Name,
+                        About = item.About,
+                        History = item.History
+                    };
+
+                    return model;
+                }).ToArray()
             };
 
             resultModel.Gallery.Import(entity);
 
-            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
-
-            var translations = entity.Translations;
-
-            resultModel.Translations = translations.Select(item =>
-            {
-                var model = new GalleryTranslationDisplayViewModel
-                {
-                    GalleryLanguege = new GalleryLanguageDisplayViewModel
-                    {
-                        GalleryId = item.GalleryId,
-                        Name = item.Name,
-                        TranslatableLanguage = item.TranslatableLanguage
-                    }
-                };
-
-                model.Import(item);
-
-                return model;
-            }).ToArray();
-
             return View(resultModel);
         }
 
-        [Route("edit/languages/add")]
+        [Route("edit/translations/add")]
         [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddLanguage(GalleryLanguagesInputViewModel modelInput)
+        public IActionResult AddTranslation(GalleryTranslationInputViewModel modelInput)
         {
             Gallery entity = null;
 
@@ -564,13 +554,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
 
-                return RedirectToAction("EditLanguages");
+                return RedirectToAction("EditTranslations");
             }
 
 
             if (ModelState.IsValid)
             {
-                entity.Translations.Add(new GalleryTranslation { GalleryId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+                entity.Translations.Add(new GalleryTranslation 
+                { 
+                    GalleryId = entity.Id, 
+                    TranslatableLanguage = modelInput.TranslatableLanguage, 
+                    Name = modelInput.Name,
+                    About = modelInput.About,
+                    History= modelInput.History
+                });
 
                 galleryRepository.Update(entity, User.Identity.Name);
 
@@ -593,20 +590,20 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
-        [Route("edit/languages/remove")]
+        [Route("edit/translations/modify")]
         [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteLanguage(Persistence.Enumerations.GalleryId GalleryId, TranslatableLanguage translatableLanguage)
+        public IActionResult ModifyTranslation(GalleryTranslationInputViewModel modelInput)
         {
             Gallery entity = null;
 
             try
             {
-                entity = galleryRepository.Get(GalleryId);
+                entity = galleryRepository.Get(modelInput.GalleryId);
             }
             catch { }
 
@@ -614,12 +611,66 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
 
-                return RedirectToAction("EditLanguages");
+                return RedirectToAction("EditTranslations");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
+
+                translation.Name = modelInput.Name;
+                translation.About = modelInput.About;
+                translation.History = modelInput.History;
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/remove")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTranslation(Persistence.Enumerations.GalleryId galleryId, TranslatableLanguage translatableLanguage)
+        {
+            Gallery entity = null;
+
+            try
+            {
+                entity = galleryRepository.Get(galleryId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
             }
 
             try
             {
-                var bridge = entity.Translations.First(b => b.GalleryId == GalleryId && b.TranslatableLanguage == translatableLanguage);
+                var bridge = entity.Translations.First(item => item.TranslatableLanguage == translatableLanguage);
 
                 entity.Translations.Remove(bridge);
 
@@ -638,7 +689,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
         #endregion
