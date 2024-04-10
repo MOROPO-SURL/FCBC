@@ -277,6 +277,15 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Portugués.
+        /// </summary>
+        internal static string LanguageNamePortuguese {
+            get {
+                return ResourceManager.GetString("LanguageNamePortuguese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ruso.
         /// </summary>
         internal static string LanguageNameRussian {

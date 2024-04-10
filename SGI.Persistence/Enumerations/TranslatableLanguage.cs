@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MOROPO.FCBC.SGI.Persistence.Enumerations
+﻿namespace MOROPO.FCBC.SGI.Persistence.Enumerations
 {
     public enum TranslatableLanguage
     {        
         English,
         French,
-        German,
         Russian,
-        Mandarin
+        Portuguese
     }
 }

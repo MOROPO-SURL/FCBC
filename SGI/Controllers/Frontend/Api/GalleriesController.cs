@@ -4,14 +4,15 @@ using MOROPO.FCBC.SGI.API.Common.Models;
 using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.SAPRESSC.Core.Common.Models;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
-using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Extensions;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
 {
     // TODO Fix ApiKey Authorization claims from permission to role
     //[Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = SmartSolucionesCuba.AspNetCore.Authentication.ApiKey.ApiKeyAuthenticationDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
+    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/api/[controller]")]
     [ApiController]
     [Swashbuckle.AspNetCore.Annotations.SwaggerTag("Gallery's endpoints.")]
     public class GalleriesController : SAPRESSC.Core.Web.Api.Controllers.AbstractEntityApiConsultController<Persistence.Entities.Gallery, GalleryId, GalleryDisplayApiModel>
@@ -40,7 +41,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
 
         // TODO Fix ApiKey Authorization claims from permission to role
         //[RequirePermissions(Security.Authorization.Permission.GalleryViewer)]
-        [Swashbuckle.AspNetCore.Annotations.SwaggerOperation("Get Galllery's pagination", "Endpoint to obtain the paginated list of Galleries.")]
+        [Swashbuckle.AspNetCore.Annotations.SwaggerOperation("Get Gallery's pagination", "Endpoint to obtain the paginated list of Galleries.")]
         [Swashbuckle.AspNetCore.Annotations.SwaggerResponse((int)System.Net.HttpStatusCode.OK, null, typeof(PaginationModel<GalleryDisplayApiModel>))]
         public override ActionResult<PaginationModel<GalleryDisplayApiModel>> GetPaginate(int sheet = 1, int limit = 25)
         {
@@ -52,6 +53,43 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
             var model = base.EntityToDisplayModel(entity);
 
             model.ImageExtension = entity.Identity.Image?.ContentType.ContentTypeToExtension();
+
+            if (RouteData.Values.ContainsKey("culture"))
+            {
+                TranslatableLanguage? translatableLanguage = null;
+
+                switch (RouteData.Values["culture"])
+                {
+                    case "en":
+                        translatableLanguage = TranslatableLanguage.English;
+
+                        break;
+
+                    case "fr":
+                        translatableLanguage = TranslatableLanguage.French;
+
+                        break;
+
+                    case "ru":
+                        translatableLanguage = TranslatableLanguage.Russian;
+
+                        break;
+
+                    case "pt":
+                        translatableLanguage = TranslatableLanguage.Portuguese;
+
+                        break;
+                }
+
+                var translation = entity.Translations.FirstOrDefault(ent1ty => ent1ty.TranslatableLanguage == translatableLanguage);
+
+                if (translation != null)
+                {
+                    if (translation.Name != null) model.Name = translation.Name;
+                    if (translation.About != null) model.About = translation.About;
+                    if (translation.History != null) model.History = translation.History;
+                }
+            }
 
             return model;
         }

@@ -4,7 +4,9 @@
     {
         public App()
         {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InstalledUICulture;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Globalization.CultureInfo.InstalledUICulture.TwoLetterISOLanguageName);
+
+            AppResources.Culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
             {

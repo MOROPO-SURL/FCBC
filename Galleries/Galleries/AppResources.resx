@@ -189,6 +189,9 @@
   <data name="LanguageNameFrench" xml:space="preserve">
     <value>Francés</value>
   </data>
+  <data name="LanguageNamePortuguese" xml:space="preserve">
+    <value>Portugués</value>
+  </data>
   <data name="LanguageNameRussian" xml:space="preserve">
     <value>Ruso</value>
   </data>
