@@ -1,16 +1,22 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
     public class GalleryTranslationInputViewModel
     {
+        [Display(Name = "Language")]
         public Persistence.Enumerations.TranslatableLanguage TranslatableLanguage { get; set; }
 
-        [Display(Name = "Gallery")]
-        public Gallery Gallery { get; set; }
-        [System.ComponentModel.DataAnnotations.Required]
+        public Persistence.Enumerations.GalleryId GalleryId { get; set; }
+        
+        [Required]
+        [Display(Name = "Name")]
         public string Name { get; set; }
-        public GalleryLanguageDisplayViewModel GalleryLanguege { get; set; }
+
+        [Display(Name = "About")]
+        public string About { get; set; }
+
+        [Display(Name = "History")]
+        public string History { get; set; }
     }
 }

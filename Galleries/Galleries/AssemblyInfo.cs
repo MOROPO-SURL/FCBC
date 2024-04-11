@@ -10,3 +10,5 @@
 [assembly: Xamarin.Forms.ExportFont("Rotis-Semi-Sans-Std-56-Italic.otf", Alias = "Rotis SemiSans Std Italic")]
 [assembly: Xamarin.Forms.ExportFont("Rotis-Semi-Sans-Std-65-Bold.otf", Alias = "Rotis SemiSans Std Bold")]
 [assembly: Xamarin.Forms.ExportFont("Rotis-Semi-Sans-Std-75-Extra-Bold.otf", Alias = "Rotis SemiSans Std Extra Bold")]
+
+[assembly: System.Resources.NeutralResourcesLanguage("es")]

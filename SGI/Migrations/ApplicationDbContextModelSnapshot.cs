@@ -2284,6 +2284,12 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<int>("GalleryId")
                         .HasColumnName("galleryid");
 
+                    b.Property<string>("About")
+                        .HasColumnName("about");
+
+                    b.Property<string>("History")
+                        .HasColumnName("history");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");

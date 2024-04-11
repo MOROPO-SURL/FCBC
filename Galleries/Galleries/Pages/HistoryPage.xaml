@@ -2,9 +2,10 @@
 <sscxftoolkitmvvmpages:ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:root="clr-namespace:MOROPO.FCBC.Galleries"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     x:Class="MOROPO.FCBC.Galleries.Pages.HistoryPage"
-    Title="Historia">
+    Title="{Static root:AppResources.HistoryText}">
     <ContentPage.Content>
         <ScrollView Orientation="Vertical">
             <StackLayout Margin="20">
@@ -12,7 +13,8 @@
                     Margin="0,30"
                     Style="{StaticResource HeaderTitleLabelStyle}"
                     TextColor="#9c4237"
-                    HorizontalTextAlignment="Center" />
+                    HorizontalTextAlignment="Center"
+                    Text="{Static root:AppResources.AppTitle}" />
                 <Label x:Name="HistoryLabel" />
             </StackLayout>
         </ScrollView>

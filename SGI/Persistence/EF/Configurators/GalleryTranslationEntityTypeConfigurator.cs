@@ -12,9 +12,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
             entityTypeBuilder.HasKey(entity => new { entity.TranslatableLanguage, entity.GalleryId });
 
             entityTypeBuilder.HasOne(entity => entity.Gallery).WithMany(entity => entity.Translations).HasForeignKey(entity => entity.GalleryId);
-
-
-
         }
     }
 }
