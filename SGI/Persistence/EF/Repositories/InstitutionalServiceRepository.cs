@@ -1,5 +1,6 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
@@ -12,6 +13,12 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
         public override System.Func<InstitutionalService, object> GetPagingOrderSelector()
         {
             return entity => entity.Name;
+        }
+
+        protected override IQueryable<InstitutionalService> GetQueryableDbSet()
+        {
+            return base.GetQueryableDbSet()
+               .Include(entity => entity.Translations);
         }
     }
 }

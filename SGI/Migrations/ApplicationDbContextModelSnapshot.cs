@@ -2331,6 +2331,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("institutionalservices");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalServiceTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("InstitutionalServiceId")
+                        .HasColumnName("institutionalserviceid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "InstitutionalServiceId")
+                        .HasName("pk_institutionalservicetranslations");
+
+                    b.HasIndex("InstitutionalServiceId")
+                        .HasName("ix_institutionalservicetranslations_institutionalserviceid");
+
+                    b.ToTable("institutionalservicetranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Material", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4731,6 +4752,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Translations")
                         .HasForeignKey("GalleryId")
                         .HasConstraintName("fk_gallerytranslations_galleries_galleryid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalServiceTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalService", "InstitutionalService")
+                        .WithMany("Translations")
+                        .HasForeignKey("InstitutionalServiceId")
+                        .HasConstraintName("fk_institutionalservicetranslations_institutionalservices_inst~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
