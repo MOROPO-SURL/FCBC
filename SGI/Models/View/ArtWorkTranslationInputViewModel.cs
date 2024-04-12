@@ -12,5 +12,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
         public ArtWorkLanguageDisplayViewModel ArtWorkLanguege { get; set; }
+
+        public string Collection { get; set; }
+        public string Loaction { get; set; }
     }
 }

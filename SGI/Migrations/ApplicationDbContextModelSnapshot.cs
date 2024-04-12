@@ -440,6 +440,12 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ArtWorkId")
                         .HasColumnName("artworkid");
 
+                    b.Property<string>("Collection")
+                        .HasColumnName("collection");
+
+                    b.Property<string>("Location")
+                        .HasColumnName("location");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");

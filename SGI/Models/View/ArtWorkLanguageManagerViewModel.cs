@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
@@ -8,6 +9,6 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public System.Collections.Generic.ICollection<ArtWorkTranslationDisplayViewModel> Translations { get; set; }
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> NotSelectedLanguage { get; set; }
+        public TranslatableLanguage[] NotSelectedLanguage { get; set; }
     }
 }

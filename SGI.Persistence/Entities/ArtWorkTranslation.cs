@@ -11,5 +11,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ArtWork ArtWork { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+        public string Collection { get; set; }
+        public string Location { get; set; }
     }
 }
