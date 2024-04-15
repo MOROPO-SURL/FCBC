@@ -16,6 +16,8 @@
 
         public EmployeeDisplayApiModel[] Curators { get; set; }
 
+        public string FrameBaseColor { get; set; }
+
         public void Import(Persistence.Entities.Exposure entity)
         {
             Id = entity.Id;
@@ -24,6 +26,7 @@
             Description = entity.Description;
             StartAt = entity.StartAt;
             EndAt = entity.EndAt;
+            FrameBaseColor = entity.FrameBaseColor;
         }
     }
 }

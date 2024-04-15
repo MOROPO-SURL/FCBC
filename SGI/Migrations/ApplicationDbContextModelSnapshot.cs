@@ -2236,6 +2236,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<DateTime?>("EndAt")
                         .HasColumnName("endat");
 
+                    b.Property<string>("FrameBaseColor")
+                        .HasColumnName("framebasecolor");
+
                     b.Property<int>("GalleryId")
                         .HasColumnName("galleryid");
 

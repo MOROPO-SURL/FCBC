@@ -9,9 +9,11 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         private VirtualGalleryRoomPresenter virtualRoomPresenter;
 
-        public ExposureRoomPage(System.Guid exposureId) : base(new Models.Page.ExposureRoomPageModel { IsBusy = true })
+        public ExposureRoomPage(System.Guid exposureId, Urho.Color? frameBaseColor) : base(new Models.Page.ExposureRoomPageModel { IsBusy = true })
         {
             this.exposureId = exposureId;
+
+            Providers.IsolateExposureDataProvider.Instance.FrameBaseColor = frameBaseColor;
 
             InitializeComponent();
 
@@ -36,7 +38,7 @@ namespace MOROPO.FCBC.Galleries.Pages
                 }
                 else
                 {
-                    await Providers.ExhibitViewModelProvider.Instance.PrepareAsync(task.Result);
+                    await Providers.IsolateExposureDataProvider.Instance.PrepareExhibitsAsync(task.Result);
 
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                     {

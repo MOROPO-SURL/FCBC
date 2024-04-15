@@ -29,7 +29,14 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         private void GoToExposureButton_Clicked(object sender, System.EventArgs eventArgs)
         {
-            this.NavigationPushModalPageAsync(new ExposureRoomPage(exposureId));
+            Urho.Color? frameBaseColor = null;
+
+            if (!string.IsNullOrEmpty(BindingContextPageModel.Exposure.FrameBaseColor))
+            {
+                frameBaseColor = Urho.Color.FromHex(BindingContextPageModel.Exposure.FrameBaseColor);
+            }
+
+            this.NavigationPushModalPageAsync(new ExposureRoomPage(exposureId, frameBaseColor));
         }
 
         private void EmployeeView_Tapped(object sender, System.EventArgs eventArgs)

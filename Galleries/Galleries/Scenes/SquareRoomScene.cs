@@ -46,7 +46,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             SetupSeatPositions();
 
-            SetupArtworkFrames(Providers.ExhibitViewModelProvider.Instance.GetExhibits());
+            SetupArtworkFrames(Providers.IsolateExposureDataProvider.Instance.GetExhibits());
 
             SetupIdentyFrames();
 
@@ -726,7 +726,15 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
+                {
+                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
+                }
+                else
+                {
+                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
+                }
 
                 var pictureSpriteNode = CreateChild();
 
@@ -790,7 +798,15 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
+                {
+                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
+                }
+                else
+                {
+                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
+                }
 
                 var pictureSpriteNode = CreateChild();
 
@@ -856,7 +872,15 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
+                {
+                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
+                }
+                else
+                {
+                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
+                }
 
                 var pictureSpriteNode = CreateChild();
 
@@ -922,7 +946,15 @@ namespace MOROPO.FCBC.Galleries.Scenes
                     artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
-                pictureFrameComponent.Material = pictureFrameComponentMaterial;
+
+                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
+                {
+                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
+                }
+                else
+                {
+                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
+                }
 
                 var pictureSpriteNode = CreateChild();
 

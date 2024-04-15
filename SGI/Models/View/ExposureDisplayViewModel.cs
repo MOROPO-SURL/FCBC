@@ -23,6 +23,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "EndAt")]
         public System.DateTime? EndAt { get; set; }
 
+        public string FrameBaseColor { get; set; }
+
         public void Import(Persistence.Entities.Exposure entity)
         {
             Id = entity.Id;
@@ -32,6 +34,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             Description = entity.Description;
             StartAt = entity.StartAt;
             EndAt = entity.EndAt;
+            FrameBaseColor = entity.FrameBaseColor;
         }
     }
 }
