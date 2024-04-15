@@ -1497,7 +1497,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         #endregion
 
-        #region Language
+        #region Translations
         [Route("edit/{key}/translations")]
         [RequirePermissions(Permission.ArtWorkEditor)]
         public ActionResult EditTranslations(System.Guid key)
@@ -1513,7 +1513,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();            
 
-            var resultModel = new ArtWorkLanguageManagerViewModel
+            var resultModel = new ArtWorkTranslationsManagementViewModel
             {
                 Work = new ArtWorkDisplayViewModel(),
                 NotSelectedLanguage = languages.Except(languagesSelected).ToArray(),
@@ -1522,9 +1522,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     var model = new ArtWorkTranslationDisplayViewModel
                     {
                         TranslatableLanguage = item.TranslatableLanguage,
-                        Name = item.Name,
+                        Title = item.Title,
                         Collection = item.Collection,
-                        Location = item.Collection
+                        Location = item.Collection,
+                        About = item.About
                     };
                     return model;
                 }).ToArray()
@@ -1563,9 +1564,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 {
                     ArtWorkId = entity.Id,
                     TranslatableLanguage = modelInput.TranslatableLanguage,
-                    Name = modelInput.TranslatableLanguage.ToString(),
+                    Title = modelInput.Title,
                     Collection = modelInput.Collection,
-                    Location = modelInput.Location
+                    Location = modelInput.Location,
+                    About = modelInput.About
                 });
 
                 Repository.Update(entity, User.Identity.Name);
@@ -1618,9 +1620,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
 
-                translation.Name = modelInput.Name;
+                translation.Title = modelInput.Title;
                 translation.Collection = modelInput.Collection;
                 translation.Location = modelInput.Location;
+                translation.About = modelInput.About;
 
                 Repository.Update(entity, User.Identity.Name);
 

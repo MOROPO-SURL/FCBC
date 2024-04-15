@@ -1,9 +1,8 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using MOROPO.FCBC.SGI.Persistence.Enumerations;
+﻿using MOROPO.FCBC.SGI.Persistence.Enumerations;
 
 namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class ArtWorkLanguageManagerViewModel
+    public class ArtWorkTranslationsManagementViewModel
     {
         public ArtWorkDisplayViewModel Work { get; set; }
 
