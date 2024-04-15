@@ -6,6 +6,6 @@
         {
         }
 
-        protected override string TargetController => "api/exhibits";
+        protected override string TargetController => string.Format("{0}/api/exhibits", System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
     }
 }

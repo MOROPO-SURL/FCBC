@@ -1,6 +1,4 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-
-namespace MOROPO.FCBC.SGI.Models.View
+﻿namespace MOROPO.FCBC.SGI.Models.View
 {
     public class GalleryTranslationDisplayViewModel
     {

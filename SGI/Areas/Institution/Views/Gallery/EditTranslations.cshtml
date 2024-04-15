@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.GalleryTranslationsManagementViewModel
 
 @{
-    ViewData["Title"] = "Modificar Galería (Idiomas)";
+    ViewData["Title"] = "Modificar Galería (Traducciones)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -145,10 +145,6 @@
                                     <dt>Lenguaje</dt>
                                     <dd>@item.TranslatableLanguage</dd>
                                 </dl>
-                                <dl class="col">
-                                    <dt>Nombre:</dt>
-                                    <dd>@item.Name</dd>
-                                </dl>
                                 <div class="col-auto">
                                     <div class="dropdown d-inline-block">
                                         <button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-dots-vertical"></span></button>
@@ -159,13 +155,31 @@
                                     </div>
                                 </div>
                             </div>
+                            <dl class="col">
+                                <dt>Nombre:</dt>
+                                <dd>@item.Name</dd>
+                            </dl>
                             <dl>
                                 <dt>Acerca de:</dt>
-                                <dd>@item.About</dd>
+                                @if (string.IsNullOrEmpty(item.About))
+                                {
+                                    <dd class="text-muted">---</dd>
+                                }
+                                else
+                                {
+                                    <dd>@item.About</dd>
+                                }
                             </dl>
                             <dl class="mb-0">
                                 <dt>Historia:</dt>
-                                <dd class="mb-0">@item.History</dd>
+                                @if (string.IsNullOrEmpty(item.History))
+                                {
+                                    <dd class="mb-0 text-muted">---</dd>
+                                }
+                                else
+                                {
+                                    <dd class="mb-0">@item.History</dd>
+                                }
                             </dl>
                         </div>
                     </div>

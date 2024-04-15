@@ -796,9 +796,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ArtistId")
                         .HasColumnName("artistid");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnName("name");
+                        .HasColumnName("description");
 
                     b.HasKey("TranslatableLanguage", "ArtistId")
                         .HasName("pk_artisttranslations");
@@ -2279,6 +2279,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.Property<Guid>("ExposureId")
                         .HasColumnName("exposureid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()

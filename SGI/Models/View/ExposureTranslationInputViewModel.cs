@@ -1,16 +1,16 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using System.ComponentModel.DataAnnotations;
-
-namespace MOROPO.FCBC.SGI.Models.View
+﻿namespace MOROPO.FCBC.SGI.Models.View
 {
     public class ExposureTranslationInputViewModel
     {
         public Persistence.Enumerations.TranslatableLanguage TranslatableLanguage { get; set; }
 
-        [Display(Name = "Exposure")]
-        public Exposure Exposure { get; set; }
+        public System.Guid ExposureId { get; set; }
+        
         [System.ComponentModel.DataAnnotations.Required]
+        [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
-        public ExposureLanguageDisplayViewModel ExposureLanguege { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Display(Name = "Description")]
+        public string Description { get; set; }
     }
 }

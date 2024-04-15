@@ -33,6 +33,7 @@
         public Enumerations.GalleryId? GalleryId { get; set; }
 
         public System.Collections.Generic.List<ExposureEmployeeCuratorshipBridge> EmployeeCuratorshipBridges { get; set; }
+
         public System.Collections.Generic.List<ExposureTranslation> Translations { get; set; }
     }
 }

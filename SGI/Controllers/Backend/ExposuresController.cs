@@ -384,12 +384,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         #endregion
 
-        #region Language
-        [Route("edit/{key}/languages")]
-        [RequirePermissions(Permission.ExposureEditor)]
-        public ActionResult EditLanguages(System.Guid key)
+        #region Translations
+        [Route("edit/{key}/translations")]
+        [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
+        public ActionResult EditTranslations(System.Guid key)
         {
-            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+            var languages = new List<Persistence.Enumerations.TranslatableLanguage>();
 
             foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
             {
@@ -400,68 +400,63 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
 
-            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();
-
-            var resultModel = new ExposureLanguageManagerViewModel
+            var resultModel = new ExposureTranslationsManagementViewModel
             {
-                Exposure = new ExposureDisplayViewModel()
+                Exposure = new ExposureDisplayViewModel(),
+                NotSelectedLanguages = languages.Except(languagesSelected).ToArray(),
+                Translations = entity.Translations.Select(item =>
+                {
+                    var model = new ExposureTranslationDisplayViewModel
+                    {
+                        TranslatableLanguage = item.TranslatableLanguage,
+                        Name = item.Name,
+                        Description = item.Description
+                    };
+
+                    return model;
+                }).ToArray()
             };
 
             resultModel.Exposure.Import(entity);
 
-            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
-
-            var translations = entity.Translations;
-
-            resultModel.Translations = translations.Select(item =>
-            {
-                var model = new ExposureTranslationDisplayViewModel
-                {
-                    ExposureLanguege = new ExposureLanguageDisplayViewModel
-                    {
-                        ExposureId = item.ExposureId,
-                        Name = item.Name,
-                        TranslatableLanguage = item.TranslatableLanguage
-                    }
-                };
-
-                model.Import(item);
-
-                return model;
-            }).ToArray();
-
             return View(resultModel);
         }
 
-        [Route("edit/languages/add")]
-        [RequirePermissions(Permission.ExposureEditor)]
+        [Route("edit/translations/add")]
+        [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddLanguage(InstitutionsLanguagesInputViewModel modelInput)
+        public IActionResult AddTranslation(ExposureTranslationInputViewModel modelInput)
         {
             Exposure entity = null;
 
             try
             {
-                entity = Repository.Get(modelInput.GeneralId);
+                entity = Repository.Get(modelInput.ExposureId);
             }
             catch { }
 
             if (entity == null)
             {
-                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
 
-                return GetDefaultActionResult();
+                return RedirectToAction("EditTranslations");
             }
 
 
             if (ModelState.IsValid)
             {
-                entity.Translations.Add(new ExposureTranslation { ExposureId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+                entity.Translations.Add(new ExposureTranslation
+                {
+                    ExposureId = entity.Id,
+                    TranslatableLanguage = modelInput.TranslatableLanguage,
+                    Name = modelInput.Name,
+                    Description = modelInput.Description
+                });
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
             }
             else
             {
@@ -480,52 +475,105 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
-        [Route("edit/languages/remove")]
-        [RequirePermissions(Permission.ExposureEditor)]
+        [Route("edit/translations/modify")]
+        [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteLanguage(System.Guid ExposureId, TranslatableLanguage translatableLanguage)
+        public IActionResult ModifyTranslation(ExposureTranslationInputViewModel modelInput)
         {
             Exposure entity = null;
 
             try
             {
-                entity = Repository.Get(ExposureId);
+                entity = Repository.Get(modelInput.ExposureId);
             }
             catch { }
 
             if (entity == null)
             {
-                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
 
-                return GetDefaultActionResult();
+                return RedirectToAction("EditTranslations");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
+
+                translation.Name = modelInput.Name;
+                translation.Description = modelInput.Description;
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/remove")]
+        [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTranslation(System.Guid exposureId, TranslatableLanguage translatableLanguage)
+        {
+            Exposure entity = null;
+
+            try
+            {
+                entity = Repository.Get(exposureId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
             }
 
             try
             {
-                var bridge = entity.Translations.First(b => b.ExposureId == ExposureId && b.TranslatableLanguage == translatableLanguage);
+                var bridge = entity.Translations.First(item => item.TranslatableLanguage == translatableLanguage);
 
                 entity.Translations.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(NotificationType.Warning, null, "EditionWarningMessage", null);
             }
             catch (System.Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
         #endregion
