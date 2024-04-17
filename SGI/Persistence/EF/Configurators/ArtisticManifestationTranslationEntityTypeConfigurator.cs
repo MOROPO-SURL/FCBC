@@ -9,9 +9,9 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Configurators
         {
             base.ApplayRules(entityTypeBuilder);
 
-            entityTypeBuilder.HasKey(entity => new { entity.TranslatableLanguage, entity.Id });
+            entityTypeBuilder.HasKey(entity => new { entity.TranslatableLanguage, entity.ArtisticManifestationId });
 
-            entityTypeBuilder.HasOne(entity => entity.ArtisticManifestation).WithMany(entity => entity.Translations).HasForeignKey(entity => entity.Id);
+            entityTypeBuilder.HasOne(entity => entity.ArtisticManifestation).WithMany(entity => entity.Translations).HasForeignKey(entity => entity.ArtisticManifestationId);
         }
 
     }
