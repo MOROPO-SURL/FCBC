@@ -4,7 +4,7 @@
     {
         public Enumerations.TranslatableLanguage TranslatableLanguage { get; set; }
 
-        public System.Guid Id { get; set; }
+        public System.Guid CraftManifestationId { get; set; }
 
         public CraftManifestation CraftManifestation { get; set; }
 
