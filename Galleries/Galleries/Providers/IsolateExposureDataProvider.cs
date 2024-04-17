@@ -57,6 +57,7 @@ namespace MOROPO.FCBC.Galleries.Providers
                             Id = item.Id,
                             Extension = item.Extension
                         }).ToArray(),
+                        Videos = _model.Videos,
                         Materials = _model.Materials,
                         Themathics = _model.Themathics,
                         ArtWorkAwards = _model.ArtWorkAwards,

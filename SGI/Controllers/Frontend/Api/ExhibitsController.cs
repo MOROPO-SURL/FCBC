@@ -124,6 +124,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
                     Width = _bridge.Image.Width,
                     Height = _bridge.Image.Height
                 }).ToArray();
+                _model.Videos = bridge.ArtWork.Videos.Select(_entity => new VideoDisplayApiModel
+                {
+                    Id = _entity.Id,
+                    Extension = _entity.ContentType.ContentTypeToExtension()
+                }).ToArray();
                 _model.ArtTechniques = bridge.ArtWork.TechniqueBridges.Select(_bridge => new ArtWorkTechniqueDisplayApiModel
                 {
                     Id = _bridge.TechniqueId,

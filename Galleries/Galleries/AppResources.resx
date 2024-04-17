@@ -123,8 +123,17 @@
   <data name="AcceptText" xml:space="preserve">
     <value>Aceptar</value>
   </data>
+  <data name="AppliedArts" xml:space="preserve">
+    <value>Artes Aplicadas</value>
+  </data>
   <data name="AppTitle" xml:space="preserve">
     <value>Galería Amalia</value>
+  </data>
+  <data name="ArtisticName" xml:space="preserve">
+    <value>Nombre Artístico</value>
+  </data>
+  <data name="Awards" xml:space="preserve">
+    <value>Premios</value>
   </data>
   <data name="CallText" xml:space="preserve">
     <value>Llamar</value>
@@ -134,6 +143,9 @@
   </data>
   <data name="CatalogText" xml:space="preserve">
     <value>Catálogo</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Colección</value>
   </data>
   <data name="ContactEmailsText" xml:space="preserve">
     <value>Correos electrónicos</value>
@@ -153,8 +165,17 @@
   <data name="ContactWebSitesText" xml:space="preserve">
     <value>Sitios en Internet</value>
   </data>
+  <data name="Creator" xml:space="preserve">
+    <value>Creador</value>
+  </data>
+  <data name="Creators" xml:space="preserve">
+    <value>Creador(es)</value>
+  </data>
   <data name="DetailsText" xml:space="preserve">
     <value>Detalles</value>
+  </data>
+  <data name="Dimensions" xml:space="preserve">
+    <value>Dimensiones</value>
   </data>
   <data name="EmptyContactEmailsText" xml:space="preserve">
     <value>No hay contactos de correo electrónico definidos en este momento</value>
@@ -180,6 +201,9 @@
   <data name="ExposureRoomText" xml:space="preserve">
     <value>Sala Expositiva</value>
   </data>
+  <data name="Height" xml:space="preserve">
+    <value>Alto</value>
+  </data>
   <data name="HistoryText" xml:space="preserve">
     <value>Historia</value>
   </data>
@@ -204,6 +228,18 @@
   <data name="LastNameText" xml:space="preserve">
     <value>Apellidos</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="Manifestation" xml:space="preserve">
+    <value>Manifestación</value>
+  </data>
+  <data name="Manifestations" xml:space="preserve">
+    <value>Manifestaciones</value>
+  </data>
+  <data name="Materials" xml:space="preserve">
+    <value>Materiales</value>
+  </data>
   <data name="NameText" xml:space="preserve">
     <value>Nombre(s)</value>
   </data>
@@ -216,11 +252,26 @@
   <data name="PickLanguageHeader" xml:space="preserve">
     <value>Seleccionar lenguaje</value>
   </data>
+  <data name="Profundity" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Servicios</value>
+  </data>
   <data name="SpecialistsText" xml:space="preserve">
     <value>Especialistas</value>
   </data>
   <data name="SpecialistText" xml:space="preserve">
     <value>Especialista</value>
+  </data>
+  <data name="Techniques" xml:space="preserve">
+    <value>Técnica(s)</value>
+  </data>
+  <data name="Themathics" xml:space="preserve">
+    <value>Temáticas</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Título</value>
   </data>
   <data name="ToContactText" xml:space="preserve">
     <value>Contactar</value>
@@ -228,10 +279,25 @@
   <data name="UpdateText" xml:space="preserve">
     <value>Actualizar</value>
   </data>
+  <data name="Valorations" xml:space="preserve">
+    <value>Valoraciones</value>
+  </data>
   <data name="VisitText" xml:space="preserve">
     <value>Visitar</value>
   </data>
+  <data name="VisualArts" xml:space="preserve">
+    <value>Artes Visuales</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Peso</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Largo</value>
+  </data>
   <data name="WriteText" xml:space="preserve">
     <value>Escribir</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Año</value>
   </data>
 </root>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="MOROPO.FCBC.Galleries.Views.ExibitImageView"
+    Padding="4" 
+    BackgroundColor="White"
+    HorizontalOptions="Center" VerticalOptions="Center">
+    <ContentView.Content>
+        <ffimageloadingforms:CachedImage
+            x:Name="ImageView"
+            CacheType="Disk"
+            CacheDuration="8760:00:00" />
+    </ContentView.Content>
+</ContentView>

@@ -2,6 +2,7 @@
 <sscxftoolkitmvvmpages:BindingContextedContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:root="clr-namespace:MOROPO.FCBC.Galleries"
     xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
     xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
     xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
@@ -45,19 +46,13 @@
                             BackgroundColor="White">
                             <Grid>
                                 <StackLayout Margin="20" Spacing="0">
-                                    <Label Text="Título" Style="{StaticResource FieldCaptionLabel}" Margin="0,4,0,0" />
+                                    <Label Text="{Static root:AppResources.Title}" Style="{StaticResource FieldCaptionLabel}" Margin="0,4,0,0" />
                                     <Label 
                                         Text="{Binding Path=TargetArtWork.Title}"
                                         FontSize="28" />
-                                    <Label Text="Creador(es)" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
+                                    <Label Text="{Static root:AppResources.Creators}" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
                                     <StackLayout
                                         BindableLayout.ItemsSource="{Binding Path=TargetArtWork.Creators}">
-                                        <BindableLayout.EmptyView>
-                                            <Label
-                                                Margin="4"
-                                                Text="No hay creadores especificados en este momento"
-                                                TextColor="DimGray" />
-                                        </BindableLayout.EmptyView>
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid Margin="0,4,0,0">
@@ -90,10 +85,10 @@
                                             </DataTemplate>
                                         </BindableLayout.ItemTemplate>
                                     </StackLayout>
-                                    <Label Text="Técnica(s)" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
+                                    <Label Text="{Static root:AppResources.Techniques}" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
                                     <Label 
                                         Text="{Binding Path=TargetArtWork.Techniques, Converter={StaticResource EnumerationToJoinedStringBindingConverter}}" />
-                                    <Label Text="Año" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
+                                    <Label Text="{Static root:AppResources.Year}" Style="{StaticResource FieldCaptionLabel}" Margin="0,8,0,0" />
                                     <Label 
                                         Margin="0,0,0,12"
                                         Text="{Binding Path=TargetArtWork.Year}" />
@@ -105,7 +100,7 @@
                                         MaxLines="3" />
                                     <Button 
                                         HorizontalOptions="Center"
-                                        Text="Detalles"
+                                        Text="{Static root:AppResources.DetailsText}"
                                         Clicked="ExibitDetailButton_Clicked" />
                                 </StackLayout>
                                 <Button
