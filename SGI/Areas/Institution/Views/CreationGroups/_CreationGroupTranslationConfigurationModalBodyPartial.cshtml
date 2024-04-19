@@ -1,0 +1,25 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CreationGroupLanguagesInputViewModel
+
+<div class="modal-body">
+    @Html.HiddenFor(model => model.WorkId)
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.TranslatableLanguage, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.TranslatableLanguage, new { @class = "form-control", @readonly = "readonly"})
+    </div>
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control"})
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            @Html.LabelFor(model => model.Brand, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Brand, new { @class = "form-control"})
+        </div>        
+    </div>
+    <div>
+        @Html.LabelFor(model => model.About, new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.About, 8, 0, new { @class = "form-control"})
+    </div>
+</div>
+

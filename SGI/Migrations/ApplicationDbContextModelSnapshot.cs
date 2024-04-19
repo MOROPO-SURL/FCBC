@@ -1699,6 +1699,12 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("CreationGroupId")
                         .HasColumnName("creationgroupid");
 
+                    b.Property<string>("About")
+                        .HasColumnName("about");
+
+                    b.Property<string>("Brand")
+                        .HasColumnName("brand");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");

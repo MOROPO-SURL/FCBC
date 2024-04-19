@@ -11,5 +11,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public CreationGroup CreationGroup { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+        public string Brand { get; set; }
+        public string About { get; set;}
     }
 }
