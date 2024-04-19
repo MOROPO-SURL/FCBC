@@ -2698,6 +2698,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ServiceWorkId")
                         .HasColumnName("serviceworkid");
 
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");

@@ -11,12 +11,14 @@ namespace MOROPO.FCBC.SGI.Models.View
         public ServiceWork ServiceWork { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+        public string Description { get; set; }
         public ServiceWorkLanguageDisplayViewModel ServiceWorkLanguege { get; set; }
 
         public void Import(ServiceWorkTranslation entity)
         {
             ServiceWork = entity.ServiceWork;
             Name = entity.Name;
+            Description = entity.Description;
             TranslatableLanguage = entity.TranslatableLanguage;
         }
 
@@ -24,9 +26,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         {
             ServiceWorkTranslationInputViewModel viewModel = new ServiceWorkTranslationInputViewModel();
             viewModel.Name = Name;
-            viewModel.ServiceWork = ServiceWork;
-            viewModel.TranslatableLanguage = TranslatableLanguage;
-            viewModel.ServiceWork = ServiceWork;
+            viewModel.Description = Description;           
+            viewModel.TranslatableLanguage = TranslatableLanguage;           
             return viewModel;
         }
     }

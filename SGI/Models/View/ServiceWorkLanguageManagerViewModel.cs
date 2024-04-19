@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.Models.View
+﻿using MOROPO.FCBC.SGI.Persistence.Enumerations;
+
+namespace MOROPO.FCBC.SGI.Models.View
 {
     public class ServiceWorkLanguageManagerViewModel
     {
@@ -6,6 +8,6 @@
 
         public System.Collections.Generic.ICollection<ServiceWorkTranslationDisplayViewModel> Translations { get; set; }
 
-        public System.Collections.Generic.ICollection<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> NotSelectedLanguage { get; set; }
+        public TranslatableLanguage[] NotSelectedLanguage { get; set; }
     }
 }

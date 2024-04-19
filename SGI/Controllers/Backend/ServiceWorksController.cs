@@ -1452,9 +1452,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         #endregion
 
         #region Language
-        [Route("edit/{key}/languages")]
+        [Route("edit/{key}/translations")]
         [RequirePermissions(Permission.ServiceWorkEditor)]
-        public ActionResult EditLanguages(System.Guid key)
+        public ActionResult EditTranslations(System.Guid key)
         {
             List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
 
@@ -1467,44 +1467,32 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
 
-            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();
-
             var resultModel = new ServiceWorkLanguageManagerViewModel
             {
-                Work = new ServiceWorkDisplayViewModel()
+                Work = new ServiceWorkDisplayViewModel(),
+                NotSelectedLanguage = languages.Except(languagesSelected).ToArray(),
+                Translations = entity.Translations.Select(item =>
+                {
+                    var model = new ServiceWorkTranslationDisplayViewModel
+                    {
+                        TranslatableLanguage = item.TranslatableLanguage,
+                        Name = item.Name,
+                        Description = item.Description                       
+                    };
+                    return model;
+                }).ToArray()
             };
 
             resultModel.Work.Import(entity);
 
-            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
-
-            var translations = entity.Translations;
-
-            resultModel.Translations = translations.Select(item =>
-            {
-                var model = new ServiceWorkTranslationDisplayViewModel
-                {
-                    ServiceWorkLanguege = new ServiceWorkLanguageDisplayViewModel
-                    {
-                        ServiceWorkId = item.ServiceWorkId,
-                        Name = item.Name,
-                        TranslatableLanguage = item.TranslatableLanguage
-                    }
-                };
-
-                model.Import(item);
-
-                return model;
-            }).ToArray();
-
             return View(resultModel);
         }
 
-        [Route("edit/languages/add")]
+        [Route("edit/translations/add")]
         [RequirePermissions(Permission.ServiceWorkEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddLanguage(WorkLanguagesInputViewModel modelInput)
+        public IActionResult AddTranslation(ServiceWorkLanguagesInputViewModel modelInput)
         {
             ServiceWork entity = null;
 
@@ -1524,7 +1512,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (ModelState.IsValid)
             {
-                entity.Translations.Add(new ServiceWorkTranslation { ServiceWorkId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+                entity.Translations.Add(new ServiceWorkTranslation
+                {
+                    ServiceWorkId = entity.Id,
+                    TranslatableLanguage = modelInput.TranslatableLanguage,
+                    Name = modelInput.TranslatableLanguage.ToString(),
+                    Description = modelInput.Description                    
+                });
 
                 Repository.Update(entity, User.Identity.Name);
 
@@ -1547,14 +1541,67 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
-        [Route("edit/languages/remove")]
+        [Route("edit/translations/modify")]
+        [RequirePermissions(Security.Authorization.Permission.ServiceWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ModifyTranslation(ServiceWorkLanguagesInputViewModel modelInput)
+        {
+            ServiceWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.WorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
+
+                translation.Name = modelInput.Name;
+                translation.Description = modelInput.Description;                
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/remove")]
         [RequirePermissions(Permission.ServiceWorkEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteLanguage(System.Guid ServiceWorkId, TranslatableLanguage translatableLanguage)
+        public IActionResult DeleteTranslation(System.Guid ServiceWorkId, TranslatableLanguage translatableLanguage)
         {
             ServiceWork entity = null;
 
@@ -1592,7 +1639,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
         #endregion
