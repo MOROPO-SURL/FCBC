@@ -1,6 +1,4 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Enumerations;
-
-namespace MOROPO.FCBC.SGI.Models.View
+﻿namespace MOROPO.FCBC.SGI.Models.View
 {
     public class GalleryTranslationsManagementViewModel
     {
@@ -8,6 +6,6 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         public GalleryTranslationDisplayViewModel[] Translations { get; set; }
 
-        public TranslatableLanguage[] NotSelectedLanguages { get; set; }
+        public Persistence.Enumerations.TranslatableLanguage[] NotSelectedLanguages { get; set; }
     }
 }

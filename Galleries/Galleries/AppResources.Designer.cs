@@ -79,11 +79,38 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Artes Aplicadas.
+        /// </summary>
+        internal static string AppliedArts {
+            get {
+                return ResourceManager.GetString("AppliedArts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Galería Amalia.
         /// </summary>
         internal static string AppTitle {
             get {
                 return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nombre Artístico.
+        /// </summary>
+        internal static string ArtisticName {
+            get {
+                return ResourceManager.GetString("ArtisticName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Premios.
+        /// </summary>
+        internal static string Awards {
+            get {
+                return ResourceManager.GetString("Awards", resourceCulture);
             }
         }
         
@@ -111,6 +138,15 @@ namespace MOROPO.FCBC.Galleries {
         internal static string CatalogText {
             get {
                 return ResourceManager.GetString("CatalogText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colección.
+        /// </summary>
+        internal static string Collection {
+            get {
+                return ResourceManager.GetString("Collection", resourceCulture);
             }
         }
         
@@ -169,11 +205,38 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creador.
+        /// </summary>
+        internal static string Creator {
+            get {
+                return ResourceManager.GetString("Creator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creador(es).
+        /// </summary>
+        internal static string Creators {
+            get {
+                return ResourceManager.GetString("Creators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detalles.
         /// </summary>
         internal static string DetailsText {
             get {
                 return ResourceManager.GetString("DetailsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dimensiones.
+        /// </summary>
+        internal static string Dimensions {
+            get {
+                return ResourceManager.GetString("Dimensions", resourceCulture);
             }
         }
         
@@ -250,6 +313,15 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alto.
+        /// </summary>
+        internal static string Height {
+            get {
+                return ResourceManager.GetString("Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Historia.
         /// </summary>
         internal static string HistoryText {
@@ -273,6 +345,15 @@ namespace MOROPO.FCBC.Galleries {
         internal static string LanguageNameFrench {
             get {
                 return ResourceManager.GetString("LanguageNameFrench", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portugués.
+        /// </summary>
+        internal static string LanguageNamePortuguese {
+            get {
+                return ResourceManager.GetString("LanguageNamePortuguese", resourceCulture);
             }
         }
         
@@ -313,6 +394,42 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ubicación.
+        /// </summary>
+        internal static string Location {
+            get {
+                return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifestación.
+        /// </summary>
+        internal static string Manifestation {
+            get {
+                return ResourceManager.GetString("Manifestation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifestaciones.
+        /// </summary>
+        internal static string Manifestations {
+            get {
+                return ResourceManager.GetString("Manifestations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Materiales.
+        /// </summary>
+        internal static string Materials {
+            get {
+                return ResourceManager.GetString("Materials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nombre(s).
         /// </summary>
         internal static string NameText {
@@ -349,6 +466,24 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ancho.
+        /// </summary>
+        internal static string Profundity {
+            get {
+                return ResourceManager.GetString("Profundity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Servicios.
+        /// </summary>
+        internal static string Services {
+            get {
+                return ResourceManager.GetString("Services", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Especialistas.
         /// </summary>
         internal static string SpecialistsText {
@@ -363,6 +498,33 @@ namespace MOROPO.FCBC.Galleries {
         internal static string SpecialistText {
             get {
                 return ResourceManager.GetString("SpecialistText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Técnica(s).
+        /// </summary>
+        internal static string Techniques {
+            get {
+                return ResourceManager.GetString("Techniques", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Temáticas.
+        /// </summary>
+        internal static string Themathics {
+            get {
+                return ResourceManager.GetString("Themathics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Título.
+        /// </summary>
+        internal static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
         
@@ -385,6 +547,15 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Valoraciones.
+        /// </summary>
+        internal static string Valorations {
+            get {
+                return ResourceManager.GetString("Valorations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Visitar.
         /// </summary>
         internal static string VisitText {
@@ -394,11 +565,47 @@ namespace MOROPO.FCBC.Galleries {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Artes Visuales.
+        /// </summary>
+        internal static string VisualArts {
+            get {
+                return ResourceManager.GetString("VisualArts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Peso.
+        /// </summary>
+        internal static string Weight {
+            get {
+                return ResourceManager.GetString("Weight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Largo.
+        /// </summary>
+        internal static string Width {
+            get {
+                return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Escribir.
         /// </summary>
         internal static string WriteText {
             get {
                 return ResourceManager.GetString("WriteText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Año.
+        /// </summary>
+        internal static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
     }

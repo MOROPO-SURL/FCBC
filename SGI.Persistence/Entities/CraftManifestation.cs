@@ -14,5 +14,7 @@
         {
             Id = System.Guid.NewGuid();
         }
+
+        public System.Collections.Generic.List<CraftManifestationTranslation> Translations { get; set; }
     }
 }

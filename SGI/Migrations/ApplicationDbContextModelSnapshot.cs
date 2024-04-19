@@ -440,15 +440,17 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ArtWorkId")
                         .HasColumnName("artworkid");
 
+                    b.Property<string>("About")
+                        .HasColumnName("about");
+
                     b.Property<string>("Collection")
                         .HasColumnName("collection");
 
                     b.Property<string>("Location")
                         .HasColumnName("location");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
+                    b.Property<string>("Title")
+                        .HasColumnName("title");
 
                     b.HasKey("TranslatableLanguage", "ArtWorkId")
                         .HasName("pk_artworktranslations");
@@ -794,9 +796,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ArtistId")
                         .HasColumnName("artistid");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnName("name");
+                        .HasColumnName("description");
 
                     b.HasKey("TranslatableLanguage", "ArtistId")
                         .HasName("pk_artisttranslations");
@@ -857,6 +859,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_artisticmanifestations");
 
                     b.ToTable("artisticmanifestations");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestationTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ArtisticManifestationId")
+                        .HasColumnName("artisticmanifestationid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ArtisticManifestationId")
+                        .HasName("pk_artisticmanifestationtranslations");
+
+                    b.HasIndex("ArtisticManifestationId")
+                        .HasName("ix_artisticmanifestationtranslations_artisticmanifestationid");
+
+                    b.ToTable("artisticmanifestationtranslations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticTechnique", b =>
@@ -1048,6 +1074,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_craftmanifestations");
 
                     b.ToTable("craftmanifestations");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftManifestationTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("CraftManifestationId")
+                        .HasColumnName("craftmanifestationid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "CraftManifestationId")
+                        .HasName("pk_craftmanifestationtranslations");
+
+                    b.HasIndex("CraftManifestationId")
+                        .HasName("ix_craftmanifestationtranslations_craftmanifestationid");
+
+                    b.ToTable("craftmanifestationtranslations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftTechnique", b =>
@@ -2192,6 +2242,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<DateTime?>("EndAt")
                         .HasColumnName("endat");
 
+                    b.Property<string>("FrameBaseColor")
+                        .HasColumnName("framebasecolor");
+
                     b.Property<int>("GalleryId")
                         .HasColumnName("galleryid");
 
@@ -2235,6 +2288,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.Property<Guid>("ExposureId")
                         .HasColumnName("exposureid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2450,6 +2506,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_servicelines");
 
                     b.ToTable("servicelines");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceLineTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ServiceLineId")
+                        .HasColumnName("servicelineid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ServiceLineId")
+                        .HasName("pk_servicelinetranslations");
+
+                    b.HasIndex("ServiceLineId")
+                        .HasName("ix_servicelinetranslations_servicelineid");
+
+                    b.ToTable("servicelinetranslations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceTechnique", b =>
@@ -4053,6 +4133,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestationTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestation", "ArtisticManifestation")
+                        .WithMany("Translations")
+                        .HasForeignKey("ArtisticManifestationId")
+                        .HasConstraintName("fk_artisticmanifestationtranslations_artisticmanifestations_ar~")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Association", b =>
                 {
                     b.HasOne("MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities.OrganizationIdentity", "Identity")
@@ -4105,6 +4194,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Attachments")
                         .HasForeignKey("ContractorId")
                         .HasConstraintName("fk_contractorattachments_contractors_contractorid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CraftManifestationTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.CraftManifestation", "CraftManifestation")
+                        .WithMany("Translations")
+                        .HasForeignKey("CraftManifestationId")
+                        .HasConstraintName("fk_craftmanifestationtranslations_craftmanifestations_craftman~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4782,6 +4880,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Translations")
                         .HasForeignKey("InstitutionalServiceId")
                         .HasConstraintName("fk_institutionalservicetranslations_institutionalservices_inst~")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ServiceLineTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ServiceLine", "ServiceLine")
+                        .WithMany("Translations")
+                        .HasForeignKey("ServiceLineId")
+                        .HasConstraintName("fk_servicelinetranslations_servicelines_servicelineid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

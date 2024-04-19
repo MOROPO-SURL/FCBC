@@ -23,6 +23,9 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Display(Name = "EndAt")]
         public System.DateTime? EndAt { get; set; }
+        
+        [Display(Name = "FrameBaseColor")]
+        public string FrameBaseColor { get; set; }
 
         public Exposure Export()
         {
@@ -41,6 +44,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             StartAt = entity.StartAt;
             EndAt = entity.EndAt;
             Enabled = entity.Enabled;
+            FrameBaseColor = entity.FrameBaseColor;
         }
 
         public void Mergue(Exposure entity)
@@ -51,6 +55,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.StartAt = StartAt;
             entity.EndAt = EndAt;
             entity.Enabled = entity.Enabled;
+            entity.FrameBaseColor = FrameBaseColor;
         }
     }
 }

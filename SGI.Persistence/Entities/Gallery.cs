@@ -19,6 +19,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public string History { get; set; }
 
         public System.Collections.Generic.List<GalleryEmployeeBridge> EmployeeBridges { get; set; }
+
         public List<GalleryTranslation> Translations { get; set; }
     }
 }

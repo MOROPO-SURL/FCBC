@@ -9,6 +9,6 @@ namespace MOROPO.FCBC.SGI.API.Connect.Clients
         {
         }
 
-        protected override string TargetController => "api/exposures";
+        protected override string TargetController => string.Format("{0}/api/exposures", System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
     }
 }

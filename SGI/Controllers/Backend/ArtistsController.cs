@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
+using MOROPO.FCBC.SGI.Persistence.EF.Repositories;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -1780,12 +1781,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         #endregion
 
-        #region Language
-        [Route("edit/{key}/languages")]
-        [RequirePermissions(Permission.ArtistEditor)]
-        public ActionResult EditLanguages(System.Guid key)
+        #region Translations
+        [Route("edit/{key}/translations")]
+        [RequirePermissions(Security.Authorization.Permission.ArtistEditor)]
+        public ActionResult EditTranslations(System.Guid key)
         {
-            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+            var languages = new List<Persistence.Enumerations.TranslatableLanguage>();
 
             foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
             {
@@ -1796,44 +1797,32 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
 
-            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();
-
-            var resultModel = new ArtistLanguageManagerViewModel
+            var resultModel = new ArtistTranslationsManagementViewModel
             {
-                Artist = new ArtistDisplayViewModel()
+                Artist = new ArtistDisplayViewModel(),
+                NotSelectedLanguages = languages.Except(languagesSelected).ToArray(),
+                Translations = entity.Translations.Select(item =>
+                {
+                    var model = new ArtistTranslationDisplayViewModel
+                    {
+                        TranslatableLanguage = item.TranslatableLanguage,
+                        Description = item.Description
+                    };
+
+                    return model;
+                }).ToArray()
             };
 
             resultModel.Artist.Import(entity);
 
-            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
-
-            var translations = entity.Translations;
-
-            resultModel.Translations = translations.Select(item =>
-            {
-                var model = new ArtistTranslationDisplayViewModel
-                {
-                     ArtistLanguege = new ArtistLanguageDisplayViewModel
-                    {
-                        ArtistId = item.ArtistId,
-                        Name = item.Name,
-                        TranslatableLanguage = item.TranslatableLanguage
-                    }
-                };
-
-                model.Import(item);
-
-                return model;
-            }).ToArray();
-
             return View(resultModel);
         }
 
-        [Route("edit/languages/add")]
-        [RequirePermissions(Permission.ArtistEditor)]
+        [Route("edit/translations/add")]
+        [RequirePermissions(Security.Authorization.Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddLanguage(ArtistLanguagesInputViewModel modelInput)
+        public IActionResult AddTranslation(ArtistTranslationInputViewModel modelInput)
         {
             Artist entity = null;
 
@@ -1845,19 +1834,24 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
 
-                return GetDefaultActionResult();
+                return RedirectToAction("EditTranslations");
             }
 
 
             if (ModelState.IsValid)
             {
-                entity.Translations.Add(new ArtistTranslation { ArtistId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+                entity.Translations.Add(new ArtistTranslation
+                {
+                    ArtistId = entity.Id,
+                    TranslatableLanguage = modelInput.TranslatableLanguage,
+                    Description = modelInput.Description
+                });
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
             }
             else
             {
@@ -1876,52 +1870,104 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 SetDefaultNotification(NotificationType.Danger, messages.ToArray());
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
-        [Route("edit/languages/remove")]
-        [RequirePermissions(Permission.ArtistEditor)]
+        [Route("edit/translations/modify")]
+        [RequirePermissions(Security.Authorization.Permission.ArtistEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteLanguage(System.Guid ArtistId, TranslatableLanguage translatableLanguage)
+        public IActionResult ModifyTranslation(ArtistTranslationInputViewModel modelInput)
         {
             Artist entity = null;
 
             try
             {
-                entity = Repository.Get(ArtistId);
+                entity = Repository.Get(modelInput.ArtistId);
             }
             catch { }
 
             if (entity == null)
             {
-                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
 
-                return GetDefaultActionResult();
+                return RedirectToAction("EditTranslations");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
+
+                translation.Description = modelInput.Description;
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/remove")]
+        [RequirePermissions(Security.Authorization.Permission.ArtistEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTranslation(System.Guid artistId, TranslatableLanguage translatableLanguage)
+        {
+            Artist entity = null;
+
+            try
+            {
+                entity = Repository.Get(artistId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
             }
 
             try
             {
-                var bridge = entity.Translations.First(b => b.ArtistId == ArtistId && b.TranslatableLanguage == translatableLanguage);
-
+                var bridge = entity.Translations.First(item => item.TranslatableLanguage == translatableLanguage);
+                
                 entity.Translations.Remove(bridge);
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+                SetDefaultNotification(NotificationType.Warning, null, "EditionWarningMessage", null);
             }
             catch (System.Exception e)
             {
                 logger.LogError(e.InnerException, e.Message);
             }
 
-            return RedirectToAction("EditLanguages", new { key = entity.Id });
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
         #endregion

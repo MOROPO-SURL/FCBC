@@ -42,6 +42,8 @@ namespace MOROPO.FCBC.Galleries.Models.View
 
         public ImageViewModel[] Images { get; set; }
 
+        public VideoDisplayApiModel[] Videos { get; set; }
+
         public ArtWorkAwardDisplayApiModel[] ArtWorkAwards { get; set; }
 
         public ValorationDisplayApiModel[] Valorations { get; set; }

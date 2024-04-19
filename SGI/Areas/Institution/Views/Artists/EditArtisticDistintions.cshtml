@@ -47,6 +47,9 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Id">Archivos</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("EditTranslations", @Model.Id)">Traducciones</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">

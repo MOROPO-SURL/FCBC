@@ -57,8 +57,10 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
 
         public List<ArtWorkAward> Awards { get; set; }
 
-        public List<ArtWorkAttachment> Attachments { get; set; }       
-        public List<ArtWorkVideo> Videos { get; set; }       
+        public List<ArtWorkAttachment> Attachments { get; set; }
+        
+        public List<ArtWorkVideo> Videos { get; set; }
+
         public List<ArtWorkTranslation> Translations { get; set; }       
     }
 }

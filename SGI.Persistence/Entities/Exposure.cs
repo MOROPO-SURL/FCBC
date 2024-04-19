@@ -32,7 +32,10 @@
         [System.ComponentModel.DataAnnotations.Required]
         public Enumerations.GalleryId? GalleryId { get; set; }
 
+        public string FrameBaseColor { get; set; }
+
         public System.Collections.Generic.List<ExposureEmployeeCuratorshipBridge> EmployeeCuratorshipBridges { get; set; }
+
         public System.Collections.Generic.List<ExposureTranslation> Translations { get; set; }
     }
 }

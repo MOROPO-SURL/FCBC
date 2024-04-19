@@ -46,7 +46,7 @@ namespace MOROPO.FCBC.Galleries.Pages
         {
             if (BindingContextPageModel.IsBusy) return;
 
-            DisplayActionSheet(AppResources.PickLanguageHeader, AppResources.CancelText, null, AppResources.LanguageNameSpanish, AppResources.LanguageNameEnglish, AppResources.LanguageNameFrench, AppResources.LanguageNameRussian).ContinueWith(task => 
+            DisplayActionSheet(AppResources.PickLanguageHeader, AppResources.CancelText, null, AppResources.LanguageNameSpanish, AppResources.LanguageNameEnglish, AppResources.LanguageNameFrench, AppResources.LanguageNameRussian, AppResources.LanguageNamePortuguese).ContinueWith(task => 
             {
                 if (string.IsNullOrEmpty(task.Result) || task.Result.Equals(AppResources.CancelText)) return;
 
@@ -65,6 +65,10 @@ namespace MOROPO.FCBC.Galleries.Pages
                 else if (task.Result.Equals(AppResources.LanguageNameRussian))
                 {
                     System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru");
+                }
+                else if (task.Result.Equals(AppResources.LanguageNamePortuguese))
+                {
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("pt");
                 }
 
                 AppResources.Culture = System.Threading.Thread.CurrentThread.CurrentUICulture;

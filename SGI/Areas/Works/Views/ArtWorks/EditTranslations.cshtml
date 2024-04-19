@@ -1,9 +1,9 @@
 ﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
 
-@model MOROPO.FCBC.SGI.Models.View.ArtWorkLanguageManagerViewModel
+@model MOROPO.FCBC.SGI.Models.View.ArtWorkTranslationsManagementViewModel
 
 @{
-    ViewData["Title"] = "Editar Obra de Artes Visuales (Idiomas)";
+    ViewData["Title"] = "Editar Obra de Artes Visuales (Traducciones)";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -74,10 +74,10 @@
                         @using (Html.BeginForm("AddTranslation", "artworks", null, FormMethod.Post, true, null))
                         {
                             var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.WorkLanguagesInputViewModel
-                    {
-                        WorkId = Model.Work.Id,
-                        TranslatableLanguage = item
-                    };
+                            {
+                                WorkId = Model.Work.Id,
+                                TranslatableLanguage = item
+                            };
 
                             @await Html.PartialAsync("_ArtWorkTranslationConfigurationModalBodyPartial", artWorkLanguagesInputViewModel)
 
@@ -111,13 +111,14 @@
                                 @using (Html.BeginForm("ModifyTranslation", "ArtWorks", null, FormMethod.Post, true, null))
                                 {
                                     var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.WorkLanguagesInputViewModel
-                        {
-                            WorkId = Model.Work.Id,
-                            TranslatableLanguage = item.TranslatableLanguage,
-                            Name = item.Name,
-                            Collection = item.Collection,
-                            Location = item.Location
-                        };
+                                    {
+                                        WorkId = Model.Work.Id,
+                                        TranslatableLanguage = item.TranslatableLanguage,
+                                        Title = item.Title,
+                                        Collection = item.Collection,
+                                        Location = item.Location,
+                                        About = item.About
+                                    };
 
                                     @await Html.PartialAsync("_ArtWorkTranslationConfigurationModalBodyPartial", artWorkLanguagesInputViewModel)
 
@@ -139,7 +140,7 @@
                                     @Html.Hidden("translatableLanguage", item.TranslatableLanguage)
 
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="delete-translation-@item.TranslatableLanguage-lable">Eliminar Idioma</h4>
+                                        <h4 class="modal-title" id="delete-translation-@item.TranslatableLanguage-lable">Eliminar Traducción</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                     </div>
                                     <div class="modal-body">
@@ -160,10 +161,6 @@
                                     <dt>Lenguaje</dt>
                                     <dd>@item.TranslatableLanguage</dd>
                                 </dl>
-                                <dl class="col">
-                                    <dt>Nombre:</dt>
-                                    <dd>@item.Name</dd>
-                                </dl>
                                 <div class="col-auto">
                                     <div class="dropdown d-inline-block">
                                         <button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-dots-vertical"></span></button>
@@ -175,12 +172,50 @@
                                 </div>
                             </div>
                             <dl>
-                                <dt>Colección:</dt>
-                                <dd>@item.Collection</dd>
+                                <dt>Título:</dt>
+                                @if (string.IsNullOrEmpty(item.Title))
+                                {
+                                    <dd class="text-muted">---</dd>
+                                }
+                                else
+                                {
+                                    <dd>@item.Title</dd>
+                                }
                             </dl>
+                            <div class="row">
+                                <dl class="col">
+                                    <dt>Colección:</dt>
+                                    @if (string.IsNullOrEmpty(item.Collection))
+                                    {
+                                        <dd class="text-muted">---</dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@item.Collection</dd>
+                                    }
+                                </dl>
+                                <dl class="col">
+                                    <dt>Localización:</dt>
+                                    @if (string.IsNullOrEmpty(item.Location))
+                                    {
+                                        <dd class="text-muted">---</dd>
+                                    }
+                                    else
+                                    {
+                                        <dd>@item.Location</dd>
+                                    }
+                                </dl>
+                            </div>
                             <dl class="mb-0">
-                                <dt>Localización:</dt>
-                                <dd class="mb-0">@item.Location</dd>
+                                <dt>Acerca de:</dt>
+                                @if (string.IsNullOrEmpty(item.About))
+                                {
+                                    <dd class="mb-0 text-muted">---</dd>
+                                }
+                                else
+                                {
+                                    <dd class="mb-0">@item.About</dd>
+                                }
                             </dl>
                         </div>
                     </div>

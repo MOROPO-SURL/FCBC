@@ -3,20 +3,20 @@ using System.Linq;
 
 namespace MOROPO.FCBC.Galleries.Providers
 {
-    internal sealed class ExhibitViewModelProvider
+    internal sealed class IsolateExposureDataProvider
     {
-        private static ExhibitViewModelProvider _instance;
+        private static IsolateExposureDataProvider _instance;
 
-        public static ExhibitViewModelProvider Instance => _instance ?? (_instance = new ExhibitViewModelProvider());
+        public static IsolateExposureDataProvider Instance => _instance ?? (_instance = new IsolateExposureDataProvider());
 
         private readonly System.Collections.Generic.List<Models.View.ExhibitViewModel> exhibits;
-
-        private ExhibitViewModelProvider()
+        
+        private IsolateExposureDataProvider()
         {
             exhibits = new System.Collections.Generic.List<Models.View.ExhibitViewModel>();
         }
 
-        public async System.Threading.Tasks.Task PrepareAsync(SGI.API.Common.Models.ExhibitDisplayApiModel[] models)
+        public async System.Threading.Tasks.Task PrepareExhibitsAsync(SGI.API.Common.Models.ExhibitDisplayApiModel[] models)
         {
             exhibits.Clear();
 
@@ -57,6 +57,7 @@ namespace MOROPO.FCBC.Galleries.Providers
                             Id = item.Id,
                             Extension = item.Extension
                         }).ToArray(),
+                        Videos = _model.Videos,
                         Materials = _model.Materials,
                         Themathics = _model.Themathics,
                         ArtWorkAwards = _model.ArtWorkAwards,
@@ -96,5 +97,7 @@ namespace MOROPO.FCBC.Galleries.Providers
         {
             return exhibits.ToArray();
         }
+
+        public Urho.Color? FrameBaseColor { get; set; }
     }
 }

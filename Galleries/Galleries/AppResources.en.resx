@@ -120,8 +120,17 @@
   <data name="AboutText" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AppliedArts" xml:space="preserve">
+    <value>Applied Arts</value>
+  </data>
   <data name="AppTitle" xml:space="preserve">
     <value>Amalia Gallery</value>
+  </data>
+  <data name="ArtisticName" xml:space="preserve">
+    <value>Artistic Name</value>
+  </data>
+  <data name="Awards" xml:space="preserve">
+    <value>Awards</value>
   </data>
   <data name="CallText" xml:space="preserve">
     <value>Call</value>
@@ -131,6 +140,9 @@
   </data>
   <data name="CatalogText" xml:space="preserve">
     <value>Catalog</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Collection</value>
   </data>
   <data name="ContactEmailsText" xml:space="preserve">
     <value>Emails</value>
@@ -150,8 +162,17 @@
   <data name="ContactWebSitesText" xml:space="preserve">
     <value>Websites</value>
   </data>
+  <data name="Creator" xml:space="preserve">
+    <value>Creator</value>
+  </data>
+  <data name="Creators" xml:space="preserve">
+    <value>Creators</value>
+  </data>
   <data name="DetailsText" xml:space="preserve">
     <value>Details</value>
+  </data>
+  <data name="Dimensions" xml:space="preserve">
+    <value>Dimensions</value>
   </data>
   <data name="EmptyContactEmailsText" xml:space="preserve">
     <value>There are no email contacts defined at this time</value>
@@ -177,6 +198,9 @@
   <data name="ExposureRoomText" xml:space="preserve">
     <value>Exposure Room</value>
   </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
   <data name="HistoryText" xml:space="preserve">
     <value>History</value>
   </data>
@@ -185,6 +209,9 @@
   </data>
   <data name="LanguageNameFrench" xml:space="preserve">
     <value>French</value>
+  </data>
+  <data name="LanguageNamePortuguese" xml:space="preserve">
+    <value>Portuguese</value>
   </data>
   <data name="LanguageNameRussian" xml:space="preserve">
     <value>Russian</value>
@@ -198,6 +225,18 @@
   <data name="LastNameText" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Manifestation" xml:space="preserve">
+    <value>Manifestation</value>
+  </data>
+  <data name="Manifestations" xml:space="preserve">
+    <value>Manifestations</value>
+  </data>
+  <data name="Materials" xml:space="preserve">
+    <value>Materials</value>
+  </data>
   <data name="NameText" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -210,11 +249,26 @@
   <data name="PickLanguageHeader" xml:space="preserve">
     <value>Select language</value>
   </data>
+  <data name="Profundity" xml:space="preserve">
+    <value>Profundity</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
   <data name="SpecialistsText" xml:space="preserve">
     <value>Specialists</value>
   </data>
   <data name="SpecialistText" xml:space="preserve">
     <value>Specialist</value>
+  </data>
+  <data name="Techniques" xml:space="preserve">
+    <value>Techniques</value>
+  </data>
+  <data name="Themathics" xml:space="preserve">
+    <value>Themathics</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="ToContactText" xml:space="preserve">
     <value>Contact</value>
@@ -222,10 +276,25 @@
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="Valorations" xml:space="preserve">
+    <value>Valorations</value>
+  </data>
   <data name="VisitText" xml:space="preserve">
     <value>Visit</value>
   </data>
+  <data name="VisualArts" xml:space="preserve">
+    <value>Visual Arts</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
   <data name="WriteText" xml:space="preserve">
     <value>Write</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
   </data>
 </root>

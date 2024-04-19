@@ -120,8 +120,17 @@
   <data name="AboutText" xml:space="preserve">
     <value>О</value>
   </data>
+  <data name="AppliedArts" xml:space="preserve">
+    <value>Прикладного искусства</value>
+  </data>
   <data name="AppTitle" xml:space="preserve">
     <value>Галерея Амалии</value>
+  </data>
+  <data name="ArtisticName" xml:space="preserve">
+    <value>Художественное название</value>
+  </data>
+  <data name="Awards" xml:space="preserve">
+    <value>Награды</value>
   </data>
   <data name="CallText" xml:space="preserve">
     <value>Вызов</value>
@@ -131,6 +140,9 @@
   </data>
   <data name="CatalogText" xml:space="preserve">
     <value>Каталог</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Коллекция</value>
   </data>
   <data name="ContactEmailsText" xml:space="preserve">
     <value>Электронная почта</value>
@@ -150,8 +162,17 @@
   <data name="ContactWebSitesText" xml:space="preserve">
     <value>Веб-сайты</value>
   </data>
+  <data name="Creator" xml:space="preserve">
+    <value>Создатель</value>
+  </data>
+  <data name="Creators" xml:space="preserve">
+    <value>Создатели</value>
+  </data>
   <data name="DetailsText" xml:space="preserve">
     <value>Подробности</value>
+  </data>
+  <data name="Dimensions" xml:space="preserve">
+    <value>Размеры</value>
   </data>
   <data name="EmptyContactEmailsText" xml:space="preserve">
     <value>В настоящее время не определены контакты электронной почты</value>
@@ -177,6 +198,9 @@
   <data name="ExposureRoomText" xml:space="preserve">
     <value>Экспозиционная комната</value>
   </data>
+  <data name="Height" xml:space="preserve">
+    <value>Альт</value>
+  </data>
   <data name="HistoryText" xml:space="preserve">
     <value>История</value>
   </data>
@@ -198,6 +222,18 @@
   <data name="LastNameText" xml:space="preserve">
     <value>Фамилия</value>
   </data>
+  <data name="Location" xml:space="preserve">
+    <value>Расположение</value>
+  </data>
+  <data name="Manifestation" xml:space="preserve">
+    <value>Проявление</value>
+  </data>
+  <data name="Manifestations" xml:space="preserve">
+    <value>Проявления</value>
+  </data>
+  <data name="Materials" xml:space="preserve">
+    <value>Материалы</value>
+  </data>
   <data name="NameText" xml:space="preserve">
     <value>Имя</value>
   </data>
@@ -210,11 +246,26 @@
   <data name="PickLanguageHeader" xml:space="preserve">
     <value>Выберите язык</value>
   </data>
+  <data name="Profundity" xml:space="preserve">
+    <value>Глубина</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Услуги</value>
+  </data>
   <data name="SpecialistsText" xml:space="preserve">
     <value>Специалисты</value>
   </data>
   <data name="SpecialistText" xml:space="preserve">
     <value>Специалист</value>
+  </data>
+  <data name="Techniques" xml:space="preserve">
+    <value>Техники</value>
+  </data>
+  <data name="Themathics" xml:space="preserve">
+    <value>Тематика</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Заголовок</value>
   </data>
   <data name="ToContactText" xml:space="preserve">
     <value>Контакт</value>
@@ -222,10 +273,25 @@
   <data name="UpdateText" xml:space="preserve">
     <value>Обновлять</value>
   </data>
+  <data name="Valorations" xml:space="preserve">
+    <value>оценки</value>
+  </data>
   <data name="VisitText" xml:space="preserve">
     <value>Посещать</value>
   </data>
+  <data name="VisualArts" xml:space="preserve">
+    <value>Изобразительное искусство</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Масса</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Анчо</value>
+  </data>
   <data name="WriteText" xml:space="preserve">
     <value>Писать</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Год</value>
   </data>
 </root>
