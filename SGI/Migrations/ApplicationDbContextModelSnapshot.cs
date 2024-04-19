@@ -1331,9 +1331,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("CraftWorkId")
                         .HasColumnName("craftworkid");
 
+                    b.Property<string>("About")
+                        .HasColumnName("about");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");
+
+                    b.Property<string>("Title")
+                        .HasColumnName("title");
 
                     b.HasKey("TranslatableLanguage", "CraftWorkId")
                         .HasName("pk_craftworktranslations");

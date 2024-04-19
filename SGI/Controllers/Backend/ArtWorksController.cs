@@ -1618,7 +1618,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
 
-                translation.Name = modelInput.Name;
+                translation.Name = modelInput.Collection;
                 translation.Collection = modelInput.Collection;
                 translation.Location = modelInput.Location;
 

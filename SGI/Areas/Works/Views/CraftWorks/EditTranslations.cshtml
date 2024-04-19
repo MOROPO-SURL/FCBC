@@ -1,0 +1,218 @@
+﻿@using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Enumerations;
+
+@model MOROPO.FCBC.SGI.Models.View.CraftWorkLanguageManagerViewModel
+
+@{
+    ViewData["Title"] = "Editar Obra de Artes Aplicadas (Idiomas)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras de Artes Aplicadas",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>@ViewData["Title"]</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editauthors" asp-route-key="@Model.Work.Id">Autores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="CraftWorkAwards" asp-route-key="@Model.Work.Id">Trayectoria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="EditVideos" asp-route-key="@Model.Work.Id">Videos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Traducciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="EditThreeDimensionals" asp-route-key="@Model.Work.Id">Modelos en 3D</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body pb-0">
+        @foreach (var item in Model.NotSelectedLanguage)
+        {
+            <div class="modal fade" id="add-translation-@item" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="add-translation-@item-title">Agregar Traducción</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        @using (Html.BeginForm("AddTranslation", "CraftWorks", null, FormMethod.Post, true, null))
+                        {
+                            var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.CraftWorkLanguagesInputViewModel
+                    {
+                        WorkId = Model.Work.Id,
+                        TranslatableLanguage = item
+                    };
+
+                            @await Html.PartialAsync("_CraftWorkTranslationConfigurationModalBodyPartial", artWorkLanguagesInputViewModel)
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Agregar</button>
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.Translations.Count() <= 0)
+        {
+            <p class="text-muted mb-3 mb-0">Sin elementos que mostrar</p>
+        }
+        else
+        {
+            foreach (var item in Model.Translations)
+            {
+                <div>
+                    <div class="modal fade" id="modify-translation-@item.TranslatableLanguage" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modify-translation-@item.TranslatableLanguage-title">Agregar Traducción</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @using (Html.BeginForm("ModifyTranslation", "CraftWorks", null, FormMethod.Post, true, null))
+                                {
+                                    var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.CraftWorkLanguagesInputViewModel
+                        {
+                            WorkId = Model.Work.Id,
+                            TranslatableLanguage = item.TranslatableLanguage,                            
+                            About = item.About,
+                            Title = item.Title
+                        };
+
+                                    @await Html.PartialAsync("_CraftWorkTranslationConfigurationModalBodyPartial", artWorkLanguagesInputViewModel)
+
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Modificar</button>
+                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="delete-translation-@item.TranslatableLanguage" tabindex="-1" role="dialog" aria-labelledby="delete-translation-@item.TranslatableLanguage-lable" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                @using (Html.BeginForm("DeleteTranslation", "CraftWorks", null, FormMethod.Post, true, new { @class = "modal-content" }))
+                                {
+
+                                    @Html.Hidden("CraftWorkId", Model.Work.Id)
+                                    @Html.Hidden("translatableLanguage", item.TranslatableLanguage)
+
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="delete-translation-@item.TranslatableLanguage-lable">Eliminar Idioma</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="mb-0">Esta seguro que desea eliminar la traducción para el idioma @item.TranslatableLanguage?</p>
+                                    </div>
+                                    <div class="modal-footer" style="margin-top: 0;">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <dl class="col">
+                                    <dt>Lenguaje</dt>
+                                    <dd>@item.TranslatableLanguage</dd>
+                                </dl>
+                                <dl class="col">
+                                    <dt>Nombre:</dt>
+                                    <dd>@item.Name</dd>
+                                </dl>
+                                <div class="col-auto">
+                                    <div class="dropdown d-inline-block">
+                                        <button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-dots-vertical"></span></button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modify-translation-@item.TranslatableLanguage"><span class="mdi mdi-square-edit-outline"></span><span class="hidden-xs"> Modificar</span></a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete-translation-@item.TranslatableLanguage"><span class="mdi mdi-trash-can-outline"></span><span class="hidden-xs"> Eliminar</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <dl>
+                                <dt>Título:</dt>
+                                <dd>@item.Title</dd>
+                            </dl>
+                            <dl class="mb-0">
+                                <dt>Acerca de:</dt>
+                                <dd class="mb-0">@item.About</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="card-footer">
+        @if (Model.NotSelectedLanguage.Length <= 0)
+        {
+            <div class="dropdown d-inline-block">
+                <button class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">Agregar</button>
+            </div>
+        }
+        else
+        {
+            <div class="dropdown d-inline-block">
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Agregar</button>
+                <div class="dropdown-menu">
+                    @foreach (var item in Model.NotSelectedLanguage)
+                    {
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#add-translation-@item">Agregar @GlobalViewLocalizationHelper.Localize(item.ToString())</a>
+                    }
+                </div>
+            </div>
+        }
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+
+

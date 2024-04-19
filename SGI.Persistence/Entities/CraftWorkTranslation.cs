@@ -11,5 +11,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public CraftWork CraftWork { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+        public string Title { get; set; }
+        public string About { get; set; }
     }
 }

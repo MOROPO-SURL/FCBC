@@ -12,6 +12,8 @@ namespace MOROPO.FCBC.SGI.Models.View
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
         public CraftWorkLanguageDisplayViewModel CraftWorkLanguege { get; set; }
+        public string Title { get; set; }
+        public string About { get; set; }
 
         public void Import(CraftWorkTranslation entity)
         {
