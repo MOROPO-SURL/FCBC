@@ -1702,9 +1702,6 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<string>("About")
                         .HasColumnName("about");
 
-                    b.Property<string>("Brand")
-                        .HasColumnName("brand");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");
@@ -2418,6 +2415,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.Property<Guid>("InstitutionalServiceId")
                         .HasColumnName("institutionalserviceid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()

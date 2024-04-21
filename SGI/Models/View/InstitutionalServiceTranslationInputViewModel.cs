@@ -11,6 +11,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public InstitutionalService InstitutionalService { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+        public string Description { get; set; }
         public InstitutionalServiceLanguageDisplayViewModel InstitutionalServiceLanguege { get; set; }
     }
 }

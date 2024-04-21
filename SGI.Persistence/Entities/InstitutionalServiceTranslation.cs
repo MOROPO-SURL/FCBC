@@ -11,5 +11,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public InstitutionalService InstitutionalService { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+
+        public string Description { get; set; }
     }
 }

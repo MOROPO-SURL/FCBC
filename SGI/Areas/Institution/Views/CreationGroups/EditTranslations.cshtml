@@ -97,7 +97,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modify-translation-@item.TranslatableLanguage-title">Agregar Traducción</h5>
+                                    <h5 class="modal-title" id="modify-translation-@item.TranslatableLanguage-title">Modificar Traducción</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -108,8 +108,7 @@
                         {
                             WorkId = Model.CreationGroup.Id,
                             TranslatableLanguage = item.TranslatableLanguage,
-                            Name = item.Name,
-                            Brand = item.Brand,                            
+                            Name = item.Name,                                                        
                             About = item.About
                         };
 
@@ -174,20 +173,7 @@
                                 {
                                     <dd>@item.Name</dd>
                                 }
-                            </dl>
-                            <div class="row">
-                                <dl class="col">
-                                    <dt>Marco o Sello:</dt>
-                                    @if (string.IsNullOrEmpty(item.Brand))
-                                    {
-                                        <dd class="text-muted">---</dd>
-                                    }
-                                    else
-                                    {
-                                        <dd>@item.Brand</dd>
-                                    }
-                                </dl>                                
-                            </div>
+                            </dl>                            
                             <dl class="mb-0">
                                 <dt>Acerca de:</dt>
                                 @if (string.IsNullOrEmpty(item.About))

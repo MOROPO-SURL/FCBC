@@ -10,16 +10,14 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "CreationGroup")]
         public CreationGroup CreationGroup { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
-        public string Name { get; set; }
-        public string Brand { get; set; }
+        public string Name { get; set; }       
         public string About { get; set; }
         public CreationGroupLanguageDisplayViewModel CreationGroupLanguege { get; set; }
 
         public void Import(CreationGroupTranslation entity)
         {
             CreationGroup = entity.CreationGroup;
-            Name = entity.Name;
-            Brand = entity.Brand;
+            Name = entity.Name;           
             About = entity.About;
             TranslatableLanguage = entity.TranslatableLanguage;
         }
@@ -27,8 +25,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         public CreationGroupTranslationInputViewModel MergeViewModel()
         {
             CreationGroupTranslationInputViewModel viewModel = new CreationGroupTranslationInputViewModel();
-            viewModel.Name = Name;
-            viewModel.Brand = Brand;
+            viewModel.Name = Name;            
             viewModel.About = About;
             viewModel.CreationGroup = CreationGroup;
             viewModel.TranslatableLanguage = TranslatableLanguage;

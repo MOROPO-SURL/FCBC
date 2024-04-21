@@ -1851,8 +1851,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     var model = new CreationGroupTranslationDisplayViewModel
                     {
                         TranslatableLanguage = item.TranslatableLanguage,
-                        Name = item.Name,
-                        Brand = item.Brand,                        
+                        Name = item.Name,                                               
                         About = item.About
                     };
                     return model;
@@ -1892,8 +1891,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 {
                     CreationGroupId = entity.Id,
                     TranslatableLanguage = modelInput.TranslatableLanguage,
-                    Name = modelInput.Name,
-                    Brand = modelInput.Brand,                   
+                    Name = modelInput.Name,                                       
                     About = modelInput.About
                 });
 
@@ -1947,8 +1945,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             {
                 var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
 
-                translation.Name = modelInput.Name;
-                translation.Brand = modelInput.Brand;                
+                translation.Name = modelInput.Name;                               
                 translation.About = modelInput.About;
 
                 Repository.Update(entity, User.Identity.Name);
