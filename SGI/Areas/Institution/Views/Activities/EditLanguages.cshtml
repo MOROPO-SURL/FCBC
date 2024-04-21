@@ -51,7 +51,7 @@
                     @using (Html.BeginForm("AddLanguage", "Activities", new { key = Model.Activity.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
                     {
                         var artWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.InstitutionsLanguagesInputViewModel();
-                        artWorkLanguagesInputViewModel.NotSelectedLanguages = Model.NotSelectedLanguage;
+                        //artWorkLanguagesInputViewModel.NotSelectedLanguages = Model.NotSelectedLanguage;
                         artWorkLanguagesInputViewModel.GeneralId = Model.Activity.Id;
 
                         @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddInstitutionsLanguageModalBodyPartial", artWorkLanguagesInputViewModel)

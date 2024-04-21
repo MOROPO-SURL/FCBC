@@ -80,9 +80,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ActivityId")
                         .HasColumnName("activityid");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnName("name");
+                        .HasColumnName("description");
 
                     b.HasKey("TranslatableLanguage", "ActivityId")
                         .HasName("pk_activitytranslations");

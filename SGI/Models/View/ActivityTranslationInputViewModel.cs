@@ -10,7 +10,7 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Activity")]
         public Activity Activity { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
-        public string Name { get; set; }
+        public string Description { get; set; }
         public ActivityLanguageDisplayViewModel ActivityLanguege { get; set; }
     }
 }

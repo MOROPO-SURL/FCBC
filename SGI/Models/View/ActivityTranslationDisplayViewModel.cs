@@ -10,20 +10,20 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Activity")]
         public Activity Activity { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
-        public string Name { get; set; }
+        public string Description { get; set; }
         public ActivityLanguageDisplayViewModel ActivityLanguege { get; set; }
 
         public void Import(ActivityTranslation entity)
         {
             Activity = entity.Activity;
-            Name = entity.Name;
+            Description = entity.Description;
             TranslatableLanguage = entity.TranslatableLanguage;
         }
 
         public ActivityTranslationInputViewModel MergeViewModel()
         {
             ActivityTranslationInputViewModel viewModel = new ActivityTranslationInputViewModel();
-            viewModel.Name = Name;
+            viewModel.Description = Description;
             viewModel.Activity = Activity;
             viewModel.TranslatableLanguage = TranslatableLanguage;
             viewModel.ActivityLanguege = ActivityLanguege;
