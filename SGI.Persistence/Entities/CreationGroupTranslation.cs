@@ -10,6 +10,7 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public System.Guid CreationGroupId { get; set; }
         public CreationGroup CreationGroup { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
-        public string Name { get; set; }
+        public string Name { get; set; }        
+        public string About { get; set;}
     }
 }

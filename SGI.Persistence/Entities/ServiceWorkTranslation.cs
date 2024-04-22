@@ -11,5 +11,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public ServiceWork ServiceWork { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

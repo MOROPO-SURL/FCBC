@@ -10,6 +10,6 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
         public System.Guid ActivityId { get; set; }
         public Activity Activity { get; set; }
         [System.ComponentModel.DataAnnotations.Required]
-        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

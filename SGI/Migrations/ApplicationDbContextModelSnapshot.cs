@@ -80,9 +80,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("ActivityId")
                         .HasColumnName("activityid");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnName("name");
+                        .HasColumnName("description");
 
                     b.HasKey("TranslatableLanguage", "ActivityId")
                         .HasName("pk_activitytranslations");
@@ -1381,9 +1381,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("CraftWorkId")
                         .HasColumnName("craftworkid");
 
+                    b.Property<string>("About")
+                        .HasColumnName("about");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");
+
+                    b.Property<string>("Title")
+                        .HasColumnName("title");
 
                     b.HasKey("TranslatableLanguage", "CraftWorkId")
                         .HasName("pk_craftworktranslations");
@@ -1692,6 +1698,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.Property<Guid>("CreationGroupId")
                         .HasColumnName("creationgroupid");
+
+                    b.Property<string>("About")
+                        .HasColumnName("about");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -2407,6 +2416,9 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.Property<Guid>("InstitutionalServiceId")
                         .HasColumnName("institutionalserviceid");
 
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");
@@ -2771,6 +2783,9 @@ namespace MOROPO.FCBC.SGI.Migrations
 
                     b.Property<Guid>("ServiceWorkId")
                         .HasColumnName("serviceworkid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()

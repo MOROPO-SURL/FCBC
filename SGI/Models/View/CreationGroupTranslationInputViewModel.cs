@@ -9,8 +9,10 @@ namespace MOROPO.FCBC.SGI.Models.View
 
         [Display(Name = "CreationGroup")]
         public CreationGroup CreationGroup { get; set; }
-        [System.ComponentModel.DataAnnotations.Required]
+        [System.ComponentModel.DataAnnotations.Required]        
         public string Name { get; set; }
+        public string Brand { get; set; }
+        public string About { get; set; }
         public CreationGroupLanguageDisplayViewModel CreationGroupLanguege { get; set; }
     }
 }

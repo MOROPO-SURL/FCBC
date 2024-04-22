@@ -73,7 +73,7 @@
                     @using (Html.BeginForm("AddLanguage", "CraftWorks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
                     {
                         var craftWorkLanguagesInputViewModel = new MOROPO.FCBC.SGI.Models.View.WorkLanguagesInputViewModel();
-                        craftWorkLanguagesInputViewModel.NotSelectedLanguages = Model.NotSelectedLanguage;
+                        //craftWorkLanguagesInputViewModel.NotSelectedLanguages = Model.NotSelectedLanguage;
                         craftWorkLanguagesInputViewModel.WorkId = Model.Work.Id;
 
                         @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddLanguageModalBodyPartial", craftWorkLanguagesInputViewModel)
