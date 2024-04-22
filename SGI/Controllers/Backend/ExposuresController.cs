@@ -1,17 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
-using MOROPO.FCBC.SGI.Persistence.Enumerations;
-using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Extensions;
-using System.Collections.Generic;
-using System;
 using System.Linq;
-using MOROPO.FCBC.SGI.Security.Authorization;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
 {
@@ -249,7 +243,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     noIncludeIndexes.Add(i);
                 }
 
-                var notIncludeArtWorks = artWorkRepository.FindBy(ent1ty => ent1ty.FeatureImageId != null).ToArray();
+                var notIncludeArtWorks = artWorkRepository.FindBy(_entity => _entity.FeatureImageId != null && _entity.Width != null && _entity.Height != null).ToArray();
 
                 if (includeArtWorks.Count != 0)
                 {
@@ -389,9 +383,9 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
         public ActionResult EditTranslations(System.Guid key)
         {
-            var languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+            var languages = new System.Collections.Generic.List<Persistence.Enumerations.TranslatableLanguage>();
 
-            foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
+            foreach (Persistence.Enumerations.TranslatableLanguage language in System.Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
             {
                 languages.Add(language);
             }
@@ -438,7 +432,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, "NotFoundMessage", null);
 
                 return RedirectToAction("EditTranslations");
             }
@@ -456,11 +450,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Success, null, "EditionSuccessMessage", null);
             }
             else
             {
-                var messages = new List<string>();
+                var messages = new System.Collections.Generic.List<string>();
 
                 foreach (var item in ModelState)
                 {
@@ -472,7 +466,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("EditTranslations", new { key = entity.Id });
@@ -494,7 +488,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, "NotFoundMessage", null);
 
                 return RedirectToAction("EditTranslations");
             }
@@ -509,11 +503,11 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Success, null, "EditionSuccessMessage", null);
             }
             else
             {
-                var messages = new List<string>();
+                var messages = new System.Collections.Generic.List<string>();
 
                 foreach (var item in ModelState)
                 {
@@ -525,7 +519,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     }
                 }
 
-                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, messages.ToArray());
             }
 
             return RedirectToAction("EditTranslations", new { key = entity.Id });
@@ -535,7 +529,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteTranslation(System.Guid exposureId, TranslatableLanguage translatableLanguage)
+        public IActionResult DeleteTranslation(System.Guid exposureId, Persistence.Enumerations.TranslatableLanguage translatableLanguage)
         {
             Exposure entity = null;
 
@@ -547,7 +541,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             if (entity == null)
             {
-                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Danger, "NotFoundMessage", null);
 
                 return RedirectToAction("EditTranslations");
             }
@@ -560,13 +554,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 Repository.Update(entity, User.Identity.Name);
 
-                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Success, null, "EditionSuccessMessage", null);
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
             {
                 logger.LogError(e.InnerException, e.Message);
 
-                SetDefaultNotification(NotificationType.Warning, null, "EditionWarningMessage", null);
+                SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Warning, null, "EditionWarningMessage", null);
             }
             catch (System.Exception e)
             {

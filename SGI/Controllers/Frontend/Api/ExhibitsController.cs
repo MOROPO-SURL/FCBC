@@ -104,7 +104,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
                 }
             }
 
-            model.ArtWorks = entity.ArtWorkBridges.Where(bridge => bridge.ArtWork.FeatureImage != null).Select(bridge =>
+            model.ArtWorks = entity.ArtWorkBridges.Where(bridge => bridge.ArtWork.FeatureImage != null && bridge.ArtWork.DimensionsUnitMeasurement.MilimetersRatio != null && bridge.ArtWork.Width != null && bridge.ArtWork.Height != null).Select(bridge =>
             {
                 var _model = new ArtWorkDisplayApiModel();
 

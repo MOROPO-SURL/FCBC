@@ -5,6 +5,14 @@
         public ExibitDetailPage(Models.View.ArtWorkViewModel model) : base(new Models.Page.ExibitDetailPageModel { Work = model })
         {
             InitializeComponent();
+
+            if (model.Images.Length <=0 && model.Videos.Length <= 0) 
+            {
+                MediaItemsCarouselView.IsSwipeEnabled = false;
+                MediaItemsIndicatorView.IsVisible = false;
+                PreviuesMediaItemButton.IsVisible = false;
+                NextMediaItemButton.IsVisible = false;
+            }
         }
 
         private void CreatorView_Tapped(object sender, System.EventArgs eventArgs)

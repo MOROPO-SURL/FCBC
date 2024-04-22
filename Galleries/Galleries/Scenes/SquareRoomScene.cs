@@ -706,9 +706,9 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
                 {
-                    frameWidth = artWork.FeatureImage.Width / zoom;
+                    frameWidth = artWork.FeatureImage.Width / zoom * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2.4f;
 
-                    frameHeight = artWork.FeatureImage.Height / zoom;
+                    frameHeight = artWork.FeatureImage.Height / zoom * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2.4f;
                 }
 
                 var pictureFrameNode = CreateChild();

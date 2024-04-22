@@ -71,7 +71,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "WeightUnitMeasurement")]
         public System.Guid? WeightUnitMeasurementId { get; set; }
 
-        public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvaiableUnitMeasurements { get; set; }
+        public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvaiableDimensionsUnitMeasurements { get; set; }
+
+        public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvaiableWeightDimensionsUnitMeasurements { get; set; }
 
         public ArtWork Export()
         {

@@ -2049,4 +2049,10 @@
   <data name="Language" xml:space="preserve">
     <value>Lenguaje</value>
   </data>
+  <data name="GramsRatio" xml:space="preserve">
+    <value>Razón a gramos</value>
+  </data>
+  <data name="MilimetersRatio" xml:space="preserve">
+    <value>Razón a milímetros</value>
+  </data>
 </root>

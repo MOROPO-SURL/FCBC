@@ -28,7 +28,10 @@ namespace MOROPO.FCBC.Galleries.Pages
 
             IsEnabled = true;
 
-            var exhibitsApiConnectClient = new SGI.API.Connect.Clients.ExhibitConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance);
+            var exhibitsApiConnectClient = new SGI.API.Connect.Clients.ExhibitConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance)
+            {
+                Culture = AppResources.Culture
+            };
 
             exhibitsApiConnectClient.FilterAsync(new SGI.API.Common.Models.Filter.ExhibitFilterApiModel { ExposureId = exposureId }).ContinueWith(async task =>
             {
@@ -44,9 +47,9 @@ namespace MOROPO.FCBC.Galleries.Pages
                     {
                         virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                         {
-                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
+                            Orientation = Urho.ApplicationOptions.OrientationType.Landscape,
                             NoSound = true,
-                            
+                            ResizableWindow = Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.UWP || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.GTK || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.macOS,
                         });
 
                         BindingContextPageModel.IsBusy = false;

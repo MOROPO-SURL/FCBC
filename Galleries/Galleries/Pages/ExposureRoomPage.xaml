@@ -8,7 +8,7 @@
     xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
-    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:urho="clr-namespace:Urho.Forms;assembly=UrhoSharp.Forms"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExposureRoomPage"
     x:TypeArguments="pagemodels:ExposureRoomPageModel">
@@ -60,13 +60,18 @@
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
-                                                    <icplugin:CircleImage
+                                                    <Frame
                                                         Grid.Column="0"
+                                                        Padding="0"
                                                         VerticalOptions="Center"
                                                         HeightRequest="80" WidthRequest="80"
-                                                        Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
-                                                        BorderThickness="2"
-                                                        BorderColor="Snow" />
+                                                        IsClippedToBounds="True"
+                                                        CornerRadius="40">
+                                                        <ffimageloadingforms:CachedImage
+                                                            Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
+                                                            CacheType="Disk"
+                                                            CacheDuration="8760:00:00" />
+                                                    </Frame>
                                                     <StackLayout 
                                                         Grid.Column="1"
                                                         Spacing="0"

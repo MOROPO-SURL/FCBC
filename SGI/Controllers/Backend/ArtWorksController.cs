@@ -193,7 +193,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateInputModelForAvailableManifestations(ArtWorkInputViewModel model)
         {
-            model.AvailableManifestations = manifestationRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            model.AvailableManifestations = manifestationRepository.GetAll().Select(entity => new SelectListItem
             {
                 Text = entity.Name,
                 Value = entity.Id.ToString()
@@ -202,7 +202,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateInputModelForAvailableUnitMeasurements(ArtWorkInputViewModel model)
         {
-            model.AvaiableUnitMeasurements = unitMeasurementRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            model.AvaiableDimensionsUnitMeasurements = unitMeasurementRepository.FindBy(entity => entity.MilimetersRatio != null).Select(entity => new SelectListItem
+            {
+                Text = entity.Name,
+                Value = entity.Id.ToString()
+            }).ToList();
+            model.AvaiableWeightDimensionsUnitMeasurements = unitMeasurementRepository.FindBy(entity => entity.GramsRatio != null).Select(entity => new SelectListItem
             {
                 Text = entity.Name,
                 Value = entity.Id.ToString()
@@ -211,7 +216,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
         private void PopulateInputModelForAvailableCurrencies(ArtWorkInputViewModel model)
         {
-            model.AvailableCurrencies = currencyRepository.GetAll().Select(entity => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+            model.AvailableCurrencies = currencyRepository.GetAll().Select(entity => new SelectListItem
             {
                 Text = entity.Name,
                 Value = entity.Id.ToString()
