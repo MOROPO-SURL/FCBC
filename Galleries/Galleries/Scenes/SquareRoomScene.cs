@@ -657,7 +657,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
             var identityFrameComponent = identityFrameNode.CreateComponent<StaticModel>();
 
             identityFrameComponent.Model = CoreAssets.Models.Box;
-            identityFrameComponent.Material = Material.FromColor(Color.White);
+            identityFrameComponent.Material = Urho.Material.FromColor(Color.White);
 
             var identitySpriteNode = CreateChild();
 
@@ -674,8 +674,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
         {
             var pivotPositive = FLOOR_TILE_COUNT / 2;
             var pivotNegative = pivotPositive * -1;
-
-            var referenceFrameWidth = 80f;
 
             var pictureFrameComponentMaterial = new Material();
 
@@ -697,56 +695,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                var artWork = exhibit.ArtWorks[0];
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
-
-                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-
-                var pictureFrameNode = CreateChild();
-
-                pictureFrameNode.Position = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f);
-                pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
-
-                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
-
-                pictureFrameComponent.ArtWork = artWork;
-
-                pictureFrameComponent.Model = CoreAssets.Models.Box;
-
-                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
-                {
-                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
-                }
-                else
-                {
-                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
-                }
-
-                var pictureSpriteNode = CreateChild();
-
-                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z - 1.0f);
-
-                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
-
-                pictureSpriteComponent.ArtWork = artWork;
-                pictureSpriteComponent.Sprite = artWorkSprite;
-
-                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-
-                var interactiveIndicatorSpriteNode = CreateChild();
-
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f + 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
-
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
-
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
-
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f), WallDisposition.North);
             }
 
             // South Wall
@@ -760,58 +709,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                var artWork = exhibit.ArtWorks[0];
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
-
-                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-
-                var pictureFrameNode = CreateChild();
-
-                pictureFrameNode.Position = new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f);
-                pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
-
-                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
-
-                pictureFrameComponent.ArtWork = artWork;
-
-                pictureFrameComponent.Model = CoreAssets.Models.Box;
-
-                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
-                {
-                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
-                }
-                else
-                {
-                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
-                }
-
-                var pictureSpriteNode = CreateChild();
-
-                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z + 1.0f);
-                pictureSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
-
-                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
-
-                pictureSpriteComponent.ArtWork = artWork;
-                pictureSpriteComponent.Sprite = artWorkSprite;
-
-                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-
-                var interactiveIndicatorSpriteNode = CreateChild();
-
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - pictureSpriteComponent.WorldBoundingBox.Size.X * 0.5f - 5.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
-                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
-
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
-
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
-
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f), WallDisposition.South);
             }
 
             // East Wall
@@ -825,58 +723,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                var artWork = exhibit.ArtWorks[0];
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
-
-                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-
-                var pictureFrameNode = CreateChild();
-
-                pictureFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
-                pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
-
-                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
-
-                pictureFrameComponent.ArtWork = artWork;
-
-                pictureFrameComponent.Model = CoreAssets.Models.Box;
-
-                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
-                {
-                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
-                }
-                else
-                {
-                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
-                }
-
-                var pictureSpriteNode = CreateChild();
-
-                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
-                pictureSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
-
-                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
-
-                pictureSpriteComponent.ArtWork = artWork;
-                pictureSpriteComponent.Sprite = artWorkSprite;
-
-                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-
-                var interactiveIndicatorSpriteNode = CreateChild();
-
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z - pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f - 5.0f);
-                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
-
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
-
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
-
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING)), WallDisposition.East);
             }
 
             // West Wall
@@ -890,59 +737,132 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                var artWork = exhibit.ArtWorks[0];
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
-
-                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
-
-                var pictureFrameNode = CreateChild();
-
-                pictureFrameNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
-                pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
-
-                var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
-
-                pictureFrameComponent.ArtWork = artWork;
-
-                pictureFrameComponent.Model = CoreAssets.Models.Box;
-
-                if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
-                {
-                    pictureFrameComponent.Material = pictureFrameComponentMaterial;
-                }
-                else
-                {
-                    pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
-                }
-
-                var pictureSpriteNode = CreateChild();
-
-                pictureSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
-                pictureSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
-
-                var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
-
-                pictureSpriteComponent.ArtWork = artWork;
-                pictureSpriteComponent.Sprite = artWorkSprite;
-
-                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-
-                var interactiveIndicatorSpriteNode = CreateChild();
-
-                interactiveIndicatorSpriteNode.Position = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.5f - 5.0f, pictureSpriteNode.Position.Z + pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.5f + 5.0f);
-                interactiveIndicatorSpriteNode.Rotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
-
-                interactiveIndicatorSpriteNode.SetScale(7.0f);
-
-                var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
-
-                interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING)), WallDisposition.West);
             }
+        }
+
+        private void SetUpArtworkFrame(Models.View.ArtWorkViewModel artWork, Material defaultFrameComponentMaterial, Vector3 pictureFrameNodePosition, WallDisposition wallDisposition)
+        {
+            var artWorkSprite = new Urho.Urho2D.Sprite2D();
+
+            using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
+                artWorkSprite.Load(urhoBuffer);
+
+            var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
+            var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
+
+            var pictureFrameNode = CreateChild();
+
+            Vector3 pictureFrameNodeScale; 
+            Vector3 pictureSpriteNodePosition;
+            Quaternion spritesNodeRotation = new Quaternion();
+
+            switch (wallDisposition)
+            {   
+                case WallDisposition.North:
+                    pictureFrameNodeScale = new Vector3(frameWidth, frameHeight, 1.0f);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z - 1.0f);
+
+                    break;
+                case WallDisposition.South:
+                    pictureFrameNodeScale = new Vector3(frameWidth, frameHeight, 1.0f);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z + 1.0f);
+                    spritesNodeRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+
+                    break;
+                case WallDisposition.East:
+                    pictureFrameNodeScale = new Vector3(1.0f, frameHeight, frameWidth);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X - 1.0f, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z);
+                    spritesNodeRotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
+
+                    break;
+                case WallDisposition.West:
+                default:
+                    pictureFrameNodeScale = new Vector3(1.0f, frameHeight, frameWidth);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X + 1.0f, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z);
+                    spritesNodeRotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
+
+                    break;
+            }
+
+            pictureFrameNode.Position = pictureFrameNodePosition;
+            pictureFrameNode.Scale = pictureFrameNodeScale;
+
+            var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
+
+            pictureFrameComponent.ArtWork = artWork;
+
+            pictureFrameComponent.Model = CoreAssets.Models.Box;
+
+            if (Providers.IsolateExposureDataProvider.Instance.FrameBaseColor == null)
+            {
+                pictureFrameComponent.Material = defaultFrameComponentMaterial;
+            }
+            else
+            {
+                pictureFrameComponent.Material = Material.FromColor(Providers.IsolateExposureDataProvider.Instance.FrameBaseColor.Value);
+            }
+
+            var pictureSpriteNode = CreateChild();
+
+            pictureSpriteNode.Position = pictureSpriteNodePosition;
+
+            if (wallDisposition != WallDisposition.North) pictureSpriteNode.Rotation = spritesNodeRotation;
+
+            var pictureSpriteComponent = pictureSpriteNode.CreateComponent<ArtWorkStripe>();
+
+            pictureSpriteComponent.ArtWork = artWork;
+            pictureSpriteComponent.Sprite = artWorkSprite;
+
+            Vector3 pictureSpriteNodeScale;
+            Vector3 interactiveIndicatorSpriteNodePosition;
+
+            switch (wallDisposition)
+            {
+                case WallDisposition.North:
+                    pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
+                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + frameWidth * 0.5f + 5.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+
+                    break;
+                case WallDisposition.South:
+                    pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
+                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - frameWidth * 0.5f - 5.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+
+                    break;
+                case WallDisposition.East:
+                    pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
+                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z - frameWidth * 0.5f - 5.0f);
+
+                    break;
+                case WallDisposition.West:
+                default:
+                    pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
+                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z + frameWidth * 0.5f + 5.0f);
+
+                    break;
+            }
+
+            pictureSpriteNode.Scale = pictureSpriteNodeScale;
+
+            var interactiveIndicatorSpriteNode = CreateChild();
+
+            interactiveIndicatorSpriteNode.Position = interactiveIndicatorSpriteNodePosition;
+
+            if (wallDisposition != WallDisposition.North) interactiveIndicatorSpriteNode.Rotation = spritesNodeRotation;
+
+            interactiveIndicatorSpriteNode.SetScale(7.0f);
+
+            var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
+
+            interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+        }
+
+        private enum WallDisposition
+        {
+            North,
+            South,
+            East,
+            West
         }
     }
 
