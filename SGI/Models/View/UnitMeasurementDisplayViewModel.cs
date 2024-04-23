@@ -1,25 +1,26 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-
-namespace MOROPO.FCBC.SGI.Models.View
+﻿namespace MOROPO.FCBC.SGI.Models.View
 {
-    public class UnitMeasurementDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<UnitMeasurement, System.Guid>
+    public class UnitMeasurementDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.UnitMeasurement, System.Guid>
     {
-        public Guid Id { get; set; }
+        public System.Guid Id { get; set; }
 
-        [Display(Name = "Name")]
+        [System.ComponentModel.DataAnnotations.Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Display(Name = "Symbol")]
+        [System.ComponentModel.DataAnnotations.Display(Name = "Symbol")]
         public string Symbol { get; set; }
 
-        public void Import(UnitMeasurement entity)
+        public decimal? MilimetersRatio { get; set; }
+
+        public decimal? GramsRatio { get; set; }
+
+        public void Import(Persistence.Entities.UnitMeasurement entity)
         {
             Id = entity.Id;
             Name = entity.Name;
             Symbol = entity.Symbol;
+            MilimetersRatio = entity.MilimetersRatio;
+            GramsRatio = entity.GramsRatio;
         }
     }
 }

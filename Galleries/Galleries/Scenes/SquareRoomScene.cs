@@ -697,19 +697,15 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var frameWidth = referenceFrameWidth;
-                var frameHeight = frameWidth;
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 var artWork = exhibit.ArtWorks[0];
 
-                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
+                    artWorkSprite.Load(urhoBuffer);
 
-                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
-                {
-                    frameWidth = artWork.FeatureImage.Width / zoom;
-
-                    frameHeight = artWork.FeatureImage.Height / zoom;
-                }
+                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
+                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
 
                 var pictureFrameNode = CreateChild();
 
@@ -719,11 +715,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
                 pictureFrameComponent.ArtWork = artWork;
-
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
 
@@ -745,7 +736,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.ArtWork = artWork;
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
-                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
+                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
 
                 var interactiveIndicatorSpriteNode = CreateChild();
 
@@ -769,21 +760,17 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var pictureFrameNode = CreateChild();
-
-                var frameWidth = referenceFrameWidth;
-                var frameHeight = frameWidth;
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 var artWork = exhibit.ArtWorks[0];
 
-                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
+                    artWorkSprite.Load(urhoBuffer);
 
-                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
-                {
-                    frameWidth = artWork.FeatureImage.Width / zoom;
+                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
+                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
 
-                    frameHeight = artWork.FeatureImage.Height / zoom;
-                }
+                var pictureFrameNode = CreateChild();
 
                 pictureFrameNode.Position = new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f);
                 pictureFrameNode.Scale = new Vector3(frameWidth, frameHeight, 1.0f);
@@ -791,11 +778,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
                 pictureFrameComponent.ArtWork = artWork;
-
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
 
@@ -818,7 +800,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.ArtWork = artWork;
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
-                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.96f);
+                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
 
                 var interactiveIndicatorSpriteNode = CreateChild();
 
@@ -843,21 +825,17 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var pictureFrameNode = CreateChild();
-
-                var frameWidth = referenceFrameWidth;
-                var frameHeight = frameWidth;
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 var artWork = exhibit.ArtWorks[0];
 
-                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
+                    artWorkSprite.Load(urhoBuffer);
 
-                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
-                {
-                    frameWidth = artWork.FeatureImage.Width / zoom;
+                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
+                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
 
-                    frameHeight = artWork.FeatureImage.Height / zoom;
-                }
+                var pictureFrameNode = CreateChild();
 
                 pictureFrameNode.Position = new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
                 pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
@@ -865,11 +843,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
                 pictureFrameComponent.ArtWork = artWork;
-
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
 
@@ -892,7 +865,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.ArtWork = artWork;
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
-                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
+                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
 
                 var interactiveIndicatorSpriteNode = CreateChild();
 
@@ -917,21 +890,17 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                var pictureFrameNode = CreateChild();
-
-                var frameWidth = referenceFrameWidth;
-                var frameHeight = frameWidth;
+                var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
                 var artWork = exhibit.ArtWorks[0];
 
-                var zoom = (artWork.FeatureImage.Width + artWork.FeatureImage.Height) / 2 / frameWidth;
+                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
+                    artWorkSprite.Load(urhoBuffer);
 
-                if (artWork.FeatureImage.Width != artWork.FeatureImage.Height)
-                {
-                    frameWidth = artWork.FeatureImage.Width / zoom;
+                var frameWidth = WALL_HEIGHT * ((float)artWork.Width.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
+                var frameHeight = WALL_HEIGHT * ((float)artWork.Height.Value) * ((float)artWork.DimensionsUnitMeasurement.MilimetersRatio.Value) / 2400f;
 
-                    frameHeight = artWork.FeatureImage.Height / zoom;
-                }
+                var pictureFrameNode = CreateChild();
 
                 pictureFrameNode.Position = new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
                 pictureFrameNode.Scale = new Vector3(1.0f, frameHeight, frameWidth);
@@ -939,11 +908,6 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
 
                 pictureFrameComponent.ArtWork = artWork;
-
-                var artWorkSprite = new Urho.Urho2D.Sprite2D();
-
-                using (var urhoBuffer = new MemoryBuffer(artWork.FeatureImage.Data))
-                    artWorkSprite.Load(urhoBuffer);
 
                 pictureFrameComponent.Model = CoreAssets.Models.Box;
 
@@ -966,7 +930,7 @@ namespace MOROPO.FCBC.Galleries.Scenes
                 pictureSpriteComponent.ArtWork = artWork;
                 pictureSpriteComponent.Sprite = artWorkSprite;
 
-                pictureSpriteNode.SetScale(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.96f);
+                pictureSpriteNode.Scale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
 
                 var interactiveIndicatorSpriteNode = CreateChild();
 

@@ -96,7 +96,7 @@ namespace MOROPO.FCBC.Galleries.Helpers
                 }
             }
 
-            Xamarin.Forms.Application.Current.MainPage.DisplayAlert(title, message, "Aceptar").ContinueWith(task => { continuationCallback?.Invoke(); });
+            Xamarin.Forms.Application.Current.MainPage.DisplayAlert(title, message, "Aceptar").ContinueWith(task => { Xamarin.Forms.Device.InvokeOnMainThreadAsync(() => continuationCallback?.Invoke()); });
         }
     }
 }

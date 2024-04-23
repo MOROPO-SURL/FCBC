@@ -35,15 +35,27 @@
 
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6 mb-md-0 mb-sm-3">
+                <div class="col-md-6 mb-3">
                     @Html.LabelFor(model => model.Name, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mb-3">
                     @Html.LabelFor(model => model.Symbol, new { @class = "control-label" })
                     @Html.TextBoxFor(model => model.Symbol, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Symbol, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-md-0 mb-sm-3">
+                    @Html.LabelFor(model => model.MilimetersRatio, string.Format("{0} (opcional)", GlobalViewLocalizationHelper.Localize("MilimetersRatio")), new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.MilimetersRatio, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MilimetersRatio, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.GramsRatio, string.Format("{0} (opcional)", GlobalViewLocalizationHelper.Localize("GramsRatio")), new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.GramsRatio, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.GramsRatio, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>

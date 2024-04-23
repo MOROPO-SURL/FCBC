@@ -114,7 +114,10 @@ namespace MOROPO.FCBC.Galleries.Pages
         {
             BindingContextPageModel.IsBusy = true;
 
-            var exposuresApiConnectClient = new SGI.API.Connect.Clients.ExposureConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance);
+            var exposuresApiConnectClient = new SGI.API.Connect.Clients.ExposureConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance)
+            {
+                Culture = AppResources.Culture
+            };
 
             exposuresApiConnectClient.GetAsync(exposureId).ContinueWith(getExposuresTask =>
             {

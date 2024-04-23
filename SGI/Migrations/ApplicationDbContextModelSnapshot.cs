@@ -2914,6 +2914,12 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<decimal?>("GramsRatio")
+                        .HasColumnName("gramsratio");
+
+                    b.Property<decimal?>("MilimetersRatio")
+                        .HasColumnName("milimetersratio");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name");

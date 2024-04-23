@@ -18,6 +18,8 @@
 
             InitializeComponent();
 
+            FFImageLoading.ImageService.Instance.Config.DiskCacheDuration = System.TimeSpan.Parse("8760:00:00");
+
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
             {
                 FFImageLoading.ImageService.Instance.Config.HttpClient = new System.Net.Http.HttpClient(Xamarin.Forms.DependencyService.Get<Providers.Facade.INativeHttpClientHandlerProviderFacade>().Get());

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="4010" android:versionName="0.4.1" package="moropo.fcbc.camaguey.galleries">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5000" android:versionName="0.5.0" package="moropo.fcbc.camaguey.galleries">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
 	<application android:label="Gallería Amalia" android:theme="@style/MainTheme" android:usesCleartextTraffic="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

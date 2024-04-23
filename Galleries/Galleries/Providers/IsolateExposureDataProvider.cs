@@ -22,6 +22,8 @@ namespace MOROPO.FCBC.Galleries.Providers
 
             foreach (var model in models)
             {
+                if (model.ArtWorks.Length <= 0) continue;
+
                 var exhibit = new Models.View.ExhibitViewModel
                 {
                     Id = model.Id,

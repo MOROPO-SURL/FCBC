@@ -79,17 +79,17 @@
                         <IndicatorView
                             x:Name="MediaItemsIndicatorView"
                             Grid.Column="1" Grid.Row="1"
-                            Margin="20"
                             HorizontalOptions="Center" VerticalOptions="Center"
                             HideSingle="True"
                             IndicatorsShape="Square"
                             IndicatorSize="12"
                             IndicatorColor="White"
+                            MaximumVisible="12"
                             SelectedIndicatorColor="{StaticResource MainContrastTextColor}">
                             
                         </IndicatorView>
                         <Button
-                            IsVisible="{Binding Source={Reference MediaItemsIndicatorView}, Path=IsVisible}"
+                            x:Name="PreviuesMediaItemButton"
                             Grid.Column="0" Grid.Row="1"
                             VerticalOptions="Center"
                             Padding="0" Margin="8"
@@ -104,7 +104,7 @@
                             WidthRequest="48" HeightRequest="48"
                             Clicked="PreviuesMediaItemButton_Clicked" />
                         <Button
-                            IsVisible="{Binding Source={Reference MediaItemsIndicatorView}, Path=IsVisible}"
+                            x:Name="NextMediaItemButton"
                             Grid.Column="2" Grid.Row="1"
                             VerticalOptions="Center"
                             Padding="0" Margin="8"

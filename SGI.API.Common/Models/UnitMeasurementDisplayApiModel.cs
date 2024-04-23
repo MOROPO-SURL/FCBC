@@ -8,11 +8,14 @@
 
         public string Symbol { get; set; }
 
+        public decimal? MilimetersRatio { get; set; }
+
         public void Import(Persistence.Entities.UnitMeasurement entity)
         {
             Id = entity.Id;
             Name = entity.Name;
             Symbol = entity.Symbol;
+            MilimetersRatio = entity.MilimetersRatio;
         }
     }
 }
