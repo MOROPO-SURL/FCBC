@@ -179,8 +179,11 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ExposureTranslation> ExposureTranslations { get; set; }
         public DbSet<ActivityTranslation> ActivityTranslations { get; set; }
         public DbSet<InstitutionalServiceTranslation> InstitutionalServiceTranslations { get; set; }
-        public DbSet<ArtisticManifestationTranslation> ArtisticManifestationTranslations { get; set; }
+        public DbSet<ArtisticTechniqueTranslation> ArtisticManifestationTranslations { get; set; }
         public DbSet<CraftManifestationTranslation> CraftManifestationTranslations { get; set; }
         public DbSet<ServiceLineTranslation> ServiceLineTranslations { get; set; }
+        public DbSet<ArtisticTechniqueTranslation> ArtisticTechniqueTranslations { get; set; }
+        public DbSet<ServiceTechniqueTranslation> CraftTechniqueTranslations { get; set; }
+        public DbSet<ServiceTechniqueTranslation> ServiceTechniqueTranslations { get; set; }
     }
 }
