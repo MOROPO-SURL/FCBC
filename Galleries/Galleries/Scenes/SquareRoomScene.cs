@@ -684,6 +684,8 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             int index = 1;
 
+            Vector3 exposureReferencePositionVector;
+
             // North Wall
             for (int x = pivotNegative; x <= pivotPositive; ++x)
             {
@@ -695,7 +697,37 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f), WallDisposition.North);
+                exposureReferencePositionVector = new Vector3(x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, FLOOR_FULL_SIZE / 2 - 0.5f);
+
+                switch (exhibit.ArtWorks.Count)
+                {
+                    case 1:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.Standalone);
+
+                        break;
+
+                    case 2:
+
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.LeftOfPair);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.RightOfPair);
+
+                        break;
+
+                    case 3:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.RightOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.LeftTopOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.LeftBottomOfTrio);
+
+                        break;
+
+                    default:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.LeftTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.LeftBottomOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.RightTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[3], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.North, WorkDisposition.RightBottomOfQuartet);
+
+                        break;
+                }
             }
 
             // South Wall
@@ -709,7 +741,37 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f), WallDisposition.South);
+                exposureReferencePositionVector = new Vector3(-1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING), WALL_HEIGHT / 2, -1 * FLOOR_FULL_SIZE / 2 + 0.5f);
+
+                switch (exhibit.ArtWorks.Count)
+                {
+                    case 1:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.Standalone);
+
+                        break;
+
+                    case 2:
+
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.LeftOfPair);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.RightOfPair);
+
+                        break;
+
+                    case 3:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.RightOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.LeftTopOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.LeftBottomOfTrio);
+
+                        break;
+
+                    default:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.LeftTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.LeftBottomOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.RightTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[3], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.South, WorkDisposition.RightBottomOfQuartet);
+
+                        break;
+                }
             }
 
             // East Wall
@@ -723,7 +785,37 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING)), WallDisposition.East);
+                exposureReferencePositionVector = new Vector3(FLOOR_FULL_SIZE / 2 - 0.5f, WALL_HEIGHT / 2, x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+
+                switch (exhibit.ArtWorks.Count)
+                {
+                    case 1:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.Standalone);
+
+                        break;
+
+                    case 2:
+
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.LeftOfPair);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.RightOfPair);
+
+                        break;
+
+                    case 3:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.RightOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.LeftTopOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.LeftBottomOfTrio);
+
+                        break;
+
+                    default:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.LeftTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.LeftBottomOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.RightTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[3], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.East, WorkDisposition.RightBottomOfQuartet);
+
+                        break;
+                }
             }
 
             // West Wall
@@ -737,11 +829,41 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
                 if (exhibit == null) continue;
 
-                SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING)), WallDisposition.West);
+                exposureReferencePositionVector = new Vector3(-1 * FLOOR_FULL_SIZE / 2 + 0.5f, WALL_HEIGHT / 2, -1 * x * (FLOOR_TILE_SIZE + FLOOR_TILE_SPACING));
+
+                switch (exhibit.ArtWorks.Count)
+                {
+                    case 1:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.Standalone);
+
+                        break;
+
+                    case 2:
+
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.LeftOfPair);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.RightOfPair);
+
+                        break;
+
+                    case 3:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.LeftTopOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.LeftBottomOfTrio);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.RightOfTrio);
+
+                        break;
+
+                    default:
+                        SetUpArtworkFrame(exhibit.ArtWorks[0], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.LeftTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[1], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.LeftBottomOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[2], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.RightTopOfQuartet);
+                        SetUpArtworkFrame(exhibit.ArtWorks[3], pictureFrameComponentMaterial, exposureReferencePositionVector, WallDisposition.West, WorkDisposition.RightBottomOfQuartet);
+
+                        break;
+                }
             }
         }
 
-        private void SetUpArtworkFrame(Models.View.ArtWorkViewModel artWork, Material defaultFrameComponentMaterial, Vector3 pictureFrameNodePosition, WallDisposition wallDisposition)
+        private void SetUpArtworkFrame(Models.View.ArtWorkViewModel artWork, Material defaultFrameComponentMaterial, Vector3 exposureReferencePositionVector, WallDisposition wallDisposition, WorkDisposition workDisposition)
         {
             var artWorkSprite = new Urho.Urho2D.Sprite2D();
 
@@ -757,35 +879,254 @@ namespace MOROPO.FCBC.Galleries.Scenes
             Vector3 pictureSpriteNodePosition;
             Quaternion spritesNodeRotation = new Quaternion();
 
+            switch (workDisposition)
+            {
+                case WorkDisposition.LeftOfPair:
+                    switch (wallDisposition)
+                    {
+                        case WallDisposition.North:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X - frameWidth * 0.5f - 1f, exposureReferencePositionVector.Y - frameHeight * 0.33f, exposureReferencePositionVector.Z);
+                            
+                            break;
+
+                        case WallDisposition.South:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X + frameWidth * 0.5f + 1f, exposureReferencePositionVector.Y - frameHeight * 0.33f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.East:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y - frameHeight * 0.33f, exposureReferencePositionVector.Z + frameWidth * 0.5f + 1f);
+
+                            break;
+
+                        case WallDisposition.West:
+                        default:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y - frameHeight * 0.33f, exposureReferencePositionVector.Z - frameWidth * 0.5f - 1f);
+
+                            break;
+                    }
+
+                    break;
+                case WorkDisposition.RightOfPair:
+                    switch (wallDisposition)
+                    {
+                        case WallDisposition.North:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X + frameWidth * 0.5f + 1f, exposureReferencePositionVector.Y + frameHeight * 0.33f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.South:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X - frameWidth * 0.5f - 1f, exposureReferencePositionVector.Y + frameHeight * 0.33f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.East:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y + frameHeight * 0.33f, exposureReferencePositionVector.Z - frameWidth * 0.5f - 1f);
+
+                            break;
+
+                        case WallDisposition.West:
+                        default:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y + frameHeight * 0.33f, exposureReferencePositionVector.Z + frameWidth * 0.5f + 1f);
+
+                            break;
+                    }
+
+                    break;
+                case WorkDisposition.RightOfTrio:
+                    switch (wallDisposition)
+                    {
+                        case WallDisposition.North:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X + frameWidth * 0.5f + 1f, exposureReferencePositionVector.Y, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.South:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X - frameWidth * 0.5f - 1f, exposureReferencePositionVector.Y, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.East:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y, exposureReferencePositionVector.Z - frameWidth * 0.5f - 1f);
+
+                            break;
+
+                        case WallDisposition.West:
+                        default:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y, exposureReferencePositionVector.Z + frameWidth * 0.5f + 1f);
+
+                            break;
+                    }
+
+                    break;
+                case WorkDisposition.LeftTopOfTrio:
+                case WorkDisposition.LeftTopOfQuartet:
+                    switch (wallDisposition)
+                    {
+                        case WallDisposition.North:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X - frameWidth * 0.5f - 1f, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.South:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X + frameWidth * 0.5f + 1f, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.East:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z + frameWidth * 0.5f + 1f);
+
+                            break;
+
+                        case WallDisposition.West:
+                        default:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z - frameWidth * 0.5f - 1f);
+
+                            break;
+                    }
+
+                    break;
+                case WorkDisposition.LeftBottomOfTrio:
+                case WorkDisposition.LeftBottomOfQuartet:
+                    switch (wallDisposition)
+                    {
+                        case WallDisposition.North:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X - frameWidth * 0.5f - 1f, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.South:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X + frameWidth * 0.5f + 1f, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.East:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z + frameWidth * 0.5f + 1f);
+
+                            break;
+
+                        case WallDisposition.West:
+                        default:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z - frameWidth * 0.5f - 1f);
+
+                            break;
+                    }
+
+                    break;
+                case WorkDisposition.RightTopOfQuartet:
+                    switch (wallDisposition)
+                    {
+                        case WallDisposition.North:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X + frameWidth * 0.5f + 1f, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.South:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X - frameWidth * 0.5f - 1f, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.East:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z - frameWidth * 0.5f - 1f);
+
+                            break;
+
+                        case WallDisposition.West:
+                        default:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y + frameHeight * 0.5f + 1f, exposureReferencePositionVector.Z + frameWidth * 0.5f + 1f);
+
+                            break;
+                    }
+
+                    break;
+                case WorkDisposition.RightBottomOfQuartet:
+                    switch (wallDisposition)
+                    {
+                        case WallDisposition.North:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X + frameWidth * 0.5f + 1f, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.South:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X - frameWidth * 0.5f - 1f, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z);
+
+                            break;
+
+                        case WallDisposition.East:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z - frameWidth * 0.5f - 1f);
+
+                            break;
+
+                        case WallDisposition.West:
+                        default:
+
+                            pictureFrameNode.Position = new Vector3(exposureReferencePositionVector.X, exposureReferencePositionVector.Y - frameHeight * 0.5f - 1f, exposureReferencePositionVector.Z + frameWidth * 0.5f + 1f);
+
+                            break;
+                    }
+
+                    break;
+                default:
+                    pictureFrameNode.Position = exposureReferencePositionVector;
+
+                    break;
+            }
+            
             switch (wallDisposition)
             {   
                 case WallDisposition.North:
                     pictureFrameNodeScale = new Vector3(frameWidth, frameHeight, 1.0f);
-                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z - 1.0f);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z - 1.0f);
 
                     break;
                 case WallDisposition.South:
                     pictureFrameNodeScale = new Vector3(frameWidth, frameHeight, 1.0f);
-                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z + 1.0f);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNode.Position.X, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z + 1.0f);
                     spritesNodeRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
                     break;
                 case WallDisposition.East:
                     pictureFrameNodeScale = new Vector3(1.0f, frameHeight, frameWidth);
-                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X - 1.0f, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
                     spritesNodeRotation = new Quaternion(0, 0.7071068f, 0, 0.7071068f);
 
                     break;
                 case WallDisposition.West:
                 default:
                     pictureFrameNodeScale = new Vector3(1.0f, frameHeight, frameWidth);
-                    pictureSpriteNodePosition = new Vector3(pictureFrameNodePosition.X + 1.0f, pictureFrameNodePosition.Y, pictureFrameNodePosition.Z);
+                    pictureSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y, pictureFrameNode.Position.Z);
                     spritesNodeRotation = new Quaternion(0, 0.7071068f, 0, -0.7071068f);
 
                     break;
             }
 
-            pictureFrameNode.Position = pictureFrameNodePosition;
             pictureFrameNode.Scale = pictureFrameNodeScale;
 
             var pictureFrameComponent = pictureFrameNode.CreateComponent<ArtWorkFrame>();
@@ -817,27 +1158,121 @@ namespace MOROPO.FCBC.Galleries.Scenes
             Vector3 pictureSpriteNodeScale;
             Vector3 interactiveIndicatorSpriteNodePosition;
 
+            var interactiveIndicatorPadding = 2.5f;
+
             switch (wallDisposition)
             {
                 case WallDisposition.North:
                     pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + frameWidth * 0.5f + 5.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+
+                    switch (workDisposition)    
+                    {
+                        case WorkDisposition.LeftTopOfTrio:
+                        case WorkDisposition.LeftTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - frameWidth * 0.5f - interactiveIndicatorPadding, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+
+                        case WorkDisposition.LeftBottomOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - frameWidth * 0.5f - interactiveIndicatorPadding, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+
+                        case WorkDisposition.RightTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + frameWidth * 0.5f + interactiveIndicatorPadding, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+
+                        default:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + frameWidth * 0.5f + interactiveIndicatorPadding, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+                    }
 
                     break;
                 case WallDisposition.South:
                     pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.X * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - frameWidth * 0.5f - 5.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z - 1.0f);
+
+                    switch (workDisposition)
+                    {
+                        case WorkDisposition.LeftTopOfTrio:
+                        case WorkDisposition.LeftTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + frameWidth * 0.5f + interactiveIndicatorPadding, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+
+                        case WorkDisposition.LeftBottomOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + frameWidth * 0.5f + interactiveIndicatorPadding, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+
+                        case WorkDisposition.RightTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - frameWidth * 0.5f - interactiveIndicatorPadding, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+
+                        default:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - frameWidth * 0.5f - interactiveIndicatorPadding, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z - 1.0f);
+
+                            break;
+                    }
 
                     break;
                 case WallDisposition.East:
                     pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z - frameWidth * 0.5f - 5.0f);
+
+                    switch (workDisposition)
+                    {
+                        case WorkDisposition.LeftTopOfTrio:
+                        case WorkDisposition.LeftTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z + frameWidth * 0.5f + interactiveIndicatorPadding);
+
+                            break;
+
+                        case WorkDisposition.LeftBottomOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z + frameWidth * 0.5f + interactiveIndicatorPadding);
+
+                            break;
+
+                        case WorkDisposition.RightTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z - frameWidth * 0.5f - interactiveIndicatorPadding);
+
+                            break;
+
+                        default:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X - 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z - frameWidth * 0.5f - interactiveIndicatorPadding);
+
+                            break;
+                    }
 
                     break;
                 case WallDisposition.West:
                 default:
                     pictureSpriteNodeScale = new Vector3(frameWidth / pictureSpriteComponent.WorldBoundingBox.Size.Z * 0.95f, frameHeight / pictureSpriteComponent.WorldBoundingBox.Size.Y * 0.95f, 0);
-                    interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - 5.0f, pictureSpriteNode.Position.Z + frameWidth * 0.5f + 5.0f);
+
+                    switch (workDisposition)
+                    {
+                        case WorkDisposition.LeftTopOfTrio:
+                        case WorkDisposition.LeftTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z - frameWidth * 0.5f - interactiveIndicatorPadding);
+
+                            break;
+
+                        case WorkDisposition.LeftBottomOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z - frameWidth * 0.5f - interactiveIndicatorPadding);
+
+                            break;
+
+                        case WorkDisposition.RightTopOfQuartet:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y + frameHeight * 0.5f + interactiveIndicatorPadding, pictureSpriteNode.Position.Z + frameWidth * 0.5f + interactiveIndicatorPadding);
+
+                            break;
+
+                        default:
+                            interactiveIndicatorSpriteNodePosition = new Vector3(pictureFrameNode.Position.X + 1.0f, pictureFrameNode.Position.Y - frameHeight * 0.5f - interactiveIndicatorPadding, pictureSpriteNode.Position.Z + frameWidth * 0.5f + interactiveIndicatorPadding);
+
+                            break;
+                    }
 
                     break;
             }
@@ -850,11 +1285,11 @@ namespace MOROPO.FCBC.Galleries.Scenes
 
             if (wallDisposition != WallDisposition.North) interactiveIndicatorSpriteNode.Rotation = spritesNodeRotation;
 
-            interactiveIndicatorSpriteNode.SetScale(7.0f);
+            interactiveIndicatorSpriteNode.SetScale(4.5f);
 
             var interactiveIndicatorSpriteComponent = interactiveIndicatorSpriteNode.CreateComponent<Urho.Urho2D.StaticSprite2D>();
 
-            interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Light.png");
+            interactiveIndicatorSpriteComponent.Sprite = Application.Current.ResourceCache.GetSprite2D("Sprites/Touch_Call_Action_Dark.png");
         }
 
         private enum WallDisposition
@@ -863,6 +1298,20 @@ namespace MOROPO.FCBC.Galleries.Scenes
             South,
             East,
             West
+        }
+
+        private enum WorkDisposition
+        {
+            Standalone,
+            LeftOfPair,
+            RightOfPair,
+            RightOfTrio,
+            LeftTopOfTrio,
+            LeftBottomOfTrio,
+            LeftTopOfQuartet,
+            LeftBottomOfQuartet,
+            RightTopOfQuartet,
+            RightBottomOfQuartet
         }
     }
 
