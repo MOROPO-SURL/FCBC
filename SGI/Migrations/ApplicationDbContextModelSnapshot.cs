@@ -1766,6 +1766,27 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("critics");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CriticTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("CriticId")
+                        .HasColumnName("criticid");
+
+                    b.Property<string>("About")
+                        .IsRequired()
+                        .HasColumnName("about");
+
+                    b.HasKey("TranslatableLanguage", "CriticId")
+                        .HasName("pk_critictranslations");
+
+                    b.HasIndex("CriticId")
+                        .HasName("ix_critictranslations_criticid");
+
+                    b.ToTable("critictranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Currency", b =>
                 {
                     b.Property<int>("Id")
@@ -2885,6 +2906,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasName("pk_thematics");
 
                     b.ToTable("thematics");
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ThematicTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("ThematicId")
+                        .HasColumnName("thematicid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "ThematicId")
+                        .HasName("pk_thematictranslations");
+
+                    b.HasIndex("ThematicId")
+                        .HasName("ix_thematictranslations_thematicid");
+
+                    b.ToTable("thematictranslations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.UnitMeasurement", b =>
@@ -4574,6 +4619,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.CriticTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Critic", "Critic")
+                        .WithMany("Translations")
+                        .HasForeignKey("CriticId")
+                        .HasConstraintName("fk_critictranslations_critics_criticid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.DesignWork", b =>
                 {
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Currency", "CostCurrency")
@@ -5072,6 +5126,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Videos")
                         .HasForeignKey("WorkId")
                         .HasConstraintName("fk_serviceworkvideos_serviceworks_workid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ThematicTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Thematic", "Thematic")
+                        .WithMany("Translations")
+                        .HasForeignKey("ThematicId")
+                        .HasConstraintName("fk_thematictranslations_thematics_thematicid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

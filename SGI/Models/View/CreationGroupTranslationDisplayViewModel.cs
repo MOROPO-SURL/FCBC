@@ -28,8 +28,7 @@ namespace MOROPO.FCBC.SGI.Models.View
             viewModel.Name = Name;            
             viewModel.About = About;
             viewModel.CreationGroup = CreationGroup;
-            viewModel.TranslatableLanguage = TranslatableLanguage;
-            viewModel.CreationGroup = CreationGroup;
+            viewModel.TranslatableLanguage = TranslatableLanguage;           
             return viewModel;
         }
     }
