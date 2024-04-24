@@ -95,48 +95,102 @@
             <div class="card-columns">
                 @foreach (var item in Model.Exhibits)
                 {
-                    <div class="card" style="margin-bottom: 1.25rem !important;">
-                        <img class="card-img-top" src="~/media/images/@item.ArtWork.FeatureImageId.@item.ArtWork.FeatureImageExtension" />
-                        <div class="card-img-overlay">
-                            <div class="btn-group btn-group-sm float-right">
-                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-@item.Id"><span class="mdi mdi-trash-can"></span></a>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-auto">#@item.Index</div>
-                                <div class="col">@item.ArtWork.Title</div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="delete-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-@item.Id-lable" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    @using (Html.BeginForm("removeexhibit", "exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
-                                    {
-                                        @Html.Hidden("exhibitId", item.Id)
+                    if (item.ArtWorks.Length == 1)
+                    {
+                        var artWork = item.ArtWorks[0];
 
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="delete-@item.Id-lable">Eliminar Obra</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p class="mb-0">Esta seguro que desea eliminar la obra seleccionada?</p>
-                                        </div>
-                                        <div class="modal-footer" style="margin-top: 0;">
-                                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <div class="card" style="margin-bottom: 1.25rem !important;">
+                            <img class="card-img-top" src="~/media/images/@artWork.FeatureImageId.@artWork.FeatureImageExtension" />
+                            <div class="card-img-overlay">
+                                <div class="btn-group btn-group-sm float-right">
+                                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-@item.Id"><span class="mdi mdi-trash-can"></span></a>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-auto">#@item.Index</div>
+                                    <div class="col">@artWork.Title</div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="delete-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-@item.Id-lable" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        @using (Html.BeginForm("RemoveArtWorkFromExhibit", "exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                        {
+                                            @Html.Hidden("exhibitId", item.Id)
+                                            @Html.Hidden("workId", artWork.Id)
+
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="delete-@item.Id-lable">Eliminar Obra</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-0">Esta seguro que desea eliminar la obra seleccionada?</p>
+                                            </div>
+                                            <div class="modal-footer" style="margin-top: 0;">
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card" style="margin-bottom: 1.25rem !important;">
+                            <div class="card-body">
+                                <div class="row">
+                                    @foreach (var artWork in item.ArtWorks)
+                                    {
+                                        <div class="col-6">
+                                            <div class="card">
+                                                <img class="card-img-top" src="~/media/images/@artWork.FeatureImageId.@artWork.FeatureImageExtension" />
+                                                <div class="card-img-overlay" style="padding: 0.625rem;">
+                                                    <div class="btn-group btn-group-sm float-right">
+                                                        <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-@item.Id-@artWork.Id"><span class="mdi mdi-trash-can"></span></a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">@artWork.Title</div>
+                                            </div>
+
+                                            <div class="modal fade" id="delete-@item.Id-@artWork.Id" tabindex="-1" role="dialog" aria-labelledby="delete-@item.Id-@artWork.Id-lable" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        @using (Html.BeginForm("RemoveArtWorkFromExhibit", "exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                                        {
+                                                            @Html.Hidden("exhibitId", item.Id)
+                                                            @Html.Hidden("workId", artWork.Id)
+
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title" id="delete-@item.Id-@artWork.Id-lable">Eliminar Obra</h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p class="mb-0">Esta seguro que desea eliminar la obra seleccionada?</p>
+                                                            </div>
+                                                            <div class="modal-footer" style="margin-top: 0;">
+                                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     }
                                 </div>
                             </div>
+                            <div class="card-footer">#@item.Index</div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         }
         else
         {
-            <div class="text-muted font-italic">Este sala aún no tiene obras, haga clic en el boton agregar para comenzar ...</div>
+            <p class="text-muted font-italic">Este sala aún no tiene obras, haga clic en el botón agregar para comenzar ...</p>
         }
     </div>
     <div class="card-footer">
@@ -152,7 +206,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm("addexhibit", "exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, null))
+                @using (Html.BeginForm("AddArtWorkToExhibit", "exposures", new { key = Model.Exposure.Id }, FormMethod.Post, true, null))
                 {
                     <div class="modal-body">
                         <div class="row">
@@ -165,7 +219,7 @@
                             <div class="col">
                                 <div>
                                     @Html.Label("workId", "Obra", new { @class = "control-label" })
-                                    @Html.DropDownList("workId", Model.AvailableArtWorks, "Escribar para buscar la obra ...", new { @class = "form-control member-select" })
+                                    @Html.DropDownList("workId", Model.AvailableArtWorks, "Escriba para buscar la obra ...", new { @class = "form-control member-select" })
                                 </div>
                             </div>
                         </div>

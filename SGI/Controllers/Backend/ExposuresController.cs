@@ -238,7 +238,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 for (int i = 1; i <= 18; i++)
                 {
-                    if (items.Any(ent1ty => ent1ty.Index == i)) continue;
+                    if (items.Any(ent1ty => ent1ty.Index == i && ent1ty.ArtWorkBridges.Count >= 4)) continue;
 
                     noIncludeIndexes.Add(i);
                 }
@@ -266,14 +266,13 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                     model.Import(item);
 
-                    var mainArtWork = item.ArtWorkBridges.First().ArtWork;
-
-                    model.ArtWork = new ArtWorkDisplayViewModel
+                    model.ArtWorks = item.ArtWorkBridges.Select(bridge => new ArtWorkDisplayViewModel
                     {
-                        Title = mainArtWork.Title,
-                        FeatureImageId = mainArtWork.FeatureImageId,
-                        FeatureImageExtension = mainArtWork.FeatureImage?.ContentType.ContentTypeToExtension()
-                    };
+                        Id = bridge.ArtWorkId,
+                        Title = bridge.ArtWork.Title,
+                        FeatureImageId = bridge.ArtWork.FeatureImageId,
+                        FeatureImageExtension = bridge.ArtWork.FeatureImage?.ContentType.ContentTypeToExtension()
+                    }).ToArray();
 
                     return model;
                 }).ToArray();
@@ -291,10 +290,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [HttpPost]
-        [Route("edit/{key}/exhibits/add")]
+        [Route("edit/{key}/exhibits/work/art/add")]
         [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
         [ValidateAntiForgeryToken]
-        public IActionResult AddExhibit(System.Guid key, System.Guid workId, int index)
+        public IActionResult AddArtWorkToExhibit(System.Guid key, System.Guid workId, int index)
         {
             try
             {
@@ -302,19 +301,34 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
                 if (ModelState.IsValid)
                 {
-                    var target = new Exhibit
-                    {
-                        Index = index,
-                        ExposureId = entity.Id
-                    };
+                    var target = exhibitRepository.FindOneBy(_entity => _entity.ExposureId == entity.Id && _entity.Index == index);
 
-                    target.ArtWorkBridges.Add(new ExhibitArtWorkBridge
+                    if (target == null)
                     {
-                        ArtWorkId = workId,
-                        Exhibit = target
-                    });
+                        target = new Exhibit
+                        {
+                            Index = index,
+                            ExposureId = entity.Id
+                        };
 
-                    exhibitRepository.Add(target, User.Identity.Name);
+                        target.ArtWorkBridges.Add(new ExhibitArtWorkBridge
+                        {
+                            ArtWorkId = workId,
+                            Exhibit = target
+                        });
+
+                        exhibitRepository.Add(target, User.Identity.Name);
+                    }
+                    else
+                    {
+                        target.ArtWorkBridges.Add(new ExhibitArtWorkBridge
+                        {
+                            ArtWorkId = workId,
+                            Exhibit = target
+                        });
+
+                        exhibitRepository.Update(target, User.Identity.Name);
+                    }
 
                     SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetCreationSuccessMessage());
 
@@ -336,10 +350,10 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         }
 
         [HttpPost]
-        [Route("edit/{key}/exhibits/remove")]
+        [Route("edit/{key}/exhibits/work/art/remove")]
         [RequirePermissions(Security.Authorization.Permission.ExposureEditor)]
         [ValidateAntiForgeryToken]
-        public IActionResult RemoveExhibit(System.Guid key, System.Guid exhibitId)
+        public IActionResult RemoveArtWorkFromExhibit(System.Guid key, System.Guid exhibitId, System.Guid workId)
         {
             try
             {
@@ -352,7 +366,18 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     throw new System.InvalidOperationException();
                 }
 
-                exhibitRepository.Delete(target, User.Identity.Name);
+                var bridge = target.ArtWorkBridges.First(_bridge => _bridge.ArtWorkId == workId);
+
+                target.ArtWorkBridges.Remove(bridge);
+
+                if (target.ArtWorkBridges.Count <= 0)
+                {
+                    exhibitRepository.Delete(target, User.Identity.Name);
+                }
+                else
+                {
+                    exhibitRepository.Update(target, User.Identity.Name);
+                }
 
                 SetDefaultNotification(SAPRESSC.Core.Common.Models.View.NotificationType.Success, GetDeletionSuccessMessage());
 
