@@ -184,5 +184,6 @@ namespace MOROPO.FCBC.SGI.Persistence.EF
         public DbSet<ServiceLineTranslation> ServiceLineTranslations { get; set; }
         public DbSet<CriticTranslation> CriticTranslations { get; set; }
         public DbSet<ThematicTranslation> ThematicTranslations { get; set; }
+        public DbSet<MaterialTranslation> MaterialTranslations { get; set; }
     }
 }

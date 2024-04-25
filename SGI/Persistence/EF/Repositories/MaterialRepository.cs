@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
 {
@@ -13,5 +14,11 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
         {
             return entity => entity.Name;
         }
+
+        protected override IQueryable<Material> GetQueryableDbSet()
+        {
+            return base.GetQueryableDbSet().Include(entity => entity.Translations);        
+        }
+
     }
 }

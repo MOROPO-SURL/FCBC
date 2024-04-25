@@ -2472,6 +2472,30 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("materials");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.MaterialTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnName("materialid");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name");
+
+                    b.HasKey("TranslatableLanguage", "MaterialId")
+                        .HasName("pk_materialtranslations");
+
+                    b.HasIndex("MaterialId")
+                        .HasName("ix_materialtranslations_materialid");
+
+                    b.ToTable("materialtranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Recognition", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4946,6 +4970,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Translations")
                         .HasForeignKey("InstitutionalServiceId")
                         .HasConstraintName("fk_institutionalservicetranslations_institutionalservices_inst~")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.MaterialTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.Material", "Material")
+                        .WithMany("Translations")
+                        .HasForeignKey("MaterialId")
+                        .HasConstraintName("fk_materialtranslations_materials_materialid")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
