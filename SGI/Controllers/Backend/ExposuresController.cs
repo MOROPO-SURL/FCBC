@@ -17,12 +17,14 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Employee, System.Guid> employeeRepository;
         private readonly IEntityRepository<Exhibit, System.Guid> exhibitRepository;
         private readonly IEntityRepository<ArtWork, System.Guid> artWorkRepository;
+        private readonly IEntityRepository<CraftWork, System.Guid> craftWorkRepository;
 
-        public ExposuresController(IEntityRepository<ArtWork, System.Guid> artWorkRepository, IEntityRepository<Exhibit, System.Guid> exhibitRepository, IEntityRepository<Employee, System.Guid> employeeRepository, IEntityRepository<Exposure, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ExposuresController> localizer, ILogger<ExposuresController> logger) : base(repository, localizer, logger)
+        public ExposuresController(IEntityRepository<CraftWork, System.Guid> craftWorkRepository, IEntityRepository<ArtWork, System.Guid> artWorkRepository, IEntityRepository<Exhibit, System.Guid> exhibitRepository, IEntityRepository<Employee, System.Guid> employeeRepository, IEntityRepository<Exposure, System.Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ExposuresController> localizer, ILogger<ExposuresController> logger) : base(repository, localizer, logger)
         {
             this.employeeRepository = employeeRepository;
             this.exhibitRepository = exhibitRepository;
             this.artWorkRepository = artWorkRepository;
+            this.craftWorkRepository = craftWorkRepository;
         }
 
         [RequirePermissions(Security.Authorization.Permission.ExposureViewer)]
@@ -228,56 +230,73 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                 var items = exhibitRepository.FindBy(ent1ty => ent1ty.ExposureId == key).ToArray();
 
                 var includeArtWorks = new System.Collections.Generic.List<ArtWork>();
+                var includeCraftWorks = new System.Collections.Generic.List<CraftWork>();
 
                 foreach (var item in items)
                 {
                     includeArtWorks.AddRange(item.ArtWorkBridges.Select(_item => _item.ArtWork).ToArray());
+                    includeCraftWorks.AddRange(item.CraftWorkBridges.Select(_item => _item.CraftWork).ToArray());
                 }
 
                 var noIncludeIndexes = new System.Collections.Generic.List<int>();
 
                 for (int i = 1; i <= 18; i++)
                 {
-                    if (items.Any(ent1ty => ent1ty.Index == i && ent1ty.ArtWorkBridges.Count >= 4)) continue;
+                    if (items.Any(_entity => _entity.Index == i && (_entity.ArtWorkBridges.Count + _entity.CraftWorkBridges.Count) >= 4)) continue;
 
                     noIncludeIndexes.Add(i);
                 }
 
                 var notIncludeArtWorks = artWorkRepository.FindBy(_entity => _entity.FeatureImageId != null && _entity.Width != null && _entity.Height != null).ToArray();
 
-                if (includeArtWorks.Count != 0)
+                if (includeArtWorks.Count > 0)
                 {
                     notIncludeArtWorks = notIncludeArtWorks.Except(includeArtWorks).ToArray();
                 }
 
-                var resultModel = new EditExposureExhibitsViewModel
+                var notIncludeCraftWorks = craftWorkRepository.FindBy(_entity => _entity.FeatureImageId != null).ToArray();
+
+                if (includeCraftWorks.Count > 0)
+                {
+                    notIncludeCraftWorks = notIncludeCraftWorks.Except(includeCraftWorks).ToArray();
+                }
+
+                var model = new EditExposureExhibitsViewModel
                 {
                     Exposure = new ExposureDisplayViewModel()
                 };
 
-                resultModel.Exposure.Import(entity);
+                model.Exposure.Import(entity);
 
-                resultModel.AvailableIdexes = noIncludeIndexes.Select(n => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
-                resultModel.AvailableArtWorks = notIncludeArtWorks.Select(n => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = n.Id.ToString(), Text = n.Title }).ToArray();
+                model.AvailableIndexes = noIncludeIndexes.Select(n => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
+                model.AvailableArtWorks = notIncludeArtWorks.Select(n => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = n.Id.ToString(), Text = n.Title }).ToArray();
+                model.AvailableCraftWorks = notIncludeCraftWorks.Select(n => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = n.Id.ToString(), Text = n.Title }).ToArray();
 
-                resultModel.Exhibits = items.OrderBy(item => item.Index).Select(item =>
+                model.Exhibits = items.OrderBy(item => item.Index).Select(item =>
                 {
-                    var model = new ExhibitDisplayViewModel();
+                    var _model = new ExhibitDisplayViewModel();
 
-                    model.Import(item);
+                    _model.Import(item);
 
-                    model.ArtWorks = item.ArtWorkBridges.Select(bridge => new ArtWorkDisplayViewModel
+                    _model.ArtWorks = item.ArtWorkBridges.Select(bridge => new ArtWorkDisplayViewModel
                     {
                         Id = bridge.ArtWorkId,
                         Title = bridge.ArtWork.Title,
                         FeatureImageId = bridge.ArtWork.FeatureImageId,
                         FeatureImageExtension = bridge.ArtWork.FeatureImage?.ContentType.ContentTypeToExtension()
                     }).ToArray();
+                    _model.CraftWorks = item.CraftWorkBridges.Select(bridge => new CraftWorkDisplayViewModel
+                    {
+                        Id = bridge.CraftWorkId,
+                        Title = bridge.CraftWork.Title,
+                        FeatureImageId = bridge.CraftWork.FeatureImageId,
+                        FeatureImageExtension = bridge.CraftWork.FeatureImage?.ContentType.ContentTypeToExtension()
+                    }).ToArray();
 
-                    return model;
+                    return _model;
                 }).ToArray();
 
-                return View(resultModel);
+                return View(model);
             }
             catch (System.Exception e)
             {

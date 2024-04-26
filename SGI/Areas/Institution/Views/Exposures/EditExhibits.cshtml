@@ -137,7 +137,7 @@
                             </div>
                         </div>
                     }
-                    else
+                    else if (item.ArtWorks.Length > 1)
                     {
                         <div class="card" style="margin-bottom: 1.25rem !important;">
                             <div class="card-body">
@@ -185,6 +185,10 @@
                             <div class="card-footer">#@item.Index</div>
                         </div>
                     }
+                    else
+                    {
+                        
+                    }
                 }
             </div>
         }
@@ -213,7 +217,7 @@
                             <div class="col-auto">
                                 <div>
                                     @Html.Label("index", "Posición", new { @class = "control-label" })
-                                    @Html.DropDownList("index", Model.AvailableIdexes, new { @class = "form-control" })
+                                    @Html.DropDownList("index", Model.AvailableIndexes, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="col">
