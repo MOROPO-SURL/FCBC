@@ -3,7 +3,7 @@
 @model MOROPO.FCBC.SGI.Models.View.ServiceLineInputViewModel
 
 @{
-    ViewData["Title"] = "Modificar Línea de Servicio";
+    ViewData["Title"] = "Modificar Línea de Servicios";
 
     ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
     {
@@ -14,7 +14,7 @@
         },
         new BreadcrumbViewModel
         {
-            Caption = "Administración de Líneas de Servicio",
+            Caption = "Administración de Líneas de Servicios",
             Url = Url.Action("index")
         },
         new BreadcrumbViewModel
@@ -33,7 +33,17 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header"><h4>@ViewData["Title"]</h4></div>
+        <div class="card-header">
+            <h4>@ViewData["Title"]</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("EditTranslations", @Model.Id)">Traducciones</a>
+                </li>
+            </ul>
+        </div>
 
         <div class="card-body">
 

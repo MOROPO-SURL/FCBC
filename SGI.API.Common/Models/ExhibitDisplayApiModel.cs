@@ -8,6 +8,8 @@
 
         public ArtWorkDisplayApiModel[] ArtWorks { get; set; }
 
+        public CraftWorkDisplayApiModel[] CraftWorks { get; set; }
+
         public void Import(Persistence.Entities.Exhibit entity)
         {
             Id = entity.Id;

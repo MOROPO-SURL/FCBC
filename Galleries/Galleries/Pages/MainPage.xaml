@@ -4,12 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
     xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
+    xmlns:root="clr-namespace:MOROPO.FCBC.Galleries"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
     xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="MOROPO.FCBC.Galleries.Pages.MainPage"
     x:TypeArguments="pagemodels:MainPageModel"
-    Title="Inicio"
+    Title="{Static root:AppResources.PageTitleHome}"
     BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -18,11 +19,25 @@
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem 
-            Text="Actualizar"
+            Text="{Static root:AppResources.UpdateText}"
             Order="Primary"
             Clicked="RefreshToolbarItem_Clicked">
             <ToolbarItem.IconImageSource>
                 <FontImageSource FontFamily="Material Design Icons" Glyph="&#xF450;">
+                    <FontImageSource.Color>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="UWP" Value="Black" />
+                        </OnPlatform>
+                    </FontImageSource.Color>
+                </FontImageSource>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        <ToolbarItem 
+            Text="{Static root:AppResources.LanguageText}"
+            Order="Primary"
+            Clicked="LanguageToolbarItem_Clicked">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="Material Design Icons" Glyph="&#xF1E7;">
                     <FontImageSource.Color>
                         <OnPlatform x:TypeArguments="Color">
                             <On Platform="UWP" Value="Black" />
@@ -51,10 +66,11 @@
                             Margin="10,30">
                             <Label
                                 Style="{StaticResource HeaderTitleLabelStyle}"
+                                Text="{Static root:AppResources.AppTitle}"
                                 HorizontalTextAlignment="Center" />
                             <Label
                                 Margin="0,18"
-                                Text="{Binding Path=About}"
+                                Text="{Binding Path=About, TargetNullValue='Et lorem dolor placerat at sed zzril sed lorem gubergren at euismod elitr invidunt dolore dolor aliquyam at diam sanctus'}"
                                 HorizontalTextAlignment="Center"
                                 TextColor="{StaticResource MainContrastTextColor}" />
                             <Grid ColumnSpacing="4">
@@ -67,24 +83,24 @@
                                     Padding="0"
                                     Style="{StaticResource HeaderButtonStyle}"
                                     Grid.Column="0"
-                                    Text="Historia"
+                                    Text="{Static root:AppResources.HistoryText}"
                                     Clicked="HistoryHeaderButton_Clicked" />
                                 <Button
                                     Padding="0"
                                     Style="{StaticResource HeaderButtonStyle}"
                                     Grid.Column="1"
-                                    Text="Catálogo" />
+                                    Text="{Static root:AppResources.CatalogText}" />
                                 <Button
                                     Style="{StaticResource HeaderButtonStyle}"
                                     Grid.Column="2"
-                                    Text="Contacto"
+                                    Text="{Static root:AppResources.ContactText}"
                                     Clicked="ContactHeaderButton_Clicked" />
                             </Grid>
                         </StackLayout>
                     </Grid>
                     <StackLayout Style="{StaticResource BodyContentSectionHeaderStackLayoutStyle}">
                         <Label 
-                            Text="Salas Expositivas"
+                            Text="{Static root:AppResources.ExposureRoomsHeader}"
                             Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
                         <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />                        
                     </StackLayout>
@@ -96,7 +112,7 @@
                         <BindableLayout.EmptyView>
                             <Label
                                 Margin="10"
-                                Text="No existen salas expositivas disponibles en este momento"
+                                Text="{Static root:AppResources.EmptyExposureRoomText}"
                                 HorizontalTextAlignment="Center"
                                 TextColor="DimGray" />
                         </BindableLayout.EmptyView>
@@ -120,7 +136,7 @@
                                             LineBreakMode="TailTruncation"
                                             MaxLines="4" />
                                         <Button
-                                            Text="Detalles"
+                                            Text="{Static root:AppResources.DetailsText}"
                                             Clicked="ExposureDetailButton_Clicked" />
                                     </StackLayout>
                                 </Frame>

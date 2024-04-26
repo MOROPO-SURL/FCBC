@@ -79,12 +79,16 @@ namespace MOROPO.FCBC.SGI
             services.AddScoped<IEntityRepository<Material, Guid>, MaterialRepository>();
             services.AddScoped<IEntityRepository<ArtWork, Guid>, ArtWorkRepository>();
             services.AddScoped<IEntityRepository<ArtWorkAttachment, Guid>, ArtWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<ArtWorkVideo, Guid>, ArtWorkVideoRepository>();
             services.AddScoped<IEntityRepository<CraftWork, Guid>, CraftWorkRepository>();
             services.AddScoped<IEntityRepository<DesignWork, Guid>, DesignWorkRepository>();
             services.AddScoped<IEntityRepository<ServiceWork, Guid>, ServiceWorkRepository>();
             services.AddScoped<IEntityRepository<CraftWorkAttachment, Guid>, CraftWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<CraftWorkVideo, Guid>, CraftWorkVideoRepository>();
+            services.AddScoped<IEntityRepository<CraftWorkThreeDimensional, Guid>, CraftWorkThreeDimensionalRepository>();
             services.AddScoped<IEntityRepository<DesignWorkAttachment, Guid>, DesignWorkAttachmentRepository>();
             services.AddScoped<IEntityRepository<ServiceWorkAttachment, Guid>, ServiceWorkAttachmentRepository>();
+            services.AddScoped<IEntityRepository<ServiceWorkVideo, Guid>, ServiceWorkVideoRepository>();
             services.AddScoped<IEntityRepository<ActivityKind, Guid>, ActivityKindRepository>();
             services.AddScoped<IEntityRepository<Activity, Guid>, ActivityRepository>();
             services.AddScoped<IEntityRepository<Agreement, Guid>, AgreementRepository>();

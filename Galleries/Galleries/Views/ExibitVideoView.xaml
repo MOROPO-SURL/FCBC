@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="MOROPO.FCBC.Galleries.Views.ExibitVideoView">
+    <ContentView.Content>
+        <Grid>
+            <xct:MediaElement 
+                x:Name="VideoView"
+                BackgroundColor="Black"
+                AutoPlay="False"
+                ShowsPlaybackControls="True"  />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

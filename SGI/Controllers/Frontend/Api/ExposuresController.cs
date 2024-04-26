@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.API.Common.Models;
 using MOROPO.FCBC.SGI.API.Common.Models.Filter;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.SAPRESSC.Core.Common.Models;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
-using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Extensions;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,6 +15,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
     // TODO Fix ApiKey Authorization claims from permission to role
     //[Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = SmartSolucionesCuba.AspNetCore.Authentication.ApiKey.ApiKeyAuthenticationDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
+    [Route("{culture:regex(^[[a-z]]{{2}}(?:-[[A-Z]]{{2}})?$)}/api/[controller]")]
     [ApiController]
     [Swashbuckle.AspNetCore.Annotations.SwaggerTag("Exposure's endpoints.")]
     public class ExposuresController : SAPRESSC.Core.Web.Api.Controllers.AbstractEntityApiConsultFilteredController<Exposure, System.Guid, ExposureDisplayApiModel, ExposureFilterApiModel>
@@ -89,6 +90,42 @@ namespace MOROPO.FCBC.SGI.Controllers.Frontend.Api
 
                 return _model;
             }).ToArray();
+
+            if (RouteData.Values.ContainsKey("culture"))
+            {
+                TranslatableLanguage? translatableLanguage = null;
+
+                switch (RouteData.Values["culture"])
+                {
+                    case "en":
+                        translatableLanguage = TranslatableLanguage.English;
+
+                        break;
+
+                    case "fr":
+                        translatableLanguage = TranslatableLanguage.French;
+
+                        break;
+
+                    case "ru":
+                        translatableLanguage = TranslatableLanguage.Russian;
+
+                        break;
+
+                    case "pt":
+                        translatableLanguage = TranslatableLanguage.Portuguese;
+
+                        break;
+                }
+
+                var translation = entity.Translations.FirstOrDefault(ent1ty => ent1ty.TranslatableLanguage == translatableLanguage);
+
+                if (translation != null)
+                {
+                    if (translation.Name != null) model.Name = translation.Name;
+                    if (translation.Description != null) model.Description = translation.Description;
+                }
+            }
 
             return model;
         }

@@ -71,7 +71,9 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "WeightUnitMeasurement")]
         public System.Guid? WeightUnitMeasurementId { get; set; }
 
-        public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvaiableUnitMeasurements { get; set; }
+        public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvaiableDimensionsUnitMeasurements { get; set; }
+
+        public System.Collections.Generic.List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> AvaiableWeightDimensionsUnitMeasurements { get; set; }
 
         public ArtWork Export()
         {
@@ -112,7 +114,6 @@ namespace MOROPO.FCBC.SGI.Models.View
             entity.BornYear = BornYear.Value;
             entity.About = About;
             entity.ManifestationId = ManifestationId.Value;
-            entity.FeatureImageId = FeatureImageId;
             entity.Collection = Collection;
             entity.Location = Location;
             entity.Price = Price;

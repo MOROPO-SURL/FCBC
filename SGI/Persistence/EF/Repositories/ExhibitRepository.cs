@@ -16,6 +16,7 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Repositories
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.PriceCurrency)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.DimensionsUnitMeasurement)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.ImageBridges).ThenInclude(bridge => bridge.Image)
+                .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.Videos)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.Manifestation)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.TechniqueBridges).ThenInclude(bridge => bridge.Technique)
                 .Include(entity => entity.ArtWorkBridges).ThenInclude(bridge => bridge.ArtWork).ThenInclude(entity => entity.MaterialBridges).ThenInclude(bridge => bridge.Material)

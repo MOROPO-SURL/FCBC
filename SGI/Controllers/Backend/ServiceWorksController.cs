@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.Filter;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.Security.Authorization;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
@@ -33,11 +34,12 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
         private readonly IEntityRepository<Material, System.Guid> materialRepository;
         private readonly Managers.RelativeAttachmentFileManager attachmentFileManager;
         private readonly IEntityRepository<ServiceWorkAttachment, Guid> attachmentRepository;
+        private readonly IEntityRepository<ServiceWorkVideo, Guid> videoRepository;
         private readonly IEntityRepository<Thematic, Guid> thematicRepository;
         private readonly IEntityRepository<Critic, Guid> criticRepository;
         private readonly IEntityRepository<ServiceWorkValoration, Guid> valorationRepository;
 
-        public ServiceWorksController(IEntityRepository<ServiceWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<ServiceWorkAttachment, Guid> attachmentRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ServiceTechnique, System.Guid> techniqueRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<ServiceLine, System.Guid> serviceLineRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<ServiceWork, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ServiceWorksController> localizer, ILogger<ServiceWorksController> logger) : base(repository, localizer, logger)
+        public ServiceWorksController(IEntityRepository<ServiceWorkValoration, Guid> valorationRepository, IEntityRepository<Critic, Guid> criticRepository, IEntityRepository<Thematic, Guid> thematicRepository, IEntityRepository<ServiceWorkAttachment, Guid> attachmentRepository, IEntityRepository<ServiceWorkVideo, Guid> videoRepository, Managers.RelativeAttachmentFileManager attachmentFileManager, IEntityRepository<Material, System.Guid> materialRepository, IEntityRepository<ServiceTechnique, System.Guid> techniqueRepository, IEntityRepository<CreationGroup, System.Guid> creationGroupRepository, IEntityRepository<Artist, System.Guid> creatorRepository, IEntityRepository<ServiceLine, System.Guid> serviceLineRepository, IEntityRepository<Currency, int> currencyRepository, IEntityRepository<Image, System.Guid> imageRepository, IImageFileManagerFacade imageFileManager, IEntityRepository<Award, System.Guid> awardRepository, IEntityRepository<ServiceWork, Guid> repository, Microsoft.Extensions.Localization.IStringLocalizer<ServiceWorksController> localizer, ILogger<ServiceWorksController> logger) : base(repository, localizer, logger)
         {
             this.serviceLineRepository = serviceLineRepository;
             this.currencyRepository = currencyRepository;
@@ -50,6 +52,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             this.materialRepository = materialRepository;
             this.attachmentFileManager = attachmentFileManager;
             this.attachmentRepository = attachmentRepository;
+            this.videoRepository = videoRepository;
             this.thematicRepository = thematicRepository;
             this.criticRepository = criticRepository;
             this.valorationRepository = valorationRepository;
@@ -1253,6 +1256,390 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
 
             return GetDefaultActionResult();
+        }
+
+        #endregion
+
+        #region Videos
+
+        [HttpGet]
+        [Route("edit/{key}/videos")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public ActionResult EditVideos(System.Guid key)
+        {
+            var entity = Repository.Get(key);
+
+            var work = new ServiceWorkDisplayViewModel();
+            var videos = entity.Videos.Select(item =>
+            {
+                var result = new VideoDisplayViewModel();
+
+                result.Import(item);
+
+                return result;
+            }).ToArray();
+
+            var model = new ServiceWorkVideosDisplayViewModel
+            {
+                Work = work,
+                Videos = videos
+            };
+
+            model.Work.Import(entity);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/add")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public IActionResult AddVideo(System.Guid key, VideoInputViewModel model)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                ModelState.ClearValidationState("ImageFile");
+
+                model.File = Request.Form.Files[0];
+
+                var updateModelTask = TryUpdateModelAsync(model);
+
+                updateModelTask.Wait();
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        using (var memoryStream = new System.IO.MemoryStream())
+                        {
+                            model.File.CopyTo(memoryStream);
+
+                            var video = new ServiceWorkVideo
+                            {
+                                Name = model.Name,
+                                IsPublic = model.IsPublic,
+                                Description = model.Description,
+                                ContentType = model.File.ContentType,
+                                Length = model.File.Length,
+                                WorkId = entity.Id
+                            };
+
+                            attachmentFileManager.SaveFileContent(video.Id, memoryStream.ToArray(), video.ContentType);
+
+                            videoRepository.Add(video, User.Identity.Name);
+                        }
+
+                        SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+
+                        return RedirectToAction("EditVideos", new { key = entity.Id });
+                    }
+                    catch (MOROPO.SAPRESSC.Core.Web.Frontend.InvalidModelException e)
+                    {
+                        ModelState.AddModelError(e.ModelKey, e.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, GetInvalidMessage());
+
+                return RedirectToAction("EditVideos", new { key = entity.Id });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/delete")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public IActionResult DeleteVideo(System.Guid key, System.Guid videoId)
+        {
+            try
+            {
+                var entity = Repository.Get(key);
+
+                var video = entity.Videos.First(e => e.Id == videoId);
+
+                videoRepository.Delete(video, User.Identity.Name);
+
+                attachmentFileManager.DeleteFile(video);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+
+                return RedirectToAction("EditVideos", new { key = entity.Id });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+
+                return RedirectToAction("EditVideos", new { key });
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetSuccessDeleteActionResult();
+        }
+
+
+        [HttpPost]
+        [Route("edit/{key}/{videoId}/videos/download")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public FileResult DownloadVideo(System.Guid key, System.Guid videoId)
+        {
+
+            var entity = Repository.Get(key);
+            var video = entity.Videos.FirstOrDefault(att => att.Id == videoId);
+
+            var fileBytes = attachmentFileManager.GetFileContent(video);
+            var extension = video.ContentType.Split('/');
+            var fileName = video.Name + "." + extension[1];
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+        }
+
+        [HttpPost]
+        [Route("edit/{key}/videos/edit")]
+        [ValidateAntiForgeryToken]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public IActionResult EditVideo(System.Guid key, VideoInputViewModel modelInput)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ServiceWorkVideo val = videoRepository.Get(modelInput.Id);
+                    try
+                    {
+                        modelInput.Mergue(val);
+
+                        videoRepository.Update(val, base.User.Identity.Name);
+
+                        SetDefaultNotification(NotificationType.Success, GetEditionSuccessMessage());
+                        return RedirectToAction("EditVideos", new { key });
+                    }
+                    catch (Exception ex2)
+                    {
+                        logger.LogError(ex2.InnerException, ex2.Message);
+                        SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+                        return RedirectToAction("EditVideos", new { key });
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+            SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+            return GetDefaultActionResult();
+        }
+
+        #endregion
+
+        #region Language
+        [Route("edit/{key}/translations")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        public ActionResult EditTranslations(System.Guid key)
+        {
+            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+
+            foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
+            {
+                languages.Add(language);
+            }
+
+            var entity = Repository.Get(key);
+
+            var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
+
+            var resultModel = new ServiceWorkLanguageManagerViewModel
+            {
+                Work = new ServiceWorkDisplayViewModel(),
+                NotSelectedLanguage = languages.Except(languagesSelected).ToArray(),
+                Translations = entity.Translations.Select(item =>
+                {
+                    var model = new ServiceWorkTranslationDisplayViewModel
+                    {
+                        TranslatableLanguage = item.TranslatableLanguage,
+                        Name = item.Name,
+                        Description = item.Description                       
+                    };
+                    return model;
+                }).ToArray()
+            };
+
+            resultModel.Work.Import(entity);
+
+            return View(resultModel);
+        }
+
+        [Route("edit/translations/add")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddTranslation(ServiceWorkLanguagesInputViewModel modelInput)
+        {
+            ServiceWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.WorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                entity.Translations.Add(new ServiceWorkTranslation
+                {
+                    ServiceWorkId = entity.Id,
+                    TranslatableLanguage = modelInput.TranslatableLanguage,
+                    Name = modelInput.TranslatableLanguage.ToString(),
+                    Description = modelInput.Description                    
+                });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/modify")]
+        [RequirePermissions(Security.Authorization.Permission.ServiceWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ModifyTranslation(ServiceWorkLanguagesInputViewModel modelInput)
+        {
+            ServiceWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.WorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
+
+                translation.Name = modelInput.Name;
+                translation.Description = modelInput.Description;                
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/remove")]
+        [RequirePermissions(Permission.ServiceWorkEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTranslation(System.Guid ServiceWorkId, TranslatableLanguage translatableLanguage)
+        {
+            ServiceWork entity = null;
+
+            try
+            {
+                entity = Repository.Get(ServiceWorkId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Translations.First(b => b.ServiceWorkId == ServiceWorkId && b.TranslatableLanguage == translatableLanguage);
+
+                entity.Translations.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
         #endregion

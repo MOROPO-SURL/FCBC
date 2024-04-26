@@ -49,11 +49,11 @@
             line-height: 36px;
         }
 
-        .dropdown-toggle::after {
-            margin: 0 5px;
-        }
+            .dropdown-toggle::after {
+                margin: 0 5px;
+            }
 
-        ul.dropdown-menu{
+        ul.dropdown-menu {
             width: 100%;
         }
     </style>
@@ -69,10 +69,10 @@
 
 <div class="card" style="margin-bottom: 20px;">
     <div class="card-header">
-            <h4>Modificar Grupos de Creación</h4>
+        <h4>Modificar Grupos de Creación</h4>
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Generales</a>
+                <a class="nav-link" href="@Url.Action("edit", @Model.Group.Id)">Generales</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("editartisticmanifestations", @Model.Group.Id)">Manifestaciones</a>
@@ -86,12 +86,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("creationgroupawards", @Model.Group.Id)">Trayectoria</a>
             </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("editattachments", @Model.Group.Id)">Archivos</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("editattachments", @Model.Group.Id)">Archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("EditTranslations", @Model.Group.Id)">Traducciones</a>
+            </li>
         </ul>
     </div>
-    <div class="card-body">        
+    <div class="card-body">
         <div class="alert alert-dark mb-4">
             <details>
                 <summary class="h4 mb-0">@Model.Group.Name</summary>
@@ -111,23 +114,23 @@
                         <div class="card-block pl-3">
                             <div class="row">
                                 <dl class="col-md-6">
-                                    <dt>Fecha de Creación</dt>                                        
+                                    <dt>Fecha de Creación</dt>
                                     @if (Model.Group.CreatedAt == null)
                                     {
                                         <dd>-</dd>
                                     }
-                                    else 
+                                    else
                                     {
                                         <dd>@Model.Group.CreatedAt.Value.ToShortDateString()</dd>
                                     }
                                 </dl>
                                 <dl class="col-md-6">
-                                    <dt>Marca</dt>                                        
+                                    <dt>Marca</dt>
                                     @if (Model.Group.Brand == null)
                                     {
                                         <dd>-</dd>
                                     }
-                                    else 
+                                    else
                                     {
                                         <dd>@Model.Group.Brand</dd>
                                     }
@@ -150,7 +153,7 @@
                         </div>
                     </div>
                 </div>
-            </details>                
+            </details>
         </div>
         @if (Model.Members.Count() != 0)
         {
@@ -199,7 +202,7 @@
     </div>
     @await Html.PartialAsync("AddMemberPartial", new MOROPO.FCBC.SGI.Models.View.CreationGroupMembersInputViewModel
     {
-        CreationGroupId = Model.Group.Id,
-        NotMembers = Model.NotMembers
+    CreationGroupId = Model.Group.Id,
+    NotMembers = Model.NotMembers
     })
 </div>

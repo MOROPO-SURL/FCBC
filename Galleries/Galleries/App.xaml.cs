@@ -4,7 +4,21 @@
     {
         public App()
         {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(System.Globalization.CultureInfo.InstalledUICulture.TwoLetterISOLanguageName);
+
+            AppResources.Culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+            {
+                FFImageLoading.ImageService.Instance.Initialize(new FFImageLoading.Config.Configuration
+                {
+                    HttpClient = new System.Net.Http.HttpClient(Xamarin.Forms.DependencyService.Get<Providers.Facade.INativeHttpClientHandlerProviderFacade>().Get())
+                });
+            }
+
             InitializeComponent();
+
+            FFImageLoading.ImageService.Instance.Config.DiskCacheDuration = System.TimeSpan.Parse("8760:00:00");
 
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
             {

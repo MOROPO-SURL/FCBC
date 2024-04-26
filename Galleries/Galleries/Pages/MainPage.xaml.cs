@@ -20,6 +20,19 @@ namespace MOROPO.FCBC.Galleries.Pages
             Refresh();
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            DisplayAlert("Aviso", "Está seguro que desea salir de la aplicación?", "Salir", "Cancelar").ContinueWith(task =>
+            {
+                if (task.Result)
+                {
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() => Xamarin.Forms.DependencyService.Get<Managers.Facade.INativeApplicationManagerFacade>().Close());
+                }
+            });
+
+            return true;
+        }
+
         private void ExposureDetailButton_Clicked(object sender, System.EventArgs eventArgs)
         {
             this.NavigationPushPageAsync(new ExposureDetailPage(BindingContextPageModel.ImageSource, ((sender as Xamarin.Forms.BindableObject).BindingContext as SGI.API.Common.Models.ExposureDisplayApiModel).Id));
@@ -42,12 +55,53 @@ namespace MOROPO.FCBC.Galleries.Pages
             Refresh();
         }
 
+        private void LanguageToolbarItem_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            if (BindingContextPageModel.IsBusy) return;
+
+            DisplayActionSheet(AppResources.PickLanguageHeader, AppResources.CancelText, null, AppResources.LanguageNameSpanish, AppResources.LanguageNameEnglish, AppResources.LanguageNameFrench, AppResources.LanguageNameRussian, AppResources.LanguageNamePortuguese).ContinueWith(task => 
+            {
+                if (string.IsNullOrEmpty(task.Result) || task.Result.Equals(AppResources.CancelText)) return;
+
+                if (task.Result.Equals(AppResources.LanguageNameSpanish))
+                {
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es");
+                }
+                else if (task.Result.Equals(AppResources.LanguageNameEnglish))
+                {
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+                }
+                else if (task.Result.Equals(AppResources.LanguageNameFrench))
+                {
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fr");
+                }
+                else if (task.Result.Equals(AppResources.LanguageNameRussian))
+                {
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru");
+                }
+                else if (task.Result.Equals(AppResources.LanguageNamePortuguese))
+                {
+                    System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("pt");
+                }
+
+                AppResources.Culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    Xamarin.Forms.Application.Current.MainPage = new Xamarin.Forms.NavigationPage(new MainPage());
+                });
+            });
+        }
+
         private void Refresh()
         {
             BindingContextPageModel.IsBusy = true;
             IsEnabled = false;
 
-            var galleryApiConnectClient = new SGI.API.Connect.Clients.GalleryConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
+            var galleryApiConnectClient = new SGI.API.Connect.Clients.GalleryConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance)
+            {
+                Culture = AppResources.Culture
+            };
 
             galleryApiConnectClient.GetAsync(SGI.Persistence.Enumerations.GalleryId.Amalia).ContinueWith(getGalleryTask =>
             {
@@ -69,7 +123,10 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                         BindingContextPageModel.IsBusy = false;
 
-                        var exposuresApiConnectClient = new SGI.API.Connect.Clients.ExposureConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
+                        var exposuresApiConnectClient = new SGI.API.Connect.Clients.ExposureConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance)
+                        {
+                            Culture = AppResources.Culture
+                        };
 
                         exposuresApiConnectClient.FilterPaginateAsync(new SGI.API.Common.Models.Filter.ExposureFilterApiModel { GalleryId = SGI.Persistence.Enumerations.GalleryId.Amalia }).ContinueWith(getExposuresTask =>
                         {

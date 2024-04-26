@@ -3,6 +3,7 @@ using Urho.Actions;
 
 namespace MOROPO.FCBC.Galleries.Presenters
 {
+    [Preserve]
     internal class VirtualGalleryRoomPresenter : Application
     {
         protected const float TOUCH_SENSITIVITY = 2;
@@ -19,6 +20,7 @@ namespace MOROPO.FCBC.Galleries.Presenters
 
         public VirtualGalleryRoomPresenter(ApplicationOptions options) : base(options)
         {
+            UnhandledException += VirtualGalleryRoomPresenter_UnhandledException;
         }
 
         public Models.Page.ExposureRoomPageModel ExposureRoomPageModel { get; set; }
@@ -67,11 +69,32 @@ namespace MOROPO.FCBC.Galleries.Presenters
             //}
         }
 
+        protected override void Stop()
+        {
+            UnbindSceneEvents();
+
+            base.Stop();
+        }
+
         protected override void OnUpdate(float timeStep)
         {
             MoveCameraByTouches(timeStep);
 
             base.OnUpdate(timeStep);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            ExposureRoomPageModel = null;
+
+            UnhandledException -= VirtualGalleryRoomPresenter_UnhandledException;
+        }
+
+        private void VirtualGalleryRoomPresenter_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
         }
 
         public void PresentArtworkDetailFor(Models.View.ArtWorkViewModel model)

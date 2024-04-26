@@ -108,7 +108,7 @@
                     </div>
                     <div class="col-md-4" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.DimensionsUnitMeasurementId, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.DimensionsUnitMeasurementId, Model.AvaiableUnitMeasurements, new { @class = "form-control"})
+                        @Html.DropDownListFor(model => model.DimensionsUnitMeasurementId, Model.AvaiableDimensionsUnitMeasurements, new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.DimensionsUnitMeasurementId, null, new { @class = "text-danger" })
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px;">
                         @Html.LabelFor(model => model.WeightUnitMeasurementId, new { @class = "control-label" })
-                        @Html.DropDownListFor(model => model.WeightUnitMeasurementId, Model.AvaiableUnitMeasurements, new { @class = "form-control"})
+                        @Html.DropDownListFor(model => model.WeightUnitMeasurementId, Model.AvaiableWeightDimensionsUnitMeasurements, new { @class = "form-control"})
                         @Html.ValidationMessageFor(model => model.WeightUnitMeasurementId, null, new { @class = "text-danger" })
                     </div>
                 </div>

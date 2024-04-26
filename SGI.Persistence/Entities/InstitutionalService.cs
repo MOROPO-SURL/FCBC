@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.SGI.Persistence.Entities
+﻿using System.Collections.Generic;
+
+namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
     public class InstitutionalService : SAPRESSC.Core.Persistence.Entities.INamedEntity<System.Guid>
     {
@@ -9,10 +11,12 @@
         public string Name { get; set; }
 
         public string Description { get; set; }
+        public List<InstitutionalServiceTranslation> Translations { get; set; }
 
         public InstitutionalService()
         {
             Id = System.Guid.NewGuid();
+            Translations = new List<InstitutionalServiceTranslation>();
         }
     }
 }

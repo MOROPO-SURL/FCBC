@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
 using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.FCBC.SGI.RegionConst;
 using MOROPO.FCBC.SGI.Security.Authorization;
+using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Backend.Controllers;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
@@ -14,6 +17,7 @@ using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
 using MOROPO.SAPRESSC.Middleware.Region.Persistence.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MOROPO.FCBC.SGI.Controllers.Backend
@@ -490,5 +494,151 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
 
             return RedirectToAction("contacts", new { key = entity.Id });
         }
+
+        #region Language
+        [Route("edit/{key}/languages")]
+        [RequirePermissions(Permission.AssociationEditor)]
+        public ActionResult EditLanguages(System.Guid key)
+        {
+            List<Persistence.Enumerations.TranslatableLanguage> languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+
+            foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
+            {
+                languages.Add(language);
+            }
+
+            var entity = Repository.Get(key);
+
+            var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
+
+            var notLanguagesSelected = languages.Except(languagesSelected).ToArray();
+
+            var resultModel = new AssociationLanguageManagerViewModel
+            {
+                Association = new AssociationDisplayViewModel()
+            };
+
+            resultModel.Association.Import(entity);
+
+            resultModel.NotSelectedLanguage = notLanguagesSelected.Select(n => new SelectListItem { Value = n.ToString(), Text = n.ToString() }).ToArray();
+
+            var translations = entity.Translations;
+
+            resultModel.Translations = translations.Select(item =>
+            {
+                var model = new AssociationTranslationDisplayViewModel
+                {
+                    AssociationLanguege = new AssociationLanguageDisplayViewModel
+                    {
+                        AssociationId = item.AssociationId,
+                        Name = item.Name,
+                        TranslatableLanguage = item.TranslatableLanguage
+                    }
+                };
+
+                model.Import(item);
+
+                return model;
+            }).ToArray();
+
+            return View(resultModel);
+        }
+
+        [Route("edit/languages/add")]
+        [RequirePermissions(Permission.AssociationEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddLanguage(InstitutionsLanguagesInputViewModel modelInput)
+        {
+            Association entity = null;
+
+            try
+            {
+                entity = Repository.Get(modelInput.GeneralId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                entity.Translations.Add(new AssociationTranslation { AssociationId = entity.Id, TranslatableLanguage = modelInput.TranslatableLanguage, Name = modelInput.TranslatableLanguage.ToString() });
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetCreationSuccessMessage());
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
+
+        [Route("edit/languages/remove")]
+        [RequirePermissions(Permission.AssociationEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteLanguage(System.Guid AssociationId, TranslatableLanguage translatableLanguage)
+        {
+            Association entity = null;
+
+            try
+            {
+                entity = Repository.Get(AssociationId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, GetNotFoundMessage());
+
+                return GetDefaultActionResult();
+            }
+
+            try
+            {
+                var bridge = entity.Translations.First(b => b.AssociationId == AssociationId && b.TranslatableLanguage == translatableLanguage);
+
+                entity.Translations.Remove(bridge);
+
+                Repository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, GetDeletionSuccessMessage());
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, GetOnDeletionDependecyConstrainErrorMessage());
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("EditLanguages", new { key = entity.Id });
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,16 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.ArtistTranslationInputViewModel
+
+<div class="modal-body">
+    @Html.HiddenFor(model => model.ArtistId)
+    @Html.HiddenFor(model => model.TranslatableLanguage)
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.TranslatableLanguage, new { @class = "control-label" })
+        <input value="@GlobalViewLocalizationHelper.Localize(Model.TranslatableLanguage.ToString())" class="form-control" readonly="readonly" />
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.Description, 8, 0, new { @class = "form-control"})
+    </div>
+</div>

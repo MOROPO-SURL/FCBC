@@ -185,6 +185,19 @@
                                     <p>@if (item.EndAt != null) { <span>@item.EndAt.Value.ToShortDateString()</span> } else { <span>--</span> }</p>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5>Color Base de Marcos</h5>
+                                    @if (string.IsNullOrEmpty(item.FrameBaseColor))
+                                    {
+                                        <span>---</span>
+                                    }
+                                    else
+                                    {
+                                        <div style="background-color: @item.FrameBaseColor; height: 32px; border: solid dimgray 1px;"></div>
+                                    }
+                                </div>
+                            </div>
                             <div>
                                 <h5>Descripción</h5>
                                 <p class="mb-0">@if (item.Description != null) { <span>@item.Description</span> } else { <span>--</span> }</p>

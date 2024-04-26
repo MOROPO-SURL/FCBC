@@ -9,9 +9,11 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         private VirtualGalleryRoomPresenter virtualRoomPresenter;
 
-        public ExposureRoomPage(System.Guid exposureId) : base(new Models.Page.ExposureRoomPageModel { IsBusy = true })
+        public ExposureRoomPage(System.Guid exposureId, Urho.Color? frameBaseColor) : base(new Models.Page.ExposureRoomPageModel { IsBusy = true })
         {
             this.exposureId = exposureId;
+
+            Providers.IsolateExposureDataProvider.Instance.FrameBaseColor = frameBaseColor;
 
             InitializeComponent();
 
@@ -26,7 +28,10 @@ namespace MOROPO.FCBC.Galleries.Pages
 
             IsEnabled = true;
 
-            var exhibitsApiConnectClient = new SGI.API.Connect.Clients.ExhibitConsultApiConnectClient(Providers.HttpClientHelpeProvider.Instance);
+            var exhibitsApiConnectClient = new SGI.API.Connect.Clients.ExhibitConsultApiConnectClient(Providers.HttpClientHelperProvider.Instance)
+            {
+                Culture = AppResources.Culture
+            };
 
             exhibitsApiConnectClient.FilterAsync(new SGI.API.Common.Models.Filter.ExhibitFilterApiModel { ExposureId = exposureId }).ContinueWith(async task =>
             {
@@ -36,13 +41,15 @@ namespace MOROPO.FCBC.Galleries.Pages
                 }
                 else
                 {
-                    await Providers.ExhibitViewModelProvider.Instance.PrepareAsync(task.Result);
+                    await Providers.IsolateExposureDataProvider.Instance.PrepareExhibitsAsync(task.Result);
 
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                     {
                         virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                         {
-                            Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait
+                            Orientation = Urho.ApplicationOptions.OrientationType.Landscape,
+                            NoSound = true,
+                            ResizableWindow = Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.UWP || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.GTK || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.macOS,
                         });
 
                         BindingContextPageModel.IsBusy = false;
@@ -67,21 +74,18 @@ namespace MOROPO.FCBC.Galleries.Pages
                 {
                     if (!task.Result) return;
 
-                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() => this.NavigationPopModalPageAsync());
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    {
+                        virtualRoomPresenter?.Exit();
+
+                        virtualRoomPresenter = null;
+
+                        this.NavigationPopModalPageAsync();
+                    });
                 });
             }
 
             return true;
-        }
-
-        protected override void DisposeUnmanagementResources()
-        {
-            base.DisposeUnmanagementResources();
-
-            virtualRoomPresenter?.Exit();
-            virtualRoomPresenter?.Dispose();
-
-            virtualRoomPresenter = null;
         }
 
         private void CloseButton_Clicked(object sender, System.EventArgs eventArgs)

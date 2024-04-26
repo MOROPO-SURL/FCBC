@@ -1,0 +1,171 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.CraftWorkThreeDimensionalDisplayViewModel
+
+@{
+    ViewData["Title"] = "Editar Obra de Artes Aplicadas (Modelo 3D)";
+
+    ViewData[BreadcrumbViewModel.BREADCRUMBS_MAP_KEY] = new List<BreadcrumbViewModel>
+    {
+        new BreadcrumbViewModel
+        {
+            Caption = "<span class=\"mdi mdi-cogs\" style=\"margin-right: 4px;\"></span>" + GlobalViewLocalizationHelper.Localize("Dashboard", ViewLocalizer),
+            Url = "/"
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = "Administración de Obras de Artes Aplicadas",
+            Url = Url.Action("index")
+        },
+        new BreadcrumbViewModel
+        {
+            Caption = ViewData["Title"].ToString()
+        }
+    };
+
+    Layout = "_BackendLayout";
+}
+
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header">
+        <h4>@ViewData["Title"]</h4>
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="edit" asp-route-key="@Model.Work.Id">Generales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editauthors" asp-route-key="@Model.Work.Id">Autores</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editelaboration" asp-route-key="@Model.Work.Id">Elaboración</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editimages" asp-route-key="@Model.Work.Id">Imágenes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="editattachments" asp-route-key="@Model.Work.Id">Archivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ArtWorkAwards" asp-route-key="@Model.Work.Id">Trayectoria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="EditThematic" asp-route-key="@Model.Work.Id">Temáticas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-asp-action="EditVideos" asp-asp-route-key="@Model.Work.Id">Videos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="EditLanguages" asp-route-key="@Model.Work.Id">Idiomas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Modelos en 3D</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        @await Html.PartialAsync("_ContextDetailPartial.cshtml", Model.Work)
+        <div class="modal fade" id="add-attachment" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add-attachment-title">Agregar Modelo en 3D</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("AddThreeDimensional", "CraftWorks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                    {
+                        @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddThreeDimensionalModalBodyPartial", new MOROPO.FCBC.SGI.Models.View.ThreeDimensionalInputViewModel())
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.ThreeDimensionals.Length <= 0)
+        {
+            <p class="text-muted mb-0">Sin elementos que mostrar</p>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var item in Model.ThreeDimensionals)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="modal fade" id="delete-attachment-@item.Id" tabindex="-1" role="dialog" aria-labelledby="delete-attachment-@item.Id-lable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    @using (Html.BeginForm("DeleteThreeDimensional", "CraftWorks", new { key = Model.Work.Id }, FormMethod.Post, true, new { @class = "modal-content" }))
+                                    {
+                                        @Html.Hidden("threeDimensionalId", item.Id)
+
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="delete-attachment-@item.Id-lable">Eliminar Modelo 3D</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Esta seguro que desea eliminar el modelo seleccionado?</p>
+                                        </div>
+                                        <div class="modal-footer" style="margin-top: 0;">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+                            @item.Icon
+                            <h4>@item.Name</h4>
+                            @if (item.Description == null)
+                            {
+                                <span class="text-muted italic">Sin descripción</span>
+                            }
+                            else
+                            {
+                                <p style="color: #6c757d; word-wrap: break-word;">@item.Description</p>
+                            }
+                            <div class="mt-3">
+                                <div class="btn-group btn-group-sm">
+                                    @using (Html.BeginForm("DownloadThreeDimensional", "CraftWorks", new { key = Model.Work.Id, threeDimensionalId = item.Id }, FormMethod.Post))
+                                    {
+                                        <button class="btn btn-light" type="submit" style="padding: 0.25rem 0.5rem; font-size: .875rem; line-height: 1.5;">Descargar</button>
+                                    }
+                                    <a class="btn btn-light" href="#" data-toggle="modal" data-target="#edit-video-@item.Id">Modificar</a>
+                                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#delete-attachment-@item.Id">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="edit-video-@item.Id" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="edit-attachment-title">Modificar datos de adjunto</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @using (Html.BeginForm("EditThreeDimensional", "CraftWorks", new { key = Model.Work.Id }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                                {
+                                    @await Html.PartialAsync("../../../../Views/Shared/Partials/_AddThreeDimensionalModalBodyPartial", @item.MergeViewModels())
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Modificar</button>
+                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#add-attachment">Agregar</a>
+        <a class="btn btn-light" href="@Url.Action("index")">Regresar al listado</a>
+    </div>
+</div>
+
+
+

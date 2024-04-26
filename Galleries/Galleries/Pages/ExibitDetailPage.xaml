@@ -2,12 +2,12 @@
 <sscxftoolkitmvvmpages:BindingContextedContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:root="clr-namespace:MOROPO.FCBC.Galleries"
     xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
     xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
     xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExibitDetailPage"
     x:TypeArguments="pagemodels:ExibitDetailPageModel"
     Title="Detalles de Obra Expuesta"
@@ -15,7 +15,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:ExibitDetailPageHeightToImageViewerHeightConverter x:Key="ExibitDetailPageHeightToImageViewerHeightConverter" />
-            <converters:ImageViewModelToImageSourceConverter x:Key="ImageViewModelToImageSourceConverter" />
+            <converters:MediaObjectToViewContentConverter x:Key="MediaObjectToViewContentConverter" />
             <converters:CreatorDisplayApiModelToImageSourceConverter x:Key="CreatorDisplayApiModelToImageSourceConverter" />
             <converters:CriticDisplayApiModelToImageSourceConverter x:Key="CriticDisplayApiModelToImageSourceConverter" />
 
@@ -47,18 +47,77 @@
             <ScrollView Orientation="Vertical">
                 <StackLayout Spacing="0">
                     <Grid 
-                        Padding="20"
                         BackgroundColor="Black"
-                        HeightRequest="{Binding Source={RelativeSource Mode=Self}, Path=Width, Converter={StaticResource ExibitDetailPageHeightToImageViewerHeightConverter}}">
-                        <ContentView 
-                            Padding="4" 
-                            BackgroundColor="White"
-                            HorizontalOptions="Center" VerticalOptions="Center">
-                            <ffimageloadingforms:CachedImage
-                                Source="{Binding Path=Work.FeatureImage, Converter={StaticResource ImageViewModelToImageSourceConverter}}"
-                                CacheType="Disk"
-                                CacheDuration="8760:00:00" />
-                        </ContentView>
+                        ColumnSpacing="0" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid
+                            Grid.ColumnSpan="3" Grid.Row="0"
+                            Padding="20"
+                            HeightRequest="{Binding Source={RelativeSource Mode=Self}, Path=Width, Converter={StaticResource ExibitDetailPageHeightToImageViewerHeightConverter}}">
+                            <CarouselView 
+                                x:Name="MediaItemsCarouselView"
+                                ItemsSource="{Binding Path=MediaItems}"
+                                IndicatorView="{Reference MediaItemsIndicatorView}">
+                                <CarouselView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+                                </CarouselView.ItemsLayout>
+                                <CarouselView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentView Content="{Binding Path=., Converter={StaticResource MediaObjectToViewContentConverter}}" />
+                                    </DataTemplate>
+                                </CarouselView.ItemTemplate>
+                            </CarouselView>
+                        </Grid>
+                        <IndicatorView
+                            x:Name="MediaItemsIndicatorView"
+                            Grid.Column="1" Grid.Row="1"
+                            HorizontalOptions="Center" VerticalOptions="Center"
+                            HideSingle="True"
+                            IndicatorsShape="Square"
+                            IndicatorSize="12"
+                            IndicatorColor="White"
+                            MaximumVisible="12"
+                            SelectedIndicatorColor="{StaticResource MainContrastTextColor}">
+                            
+                        </IndicatorView>
+                        <Button
+                            x:Name="PreviuesMediaItemButton"
+                            Grid.Column="0" Grid.Row="1"
+                            VerticalOptions="Center"
+                            Padding="0" Margin="8"
+                            BackgroundColor="{StaticResource PrimaryColor}"
+                            Text="&#xF141;"
+                            TextColor="White"
+                            FontSize="28"
+                            FontFamily="Material Design Icons"
+                            FontAttributes="Bold"
+                            BorderWidth="0"
+                            CornerRadius="6"
+                            WidthRequest="48" HeightRequest="48"
+                            Clicked="PreviuesMediaItemButton_Clicked" />
+                        <Button
+                            x:Name="NextMediaItemButton"
+                            Grid.Column="2" Grid.Row="1"
+                            VerticalOptions="Center"
+                            Padding="0" Margin="8"
+                            BackgroundColor="{StaticResource PrimaryColor}"
+                            Text="&#xF142;"
+                            TextColor="White"
+                            FontSize="28"
+                            FontFamily="Material Design Icons"
+                            FontAttributes="Bold"
+                            BorderWidth="0"
+                            CornerRadius="6"
+                            WidthRequest="48" HeightRequest="48"
+                            Clicked="NextMediaItemButton_Clicked" />
                     </Grid>
                     <StackLayout Spacing="20" Margin="20">
                         <Label 
@@ -69,19 +128,13 @@
                         <Label Text="{Binding Path=Work.About}" IsVisible="{Binding Path=Work.About, Converter={StaticResource NotNullOrEmptyStringToBooleanConverter}}" />
                         <BoxView Style="{StaticResource SeparatorBoxViewStyle}" />
                     </StackLayout>
-                    <Label Text="Creador(es)" Style="{StaticResource FieldCaptionLabel}" Margin="20,0" />
+                    <Label Text="{Static root:AppResources.Creators}" Style="{StaticResource FieldCaptionLabel}" Margin="20,0" />
                     <FlexLayout
                         Margin="10"
                         Wrap="Wrap"
                         AlignItems="Start"
                         AlignContent="Start"
                         BindableLayout.ItemsSource="{Binding Path=Work.Creators}">
-                        <BindableLayout.EmptyView>
-                            <Label
-                                Margin="10"
-                                Text="No se han especificado creadores"
-                                TextColor="DimGray" />
-                        </BindableLayout.EmptyView>
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout 
@@ -90,12 +143,17 @@
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="CreatorView_Tapped" />
                                     </StackLayout.GestureRecognizers>
-                                    <icplugin:CircleImage
-                                        HeightRequest="96" WidthRequest="96"
+                                    <Frame
                                         HorizontalOptions="Center"
-                                        Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
-                                        BorderThickness="2"
-                                        BorderColor="Snow" />
+                                        Padding="0"
+                                        HeightRequest="96" WidthRequest="96"
+                                        IsClippedToBounds="True"
+                                        CornerRadius="48">
+                                        <ffimageloadingforms:CachedImage
+                                            Source="{Binding Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
+                                            CacheType="Disk"
+                                            CacheDuration="8760:00:00" />
+                                    </Frame>
                                     <Label 
                                         FontSize="25"
                                         Text="{Binding Path=Name}"
@@ -115,25 +173,25 @@
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Manifestación" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Manifestation}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.Manifestation.Name, StringFormat='Artes Visuales, {0}'}" />
                         </StackLayout>
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Año" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Year}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.Year}" />
                         </StackLayout>
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Colección" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Collection}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.Collection, Converter={StaticResource IfNullOrEmptyToStringConverter}}" />
                         </StackLayout>
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol3BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Ubicación" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Location}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.Location, Converter={StaticResource IfNullOrEmptyToStringConverter}}" />
                         </StackLayout>
                     </FlexLayout>
@@ -145,31 +203,31 @@
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Técnica(s)" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Techniques}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.Techniques, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                         </StackLayout>
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Materiales" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Materials}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.Materials, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                         </StackLayout>
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Temáticas" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Themathics}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.Themathics, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                         </StackLayout>
                         <StackLayout 
                             Margin="10"
                             WidthRequest="{Binding Source={RelativeSource AncestorType={Type FlexLayout}}, Path=Width, Converter={StaticResource FormCol6BindingLayoutWidthToResponsiveChildWidthConverter}}">
-                            <Label Text="Premios" Style="{StaticResource FieldCaptionLabel}" />
+                            <Label Text="{Static root:AppResources.Awards}" Style="{StaticResource FieldCaptionLabel}" />
                             <Label Text="{Binding Path=Work.ArtWorkAwards, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                         </StackLayout>
                     </FlexLayout>
                     <StackLayout
                         IsVisible="{Binding Path=HasDimensions}">
-                        <Label Margin="20,0" Text="Dimensiones" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Margin="20,0" Text="{Static root:AppResources.Dimensions}" Style="{StaticResource FieldCaptionLabel}" />
                         <BoxView Margin="20,0" Style="{StaticResource SeparatorBoxViewStyle}" />
                         <FlexLayout
                             Margin="10,0,10,10"
@@ -188,7 +246,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="Alto" Style="{StaticResource FieldCaptionLabel}" />
+                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="{Static root:AppResources.Height}" Style="{StaticResource FieldCaptionLabel}" />
                                 <Label Grid.Column="0" Grid.Row="1" Text="{Binding Path=Work.Height, Mode=OneTime}" />
                                 <Label Grid.Column="1" Grid.Row="1" Text="{Binding Path=Work.DimensionsUnitMeasurement.Symbol, Mode=OneTime}" />
                             </Grid>
@@ -204,7 +262,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="Largo" Style="{StaticResource FieldCaptionLabel}" />
+                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="{Static root:AppResources.Width}" Style="{StaticResource FieldCaptionLabel}" />
                                 <Label Grid.Column="0" Grid.Row="1" Text="{Binding Path=Work.Width, Mode=OneTime}" />
                                 <Label Grid.Column="1" Grid.Row="1" Text="{Binding Path=Work.DimensionsUnitMeasurement.Symbol, Mode=OneTime}" />
                             </Grid>
@@ -220,7 +278,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="Ancho" Style="{StaticResource FieldCaptionLabel}" />
+                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="{Static root:AppResources.Profundity}" Style="{StaticResource FieldCaptionLabel}" />
                                 <Label Grid.Column="0" Grid.Row="1" Text="{Binding Path=Work.Profundity, Mode=OneTime}" />
                                 <Label Grid.Column="1" Grid.Row="1" Text="{Binding Path=Work.DimensionsUnitMeasurement.Symbol, Mode=OneTime}" />
                             </Grid>
@@ -236,45 +294,16 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="Peso" Style="{StaticResource FieldCaptionLabel}" />
+                                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="{Static root:AppResources.Weight}" Style="{StaticResource FieldCaptionLabel}" />
                                 <Label Grid.Column="0" Grid.Row="1" Text="{Binding Path=Work.Weight, Mode=OneTime}" />
                                 <Label Grid.Column="1" Grid.Row="1" Text="{Binding Path=Work.WeightUnitMeasurement.Symbol, Mode=OneTime}" />
                             </Grid>
                         </FlexLayout>
                     </StackLayout>
-                    <StackLayout
-                        IsVisible="{Binding Path=Work.Images, Converter={StaticResource EnumerableEmptyToBooleanConverter}}"
-                        Margin="20,0" 
-                        Spacing="10">
-                        <Label Text="Imágenes" Style="{StaticResource FieldCaptionLabel}" />
-                        <BoxView Style="{StaticResource SeparatorBoxViewStyle}" />
-                        <ScrollView Orientation="Horizontal">
-                            <FlexLayout
-                                Padding="10"
-                                HeightRequest="400"
-                                BindableLayout.ItemsSource="{Binding Path=Work.Images}">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <ContentView 
-                                                HorizontalOptions="Center" VerticalOptions="Center"
-                                                BackgroundColor="LightGray" 
-                                                Margin="10" Padding="4">
-                                                <ffimageloadingforms:CachedImage
-                                                    Source="{Binding Path=., Converter={StaticResource ImageViewModelToImageSourceConverter}}"
-                                                    CacheType="Disk"
-                                                    CacheDuration="8760:00:00" />
-                                            </ContentView>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </FlexLayout>
-                        </ScrollView>
-                    </StackLayout>
                     <StackLayout 
                         IsVisible="{Binding Path=Work.Valorations, Converter={StaticResource EnumerableEmptyToBooleanConverter}}"
                         Margin="20,0,20,20">
-                        <Label Text="Valoraciones" Style="{StaticResource FieldCaptionLabel}" />
+                        <Label Text="{Static root:AppResources.Valorations}" Style="{StaticResource FieldCaptionLabel}" />
                         <BoxView Margin="0,0,0,10" Style="{StaticResource SeparatorBoxViewStyle}" />
                         <StackLayout
                             Spacing="30"
@@ -290,17 +319,18 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <icplugin:CircleImage
+                                        <Frame
+                                            Padding="0"
                                             Grid.Column="0"
                                             VerticalOptions="Center"
-                                            HeightRequest="80" WidthRequest="80"
-                                            Source="{Binding Path=Critic, Converter={StaticResource CriticDisplayApiModelToImageSourceConverter}}"
-                                            BorderThickness="2"
-                                            BorderColor="Snow">
-                                            <icplugin:CircleImage.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="CriticView_Tapped" />
-                                            </icplugin:CircleImage.GestureRecognizers>
-                                        </icplugin:CircleImage>
+                                            HeightRequest="80" WidthRequest="80"                                            
+                                            IsClippedToBounds="True"
+                                            CornerRadius="40">
+                                            <ffimageloadingforms:CachedImage
+                                                Source="{Binding Path=Critic, Converter={StaticResource CriticDisplayApiModelToImageSourceConverter}}"
+                                                CacheType="Disk"
+                                                CacheDuration="8760:00:00" />
+                                        </Frame>
                                         <StackLayout
                                             Grid.Column="1" Grid.Row="0"
                                             VerticalOptions="Center">
@@ -338,59 +368,64 @@
                             BackgroundColor="White">
                             <Grid>                                
                                 <StackLayout Margin="20">
-                                    <icplugin:CircleImage
+                                    <Frame
                                         HorizontalOptions="Center"
+                                        Padding="0"
                                         Margin="20,30,20,10"
                                         HeightRequest="240" WidthRequest="240"
-                                        Source="{Binding Path=., Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
-                                        BorderThickness="2"
-                                        BorderColor="Snow" />
+                                        IsClippedToBounds="True"
+                                        CornerRadius="120">
+                                        <ffimageloadingforms:CachedImage
+                                            Source="{Binding Path=., Converter={StaticResource CreatorDisplayApiModelToImageSourceConverter}}"
+                                            CacheType="Disk"
+                                            CacheDuration="8760:00:00" />
+                                    </Frame>
                                     <Label 
-                                        Text="Creador" 
+                                        Text="{Static root:AppResources.Creator}" 
                                         Margin="10,0,10,20"
                                         HorizontalTextAlignment="Center"
                                         Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
-                                    <Label Text="Nombre(s)" Style="{StaticResource FieldCaptionLabel}" />
+                                    <Label Text="{Static root:AppResources.NameText}" Style="{StaticResource FieldCaptionLabel}" />
                                     <Label 
                                         VerticalOptions="Center"
                                         FontSize="25"
                                         Text="{Binding Path=Name}" />
                                     <Label 
                                         Margin="0,4,0,0"
-                                        Text="Apellidos" Style="{StaticResource FieldCaptionLabel}" />
+                                        Text="{Static root:AppResources.LastNameText}" Style="{StaticResource FieldCaptionLabel}" />
                                     <Label 
                                         VerticalOptions="Center"
                                         Text="{Binding Path=LastName}" />
                                     <Label 
                                         Margin="0,4,0,0"
-                                        Text="Nombre Artístico" Style="{StaticResource FieldCaptionLabel}" />
+                                        Text="{Static root:AppResources.ArtisticName}" Style="{StaticResource FieldCaptionLabel}" />
                                     <Label 
                                         VerticalOptions="Center"
                                         Text="{Binding Path=Alias, Converter={StaticResource IfNullOrEmptyToStringConverter}}" />
                                     <Label 
                                         Margin="0,4,0,0"
-                                        Text="Manifestaciones" Style="{StaticResource FieldCaptionLabel}" />
+                                        Text="{Static root:AppResources.Manifestations}" Style="{StaticResource FieldCaptionLabel}" />
                                     <Label 
                                         Margin="0,2,0,0"
-                                        Text="Artes Visuales" Style="{StaticResource FieldSubCaptionLabel}" />
+                                        Text="{Static root:AppResources.VisualArts}" Style="{StaticResource FieldSubCaptionLabel}" />
                                     <Label 
                                         VerticalOptions="Center"
                                         Text="{Binding Path=ArtWorkManifestations, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                                     <Label 
                                         Margin="0,2,0,0"
-                                        Text="Artes Aplicadas" Style="{StaticResource FieldSubCaptionLabel}" />
+                                        Text="{Static root:AppResources.AppliedArts}" Style="{StaticResource FieldSubCaptionLabel}" />
                                     <Label 
                                         VerticalOptions="Center"
                                         Text="{Binding Path=CraftWorkManifestations, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                                     <Label 
                                         Margin="0,2,0,0"
-                                        Text="Servicios" Style="{StaticResource FieldSubCaptionLabel}" />
+                                        Text="{Static root:AppResources.Services}" Style="{StaticResource FieldSubCaptionLabel}" />
                                     <Label 
                                         VerticalOptions="Center"
                                         Text="{Binding Path=ServiceManifestations, Converter={StaticResource CommonEnumerationToJoinedStringBindingConverter}}" />
                                     <Label 
                                         Margin="0,4,0,0"
-                                        Text="Acerca de" Style="{StaticResource FieldCaptionLabel}" />
+                                        Text="{Static root:AppResources.AboutText}" Style="{StaticResource FieldCaptionLabel}" />
                                     <Label 
                                         Text="{Binding Path=About, Converter={StaticResource CreatorAboutIfNullOrEmptyToStringConverter}}"
                                         TextColor="{Binding Path=About, Converter={StaticResource TextColorNullToStringConverter}}" />
@@ -423,13 +458,18 @@
                             BackgroundColor="White">
                             <Grid>                                
                                 <StackLayout Margin="20">
-                                    <icplugin:CircleImage
+                                    <Frame
                                         HorizontalOptions="Center"
+                                        Padding="0"
                                         Margin="20,30,20,10"
                                         HeightRequest="240" WidthRequest="240"
-                                        Source="{Binding Path=PresentedCritic, Converter={StaticResource CriticDisplayApiModelToImageSourceConverter}}"
-                                        BorderThickness="2"
-                                        BorderColor="Snow" />
+                                        IsClippedToBounds="True"
+                                        CornerRadius="120">
+                                        <ffimageloadingforms:CachedImage
+                                            Source="{Binding Path=PresentedCritic, Converter={StaticResource CriticDisplayApiModelToImageSourceConverter}}"
+                                            CacheType="Disk"
+                                            CacheDuration="8760:00:00" />
+                                    </Frame>
                                     <Label 
                                         Text="Crítico" 
                                         Margin="10,0,10,20"

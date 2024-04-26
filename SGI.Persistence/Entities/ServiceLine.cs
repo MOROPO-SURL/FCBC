@@ -14,5 +14,7 @@
         {
             Id = System.Guid.NewGuid();
         }
+
+        public System.Collections.Generic.List<ServiceLineTranslation> Translations { get; set; }
     }
 }

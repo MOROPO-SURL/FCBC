@@ -5,6 +5,15 @@
         public ExibitDetailPage(Models.View.ArtWorkViewModel model) : base(new Models.Page.ExibitDetailPageModel { Work = model })
         {
             InitializeComponent();
+
+            if (model.Images.Length <=0 && model.Videos.Length <= 0) 
+            {
+                MediaItemsCarouselView.Loop = false;
+                MediaItemsCarouselView.IsSwipeEnabled = false;
+                MediaItemsIndicatorView.IsVisible = false;
+                PreviuesMediaItemButton.IsVisible = false;
+                NextMediaItemButton.IsVisible = false;
+            }
         }
 
         private void CreatorView_Tapped(object sender, System.EventArgs eventArgs)
@@ -25,6 +34,30 @@
         private void DismissPresentedCriticButton_Clicked(object sender, System.EventArgs eventArgs)
         {
             BindingContextPageModel.PresentedCritic = null;
+        }
+
+        private void PreviuesMediaItemButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            var newPosition = MediaItemsCarouselView.Position - 1;
+
+            if (newPosition < 0)
+            {
+                newPosition = BindingContextPageModel.MediaItems.Length - 1;
+            }
+
+            MediaItemsCarouselView.CurrentItem = BindingContextPageModel.MediaItems[newPosition];
+        }
+
+        private void NextMediaItemButton_Clicked(object sender, System.EventArgs eventArgs)
+        {
+            var newPosition = MediaItemsCarouselView.Position + 1;
+
+            if (newPosition >= BindingContextPageModel.MediaItems.Length)
+            {
+                newPosition = 0;
+            }
+
+            MediaItemsCarouselView.CurrentItem = BindingContextPageModel.MediaItems[newPosition];
         }
     }
 }

@@ -5,13 +5,13 @@
     xmlns:pagemodels="clr-namespace:MOROPO.FCBC.Galleries.Models.Page"
     xmlns:views="clr-namespace:MOROPO.FCBC.Galleries.Views"
     xmlns:converters="clr-namespace:MOROPO.FCBC.Galleries.Converters"
+    xmlns:root="clr-namespace:MOROPO.FCBC.Galleries"
     xmlns:sscxftoolkitmvvmpages="clr-namespace:SmartSolucionesCuba.XFToolKit.Mvvm.Pages;assembly=SmartSolucionesCuba.XFToolKit.Mvvm"
     xmlns:sscxftoolkitpresentationconverters="clr-namespace:SmartSolucionesCuba.XFToolKit.Presentation.Converters;assembly=SmartSolucionesCuba.XFToolKit.Presentation"
     xmlns:ffimageloadingforms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:icplugin="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
     x:Class="MOROPO.FCBC.Galleries.Pages.ExposureDetailPage"
     x:TypeArguments="pagemodels:ExposureDetailPageModel"
-    Title="Exposición"
+    Title="{Static root:AppResources.PageTitleExposure}"
     BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -49,9 +49,10 @@
                             Margin="10,60">
                             <Label
                                 Style="{StaticResource HeaderTitleLabelStyle}"
-                                HorizontalTextAlignment="Center" />
+                                HorizontalTextAlignment="Center"
+                                Text="{Static root:AppResources.AppTitle}" />
                             <Label
-                                Text="Sala Expositiva"
+                                Text="{Static root:AppResources.ExposureRoomText}"
                                 HorizontalTextAlignment="Center"
                                 Margin="0,18,0,0"
                                 Style="{StaticResource HeaderSubTitleCaptionLabelStyle}" />
@@ -63,7 +64,7 @@
                             <Button
                                 Margin="0,15,0,0"
                                 Style="{StaticResource HeaderButtonStyle}"
-                                Text="Entrar a la Sala"
+                                Text="{Static root:AppResources.ExposureRoomEnterText}"
                                 Clicked="GoToExposureButton_Clicked" />
                         </StackLayout>
                     </Grid>
@@ -71,7 +72,7 @@
                         Margin="20,20,20,0"
                         Text="{Binding Path=Exposure.Description}" />
                     <StackLayout Style="{StaticResource BodyContentSectionHeaderStackLayoutStyle}">
-                        <Label Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" Text="Curadores" />
+                        <Label Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" Text="{Static root:AppResources.SpecialistsText}" />
                         <BoxView Style="{StaticResource BodyContentSectionHeaderSeparatorBoxViewStyle}" />                        
                     </StackLayout>
                     <FlexLayout
@@ -82,7 +83,7 @@
                         <BindableLayout.EmptyView>
                             <Label
                                 Margin="10"
-                                Text="No se han especificado curadores"
+                                Text="{Static root:AppResources.EmptySpecialistsText}"
                                 HorizontalTextAlignment="Center"
                                 TextColor="DimGray" />
                         </BindableLayout.EmptyView>
@@ -95,13 +96,18 @@
                                         <StackLayout.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="EmployeeView_Tapped" />
                                         </StackLayout.GestureRecognizers>
-                                        <icplugin:CircleImage
+                                        <Frame
                                             Grid.Column="0"
+                                            Padding="0"
                                             HorizontalOptions="Center"
                                             HeightRequest="108" WidthRequest="108"
-                                            Source="{Binding Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
-                                            BorderThickness="3"
-                                            BorderColor="Snow" />
+                                            IsClippedToBounds="True"
+                                            CornerRadius="54">
+                                            <ffimageloadingforms:CachedImage
+                                                Source="{Binding Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
+                                                CacheType="Disk"
+                                                CacheDuration="8760:00:00" />
+                                        </Frame>
                                         <Label 
                                             Text="{Binding Path=Name}"
                                             HorizontalTextAlignment="Center"
@@ -130,38 +136,42 @@
                             <Grid>
                                 <StackLayout Spacing="0">
                                     <StackLayout Margin="20,20,20,0">
-                                        <icplugin:CircleImage
+                                        <Frame
                                             HorizontalOptions="Center"
-                                            Margin="20,30,20,10"
+                                            Padding="0" Margin="20,30,20,10"
                                             HeightRequest="240" WidthRequest="240"
-                                            Source="{Binding Path=PresentedEmployee, Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
-                                            BorderThickness="2"
-                                            BorderColor="Snow" />
+                                            IsClippedToBounds="True"
+                                            CornerRadius="120">                                            
+                                            <ffimageloadingforms:CachedImage
+                                                Source="{Binding Path=PresentedEmployee, Converter={StaticResource EmployeeDisplayApiModelToImageSourceConverter}}"
+                                                CacheType="Disk"
+                                                CacheDuration="8760:00:00" />
+                                        </Frame>
                                         <Label 
-                                            Text="Trabajador" 
+                                            Text="{Static root:AppResources.SpecialistText}" 
                                             Margin="10,0,10,20"
                                             HorizontalTextAlignment="Center"
                                             Style="{StaticResource BodyContentSectionHeaderTitleLabelStyle}" />
-                                        <Label Text="Nombre(s)" Style="{StaticResource FieldCaptionLabel}" />
+                                        <Label Text="{Static root:AppResources.NameText}" Style="{StaticResource FieldCaptionLabel}" />
                                         <Label 
                                             VerticalOptions="Center"
                                             FontSize="25"
                                             Text="{Binding Path=PresentedEmployee.Name}" />
                                         <Label 
                                             Margin="0,4,0,0"
-                                            Text="Apellidos" Style="{StaticResource FieldCaptionLabel}" />
+                                            Text="{Static root:AppResources.LastNameText}" Style="{StaticResource FieldCaptionLabel}" />
                                         <Label 
                                             VerticalOptions="Center"
                                             Text="{Binding Path=PresentedEmployee.LastName, Converter={StaticResource IfNullOrEmptyToStringConverter}}" />
                                         <Label 
                                             Margin="0,4,0,0"
-                                            Text="Acerca de" Style="{StaticResource FieldCaptionLabel}" />
+                                            Text="{Static root:AppResources.AboutText}" Style="{StaticResource FieldCaptionLabel}" />
                                         <Label 
                                             Text="{Binding Path=PresentedEmployee.About, Converter={StaticResource EmployeecAboutIfNullOrEmptyToStringConverter}}"
                                             TextColor="{Binding Path=PresentedEmployee.About, Converter={StaticResource TextColorNullToStringConverter}}" />
                                         <Label 
                                             Margin="0,4,0,0"
-                                            Text="Contactar" Style="{StaticResource FieldCaptionLabel}" />
+                                            Text="{Static root:AppResources.ToContactText}" Style="{StaticResource FieldCaptionLabel}" />
                                         <BoxView Style="{StaticResource SeparatorBoxViewStyle}" />
                                     </StackLayout>
                                     <FlexLayout
@@ -171,12 +181,12 @@
                                         <Button 
                                             WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource ButtonsBindingLayoutWidthToResponsiveChildWidthConverter}}"
                                             Margin="10"
-                                            Text="Correo Electrónico"
+                                            Text="{Static root:AppResources.ContactEmailText}"
                                             Clicked="EmployeeEmailContactButton_Clicked" />
                                         <Button 
                                             WidthRequest="{Binding Source={x:RelativeSource AncestorType={x:Type FlexLayout}}, Path=Width, Converter={StaticResource ButtonsBindingLayoutWidthToResponsiveChildWidthConverter}}"
                                             Margin="10"
-                                            Text="Llamada Telefónica"
+                                            Text="{Static root:AppResources.ContactPhoneCallText}"
                                             Clicked="EmployeePhoneContactButton_Clicked" />
                                     </FlexLayout>
                                 </StackLayout>

@@ -3,25 +3,27 @@ using System.Linq;
 
 namespace MOROPO.FCBC.Galleries.Providers
 {
-    internal sealed class ExhibitViewModelProvider
+    internal sealed class IsolateExposureDataProvider
     {
-        private static ExhibitViewModelProvider _instance;
+        private static IsolateExposureDataProvider _instance;
 
-        public static ExhibitViewModelProvider Instance => _instance ?? (_instance = new ExhibitViewModelProvider());
+        public static IsolateExposureDataProvider Instance => _instance ?? (_instance = new IsolateExposureDataProvider());
 
         private readonly System.Collections.Generic.List<Models.View.ExhibitViewModel> exhibits;
-
-        private ExhibitViewModelProvider()
+        
+        private IsolateExposureDataProvider()
         {
             exhibits = new System.Collections.Generic.List<Models.View.ExhibitViewModel>();
         }
 
-        public async System.Threading.Tasks.Task PrepareAsync(SGI.API.Common.Models.ExhibitDisplayApiModel[] models)
+        public async System.Threading.Tasks.Task PrepareExhibitsAsync(SGI.API.Common.Models.ExhibitDisplayApiModel[] models)
         {
             exhibits.Clear();
 
             foreach (var model in models)
             {
+                if (model.ArtWorks.Length <= 0 && model.CraftWorks.Length <= 0) continue;
+
                 var exhibit = new Models.View.ExhibitViewModel
                 {
                     Id = model.Id,
@@ -40,7 +42,7 @@ namespace MOROPO.FCBC.Galleries.Providers
                             Extension = _model.FeatureImage.Extension
                         },
                         Creators = _model.Creators,
-                        Techniques = _model.ArtTechniques.ToArray(),
+                        Techniques = _model.Techniques.ToArray(),
                         Year = _model.Year,
                         Collection = _model.Collection,
                         Location = _model.Location,
@@ -57,9 +59,10 @@ namespace MOROPO.FCBC.Galleries.Providers
                             Id = item.Id,
                             Extension = item.Extension
                         }).ToArray(),
+                        Videos = _model.Videos,
                         Materials = _model.Materials,
                         Themathics = _model.Themathics,
-                        ArtWorkAwards = _model.ArtWorkAwards,
+                        ArtWorkAwards = _model.Awards,
                         Valorations = _model.Valorations
                     };
 
@@ -85,7 +88,59 @@ namespace MOROPO.FCBC.Galleries.Providers
                         artWork.FeatureImage.Height = info.CurrentHeight;
                     }).PreloadAsync();
 
-                    exhibit.ArtWorks.Add(artWork);
+                    exhibit.Works.Add(artWork);
+                }
+
+                foreach (var _model in model.CraftWorks)
+                {
+                    var craftWork = new Models.View.CraftWorkViewModel
+                    {
+                        Id = _model.Id,
+                        Title = _model.Title,
+                        FeatureImage = new Models.View.ImageViewModel
+                        {
+                            Id = _model.FeatureImage.Id,
+                            Extension = _model.FeatureImage.Extension
+                        },
+                        Creators = _model.Creators,
+                        Techniques = _model.Techniques.ToArray(),
+                        Year = _model.Year,
+                        Manifestation = _model.Manifestation,
+                        About = _model.About,
+                        Images = _model.Images.Where(item => item.Id != _model.FeatureImage.Id).Select(item => new Models.View.ImageViewModel
+                        {
+                            Id = item.Id,
+                            Extension = item.Extension
+                        }).ToArray(),
+                        Videos = _model.Videos,
+                        Materials = _model.Materials,
+                        Themathics = _model.Themathics,
+                        Valorations = _model.Valorations
+                    };
+
+                    var url = string.Format("{0}media/images/{1}.{2}", Constants.Networking.SGI_BASE_URL, _model.FeatureImage.Id, _model.FeatureImage.Extension);
+
+                    var cacheStream = await ImageService.Instance.Config.DownloadCache.DownloadAndCacheIfNeededAsync(
+                        url,
+                        ImageService.Instance.LoadUrl(url),
+                        ImageService.Instance.Config,
+                        System.Threading.CancellationToken.None);
+
+                    using (cacheStream.ImageStream)
+                    using (var memoryStream = new System.IO.MemoryStream())
+                    {
+                        await cacheStream.ImageStream.CopyToAsync(memoryStream);
+
+                        craftWork.FeatureImage.Data = memoryStream.ToArray();
+                    }
+
+                    await ImageService.Instance.LoadUrl(url).Success((info, result) =>
+                    {
+                        craftWork.FeatureImage.Width = info.CurrentWidth;
+                        craftWork.FeatureImage.Height = info.CurrentHeight;
+                    }).PreloadAsync();
+
+                    exhibit.Works.Add(craftWork);
                 }
 
                 exhibits.Add(exhibit);
@@ -96,5 +151,7 @@ namespace MOROPO.FCBC.Galleries.Providers
         {
             return exhibits.ToArray();
         }
+
+        public Urho.Color? FrameBaseColor { get; set; }
     }
 }

@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MOROPO.FCBC.SGI.Models.View;
+using MOROPO.FCBC.SGI.Persistence.Entities;
+using MOROPO.FCBC.SGI.Persistence.Enumerations;
 using MOROPO.SAPRESSC.Core.Common.Models.View;
 using MOROPO.SAPRESSC.Core.Persistence.Repositories;
 using MOROPO.SAPRESSC.Core.Web.Security.Attributes;
 using MOROPO.SAPRESSC.Middleware.Identity.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Persistence.Entities;
 using MOROPO.SAPRESSC.Middleware.Media.Web.Common.Managers.Facade;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -202,6 +206,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     Icon = GetIcon(bridge.ContactItem.SocialId)
                 }).ToList()
             };
+            resultModel.Gallery = new GalleryDisplayViewModel();
+            resultModel.Gallery.Import(entity);
 
             return View(resultModel);
         }
@@ -429,7 +435,7 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             var resultModel = new GalleryEmployeesManageViewModel
-            {
+            {                
                 NotMemberSelectListItems = notMemberArtist.Select(n => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = n.Id.ToString(), Text = n.Identity.Name + " " + n.Identity.LastName }).ToArray(),
                 Members = members.Select(item =>
                 {
@@ -440,6 +446,8 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
                     return model;
                 }).ToArray()
             };
+            resultModel.Gallery = new GalleryDisplayViewModel();
+            resultModel.Gallery.Import(entity);
 
             return View(resultModel);
         }
@@ -485,6 +493,203 @@ namespace MOROPO.FCBC.SGI.Controllers.Backend
             }
 
             return RedirectToAction("employees");
+        }
+
+        #endregion
+
+        #region Translations
+        [Route("edit/{key}/translations")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        public ActionResult EditTranslations(Persistence.Enumerations.GalleryId key)
+        {
+            var languages = new List<Persistence.Enumerations.TranslatableLanguage>();
+
+            foreach (Persistence.Enumerations.TranslatableLanguage language in Enum.GetValues(typeof(Persistence.Enumerations.TranslatableLanguage)))
+            {
+                languages.Add(language);
+            }
+
+            var entity = galleryRepository.Get(key);
+
+            var languagesSelected = entity.Translations.Select(l => l.TranslatableLanguage).ToArray();
+
+            var resultModel = new GalleryTranslationsManagementViewModel
+            {
+                Gallery = new GalleryDisplayViewModel(),
+                NotSelectedLanguages = languages.Except(languagesSelected).ToArray(),
+                Translations = entity.Translations.Select(item =>
+                {
+                    var model = new GalleryTranslationDisplayViewModel
+                    {
+                        TranslatableLanguage = item.TranslatableLanguage,
+                        Name = item.Name,
+                        About = item.About,
+                        History = item.History
+                    };
+
+                    return model;
+                }).ToArray()
+            };
+
+            resultModel.Gallery.Import(entity);
+
+            return View(resultModel);
+        }
+
+        [Route("edit/translations/add")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddTranslation(GalleryTranslationInputViewModel modelInput)
+        {
+            Gallery entity = null;
+
+            try
+            {
+                entity = galleryRepository.Get(modelInput.GalleryId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                entity.Translations.Add(new GalleryTranslation 
+                { 
+                    GalleryId = entity.Id, 
+                    TranslatableLanguage = modelInput.TranslatableLanguage, 
+                    Name = modelInput.Name,
+                    About = modelInput.About,
+                    History= modelInput.History
+                });
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/modify")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ModifyTranslation(GalleryTranslationInputViewModel modelInput)
+        {
+            Gallery entity = null;
+
+            try
+            {
+                entity = galleryRepository.Get(modelInput.GalleryId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var translation = entity.Translations.First(item => item.TranslatableLanguage == modelInput.TranslatableLanguage);
+
+                translation.Name = modelInput.Name;
+                translation.About = modelInput.About;
+                translation.History = modelInput.History;
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            else
+            {
+                var messages = new List<string>();
+
+                foreach (var item in ModelState)
+                {
+                    if (ModelState.GetFieldValidationState(item.Key) != Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) continue;
+
+                    foreach (var error in item.Value.Errors)
+                    {
+                        messages.Add(error.ErrorMessage);
+                    }
+                }
+
+                SetDefaultNotification(NotificationType.Danger, messages.ToArray());
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
+        }
+
+        [Route("edit/translations/remove")]
+        [RequirePermissions(Security.Authorization.Permission.GalleryEditor)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTranslation(Persistence.Enumerations.GalleryId galleryId, TranslatableLanguage translatableLanguage)
+        {
+            Gallery entity = null;
+
+            try
+            {
+                entity = galleryRepository.Get(galleryId);
+            }
+            catch { }
+
+            if (entity == null)
+            {
+                SetDefaultNotification(NotificationType.Danger, "NotFoundMessage", null);
+
+                return RedirectToAction("EditTranslations");
+            }
+
+            try
+            {
+                var bridge = entity.Translations.First(item => item.TranslatableLanguage == translatableLanguage);
+
+                entity.Translations.Remove(bridge);
+
+                galleryRepository.Update(entity, User.Identity.Name);
+
+                SetDefaultNotification(NotificationType.Success, null, "EditionSuccessMessage", null);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+
+                SetDefaultNotification(NotificationType.Warning, null, "EditionWarningMessage", null);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e.InnerException, e.Message);
+            }
+
+            return RedirectToAction("EditTranslations", new { key = entity.Id });
         }
 
         #endregion

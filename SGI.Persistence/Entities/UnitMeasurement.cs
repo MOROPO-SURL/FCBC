@@ -9,6 +9,10 @@
 
         public string Symbol { get; set; }
 
+        public decimal? MilimetersRatio { get; set; }
+
+        public decimal? GramsRatio { get; set; }
+
         public UnitMeasurement()
         {
             Id = System.Guid.NewGuid();

@@ -6,7 +6,9 @@
 
         public int Index { get; set; }
 
-        public ArtWorkDisplayViewModel ArtWork { get; set; }
+        public ArtWorkDisplayViewModel[] ArtWorks { get; set; }
+
+        public CraftWorkDisplayViewModel[] CraftWorks { get; set; }
 
         public void Import(Persistence.Entities.Exhibit entity)
         {

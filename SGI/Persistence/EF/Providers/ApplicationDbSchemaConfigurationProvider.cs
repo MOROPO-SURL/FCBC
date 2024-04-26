@@ -67,7 +67,28 @@ namespace MOROPO.FCBC.SGI.Persistence.EF.Providers
                     new Configurators.ExhibitServiceWorkBridgeEntityTypeConfigurator(),
                     new Configurators.ApiKeyPermissionBridgeEntityTypeConfigurator(),
                     new Configurators.GalleryEmployeeBridgeEntityTypeConfigurator(),
-                    new Configurators.GalleryEntityTypeConfigurator()
+                    new Configurators.GalleryEntityTypeConfigurator(),
+                    new Configurators.ArtWorkTranslationEntityTypeConfigurator(),
+                    new Configurators.CraftWorkTranslationEntityTypeConfigurator(),
+                    new Configurators.ServiceWorkTranslationEntityTypeConfigurator(),
+                    new Configurators.ArtistTranslationEntityTypeConfigurator(),
+                    new Configurators.CreationGroupTranslationEntityTypeConfigurator(),
+                    new Configurators.GalleryTranslationEntityTypeConfigurator(),
+                    new Configurators.AssociationTranslationEntityTypeConfigurator(),
+                    new Configurators.ExposureTranslationEntityTypeConfigurator(),
+                    new Configurators.ActivityTranslationEntityTypeConfigurator(),
+                    new Configurators.InstitutionalServiceTranslationEntityTypeConfigurator(),
+                    new Configurators.ArtisticManifestationTranslationEntityTypeConfigurator(),
+                    new Configurators.CraftManifestationTranslationEntityTypeConfigurator(),
+                    new Configurators.ServiceLineTranslationEntityTypeConfigurator(),
+                    new Configurators.CriticTranslationEntityTypeConfigurator(),
+                    new Configurators.ThematicTranslationsEntityTypeConfigurator(),
+                    new Configurators.ServiceLineTranslationEntityTypeConfigurator(),
+                    new Configurators.ArtisticTechniqueTranslationEntityTypeConfigurator(),
+                    new Configurators.CraftTechniqueTranslationEntityTypeConfigurator(),
+                    new Configurators.ServiceTechniqueTranslationEntityTypeConfigurator(),
+                    new Configurators.ThematicTranslationsEntityTypeConfigurator(),
+                    new Configurators.MaterialTranslationEntityTypeConfigurator()
                 };
             }
         }
