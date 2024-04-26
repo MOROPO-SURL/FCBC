@@ -2,10 +2,11 @@
 
 <div class="modal-body">
     @Html.HiddenFor(model => model.CraftManifestationId)
+    @Html.HiddenFor(model => model.TranslatableLanguage)
 
     <div class="mb-3">
         @Html.LabelFor(model => model.TranslatableLanguage, new { @class = "control-label" })
-        @Html.TextBoxFor(model => model.TranslatableLanguage, new { @class = "form-control", @readonly = "readonly"})
+        <input value="@GlobalViewLocalizationHelper.Localize(Model.TranslatableLanguage.ToString())" class="form-control" readonly="readonly" />
     </div>
 
     <div class="mb-3">

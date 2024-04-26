@@ -2,6 +2,7 @@
 {
     public class ExposureTranslationInputViewModel
     {
+        [System.ComponentModel.DataAnnotations.Display(Name = "Language")]
         public Persistence.Enumerations.TranslatableLanguage TranslatableLanguage { get; set; }
 
         public System.Guid ExposureId { get; set; }

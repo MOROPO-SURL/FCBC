@@ -2,6 +2,7 @@
 {
     public class ArtistTranslationInputViewModel
     {
+        [System.ComponentModel.DataAnnotations.Display(Name = "Language")]
         public Persistence.Enumerations.TranslatableLanguage TranslatableLanguage { get; set; }
 
         public System.Guid ArtistId { get; set; }
