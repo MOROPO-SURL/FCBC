@@ -127,7 +127,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <p class="mb-0">Esta seguro que desea eliminar la traducción para el idioma @item.TranslatableLanguage?</p>
+                                        <p class="mb-0">Esta seguro que desea eliminar la traducción para el idioma @GlobalViewLocalizationHelper.Localize(item.TranslatableLanguage.ToString())?</p>
                                     </div>
                                     <div class="modal-footer" style="margin-top: 0;">
                                         <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -142,7 +142,7 @@
                             <div class="row">
                                 <dl class="col">
                                     <dt>Lenguaje</dt>
-                                    <dd>@item.TranslatableLanguage</dd>
+                                    <dd>@GlobalViewLocalizationHelper.Localize(item.TranslatableLanguage.ToString())</dd>
                                 </dl>
                                 <div class="col-auto">
                                     <div class="dropdown d-inline-block">
