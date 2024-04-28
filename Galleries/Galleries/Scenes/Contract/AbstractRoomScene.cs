@@ -15,6 +15,11 @@ namespace MOROPO.FCBC.Galleries.Scenes.Contract
             octree = CreateComponent<Octree>();
         }
 
+        public void SetPresenter(Presenters.VirtualGalleryRoomPresenter presenter)
+        {
+            this.presenter = presenter;
+        }
+
         public abstract Camera MainCamera { get; }
 
         public abstract void SceneInput_TouchBegin(TouchBeginEventArgs eventArgs);

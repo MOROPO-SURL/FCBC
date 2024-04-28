@@ -1,4 +1,5 @@
-﻿using Urho;
+﻿using MOROPO.FCBC.Galleries.Models;
+using Urho;
 using Urho.Actions;
 
 namespace MOROPO.FCBC.Galleries.Presenters
@@ -67,6 +68,26 @@ namespace MOROPO.FCBC.Galleries.Presenters
             //catch (System.Exception _)
             //{
             //}
+        }
+
+        public void LoadSceneState(VirtualGalleryPresentationStateModel model)
+        {
+            yaw = model.Yaw;
+            pitch = model.Pitch;
+
+            scene.MainCamera.Node.Position = model.CameraPosition;
+            scene.MainCamera.Node.Rotation = model.CameraRotation;
+        }
+
+        public VirtualGalleryPresentationStateModel BuildSceneState()
+        {
+            return new VirtualGalleryPresentationStateModel
+            {
+                Yaw = yaw,
+                Pitch = pitch,
+                CameraPosition = scene.MainCamera.Node.Position,
+                CameraRotation = scene.MainCamera.Node.Rotation
+            };
         }
 
         protected override void Stop()

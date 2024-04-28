@@ -8,6 +8,7 @@ namespace MOROPO.FCBC.Galleries.Pages
         private readonly System.Guid exposureId;
 
         private VirtualGalleryRoomPresenter virtualRoomPresenter;
+        private Models.VirtualGalleryPresentationStateModel virtualGalleryPresentationState;
 
         public ExposureRoomPage(System.Guid exposureId, Urho.Color? frameBaseColor) : base(new Models.Page.ExposureRoomPageModel { IsBusy = true })
         {
@@ -30,14 +31,15 @@ namespace MOROPO.FCBC.Galleries.Pages
                 {
                     virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
                     {
-                        Orientation = Urho.ApplicationOptions.OrientationType.Landscape,
-                        NoSound = true,
-                        ResizableWindow = Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.UWP || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.GTK || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.macOS,
+                        Orientation = Urho.ApplicationOptions.OrientationType.LandscapeAndPortrait,
+                        NoSound = true                        
                     });
 
-                    BindingContextPageModel.IsBusy = false;
+                    virtualRoomPresenter.LoadSceneState(virtualGalleryPresentationState);
 
                     virtualRoomPresenter.ExposureRoomPageModel = BindingContextPageModel;
+
+                    BindingContextPageModel.IsBusy = false;
                 }
 
                 return; 
@@ -128,19 +130,30 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         private void ExibitDetailButton_Clicked(object sender, System.EventArgs eventArgs)
         {
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+            {
+                BindingContextPageModel.IsBusy = true;
+
+                virtualGalleryPresentationState = virtualRoomPresenter.BuildSceneState();
+
+                virtualRoomPresenter = null;
+            }
+
             var target = BindingContextPageModel.TargetArtWork;
 
             BindingContextPageModel.TargetArtWork = null;
 
-            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) virtualRoomPresenter = null;
-
-            this.NavigationPushModalPageAsync(new ExibitDetailPage(target)).ContinueWith(_ =>
+            System.Threading.Tasks.Task.Delay(300).ContinueWith(_ =>
             {
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) BindingContextPageModel.IsBusy = true;
-
-                    virtualRoomPresenter?.BindSceneEvents();
+                    this.NavigationPushModalPageAsync(new ExibitDetailPage(target)).ContinueWith(__ =>
+                    {
+                        Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                        {
+                            if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.Android) virtualRoomPresenter?.BindSceneEvents();
+                        });
+                    });
                 });
             });
         }
