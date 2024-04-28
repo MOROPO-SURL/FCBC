@@ -20,11 +20,28 @@ namespace MOROPO.FCBC.Galleries.Pages
             IsEnabled = false;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            if (IsEnabled) return;
+            if (IsEnabled)
+            {
+                if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+                {
+                    virtualRoomPresenter = await MainUrhoSurface.Show<VirtualGalleryRoomPresenter>(new Urho.ApplicationOptions("Assets")
+                    {
+                        Orientation = Urho.ApplicationOptions.OrientationType.Landscape,
+                        NoSound = true,
+                        ResizableWindow = Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.UWP || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.GTK || Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.macOS,
+                    });
+
+                    BindingContextPageModel.IsBusy = false;
+
+                    virtualRoomPresenter.ExposureRoomPageModel = BindingContextPageModel;
+                }
+
+                return; 
+            }
 
             IsEnabled = true;
 
@@ -33,7 +50,7 @@ namespace MOROPO.FCBC.Galleries.Pages
                 Culture = AppResources.Culture
             };
 
-            exhibitsApiConnectClient.FilterAsync(new SGI.API.Common.Models.Filter.ExhibitFilterApiModel { ExposureId = exposureId }).ContinueWith(async task =>
+            await exhibitsApiConnectClient.FilterAsync(new SGI.API.Common.Models.Filter.ExhibitFilterApiModel { ExposureId = exposureId }).ContinueWith(async task =>
             {
                 if (task.IsFaulted || task.IsCanceled)
                 {
@@ -60,6 +77,17 @@ namespace MOROPO.FCBC.Galleries.Pages
             });
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            if (virtualRoomPresenter != null) return;
+
+            Urho.Forms.UrhoSurface.OnDestroy();
+
+            virtualRoomPresenter = null;
+        }
+
         protected override bool OnBackButtonPressed()
         {
             if (BindingContextPageModel.TargetArtWork != null)
@@ -76,8 +104,6 @@ namespace MOROPO.FCBC.Galleries.Pages
 
                     Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                     {
-                        virtualRoomPresenter?.Exit();
-
                         virtualRoomPresenter = null;
 
                         this.NavigationPopModalPageAsync();
@@ -102,13 +128,19 @@ namespace MOROPO.FCBC.Galleries.Pages
 
         private void ExibitDetailButton_Clicked(object sender, System.EventArgs eventArgs)
         {
-            this.NavigationPushModalPageAsync(new ExibitDetailPage(BindingContextPageModel.TargetArtWork)).ContinueWith(_ =>
-            {
-                BindingContextPageModel.TargetArtWork = null;
+            var target = BindingContextPageModel.TargetArtWork;
 
+            BindingContextPageModel.TargetArtWork = null;
+
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) virtualRoomPresenter = null;
+
+            this.NavigationPushModalPageAsync(new ExibitDetailPage(target)).ContinueWith(_ =>
+            {
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                 {
-                    virtualRoomPresenter.BindSceneEvents();
+                    if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android) BindingContextPageModel.IsBusy = true;
+
+                    virtualRoomPresenter?.BindSceneEvents();
                 });
             });
         }
