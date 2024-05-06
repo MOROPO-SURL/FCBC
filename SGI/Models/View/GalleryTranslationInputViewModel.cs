@@ -4,7 +4,8 @@ namespace MOROPO.FCBC.SGI.Models.View
 {
     public class GalleryTranslationInputViewModel
     {
-        [Display(Name = "Language")]
+        
+        [System.ComponentModel.DataAnnotations.Display(Name = "Language")]
         public Persistence.Enumerations.TranslatableLanguage TranslatableLanguage { get; set; }
 
         public Persistence.Enumerations.GalleryId GalleryId { get; set; }

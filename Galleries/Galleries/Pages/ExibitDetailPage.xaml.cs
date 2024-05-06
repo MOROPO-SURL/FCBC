@@ -8,6 +8,7 @@
 
             if (model.Images.Length <=0 && model.Videos.Length <= 0) 
             {
+                MediaItemsCarouselView.Loop = false;
                 MediaItemsCarouselView.IsSwipeEnabled = false;
                 MediaItemsIndicatorView.IsVisible = false;
                 PreviuesMediaItemButton.IsVisible = false;

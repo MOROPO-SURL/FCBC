@@ -1,6 +1,4 @@
-﻿using MOROPO.FCBC.SGI.Persistence.Entities;
-using System;
-using System.Collections.Generic;
+﻿using MOROPO.FCBC.SGI.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -8,7 +6,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 {
     public class CraftWorkDisplayViewModel : SAPRESSC.Core.Persistence.Models.IEntityDisplayModel<Persistence.Entities.CraftWork, System.Guid>
     {
-        public Guid Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [Display(Name = "Title")]
         public string Title { get; set; }
@@ -19,12 +17,12 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "Price")]
         public decimal? Price { get; set; }
         public string PriceSymbol { get; set; }
-        public Currency PriceCurrency { get; set; }
+        public Persistence.Entities.Currency PriceCurrency { get; set; }
 
         [Display(Name = "Cost")]
         public decimal? Cost { get; set; }
         public string CostSymbol { get; set; }
-        public Currency CostCurrency { get; set; }
+        public Persistence.Entities.Currency CostCurrency { get; set; }
 
         [Display(Name = "About")]
         public string About { get; set; }
@@ -32,22 +30,25 @@ namespace MOROPO.FCBC.SGI.Models.View
         [Display(Name = "CraftManifestation")]
         public CraftManifestationDisplayViewModel Manifestation { get; set; }
 
-        public SAPRESSC.Middleware.Media.Persistence.Entities.Image FeatureImage { get; set; }
+        public System.Guid? FeatureImageId { get; set; }
+
+        public string FeatureImageExtension { get; set; }
 
         public SAPRESSC.Middleware.Media.Persistence.Entities.Image[] Images { get; set; }
 
         public CraftTechniqueDisplayViewModel[] Techniques { get; set; }
 
-        public ICollection<CraftWorkAward> Awards { get; set; }
+        public Persistence.Entities.CraftWorkAward[] Awards { get; set; }
 
         public CriterialDisplayViewModel[] Valorations { get; set; }
 
-        public void Import(CraftWork entity)
+        public void Import(Persistence.Entities.CraftWork entity)
         {
             Id = entity.Id;            
             Title = entity.Title;
             Manifestation = new CraftManifestationDisplayViewModel();
-            FeatureImage = entity.FeatureImage;
+            FeatureImageId = entity.FeatureImageId;
+            FeatureImageExtension = entity.FeatureImage?.ContentType.ContentTypeToExtension();
             Images = entity.ImageBridges.Select(bridge => bridge.Image).ToArray();
             Price = entity.Price;
             Cost = entity.Cost;
@@ -65,7 +66,7 @@ namespace MOROPO.FCBC.SGI.Models.View
 
                 return model;
             }).ToArray();
-            Awards = entity.Awards;
+            Awards = entity.Awards.ToArray();
             Manifestation.Import(entity.Manifestation);
         }
     }

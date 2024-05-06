@@ -877,12 +877,12 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("TranslatableLanguage", "ArtisticManifestationId")
-                        .HasName("pk_artisticmanifestationtranslation");
+                        .HasName("pk_artisticmanifestationtranslations");
 
                     b.HasIndex("ArtisticManifestationId")
-                        .HasName("ix_artisticmanifestationtranslation_artisticmanifestationid");
+                        .HasName("ix_artisticmanifestationtranslations_artisticmanifestationid");
 
-                    b.ToTable("artisticmanifestationtranslation");
+                    b.ToTable("artisticmanifestationtranslations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticTechnique", b =>
@@ -920,12 +920,12 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("TranslatableLanguage", "ArtisticTechniqueId")
-                        .HasName("pk_artistictechniquetranslation");
+                        .HasName("pk_artistictechniquetranslations");
 
                     b.HasIndex("ArtisticTechniqueId")
-                        .HasName("ix_artistictechniquetranslation_artistictechniqueid");
+                        .HasName("ix_artistictechniquetranslations_artistictechniqueid");
 
-                    b.ToTable("artistictechniquetranslation");
+                    b.ToTable("artistictechniquetranslations");
                 });
 
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.Association", b =>
@@ -4321,7 +4321,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticManifestation", "ArtisticManifestation")
                         .WithMany("Translations")
                         .HasForeignKey("ArtisticManifestationId")
-                        .HasConstraintName("fk_artisticmanifestationtranslation_artisticmanifestations_art~")
+                        .HasConstraintName("fk_artisticmanifestationtranslations_artisticmanifestations_ar~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -4330,7 +4330,7 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.ArtisticTechnique", "ArtisticTechnique")
                         .WithMany("Translations")
                         .HasForeignKey("ArtisticTechniqueId")
-                        .HasConstraintName("fk_artistictechniquetranslation_artistictechniques_artistictec~")
+                        .HasConstraintName("fk_artistictechniquetranslations_artistictechniques_artisticte~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
