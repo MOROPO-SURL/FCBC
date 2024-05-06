@@ -1,4 +1,5 @@
 ﻿using MOROPO.FCBC.SGI.Persistence.Enumerations;
+using System.Collections.Generic;
 
 namespace MOROPO.FCBC.SGI.Persistence.Entities
 {
@@ -9,5 +10,13 @@ namespace MOROPO.FCBC.SGI.Persistence.Entities
 
         [System.ComponentModel.DataAnnotations.Required]
         public string Value { get; set; }
+        
+        public List<InstitutionalInformationTranslation> Translations { get; set; }
+
+        public InstitutionalInformation()
+        {
+            Translations = new List<InstitutionalInformationTranslation>();
+        }
+
     }
 }

@@ -31,7 +31,16 @@
     @Html.ValidationSummary(true)
 
     <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4></div>
+        <div class="card-header"><h4 class="mb-0">@ViewData["Title"]</h4>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Generales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="EditTranslations" asp-route-key="1">Traducciones</a>
+                </li>
+            </ul>
+        </div>
 
         <div class="card-body">
             <div style="margin-bottom: 20px;">
