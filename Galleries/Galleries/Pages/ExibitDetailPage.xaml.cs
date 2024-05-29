@@ -1,4 +1,6 @@
-﻿namespace MOROPO.FCBC.Galleries.Pages
+﻿using SmartSolucionesCuba.XFToolKit.Mvvm.Extensions;
+
+namespace MOROPO.FCBC.Galleries.Pages
 {
     public partial class ExibitDetailPage : SmartSolucionesCuba.XFToolKit.Mvvm.Pages.BindingContextedContentPage<Models.Page.ExibitDetailPageModel>
     {
@@ -14,6 +16,24 @@
                 PreviuesMediaItemButton.IsVisible = false;
                 NextMediaItemButton.IsVisible = false;
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (BindingContextPageModel.PresentedCreator != null)
+            {
+                BindingContextPageModel.PresentedCreator = null;
+            }
+            else if (BindingContextPageModel.PresentedCritic != null)
+            {
+                BindingContextPageModel.PresentedCritic = null;
+            }
+            else
+            {
+                this.NavigationPopModalPageAsync();
+            }
+
+            return true;
         }
 
         private void CreatorView_Tapped(object sender, System.EventArgs eventArgs)
