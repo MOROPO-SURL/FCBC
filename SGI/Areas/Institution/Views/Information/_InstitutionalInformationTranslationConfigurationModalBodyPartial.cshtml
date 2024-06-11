@@ -1,0 +1,28 @@
+﻿@model MOROPO.FCBC.SGI.Models.View.InstitutionalInformationTranslationInputViewModel
+
+<div class="modal-body">
+    @Html.HiddenFor(model => model.InstitutionalInformationKindId)
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.TranslatableLanguage, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.TranslatableLanguage, new { @class = "form-control", @readonly = "readonly"})
+    </div>
+    <div>
+        @Html.LabelFor(model => model.SocialObject, new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.SocialObject, 4, 0, new { @class = "form-control"})
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Vision, new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.Vision, 4, 0, new { @class = "form-control"})
+    </div>
+    <div>
+        @Html.LabelFor(model => model.History, new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.History, 4, 0, new { @class = "form-control"})
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Mission, new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.Mission, 4, 0, new { @class = "form-control"})
+    </div>
+</div>
+
+

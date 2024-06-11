@@ -2458,6 +2458,36 @@ namespace MOROPO.FCBC.SGI.Migrations
                     b.ToTable("institutionalinformations");
                 });
 
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalInformationTranslation", b =>
+                {
+                    b.Property<int>("TranslatableLanguage")
+                        .HasColumnName("translatablelanguage");
+
+                    b.Property<int>("InstitutionalInformationKind")
+                        .HasColumnName("institutionalinformationkind");
+
+                    b.Property<string>("History")
+                        .HasColumnName("history");
+
+                    b.Property<string>("Mission")
+                        .HasColumnName("mission");
+
+                    b.Property<string>("SocialObject")
+                        .IsRequired()
+                        .HasColumnName("socialobject");
+
+                    b.Property<string>("Vision")
+                        .HasColumnName("vision");
+
+                    b.HasKey("TranslatableLanguage", "InstitutionalInformationKind")
+                        .HasName("pk_institutionalinformationtranslations");
+
+                    b.HasIndex("InstitutionalInformationKind")
+                        .HasName("ix_institutionalinformationtranslations_institutionalinformati~");
+
+                    b.ToTable("institutionalinformationtranslations");
+                });
+
             modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalService", b =>
                 {
                     b.Property<Guid>("Id")
@@ -5051,6 +5081,15 @@ namespace MOROPO.FCBC.SGI.Migrations
                         .WithMany("Translations")
                         .HasForeignKey("GalleryId")
                         .HasConstraintName("fk_gallerytranslations_galleries_galleryid")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalInformationTranslation", b =>
+                {
+                    b.HasOne("MOROPO.FCBC.SGI.Persistence.Entities.InstitutionalInformation", "InstitutionalInformation")
+                        .WithMany("Translations")
+                        .HasForeignKey("InstitutionalInformationKind")
+                        .HasConstraintName("fk_institutionalinformationtranslations_institutionalinformati~")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
