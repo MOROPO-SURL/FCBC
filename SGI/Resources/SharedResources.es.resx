@@ -262,7 +262,7 @@
     <value>Estado Civil</value>
   </data>
   <data name="Divorced" xml:space="preserve">
-    <value>Divoriciado(a)</value>
+    <value>Divorciado(a)</value>
   </data>
   <data name="Famale" xml:space="preserve">
     <value>Femenino</value>
@@ -496,7 +496,7 @@
     <value>Licenciar</value>
   </data>
   <data name="licensing-manager-description" xml:space="preserve">
-    <value>Usuarios que puede gestionar el licenciamiento</value>
+    <value>Usuario que puede gestionar el licenciamiento</value>
   </data>
   <data name="securitylocal-group-creator" xml:space="preserve">
     <value>Crear Grupos de Usuarios</value>
@@ -619,7 +619,7 @@
     <value>Periodistas</value>
   </data>
   <data name="SociaMedia" xml:space="preserve">
-    <value>Pespecialistas de los Medios</value>
+    <value>Especialistas de los Medios</value>
   </data>
   <data name="SoundManagement" xml:space="preserve">
     <value>Sonido</value>
@@ -691,10 +691,10 @@
     <value>Provincia</value>
   </data>
   <data name="EmailAddressValidationErrorMessage" xml:space="preserve">
-    <value>El correo electrónico no es valido</value>
+    <value>El correo electrónico no es válido</value>
   </data>
   <data name="PhoneValidationErrorMessage" xml:space="preserve">
-    <value>El número de teléfono no es valido</value>
+    <value>El número de teléfono no es válido</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Desconocido</value>
@@ -721,7 +721,7 @@
     <value>Medio</value>
   </data>
   <data name="Observations" xml:space="preserve">
-    <value>Observasiones</value>
+    <value>Observaciones</value>
   </data>
   <data name="Primary" xml:space="preserve">
     <value>Primaria</value>
@@ -739,7 +739,7 @@
     <value>Medio Superior</value>
   </data>
   <data name="UrlValidationErrorMessage" xml:space="preserve">
-    <value>La dirección web no es valida</value>
+    <value>La dirección web no es válida</value>
   </data>
   <data name="Workplace" xml:space="preserve">
     <value>Lugar de trabajo</value>
@@ -772,7 +772,7 @@
     <value>Símbolo</value>
   </data>
   <data name="CurrentUserNotDisactivableMessage" xml:space="preserve">
-    <value>Este usuario no puede ser desavilitado</value>
+    <value>Este usuario no puede ser deshabilitado</value>
   </data>
   <data name="artist-editor" xml:space="preserve">
     <value>Modificar Creador</value>
@@ -856,58 +856,58 @@
     <value>Usuario que puede visualizar creadores</value>
   </data>
   <data name="artistic-manifestation-creator" xml:space="preserve">
-    <value>Agregar Manifestación Artistica</value>
+    <value>Agregar Manifestación Artística</value>
   </data>
   <data name="artistic-manifestation-creator-description" xml:space="preserve">
-    <value>Usuario que puede agregar manifestación artistica</value>
+    <value>Usuario que puede agregar manifestación artística</value>
   </data>
   <data name="artistic-manifestation-editor" xml:space="preserve">
-    <value>Modificar Manifestación Artistica</value>
+    <value>Modificar Manifestación Artística</value>
   </data>
   <data name="artistic-manifestation-editor-description" xml:space="preserve">
-    <value>Usuario que puede modificar manifestación artistica</value>
+    <value>Usuario que puede modificar manifestación artística</value>
   </data>
   <data name="artistic-manifestation-group-creator" xml:space="preserve">
-    <value>Agregar Grupo de Manifestaciones Artisticas</value>
+    <value>Agregar Grupo de Manifestaciones Artísticas</value>
   </data>
   <data name="artistic-manifestation-group-creator-description" xml:space="preserve">
-    <value>Usuario que puede agregar grupo de manifestaciones artisticas</value>
+    <value>Usuario que puede agregar grupo de manifestaciones artísticas</value>
   </data>
   <data name="artistic-manifestation-group-editor" xml:space="preserve">
-    <value>Modificar Grupo de Manifestaciones Artisticas</value>
+    <value>Modificar Grupo de Manifestaciones Artísticas</value>
   </data>
   <data name="artistic-manifestation-group-editor-description" xml:space="preserve">
-    <value>Usuario que puede modificar grupo de manifestaciones artisticas</value>
+    <value>Usuario que puede modificar grupo de manifestaciones artísticas</value>
   </data>
   <data name="artistic-manifestation-group-management" xml:space="preserve">
-    <value>Gestionar Grupo de Manifestaciones Artisticas</value>
+    <value>Gestionar Grupo de Manifestaciones Artísticas</value>
   </data>
   <data name="artistic-manifestation-group-remover" xml:space="preserve">
-    <value>Eliminar Grupos de Manifestaciones Artisticas</value>
+    <value>Eliminar Grupos de Manifestaciones Artísticas</value>
   </data>
   <data name="artistic-manifestation-group-remover-description" xml:space="preserve">
-    <value>Usuario que puede eliminar grupo de manifestaciones artisticas</value>
+    <value>Usuario que puede eliminar grupo de manifestaciones artísticas</value>
   </data>
   <data name="artistic-manifestation-group-viewer" xml:space="preserve">
-    <value>Visualizar los Grupos de Manifestaciones Artisticas</value>
+    <value>Visualizar los Grupos de Manifestaciones Artísticas</value>
   </data>
   <data name="artistic-manifestation-group-viewer-description" xml:space="preserve">
-    <value>Usuario que puede vizualizar grupos de manifestaciones artisticas</value>
+    <value>Usuario que puede vizualizar grupos de manifestaciones artísticas</value>
   </data>
   <data name="artistic-manifestation-management" xml:space="preserve">
-    <value>Gestionar Manifestaciones Artisticas</value>
+    <value>Gestionar Manifestaciones Artísticas</value>
   </data>
   <data name="artistic-manifestation-remover" xml:space="preserve">
-    <value>Eliminar Manifestación Artistica</value>
+    <value>Eliminar Manifestación Artística</value>
   </data>
   <data name="artistic-manifestation-remover-description" xml:space="preserve">
-    <value>Usuario que puede elminar manifestación artistica</value>
+    <value>Usuario que puede elminar manifestación artística</value>
   </data>
   <data name="artistic-manifestation-viewer" xml:space="preserve">
-    <value>Visualizar Manifestaciones Artisticas</value>
+    <value>Visualizar Manifestaciones Artísticas</value>
   </data>
   <data name="artistic-manifestation-viewer-description" xml:space="preserve">
-    <value>Usuario que puede visualizar manifestaciones artisticas</value>
+    <value>Usuario que puede visualizar manifestaciones artísticas</value>
   </data>
   <data name="artistic-technique-creator" xml:space="preserve">
     <value>Agregar Técnica Artística</value>
@@ -1396,7 +1396,7 @@
     <value>Usuario que puede visualizar trabajadores</value>
   </data>
   <data name="institutional-information-editor" xml:space="preserve">
-    <value>Modificar Información institucional</value>
+    <value>Modificar Información Institucional</value>
   </data>
   <data name="institutional-information-editor-description" xml:space="preserve">
     <value>Usuario que puede modificar la información institucional</value>
@@ -1405,7 +1405,7 @@
     <value>Gestionar Informaciones Institucionales</value>
   </data>
   <data name="institutional-information-viewer" xml:space="preserve">
-    <value>Visualizar inforación institucional</value>
+    <value>Visualizar información institucional</value>
   </data>
   <data name="institutional-information-viewer-description" xml:space="preserve">
     <value>Usuario que puede visualizar la información instutucional</value>
@@ -1462,7 +1462,7 @@
     <value>Visualizar Reconocimientos</value>
   </data>
   <data name="recognition-viewer-description" xml:space="preserve">
-    <value>Usuario que puede visualizar recococimientos</value>
+    <value>Usuario que puede visualizar reconocimientos</value>
   </data>
   <data name="resolution-creator" xml:space="preserve">
     <value>Agregar Resolución</value>
@@ -1576,31 +1576,31 @@
     <value>Usuario que puede modificar línea de servicio</value>
   </data>
   <data name="service-line-group-creator" xml:space="preserve">
-    <value>Agregar Grupo de Linea de Servicio</value>
+    <value>Agregar Grupo de Línea de Servicio</value>
   </data>
   <data name="service-line-group-creator-description" xml:space="preserve">
-    <value>Usuario que puede agregar grupo de linea de servicio</value>
+    <value>Usuario que puede agregar grupo de línea de servicio</value>
   </data>
   <data name="service-line-group-editor" xml:space="preserve">
-    <value>Modificar Grupo de Linea de Servicio</value>
+    <value>Modificar Grupo de Línea de Servicio</value>
   </data>
   <data name="service-line-group-editor-description" xml:space="preserve">
-    <value>Usuario que puede modificar grupo de linea de servicio</value>
+    <value>Usuario que puede modificar grupo de línea de servicio</value>
   </data>
   <data name="service-line-group-management" xml:space="preserve">
-    <value>Gestionar Grupos de Linea de Servicio</value>
+    <value>Gestionar Grupos de Línea de Servicio</value>
   </data>
   <data name="service-line-group-remover" xml:space="preserve">
-    <value>Eliminar Grupo de Linea de Servicio</value>
+    <value>Eliminar Grupo de Línea de Servicio</value>
   </data>
   <data name="service-line-group-remover-description" xml:space="preserve">
-    <value>Usuario que puede eliminar grupo de linea de servicio</value>
+    <value>Usuario que puede eliminar grupo de línea de servicio</value>
   </data>
   <data name="service-line-group-viewer" xml:space="preserve">
-    <value>Visualizar Grupos de Lineas de Servicios</value>
+    <value>Visualizar Grupos de Líneas de Servicios</value>
   </data>
   <data name="service-line-group-viewer-description" xml:space="preserve">
-    <value>Usuario que puede visualizar grupos de lineas de servicios</value>
+    <value>Usuario que puede visualizar grupos de líneas de servicios</value>
   </data>
   <data name="service-line-management" xml:space="preserve">
     <value>Getionar Líneas de Servicio</value>
@@ -1714,7 +1714,7 @@
     <value>Usuario que puede visualizar temáticas</value>
   </data>
   <data name="unit-measurement-creator" xml:space="preserve">
-    <value>Agregar Unidade de Medida</value>
+    <value>Agregar Unidades de Medida</value>
   </data>
   <data name="unit-measurement-creator-description" xml:space="preserve">
     <value>Usuario que puede agregar unidades de medida</value>
@@ -1753,10 +1753,10 @@
     <value>Grupo de manifestación de artesanía</value>
   </data>
   <data name="DesignManifestationGroup" xml:space="preserve">
-    <value>Grupo de manifestación de diseño</value>
+    <value>Grupo de Manifestación de Diseño</value>
   </data>
   <data name="ServiceLineGroup" xml:space="preserve">
-    <value>Grupo de linea de servicio</value>
+    <value>Grupo de línea de servicio</value>
   </data>
   <data name="ArtisticManifestation" xml:space="preserve">
     <value>Manifestación Artística</value>
@@ -2005,7 +2005,7 @@
     <value>Usuarios que pueden modificar la Galería en el sistema</value>
   </data>
   <data name="gallery-management" xml:space="preserve">
-    <value>Gestionar Gelería</value>
+    <value>Gestionar Galería</value>
   </data>
   <data name="gallery-viewer" xml:space="preserve">
     <value>Visualizar la Galería</value>
